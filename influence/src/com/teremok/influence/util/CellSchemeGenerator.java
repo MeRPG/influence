@@ -1,6 +1,6 @@
 package com.teremok.influence.util;
 
-import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.World;
 
 import java.util.Random;
 
@@ -21,7 +21,7 @@ public class CellSchemeGenerator {
     }
 
     public int[][] generate() {
-        mask = new int[7][5];
+        mask = new int[World.MAX_CELLS_Y][World.MAX_CELLS_X];
         mask[1][4] = Integer.MAX_VALUE;
         mask[3][4] = Integer.MAX_VALUE;
         mask[5][4] = Integer.MAX_VALUE;
@@ -30,8 +30,8 @@ public class CellSchemeGenerator {
             int x, y;
             do {
                 cycles++;
-                x = rnd.nextInt(7);
-                y = rnd.nextInt(5);
+                x = rnd.nextInt(World.MAX_CELLS_Y);
+                y = rnd.nextInt(World.MAX_CELLS_X);
 
                 if (isEmpty(x, y) && i == 0)
                     break;
@@ -42,8 +42,21 @@ public class CellSchemeGenerator {
 
         printMask();
 
-        return mask;
+        return transpose(mask);
     }
+
+    private int[][] transpose(int[][] mask) {
+        int[][] tran = new int[World.MAX_CELLS_X][World.MAX_CELLS_Y];
+
+        for (int i = 0; i < World.MAX_CELLS_Y; i++) {
+            for (int j = 0; j < World.MAX_CELLS_X; j++) {
+                tran[j][i] = mask[i][j];
+            }
+        }
+
+        return tran;
+    }
+
 
     private boolean isAlone(int x, int y) {
         for (int i = -1; i < 2; i++ ) {
@@ -69,7 +82,7 @@ public class CellSchemeGenerator {
 
     private boolean isEmptyIncludeMax(int x, int y) {
 
-        if (x < 0 || y < 0 || x >= 7 || y >= 5) {
+        if (x < 0 || y < 0 || x >= World.MAX_CELLS_Y || y >= World.MAX_CELLS_X) {
             return true;
         }
 
@@ -82,7 +95,7 @@ public class CellSchemeGenerator {
 
     private boolean isEmpty(int x, int y) {
 
-        if (x < 0 || y < 0 || x >= 7 || y >= 5) {
+        if (x < 0 || y < 0 || x >= World.MAX_CELLS_Y || y >= World.MAX_CELLS_X) {
             return true;
         }
 
@@ -95,8 +108,8 @@ public class CellSchemeGenerator {
 
     private void printMask() {
         System.out.println(" - - - - - - - - ");
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < World.MAX_CELLS_Y; i++) {
+            for (int j = 0; j < World.MAX_CELLS_X; j++) {
                 if (mask[i][j] == Integer.MAX_VALUE)
                     System.out.print("-\t");
                 else
@@ -106,4 +119,5 @@ public class CellSchemeGenerator {
         }
         System.out.println(" - - - Cycles: " + cycles);
     }
+    
 }

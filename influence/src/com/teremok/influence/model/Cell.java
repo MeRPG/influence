@@ -12,6 +12,9 @@ public class Cell {
     // доступные места для ячеек
     private boolean[] availiable;
 
+    // для обхода графа
+    boolean marked;
+
     public void setNeighbors(Cell[] neighbors) {
         this.neighbors = neighbors;
     }
@@ -25,4 +28,20 @@ public class Cell {
 
     }
 
+    public void addNeighbor(Cell cell) {
+        for (int i = 0; i < 6; i++ ) {
+            if (neighbors[i] == null) {
+                neighbors[i] = cell;
+                break;
+            }
+        }
+    }
+
+    public boolean isMarked() {
+        return marked;
+    }
+
+    public void setMarked(boolean marked) {
+        this.marked = marked;
+    }
 }

@@ -104,8 +104,8 @@ public class WorldRenderer {
         debugRenderer.setProjectionMatrix(cam.combined);
 
         int[][] mask = world.getCells();
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < World.MAX_CELLS_X; i++) {
+            for (int j = 0; j < World.MAX_CELLS_Y; j++) {
                 if (mask[i][j] != Integer.MAX_VALUE && mask[i][j] > 0) {
                     drawCell(i, j, mask);
 
@@ -113,35 +113,33 @@ public class WorldRenderer {
             }
         }
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        debugRenderer.rect(0, 0, world.WIDTH, world.HEIGHT);
+        debugRenderer.rect(0, 0, World.WIDTH, World.HEIGHT);
         debugRenderer.end();
     }
 
     float getSqX(int i) {
         float sqWidth = getSqWidth();
-        float sqX = (i+1) * sqWidth - sqWidth/2;
-        return sqX;
+        return (i+1) * sqWidth - sqWidth/2;
     }
 
     float getSqY(int j) {
         float sqHeight = getSqHeight();
-        float  sqY = (j+1) * sqHeight - sqHeight/2;
-        return sqY;
+        return (j+1) * sqHeight - sqHeight/2;
     }
 
     float getSqHeight() {
-        return world.HEIGHT / 5;
+        return World.HEIGHT / World.MAX_CELLS_Y;
     }
 
     float getSqWidth() {
-        return world.WIDTH / 7;
+        return World.WIDTH / World.MAX_CELLS_X;
     }
 
 
     private void drawCell(int i, int j, int[][] mask) {
 
         debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        debugRenderer.circle(getSqX(i), shiftY(getSqY(j), i), 0.4f);
+        debugRenderer.circle(shiftX(getSqX(i), j), getSqY(j), 0.4f);
         debugRenderer.end();
 
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -149,13 +147,13 @@ public class WorldRenderer {
             for (int offJ = -1; offJ < 2; offJ++) {
                 if (
                         (
-                                (offI != -1 && offJ != 1 || offI != 1 && offJ != 1)
-                                && i%2==0
+                                (offJ != -1 && offI != 1 || offJ != 1 && offI != 1)
+                                && j%2==0
                         )
                         ||
                         (
-                                (offI != -1 && offJ != -1 || offI != 1 && offJ != -1)
-                                && i%2==1
+                                (offJ != -1 && offI != -1 || offJ != 1 && offI != -1)
+                                && j%2==1
                         )
                     )
                     drawConnection(i, j, offI, offJ, mask);
@@ -168,7 +166,7 @@ public class WorldRenderer {
 
     private void drawConnection(int i, int j, int offI, int offJ, int mask[][]) {
         if (hasHeigboor(i+offI, j+offJ, mask)) {
-            debugRenderer.line(getSqX(i), shiftY(getSqY(j), i), getSqX(i+offI), shiftY(getSqY(j + offJ), i+offI));
+            debugRenderer.line(shiftX(getSqX(i), j), getSqY(j), shiftX(getSqX(i + offI), j + offJ), getSqY(j + offJ));
         }
     }
 
@@ -179,11 +177,18 @@ public class WorldRenderer {
         return sqY;
     }
 
+    float shiftX(float sqX, int j) {
+        if (j%2 == 1) {
+            sqX += getSqWidth() / 2;
+        }
+        return sqX;
+    }
+
 
     private boolean hasHeigboor(int i, int j, int[][] mask) {
         if (i < 0 || j < 0)
             return false;
-        if (i >= 7 || j >= 5)
+        if (i >= World.MAX_CELLS_X || j >= World.MAX_CELLS_Y)
             return false;
         return mask[i][j] > 0 && mask[i][j] < Integer.MAX_VALUE;
     }
