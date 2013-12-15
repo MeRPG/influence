@@ -17,8 +17,8 @@ import com.teremok.influence.model.World;
  */
 public class WorldRenderer {
 
-    private static final float CAMERA_WIDTH = 10f;
-    private static final float CAMERA_HEIGHT = 7f;
+    private static final float CAMERA_WIDTH = 7f;
+    private static final float CAMERA_HEIGHT = 10f;
 
     private World world;
     private OrthographicCamera cam;
@@ -57,6 +57,7 @@ public class WorldRenderer {
     public WorldRenderer(World world) {
         this.world = world;
         this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
+        cam.setToOrtho(true, CAMERA_WIDTH, CAMERA_HEIGHT);
         this.cam.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
         this.cam.update();
         spriteBatch = new SpriteBatch();
@@ -138,8 +139,6 @@ public class WorldRenderer {
 
 
     private void drawCell(int i, int j, int[][] mask) {
-
-
 
         debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
         debugRenderer.circle(getSqX(i), shiftY(getSqY(j), i), 0.4f);

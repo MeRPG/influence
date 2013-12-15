@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class World {
 
-    public static final float WIDTH = 8.5f;
-    public static final float HEIGHT = 7f;
+    public static final float WIDTH = 7f;
+    public static final float HEIGHT = 8.5f;
 
     private int[][] cells;
 
