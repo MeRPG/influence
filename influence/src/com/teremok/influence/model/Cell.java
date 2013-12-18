@@ -4,11 +4,6 @@ package com.teremok.influence.model;
  * Created by Alexx on 12.12.13.
  */
 public class Cell {
-
-    // 6 штук соседей максимум
-    // считать начиная с левого
-    private Cell[] neighbors;
-
     // доступные места для ячеек
     private boolean[] availiable;
 
@@ -18,24 +13,19 @@ public class Cell {
     // координаты на сетке
     int x, y;
 
-    public void setNeighbors(Cell[] neighbors) {
-        this.neighbors = neighbors;
-    }
-
-    public Cell[] getNeighbors() {
-        return neighbors;
-    }
+    // порядковый номер
+    int number;
 
     public Cell() {
-        neighbors = new Cell[6];
 
     }
 
-    public Cell(int x, int y) {
+    public Cell(int number, int x, int y) {
         this();
 
         this.x = x;
         this.y = y;
+        this.number = number;
 
     }
 
@@ -47,20 +37,25 @@ public class Cell {
         return y;
     }
 
-    public void addNeighbor(Cell cell) {
-        for (int i = 0; i < 6; i++ ) {
-            if (neighbors[i] == null) {
-                neighbors[i] = cell;
-                break;
-            }
-        }
+    public int getNumber() {
+        return number;
     }
 
-    public boolean isMarked() {
-        return marked;
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "x=" + x +
+                ", y=" + y +
+                ", number=" + number +
+                '}';
     }
 
-    public void setMarked(boolean marked) {
-        this.marked = marked;
+    public boolean isValid() {
+        if (number == -1)
+            return false;
+        if (x < 0 || y < 0 || x >= World.MAX_CELLS_Y || y >= World.MAX_CELLS_X)
+            return false;
+
+        return true;
     }
 }

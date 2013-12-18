@@ -12,6 +12,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.World;
+import com.teremok.influence.util.CellSchemeGenerator;
+
+import java.util.List;
 
 /**
  * Created by Alexx on 11.12.13.
@@ -95,31 +98,43 @@ public class WorldRenderer {
         /* draw textures */
         // sprite.draw(spriteBatch);
 
-        drawGraph(world.getRoot());
+        drawList();
 
         spriteBatch.end();
         if (debug)
             drawDebug();
     }
 
-    private void drawGraph(Cell root) {
-        debugRenderer.setColor(Color.RED);
+    private void drawGraph(Cell cell) {
+        for (int j = 0; j < 35; j++) {
+            if (cell.isValid() && world.getMatrix()[cell.getNumber()][j] == 1) {
+                Cell toCell = world.getCellsList().get(j);
+                if (toCell.isValid()) {
+                    debugRenderer.setColor(Color.YELLOW);
+                    debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    debugRenderer.line( shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()),
+                                        shiftX(getSqX(toCell.getY()), toCell.getX()), getSqY(toCell.getX()));
+                    debugRenderer.end();
+               }
+            }
+        }
+    }
+
+    private void drawList() {
+        debugRenderer.setColor(Color.YELLOW);
         debugRenderer.setProjectionMatrix(cam.combined);
 
-        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        debugRenderer.circle(shiftX(getSqX(root.getY()), root.getX()), getSqY(root.getX()), 0.4f);
-        debugRenderer.end();
-
-        for (Cell c : root.getNeighbors()) {
-            if (c != null) {
-                debugRenderer.setColor(Color.CYAN);
-                debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-                drawConnection(root.getY(), root.getX(), c.getY(), c.getX(), world.getCells());
+        for (Cell c : world.getCellsList()) {
+            //System.out.println("Rendering cell: " + c.getX() + ";" + c.getY());
+            if (c.isValid()) {
+                debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                debugRenderer.circle(shiftX(getSqX(c.getY()), c.getX()), getSqY(c.getX()), 0.4f);
                 debugRenderer.end();
-
                 drawGraph(c);
             }
         }
+
+        //System.out.println("Rendered " + world.getCellsList().size() + " cells.");
 
     }
 

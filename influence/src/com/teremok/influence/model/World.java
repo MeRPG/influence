@@ -16,7 +16,8 @@ public class World {
     public static final float HEIGHT = 8.5f;
 
     private int[][] cells;
-    private Cell root;
+    private int[][] matrix;
+    private List<Cell> list;
 
     public World() {
         regenerate();
@@ -26,6 +27,8 @@ public class World {
         return cells;
     }
 
+    public List<Cell> getCellsList() {return list; }
+
     public void setCells(int[][] cells) {
         this.cells = cells;
     }
@@ -33,10 +36,11 @@ public class World {
     public void regenerate() {
         CellSchemeGenerator generator = new CellSchemeGenerator(25);
         cells = generator.generate();
-        root = generator.getGraph();
+        list = generator.getCells();
+        matrix = generator.getMatrix();
     }
 
-    public Cell getRoot() {
-        return root;
+    public int[][] getMatrix() {
+        return matrix;
     }
 }
