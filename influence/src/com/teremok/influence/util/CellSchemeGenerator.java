@@ -1,5 +1,6 @@
 package com.teremok.influence.util;
 
+import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.World;
 
 import java.util.Random;
@@ -119,5 +120,46 @@ public class CellSchemeGenerator {
         }
         System.out.println(" - - - Cycles: " + cycles);
     }
-    
+
+    public Cell getGraph() {
+        Cell root = new Cell();
+
+        label:
+        for (int i = 0; i < World.MAX_CELLS_Y; i++) {
+            for (int j = 0; j < World.MAX_CELLS_X; j++) {
+                if (mask[i][j] == 1) {
+                    root = new Cell(i, j);
+                    checkAround(root);
+                    break label;
+                }
+
+            }
+        }
+
+        return root;
+    }
+
+    private void checkAround(Cell root) {
+        for (int i = -1; i < 2; i++ ) {
+            for (int j = -1; j < 2; j++ ) {
+                checkAndAdd(root, root.getX()+i, root.getY()+j);
+            }
+        }
+    }
+
+    private void checkAndAdd(Cell root, int x, int y) {
+        if (x == root.getX() && y == root.getY())
+            return;
+        if (x < 0 || y < 0 || x >= World.MAX_CELLS_Y || y >= World.MAX_CELLS_X) {
+            return;
+        }
+        if (mask[x][y] > 0 && mask[x][y] < Integer.MAX_VALUE) {
+
+            Cell newCell = new Cell(x, y);
+            mask[x][y] = 0;
+            checkAround(newCell);
+            root.addNeighbor(newCell);
+        }
+    }
+
 }

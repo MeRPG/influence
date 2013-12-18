@@ -15,6 +15,9 @@ public class Cell {
     // для обхода графа
     boolean marked;
 
+    // координаты на сетке
+    int x, y;
+
     public void setNeighbors(Cell[] neighbors) {
         this.neighbors = neighbors;
     }
@@ -26,6 +29,22 @@ public class Cell {
     public Cell() {
         neighbors = new Cell[6];
 
+    }
+
+    public Cell(int x, int y) {
+        this();
+
+        this.x = x;
+        this.y = y;
+
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public void addNeighbor(Cell cell) {

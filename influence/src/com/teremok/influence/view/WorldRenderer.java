@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.World;
 
 /**
@@ -94,9 +95,32 @@ public class WorldRenderer {
         /* draw textures */
         // sprite.draw(spriteBatch);
 
+        drawGraph(world.getRoot());
+
         spriteBatch.end();
         if (debug)
             drawDebug();
+    }
+
+    private void drawGraph(Cell root) {
+        debugRenderer.setColor(Color.RED);
+        debugRenderer.setProjectionMatrix(cam.combined);
+
+        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        debugRenderer.circle(shiftX(getSqX(root.getY()), root.getX()), getSqY(root.getX()), 0.4f);
+        debugRenderer.end();
+
+        for (Cell c : root.getNeighbors()) {
+            if (c != null) {
+                debugRenderer.setColor(Color.CYAN);
+                debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+                drawConnection(root.getY(), root.getX(), c.getY(), c.getX(), world.getCells());
+                debugRenderer.end();
+
+                drawGraph(c);
+            }
+        }
+
     }
 
     private void drawDebug() {

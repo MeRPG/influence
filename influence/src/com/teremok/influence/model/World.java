@@ -16,6 +16,7 @@ public class World {
     public static final float HEIGHT = 8.5f;
 
     private int[][] cells;
+    private Cell root;
 
     public World() {
         regenerate();
@@ -30,6 +31,12 @@ public class World {
     }
 
     public void regenerate() {
-        cells = new CellSchemeGenerator(25).generate();
+        CellSchemeGenerator generator = new CellSchemeGenerator(25);
+        cells = generator.generate();
+        root = generator.getGraph();
+    }
+
+    public Cell getRoot() {
+        return root;
     }
 }
