@@ -90,7 +90,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (screenX < width/2)
+        if (screenY < height/2)
             renderer.setDebug(!renderer.isDebug());
         else
             world.regenerate();
