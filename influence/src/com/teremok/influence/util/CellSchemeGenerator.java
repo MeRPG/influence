@@ -31,7 +31,7 @@ public class CellSchemeGenerator {
         cells = new LinkedList<Cell>();
     }
 
-    public int[][] generate() {
+    public void generate() {
         mask = new int[World.MAX_CELLS_Y][World.MAX_CELLS_X];
         mask[1][4] = Integer.MAX_VALUE;
         mask[3][4] = Integer.MAX_VALUE;
@@ -55,8 +55,6 @@ public class CellSchemeGenerator {
         constructMatrix();
         printMatrix();
         printList();
-
-        return transpose(mask);
     }
     // получить номер элемента
     // исходя из координат в матрице и длины строки

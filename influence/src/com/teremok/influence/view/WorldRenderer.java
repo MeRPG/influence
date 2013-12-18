@@ -1,20 +1,13 @@
 package com.teremok.influence.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.World;
-import com.teremok.influence.util.CellSchemeGenerator;
-
-import java.util.List;
 
 /**
  * Created by Alexx on 11.12.13.
@@ -105,10 +98,13 @@ public class WorldRenderer {
             drawDebug();
     }
 
-    private void drawGraph(Cell cell) {
+    private void drawCell(Cell cell) {
+        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        debugRenderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), 0.4f);
+        debugRenderer.end();
         for (int j = 0; j < 35; j++) {
             if (cell.isValid() && world.getMatrix()[cell.getNumber()][j] == 1) {
-                Cell toCell = world.getCellsList().get(j);
+                Cell toCell = world.getCells().get(j);
                 if (toCell.isValid()) {
                     debugRenderer.setColor(Color.YELLOW);
                     debugRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -124,33 +120,19 @@ public class WorldRenderer {
         debugRenderer.setColor(Color.YELLOW);
         debugRenderer.setProjectionMatrix(cam.combined);
 
-        for (Cell c : world.getCellsList()) {
-            //System.out.println("Rendering cell: " + c.getX() + ";" + c.getY());
+        for (Cell c : world.getCells()) {
             if (c.isValid()) {
-                debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                debugRenderer.circle(shiftX(getSqX(c.getY()), c.getX()), getSqY(c.getX()), 0.4f);
-                debugRenderer.end();
-                drawGraph(c);
+                drawCell(c);
             }
         }
-
-        //System.out.println("Rendered " + world.getCellsList().size() + " cells.");
-
     }
 
     private void drawDebug() {
         debugRenderer.setColor(Color.GREEN);
         debugRenderer.setProjectionMatrix(cam.combined);
 
-        int[][] mask = world.getCells();
-        for (int i = 0; i < World.MAX_CELLS_X; i++) {
-            for (int j = 0; j < World.MAX_CELLS_Y; j++) {
-                if (mask[i][j] != Integer.MAX_VALUE && mask[i][j] > 0) {
-                    drawCell(i, j, mask);
 
-                }
-            }
-        }
+
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         debugRenderer.rect(0, 0, World.WIDTH, World.HEIGHT);
         debugRenderer.end();
@@ -174,41 +156,6 @@ public class WorldRenderer {
         return World.WIDTH / World.MAX_CELLS_X;
     }
 
-
-    private void drawCell(int i, int j, int[][] mask) {
-
-        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        debugRenderer.circle(shiftX(getSqX(i), j), getSqY(j), 0.4f);
-        debugRenderer.end();
-
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        for (int offI = -1; offI < 2; offI++) {
-            for (int offJ = -1; offJ < 2; offJ++) {
-                if (
-                        (
-                                (offJ != -1 && offI != 1 || offJ != 1 && offI != 1)
-                                && j%2==0
-                        )
-                        ||
-                        (
-                                (offJ != -1 && offI != -1 || offJ != 1 && offI != -1)
-                                && j%2==1
-                        )
-                    )
-                    drawConnection(i, j, offI, offJ, mask);
-            }
-        }
-        debugRenderer.end();
-
-
-    }
-
-    private void drawConnection(int i, int j, int offI, int offJ, int mask[][]) {
-        if (hasHeigboor(i+offI, j+offJ, mask)) {
-            debugRenderer.line(shiftX(getSqX(i), j), getSqY(j), shiftX(getSqX(i + offI), j + offJ), getSqY(j + offJ));
-        }
-    }
-
     float shiftY(float sqY, int i) {
         if (i%2 == 1) {
             sqY += getSqHeight() / 2;
@@ -222,14 +169,4 @@ public class WorldRenderer {
         }
         return sqX;
     }
-
-
-    private boolean hasHeigboor(int i, int j, int[][] mask) {
-        if (i < 0 || j < 0)
-            return false;
-        if (i >= World.MAX_CELLS_X || j >= World.MAX_CELLS_Y)
-            return false;
-        return mask[i][j] > 0 && mask[i][j] < Integer.MAX_VALUE;
-    }
-
 }

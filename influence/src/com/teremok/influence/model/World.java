@@ -15,28 +15,19 @@ public class World {
     public static final float WIDTH = 7f;
     public static final float HEIGHT = 8.5f;
 
-    private int[][] cells;
     private int[][] matrix;
-    private List<Cell> list;
+    private List<Cell> cells;
 
     public World() {
         regenerate();
     }
 
-    public int[][] getCells() {
-        return cells;
-    }
-
-    public List<Cell> getCellsList() {return list; }
-
-    public void setCells(int[][] cells) {
-        this.cells = cells;
-    }
+    public List<Cell> getCells() {return cells; }
 
     public void regenerate() {
         CellSchemeGenerator generator = new CellSchemeGenerator(25);
-        cells = generator.generate();
-        list = generator.getCells();
+        generator.generate();
+        cells = generator.getCells();
         matrix = generator.getMatrix();
     }
 
