@@ -15,10 +15,17 @@ public class CellSchemeGenerator {
     private int MAX_CELLS_X = World.MAX_CELLS_X;
     private int MAX_CELLS_Y = World.MAX_CELLS_Y;
     */
+
+    private int GRAPH_MATRIX_SIZE = World.MAX_CELLS_X * World.MAX_CELLS_Y;
+    private float P = 0.7f;
+
     private int count;
     private Random rnd;
     private int[][] mask;
+
     private int[][] matrix;
+
+    private int[][] minimal;
 
     int cycles;
 
@@ -29,6 +36,11 @@ public class CellSchemeGenerator {
         rnd = new Random();
         matrix = new int[i][i];
         cells = new LinkedList<Cell>();
+/*
+        printMatrix("pre: ", matr, size, size);
+        smallDFS(0, 0);
+        printMatrix("post: ", matr, size, size);
+*/
     }
 
     public void generate() {
@@ -37,8 +49,8 @@ public class CellSchemeGenerator {
         mask[3][4] = Integer.MAX_VALUE;
         mask[5][4] = Integer.MAX_VALUE;
         cycles = 0;
+        int x = 0, y = 0;
         for (int i = 0; i < count; i ++) {
-            int x, y;
             do {
                 cycles++;
                 x = rnd.nextInt(World.MAX_CELLS_Y);
@@ -54,7 +66,12 @@ public class CellSchemeGenerator {
         printMask();
         constructMatrix();
         printMatrix();
-        printList();
+
+        copyMatrixToMinimal();
+        //minimizeRoutes();
+        DFS(getNum(x,y), getNum(x,y));
+        printMinimal();
+        // printList();
     }
     // получить номер элемента
     // исходя из координат в матрице и длины строки
@@ -68,7 +85,7 @@ public class CellSchemeGenerator {
     }
 
     public void constructMatrix() {
-        matrix = new int[World.MAX_CELLS_Y*World.MAX_CELLS_X][World.MAX_CELLS_Y*World.MAX_CELLS_X];
+        matrix = new int[GRAPH_MATRIX_SIZE][GRAPH_MATRIX_SIZE];
         cells = new LinkedList<Cell>();
 
         for (int i = 0; i < World.MAX_CELLS_Y; i++) {
@@ -131,6 +148,33 @@ public class CellSchemeGenerator {
 
     }
 
+    private void printMatrix(String desc, int[][] matrix, int sizeX, int sizeY) {
+        System.out.println(desc);
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                System.out.print(matrix[i][j] + "\t");
+            }
+            System.out.println();
+        }
+        System.out.println(" - - - ");
+
+    }
+
+    private void printMinimal() {
+        System.out.println("Minimal for graph: ");
+        int ones = 0;
+        for (int i = 0; i < count; i++) {
+            for (int j = 0; j < count; j++) {
+                System.out.print(minimal[i][j] + "\t");
+                if (minimal[i][j] == 1) ones++;
+            }
+            System.out.println();
+        }
+        System.out.println("Percents: " + ((float)ones * 100 )/(count*count) + "%");
+        System.out.println(" - - - ");
+
+    }
+
     private void printList() {
         System.out.println(" List size: " + cells.size());
 
@@ -140,19 +184,6 @@ public class CellSchemeGenerator {
 
         System.out.println(" - - - ");
     }
-
-    private int[][] transpose(int[][] mask) {
-        int[][] tran = new int[World.MAX_CELLS_X][World.MAX_CELLS_Y];
-
-        for (int i = 0; i < World.MAX_CELLS_Y; i++) {
-            for (int j = 0; j < World.MAX_CELLS_X; j++) {
-                tran[j][i] = mask[i][j];
-            }
-        }
-
-        return tran;
-    }
-
 
     private boolean isAlone(int x, int y) {
         for (int i = -1; i < 2; i++ ) {
@@ -214,5 +245,129 @@ public class CellSchemeGenerator {
             System.out.println();
         }
         System.out.println(" - - - Cycles: " + cycles);
+    }
+
+    private void copyMatrixToMinimal() {
+        minimal = new int[GRAPH_MATRIX_SIZE][GRAPH_MATRIX_SIZE];
+
+        for (int i = 0; i < GRAPH_MATRIX_SIZE; i++) {
+            for (int j = 0; j < GRAPH_MATRIX_SIZE; j++) {
+                minimal[i][j] = matrix[i][j];
+            }
+        }
+    }
+
+    private void minimizeRoutes() {
+        boolean[] checked = new boolean[GRAPH_MATRIX_SIZE];
+
+        checked[0] = true;
+        for (int current = 0; current < GRAPH_MATRIX_SIZE; current++) {
+            for (int check = current+1; check < GRAPH_MATRIX_SIZE; check++) {
+                if (check != current && minimal[current][check] == 1) {
+                    for (int i = current+1; i < GRAPH_MATRIX_SIZE; i++) {
+                        if (checked[i] && i!= check) {
+                            minimal[check][i] = 0;
+                            minimal[i][check] = 0;
+                        }
+                    }
+                    checked[check] = true;
+                }
+            }
+        }
+
+    }
+
+    private boolean[] mark = new boolean[GRAPH_MATRIX_SIZE];
+
+    int size = 5;
+    int[][] matr = {
+            {1, 1, 0, 0, 1},
+            {1, 1, 1, 0, 1},
+            {0, 1, 1, 1, 0},
+            {0, 0, 1, 1, 1},
+            {1, 1, 1, 1, 1}
+    };
+
+    private void smallDFS(int v, int from) {
+        if (mark[v])  // Если мы здесь уже были, то тут больше делать нечего
+        {
+            matr[v][from] = 0;
+            matr[from][v] = 0;
+            return;
+        }
+
+        boolean flag = true;
+        for (int i = 0; i < size; i++) {
+            flag = flag && mark[i];
+        }
+        if (flag) {
+            return;
+        }
+
+        mark[v] = true;   // Помечаем, что мы здесь были
+
+
+        for (int i = 0; i < size; i++)  // Для каждого ребра
+        {
+            if (matr[v][i] == 1 && i != v && i != from)
+                smallDFS(i, v);  // Запускаемся из соседа
+        }
+
+
+    }
+
+    private void DFS(int v, int from) {
+        if (mark[v])  // Если мы здесь уже были, то тут больше делать нечего
+        {
+            if (rnd.nextFloat() > P) {
+                minimal[v][from] = 0;
+                minimal[from][v] = 0;
+            }
+            return;
+        }
+
+        boolean flag = true;
+        for (int i = 0; i < GRAPH_MATRIX_SIZE; i++) {
+            flag = flag && mark[i];
+        }
+        if (flag) {
+            return;
+        }
+
+        mark[v] = true;   // Помечаем, что мы здесь были
+
+
+        for (int i = 0; i < GRAPH_MATRIX_SIZE; i++)  // Для каждого ребра
+        {
+            if (minimal[v][i] == 1 && i != v && i != from)
+                DFS(i, v);  // Запускаемся из соседа
+        }
+    }
+
+    private void testAlgo() {
+
+        boolean[] checked = new boolean[size];
+
+        printMatrix("matr do: ", matr, size, size);
+        checked[0] = true;
+        for (int current = 0; current < size; current++) {
+            for (int check = current+1; check < size; check++) {
+                if (check != current && matr[current][check] == 1) {
+                    for (int i = current+1; i < size; i++) {
+                        if (checked[i] && i!= check) {
+                            matr[check][i] = 0;
+                            matr[i][check] = 0;
+                        }
+                    }
+                    checked[check] = true;
+                }
+            }
+        }
+
+        printMatrix("matr posle: ", matr, size, size);
+    }
+
+    public int[][] getMinimal() {
+        return minimal;
     }
 }

@@ -1,5 +1,6 @@
 package com.teremok.influence.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -98,18 +99,17 @@ public class WorldRenderer {
             drawDebug();
     }
 
-    private void drawCell(Cell cell) {
+    private void drawCell(Cell cell, int[][] matrix) {
         debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
         debugRenderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), 0.4f);
         debugRenderer.end();
         for (int j = 0; j < 35; j++) {
-            if (cell.isValid() && world.getMatrix()[cell.getNumber()][j] == 1) {
+            if (cell.isValid() && matrix[cell.getNumber()][j] == 1) {
                 Cell toCell = world.getCells().get(j);
                 if (toCell.isValid()) {
-                    debugRenderer.setColor(Color.YELLOW);
                     debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-                    debugRenderer.line( shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()),
-                                        shiftX(getSqX(toCell.getY()), toCell.getX()), getSqY(toCell.getX()));
+                    debugRenderer.line(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()),
+                            shiftX(getSqX(toCell.getY()), toCell.getX()), getSqY(toCell.getX()));
                     debugRenderer.end();
                }
             }
@@ -117,21 +117,26 @@ public class WorldRenderer {
     }
 
     private void drawList() {
-        debugRenderer.setColor(Color.YELLOW);
+        debugRenderer.setColor(new Color(0.2f, 0.2f, 0.5f, 0.75f));
+        Gdx.gl.glLineWidth(3);
         debugRenderer.setProjectionMatrix(cam.combined);
 
         for (Cell c : world.getCells()) {
             if (c.isValid()) {
-                drawCell(c);
+                drawCell(c, world.getMatrix());
             }
         }
     }
 
     private void drawDebug() {
-        debugRenderer.setColor(Color.GREEN);
+        debugRenderer.setColor(Color.LIGHT_GRAY);
         debugRenderer.setProjectionMatrix(cam.combined);
 
-
+        for (Cell c : world.getCells()) {
+            if (c.isValid()) {
+                drawCell(c, world.getMinimal());
+            }
+        }
 
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         debugRenderer.rect(0, 0, World.WIDTH, World.HEIGHT);

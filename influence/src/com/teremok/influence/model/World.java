@@ -16,6 +16,7 @@ public class World {
     public static final float HEIGHT = 8.5f;
 
     private int[][] matrix;
+    private int[][] minimal;
     private List<Cell> cells;
 
     public World() {
@@ -29,9 +30,14 @@ public class World {
         generator.generate();
         cells = generator.getCells();
         matrix = generator.getMatrix();
+        minimal = generator.getMinimal();
     }
 
     public int[][] getMatrix() {
         return matrix;
+    }
+
+    public int[][] getMinimal() {
+        return minimal;
     }
 }
