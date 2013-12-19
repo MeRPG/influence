@@ -18,16 +18,35 @@ public class World {
     private int[][] matrix;
     private int[][] minimal;
     private List<Cell> cells;
+    private CellSchemeGenerator generator;
+
+    private int P;
+
+    public void setP(int p) {
+        this.P = p;
+    }
+
+    public int getP() {
+        return this.P;
+    }
 
     public World() {
+        setP(7);
         regenerate();
     }
 
     public List<Cell> getCells() {return cells; }
 
     public void regenerate() {
-        CellSchemeGenerator generator = new CellSchemeGenerator(25);
+        generator = new CellSchemeGenerator(25, P*0.1f);
         generator.generate();
+        cells = generator.getCells();
+        matrix = generator.getMatrix();
+        minimal = generator.getMinimal();
+    }
+
+    public void updateMinimal() {
+        generator.updateMinimal(P*0.1f);
         cells = generator.getCells();
         matrix = generator.getMatrix();
         minimal = generator.getMinimal();

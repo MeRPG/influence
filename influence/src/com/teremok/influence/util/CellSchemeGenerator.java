@@ -17,7 +17,7 @@ public class CellSchemeGenerator {
     */
 
     private int GRAPH_MATRIX_SIZE = World.MAX_CELLS_X * World.MAX_CELLS_Y;
-    private float P = 0.7f;
+    private float P = 0.0f;
 
     private int count;
     private Random rnd;
@@ -43,6 +43,11 @@ public class CellSchemeGenerator {
 */
     }
 
+    public CellSchemeGenerator(int i, float p) {
+        this(i);
+        this.P = p;
+    }
+
     public void generate() {
         mask = new int[World.MAX_CELLS_Y][World.MAX_CELLS_X];
         mask[1][4] = Integer.MAX_VALUE;
@@ -63,15 +68,32 @@ public class CellSchemeGenerator {
             mask[x][y] = 1;
         }
 
-        printMask();
+        //printMask();
         constructMatrix();
-        printMatrix();
+        //printMatrix();
 
+        updateMinimal(P);
+    }
+
+    public void updateMinimal(float newP) {
+
+
+
+        this.P = newP;
         copyMatrixToMinimal();
-        //minimizeRoutes();
-        DFS(getNum(x,y), getNum(x,y));
-        printMinimal();
-        // printList();
+        System.out.println("Update minimal with p = " + P);
+        Cell start;
+        int i = 0;
+        do {
+            start= cells.get(i++);
+        } while (!start.isValid());
+        for (i = 0; i < GRAPH_MATRIX_SIZE; i++) {
+            mark[i] = false;
+        }
+        DFS(start.getNumber(), start.getNumber());
+        //printMinimal();
+        //printList();
+
     }
     // получить номер элемента
     // исходя из координат в матрице и длины строки
@@ -93,7 +115,7 @@ public class CellSchemeGenerator {
                 if (mask[i][j] > 0 && mask[i][j] < Integer.MAX_VALUE) {
                     int curNum = getNum(i, j);
                     checkAround(curNum, i, j);
-                    cells.add(new Cell(curNum,i,j));
+                    cells.add(new Cell(curNum,i,j, rnd.nextInt(5)));
                 } else {    cells.add(new Cell(-1, 0, 0));  }
             }
         }
@@ -171,6 +193,7 @@ public class CellSchemeGenerator {
             System.out.println();
         }
         System.out.println("Percents: " + ((float)ones * 100 )/(count*count) + "%");
+        System.out.println("Memory: " + SizeOfUtil.measure(minimal));
         System.out.println(" - - - ");
 
     }
@@ -181,7 +204,7 @@ public class CellSchemeGenerator {
         for (Cell c : cells) {
             System.out.println(c);
         }
-
+        System.out.println("Memory: " + SizeOfUtil.measure(cells));
         System.out.println(" - - - ");
     }
 

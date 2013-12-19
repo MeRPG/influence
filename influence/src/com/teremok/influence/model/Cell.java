@@ -16,17 +16,26 @@ public class Cell {
     // порядковый номер
     int number;
 
-    public Cell() {
+    // тип (цвет)
+    int type;
 
+    public Cell() {
+    }
+
+    public Cell(int number) {
+        this();
+        this.number = number;
     }
 
     public Cell(int number, int x, int y) {
-        this();
-
+        this(number);
         this.x = x;
         this.y = y;
-        this.number = number;
+    }
 
+    public Cell(int number, int x, int y, int type) {
+        this(number, x, y);
+        this.type = type;
     }
 
     public int getX() {
@@ -58,4 +67,13 @@ public class Cell {
 
         return true;
     }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
 }

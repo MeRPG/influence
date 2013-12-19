@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.World;
 
+import java.util.List;
+
 /**
  * Created by Alexx on 11.12.13.
  */
@@ -99,21 +101,72 @@ public class WorldRenderer {
             drawDebug();
     }
 
-    private void drawCell(Cell cell, int[][] matrix) {
+    private void drawCells(List<Cell> cells) {
+        for (Cell c : cells) {
+            if (c.isValid()) {
+                drawCell(c);
+            }
+        }
+    }
+
+    private void drawCell(Cell cell) {
+        Color color = getCellColor(cell.getType());
+        debugRenderer.setColor(color);
         debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
         debugRenderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), 0.4f);
         debugRenderer.end();
+    }
+
+    private void drawRoutes(int[][] matrix) {
+        for (Cell c : world.getCells()) {
+            if (c.isValid()) {
+                drawCellRoutes(c, matrix);
+            }
+        }
+    }
+
+    private void drawCellRoutes(Cell cell, int[][] matrix) {
         for (int j = 0; j < 35; j++) {
             if (cell.isValid() && matrix[cell.getNumber()][j] == 1) {
                 Cell toCell = world.getCells().get(j);
                 if (toCell.isValid()) {
+                    if (cell.getType() == toCell.getType()) {
+                        debugRenderer.setColor(getCellColor(cell.getType()));
+                    } else {
+                        debugRenderer.setColor(Color.GRAY);
+                    }
                     debugRenderer.begin(ShapeRenderer.ShapeType.Line);
                     debugRenderer.line(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()),
                             shiftX(getSqX(toCell.getY()), toCell.getX()), getSqY(toCell.getX()));
                     debugRenderer.end();
-               }
+                }
             }
         }
+    }
+
+    private Color getCellColor(int type) {
+        Color color;
+        switch (type) {
+            case 0:
+                color = Color.CYAN;
+                break;
+            case 1:
+                color = Color.LIGHT_GRAY;
+                break;
+            case 2:
+                color = Color.ORANGE;
+                break;
+            case 3:
+                color = Color.PINK;
+                break;
+            case 4:
+                color = Color.MAGENTA;
+                break;
+            default:
+                color = Color.DARK_GRAY;
+                break;
+        }
+        return color;
     }
 
     private void drawList() {
@@ -121,22 +174,17 @@ public class WorldRenderer {
         Gdx.gl.glLineWidth(3);
         debugRenderer.setProjectionMatrix(cam.combined);
 
-        for (Cell c : world.getCells()) {
-            if (c.isValid()) {
-                drawCell(c, world.getMatrix());
-            }
-        }
+        drawRoutes(world.getMinimal());
+        drawCells(world.getCells());
+
     }
 
     private void drawDebug() {
         debugRenderer.setColor(Color.LIGHT_GRAY);
         debugRenderer.setProjectionMatrix(cam.combined);
 
-        for (Cell c : world.getCells()) {
-            if (c.isValid()) {
-                drawCell(c, world.getMinimal());
-            }
-        }
+        drawCells(world.getCells());
+        drawRoutes(world.getMatrix());
 
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         debugRenderer.rect(0, 0, World.WIDTH, World.HEIGHT);
