@@ -1,9 +1,6 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL10;
 import com.teremok.influence.controller.WorldController;
 import com.teremok.influence.model.World;
@@ -14,11 +11,16 @@ import com.teremok.influence.view.WorldRenderer;
  */
 public class GameScreen implements Screen, InputProcessor {
 
+    private Game game;
     private World world;
     private WorldRenderer renderer;
     private WorldController controller;
 
     private int width, height;
+
+    public GameScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void render(float delta) {
