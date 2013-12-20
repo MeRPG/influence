@@ -12,8 +12,8 @@ public class World {
     public static final int MAX_CELLS_Y = 7;
     public static final int MAX_CELLS_X = 5;
 
-    public static final float WIDTH = 7f;
-    public static final float HEIGHT = 8.5f;
+    //public static final float WIDTH = 7f;
+    //public static final float HEIGHT = 8.5f;
 
     private int[][] matrix;
     private int[][] minimal;

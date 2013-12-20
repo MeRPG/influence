@@ -16,15 +16,18 @@ import java.util.List;
  * Created by Alexx on 11.12.13.
  */
 public class WorldRenderer {
+    private static final float UNIT_SIZE = 32f;
 
-    private static final float CAMERA_WIDTH = 7f;
-    private static final float CAMERA_HEIGHT = 10f;
+    private static final float CAMERA_WIDTH = UNIT_SIZE*10f;
+    private static final float CAMERA_HEIGHT = UNIT_SIZE*15f;
+
+    private static final float FIELD_HEIGHT = CAMERA_HEIGHT*.85f;
+    private static final float FIELD_WIDTH = CAMERA_WIDTH*1f;
 
     private World world;
     private OrthographicCamera cam;
 
-    /** for debug rendering **/
-    ShapeRenderer debugRenderer = new ShapeRenderer();
+    ShapeRenderer renderer = new ShapeRenderer();
 
     /** Textures **/
     private Texture texture;
@@ -111,10 +114,10 @@ public class WorldRenderer {
 
     private void drawCell(Cell cell) {
         Color color = getCellColor(cell.getType());
-        debugRenderer.setColor(color);
-        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        debugRenderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), 0.4f);
-        debugRenderer.end();
+        renderer.setColor(color);
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), UNIT_SIZE * 0.4f);
+        renderer.end();
     }
 
     private void drawRoutes(int[][] matrix) {
@@ -131,14 +134,14 @@ public class WorldRenderer {
                 Cell toCell = world.getCells().get(j);
                 if (toCell.isValid()) {
                     if (cell.getType() == toCell.getType()) {
-                        debugRenderer.setColor(getCellColor(cell.getType()));
+                        renderer.setColor(getCellColor(cell.getType()));
                     } else {
-                        debugRenderer.setColor(Color.GRAY);
+                        renderer.setColor(Color.GRAY);
                     }
-                    debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-                    debugRenderer.line(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()),
+                    renderer.begin(ShapeRenderer.ShapeType.Line);
+                    renderer.line(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()),
                             shiftX(getSqX(toCell.getY()), toCell.getX()), getSqY(toCell.getX()));
-                    debugRenderer.end();
+                    renderer.end();
                 }
             }
         }
@@ -170,25 +173,27 @@ public class WorldRenderer {
     }
 
     private void drawList() {
-        debugRenderer.setColor(new Color(0.2f, 0.2f, 0.5f, 0.75f));
+        renderer.setColor(new Color(0.2f, 0.2f, 0.5f, 0.75f));
         Gdx.gl.glLineWidth(3);
-        debugRenderer.setProjectionMatrix(cam.combined);
+        renderer.setProjectionMatrix(cam.combined);
 
         drawRoutes(world.getMinimal());
         drawCells(world.getCells());
 
+        renderer.setColor(Color.GRAY);
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        renderer.rect(0, 0, FIELD_WIDTH-1, FIELD_HEIGHT-1);
+        renderer.end();
+
     }
 
     private void drawDebug() {
-        debugRenderer.setColor(Color.LIGHT_GRAY);
-        debugRenderer.setProjectionMatrix(cam.combined);
+        renderer.setColor(Color.LIGHT_GRAY);
+        renderer.setProjectionMatrix(cam.combined);
 
         drawCells(world.getCells());
         drawRoutes(world.getMatrix());
 
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        debugRenderer.rect(0, 0, World.WIDTH, World.HEIGHT);
-        debugRenderer.end();
     }
 
     float getSqX(int i) {
@@ -202,11 +207,11 @@ public class WorldRenderer {
     }
 
     float getSqHeight() {
-        return World.HEIGHT / World.MAX_CELLS_Y;
+        return FIELD_HEIGHT / World.MAX_CELLS_Y;
     }
 
     float getSqWidth() {
-        return World.WIDTH / World.MAX_CELLS_X;
+        return FIELD_WIDTH / World.MAX_CELLS_X;
     }
 
     float shiftY(float sqY, int i) {
