@@ -9,13 +9,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public abstract class Renderer {
 
-    protected static final float UNIT_SIZE = 32f;
+    public static final float UNIT_SIZE = 32f;
 
     protected static final float CAMERA_WIDTH = UNIT_SIZE*10f;
     protected static final float CAMERA_HEIGHT = UNIT_SIZE*15f;
 
-    protected static final float FIELD_HEIGHT = CAMERA_HEIGHT*.85f;
-    protected static final float FIELD_WIDTH = CAMERA_WIDTH*1f;
+    public static final float FIELD_HEIGHT = CAMERA_HEIGHT*.85f;
+    public static final float FIELD_WIDTH = CAMERA_WIDTH*1f;
 
     protected OrthographicCamera cam;
 

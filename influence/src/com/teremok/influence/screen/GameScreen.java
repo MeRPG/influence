@@ -3,7 +3,9 @@ package com.teremok.influence.screen;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL10;
 import com.teremok.influence.controller.WorldController;
+import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.World;
+import com.teremok.influence.view.Renderer;
 import com.teremok.influence.view.WorldRenderer;
 
 /**
@@ -119,7 +121,12 @@ public class GameScreen implements Screen, InputProcessor {
     }
 
     private void touchUpNormal(int screenX, int screenY, int pointer, int button) {
-
+        int unit_size = (int)Renderer.UNIT_SIZE;
+        int y = screenY / (unit_size*2) ;
+        int x = screenY % 2 == 1 ? (screenX+unit_size)/(unit_size*2) : screenX/(unit_size*2);
+        Cell cell = world.getCells().get(Cell.calcNumber(x, y));
+        System.out.println("Touch! (" + x + "; " + y + "); Cell = " + cell);
+        cell.setSelected(! cell.isSelected());
     }
 
     @Override

@@ -85,4 +85,8 @@ public class Cell {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    static public int calcNumber(int x, int y) {
+        return x + y*5;
+    }
 }
