@@ -134,7 +134,8 @@ public class GameScreen implements Screen, InputProcessor {
         System.out.println("(" + x + "; " + y + "); Cell = " + cell);
         System.out.println("TouchRecalculated: (" + x*unit_size_w + "; " + y*unit_size_h + ");");
 
-        cell.setSelected(! cell.isSelected());
+        if (cell.getNumber() != -1)
+            world.setSelectedCell(cell);
     }
 
     @Override

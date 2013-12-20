@@ -20,6 +20,8 @@ public class World {
     private List<Cell> cells;
     private CellSchemeGenerator generator;
 
+    private Cell selectedCell;
+
     private int P;
 
     public void setP(int p) {
@@ -59,5 +61,25 @@ public class World {
 
     public int[][] getMinimal() {
         return minimal;
+    }
+
+    private boolean isCellsConnected(Cell from, Cell to) {
+        return minimal[from.getNumber()][to.getNumber()] == 1 || minimal[to.getNumber()][from.getNumber()] == 1;
+    }
+
+    public Cell getSelectedCell() {
+        return selectedCell;
+    }
+
+    public void setSelectedCell(Cell cell) {
+        if (selectedCell != null && isCellsConnected(selectedCell, cell))
+            cell.setType(selectedCell.getType());
+
+        if (selectedCell != null)
+            selectedCell.setSelected(false);
+
+        cell.setSelected(true);
+        selectedCell = cell;
+
     }
 }
