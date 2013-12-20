@@ -60,6 +60,9 @@ public class WorldRenderer  extends Renderer {
         renderer.setColor(color);
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), UNIT_SIZE * 0.4f);
+        if (cell.isSelected())
+            renderer.setColor(Color.RED);
+            renderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), UNIT_SIZE * 0.1f);
         renderer.end();
     }
 

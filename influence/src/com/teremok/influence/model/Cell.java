@@ -19,6 +19,8 @@ public class Cell {
     // тип (цвет)
     int type;
 
+    boolean selected;
+
     public Cell() {
     }
 
@@ -76,4 +78,11 @@ public class Cell {
         this.type = type;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

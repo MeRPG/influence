@@ -41,6 +41,7 @@ public class World {
         generator = new CellSchemeGenerator(25, P*0.1f);
         generator.generate();
         cells = generator.getCells();
+        cells.get(15).setSelected(true);
         matrix = generator.getMatrix();
         minimal = generator.getMinimal();
     }
