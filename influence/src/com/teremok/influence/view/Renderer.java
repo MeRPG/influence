@@ -14,8 +14,11 @@ public abstract class Renderer {
     protected static final float CAMERA_WIDTH = UNIT_SIZE*10f;
     protected static final float CAMERA_HEIGHT = UNIT_SIZE*15f;
 
-    public static final float FIELD_HEIGHT = CAMERA_HEIGHT*.85f;
-    public static final float FIELD_WIDTH = CAMERA_WIDTH*1f;
+    public static final float FIELD_ASPECT_VERT = .85f;
+    public static final float FIELD_ASPECT_HOR = 1f;
+
+    public static final float FIELD_HEIGHT = CAMERA_HEIGHT*FIELD_ASPECT_VERT;
+    public static final float FIELD_WIDTH = CAMERA_WIDTH*FIELD_ASPECT_HOR;
 
     protected OrthographicCamera cam;
 

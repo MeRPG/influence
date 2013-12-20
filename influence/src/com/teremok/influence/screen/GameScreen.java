@@ -121,11 +121,19 @@ public class GameScreen implements Screen, InputProcessor {
     }
 
     private void touchUpNormal(int screenX, int screenY, int pointer, int button) {
-        int unit_size = (int)Renderer.UNIT_SIZE;
-        int y = screenY / (unit_size*2) ;
-        int x = screenY % 2 == 1 ? (screenX+unit_size)/(unit_size*2) : screenX/(unit_size*2);
+
+        System.out.println("Touch! (" + screenX + "; " + screenY + ");");
+
+        int unit_size_w = (int) (width* Renderer.FIELD_ASPECT_HOR/5);
+        int unit_size_h = (int) (height*Renderer.FIELD_ASPECT_VERT/7);
+        System.out.println("Unit size: (" + unit_size_w + "; " + unit_size_h + ");");
+        int y = screenY / (unit_size_h);
+        //int x = screenX / (unit_size_w);
+        int x = screenY % 2 == 1 ? (screenX-unit_size_w/2)/(unit_size_w) : screenX/(unit_size_w);
         Cell cell = world.getCells().get(Cell.calcNumber(x, y));
-        System.out.println("Touch! (" + x + "; " + y + "); Cell = " + cell);
+        System.out.println("(" + x + "; " + y + "); Cell = " + cell);
+        System.out.println("TouchRecalculated: (" + x*unit_size_w + "; " + y*unit_size_h + ");");
+
         cell.setSelected(! cell.isSelected());
     }
 
