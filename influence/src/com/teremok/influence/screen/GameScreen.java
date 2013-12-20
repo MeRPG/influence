@@ -92,24 +92,34 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (renderer.isDebug()) {
-            if (screenY < height/2 && screenX < width/2)
-                renderer.setDebug(!renderer.isDebug());
-            if (screenY < height/2 && screenX > width/2)
-                world.regenerate();
-            if (screenY > height/2 && screenX < width/2) {
-                if (world.getP() < 10) {
-                    world.setP(world.getP()+1);
-                }
-                world.updateMinimal();
-            }
-            if (screenY > height/2 && screenX > width/2) {
-                if (world.getP() > 0) {
-                    world.setP(world.getP()-1);
-                }
-                world.updateMinimal();
-            }
+            touchUpDebug(screenX, screenY, pointer, button);
+        } else {
+            touchUpNormal(screenX, screenY, pointer, button);
         }
         return false;
+    }
+
+    private void touchUpDebug(int screenX, int screenY, int pointer, int button) {
+        if (screenY < height/2 && screenX < width/2)
+            renderer.setDebug(!renderer.isDebug());
+        if (screenY < height/2 && screenX > width/2)
+            world.regenerate();
+        if (screenY > height/2 && screenX < width/2) {
+            if (world.getP() < 10) {
+                world.setP(world.getP()+1);
+            }
+            world.updateMinimal();
+        }
+        if (screenY > height/2 && screenX > width/2) {
+            if (world.getP() > 0) {
+                world.setP(world.getP()-1);
+            }
+            world.updateMinimal();
+        }
+    }
+
+    private void touchUpNormal(int screenX, int screenY, int pointer, int button) {
+
     }
 
     @Override
