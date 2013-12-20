@@ -35,7 +35,6 @@ public class GameScreen implements Screen, InputProcessor {
     public void resize(int width, int height) {
         this.width = width;
         this.height = height;
-        renderer.setSize(width, height);
     }
 
     @Override

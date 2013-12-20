@@ -5,15 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.influence.view.StartScreenRenderer;
 
 /**
- * Created by Alexx on 20.12.13. `
+ * Created by Alexx on 20.12.13
  */
 public class StartScreen implements Screen, InputProcessor{
 
     Game game;
-    ShapeRenderer renderer;
+    StartScreenRenderer renderer;
 
     public StartScreen(Game game) {
         this.game = game;
@@ -24,11 +24,7 @@ public class StartScreen implements Screen, InputProcessor{
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.circle(256,256,64);
-        renderer.end();
-
-
+        renderer.render();
     }
 
     @Override
@@ -37,7 +33,7 @@ public class StartScreen implements Screen, InputProcessor{
 
     @Override
     public void show() {
-        renderer = new ShapeRenderer();
+        renderer = new StartScreenRenderer(this);
         Gdx.input.setInputProcessor(this);
     }
 

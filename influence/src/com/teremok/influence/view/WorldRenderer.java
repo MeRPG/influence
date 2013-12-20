@@ -2,10 +2,8 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.World;
@@ -15,91 +13,36 @@ import java.util.List;
 /**
  * Created by Alexx on 11.12.13.
  */
-public class WorldRenderer {
-    private static final float UNIT_SIZE = 32f;
-
-    private static final float CAMERA_WIDTH = UNIT_SIZE*10f;
-    private static final float CAMERA_HEIGHT = UNIT_SIZE*15f;
-
-    private static final float FIELD_HEIGHT = CAMERA_HEIGHT*.85f;
-    private static final float FIELD_WIDTH = CAMERA_WIDTH*1f;
+public class WorldRenderer  extends Renderer {
 
     private World world;
-    private OrthographicCamera cam;
-
-    ShapeRenderer renderer = new ShapeRenderer();
 
     /** Textures **/
     private Texture texture;
     private Sprite sprite;
 
-    /** Animations **/
-
-    private SpriteBatch spriteBatch;
-    private boolean debug = false;
-    private int width;
-    private int height;
-    private float ppuX;	// pixels per unit on the X axis
-    private float ppuY;	// pixels per unit on the Y axis
-
-    public void setSize (int w, int h) {
-        this.width = w;
-        this.height = h;
-        ppuX = (float)width / CAMERA_WIDTH;
-        ppuY = (float)height / CAMERA_HEIGHT;
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
-    }
-
-    public boolean isDebug() {
-        return debug;
-    }
-
     public WorldRenderer(World world) {
+        super();
         this.world = world;
-        this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
-        cam.setToOrtho(true, CAMERA_WIDTH, CAMERA_HEIGHT);
-        this.cam.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
-        this.cam.update();
-        spriteBatch = new SpriteBatch();
-        loadTextures();
     }
 
-    private void loadTextures() {
+    @Override
+    protected void loadTextures() {
         //texture = new Texture(Gdx.files.internal("data/libgdx.png"));
         //sprite = new Sprite(texture);
-
-        /* // Example!
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("images/textures/textures.pack"));
-        bobIdleLeft = atlas.findRegion("bob-01");
-        bobIdleRight = new TextureRegion(bobIdleLeft);
-        bobIdleRight.flip(true, false);
-        blockTexture = atlas.findRegion("block");
-        TextureRegion[] walkLeftFrames = new TextureRegion[5];
-        for (int i = 0; i < 5; i++) {
-            walkLeftFrames[i] = atlas.findRegion("bob-0" + (i + 2));
-        }
-        walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION, walkLeftFrames);
-        TextureRegion[] walkRightFrames = new TextureRegion[5];
-        for (int i = 0; i < 5; i++) {
-            walkRightFrames[i] = new TextureRegion(walkLeftFrames[i]);
-            walkRightFrames[i].flip(true, false);
-        }
-
-        walkRightAnimation = new Animation(RUNNING_FRAME_DURATION, walkRightFrames);
-        */
     }
 
+    @Override
     public void render() {
+        prerender();
+
         spriteBatch.begin();
         /* draw textures */
         // sprite.draw(spriteBatch);
+        spriteBatch.end();
 
         drawList();
 
-        spriteBatch.end();
         if (debug)
             drawDebug();
     }
@@ -175,7 +118,6 @@ public class WorldRenderer {
     private void drawList() {
         renderer.setColor(new Color(0.2f, 0.2f, 0.5f, 0.75f));
         Gdx.gl.glLineWidth(3);
-        renderer.setProjectionMatrix(cam.combined);
 
         drawRoutes(world.getMinimal());
         drawCells(world.getCells());
@@ -187,7 +129,8 @@ public class WorldRenderer {
 
     }
 
-    private void drawDebug() {
+    @Override
+    protected void drawDebug() {
         renderer.setColor(Color.LIGHT_GRAY);
         renderer.setProjectionMatrix(cam.combined);
 
