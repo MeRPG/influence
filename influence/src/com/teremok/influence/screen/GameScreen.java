@@ -7,7 +7,7 @@ import com.teremok.influence.model.World;
 import com.teremok.influence.view.WorldRenderer;
 
 /**
- * Created by Alexx on 11.12.13.
+ * Created by Alexx on 11.12.13
  */
 public class GameScreen implements Screen, InputProcessor {
 
@@ -91,21 +91,23 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (screenY < height/2 && screenX < width/2)
-            renderer.setDebug(!renderer.isDebug());
-        if (screenY < height/2 && screenX > width/2)
-            world.regenerate();
-        if (screenY > height/2 && screenX < width/2) {
-            if (world.getP() < 10) {
-                world.setP(world.getP()+1);
+        if (renderer.isDebug()) {
+            if (screenY < height/2 && screenX < width/2)
+                renderer.setDebug(!renderer.isDebug());
+            if (screenY < height/2 && screenX > width/2)
+                world.regenerate();
+            if (screenY > height/2 && screenX < width/2) {
+                if (world.getP() < 10) {
+                    world.setP(world.getP()+1);
+                }
+                world.updateMinimal();
             }
-            world.updateMinimal();
-        }
-        if (screenY > height/2 && screenX > width/2) {
-            if (world.getP() > 0) {
-                world.setP(world.getP()-1);
+            if (screenY > height/2 && screenX > width/2) {
+                if (world.getP() > 0) {
+                    world.setP(world.getP()-1);
+                }
+                world.updateMinimal();
             }
-            world.updateMinimal();
         }
         return false;
     }
