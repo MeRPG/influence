@@ -8,13 +8,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Alexx on 12.12.13.
+ * Created by Alexx on 12.12.13
  */
 public class CellSchemeGenerator {
-    /*
-    private int MAX_CELLS_X = World.MAX_CELLS_X;
-    private int MAX_CELLS_Y = World.MAX_CELLS_Y;
-    */
 
     private int GRAPH_MATRIX_SIZE = World.MAX_CELLS_X * World.MAX_CELLS_Y;
     private float P = 0.0f;
@@ -36,11 +32,6 @@ public class CellSchemeGenerator {
         rnd = new Random();
         matrix = new int[i][i];
         cells = new LinkedList<Cell>();
-/*
-        printMatrix("pre: ", matr, size, size);
-        smallDFS(0, 0);
-        printMatrix("post: ", matr, size, size);
-*/
     }
 
     public CellSchemeGenerator(int i, float p) {
@@ -54,7 +45,7 @@ public class CellSchemeGenerator {
         mask[3][4] = Integer.MAX_VALUE;
         mask[5][4] = Integer.MAX_VALUE;
         cycles = 0;
-        int x = 0, y = 0;
+        int x, y;
         for (int i = 0; i < count; i ++) {
             do {
                 cycles++;
@@ -280,64 +271,7 @@ public class CellSchemeGenerator {
         }
     }
 
-    private void minimizeRoutes() {
-        boolean[] checked = new boolean[GRAPH_MATRIX_SIZE];
-
-        checked[0] = true;
-        for (int current = 0; current < GRAPH_MATRIX_SIZE; current++) {
-            for (int check = current+1; check < GRAPH_MATRIX_SIZE; check++) {
-                if (check != current && minimal[current][check] == 1) {
-                    for (int i = current+1; i < GRAPH_MATRIX_SIZE; i++) {
-                        if (checked[i] && i!= check) {
-                            minimal[check][i] = 0;
-                            minimal[i][check] = 0;
-                        }
-                    }
-                    checked[check] = true;
-                }
-            }
-        }
-
-    }
-
     private boolean[] mark = new boolean[GRAPH_MATRIX_SIZE];
-
-    int size = 5;
-    int[][] matr = {
-            {1, 1, 0, 0, 1},
-            {1, 1, 1, 0, 1},
-            {0, 1, 1, 1, 0},
-            {0, 0, 1, 1, 1},
-            {1, 1, 1, 1, 1}
-    };
-
-    private void smallDFS(int v, int from) {
-        if (mark[v])  // Если мы здесь уже были, то тут больше делать нечего
-        {
-            matr[v][from] = 0;
-            matr[from][v] = 0;
-            return;
-        }
-
-        boolean flag = true;
-        for (int i = 0; i < size; i++) {
-            flag = flag && mark[i];
-        }
-        if (flag) {
-            return;
-        }
-
-        mark[v] = true;   // Помечаем, что мы здесь были
-
-
-        for (int i = 0; i < size; i++)  // Для каждого ребра
-        {
-            if (matr[v][i] == 1 && i != v && i != from)
-                smallDFS(i, v);  // Запускаемся из соседа
-        }
-
-
-    }
 
     private void DFS(int v, int from) {
         if (mark[v])  // Если мы здесь уже были, то тут больше делать нечего
@@ -365,29 +299,6 @@ public class CellSchemeGenerator {
             if (minimal[v][i] == 1 && i != v && i != from)
                 DFS(i, v);  // Запускаемся из соседа
         }
-    }
-
-    private void testAlgo() {
-
-        boolean[] checked = new boolean[size];
-
-        printMatrix("matr do: ", matr, size, size);
-        checked[0] = true;
-        for (int current = 0; current < size; current++) {
-            for (int check = current+1; check < size; check++) {
-                if (check != current && matr[current][check] == 1) {
-                    for (int i = current+1; i < size; i++) {
-                        if (checked[i] && i!= check) {
-                            matr[check][i] = 0;
-                            matr[i][check] = 0;
-                        }
-                    }
-                    checked[check] = true;
-                }
-            }
-        }
-
-        printMatrix("matr posle: ", matr, size, size);
     }
 
     public int[][] getMinimal() {
