@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class WorldRenderer  extends Renderer {
 
+    private static final float STANDARD_SIZE_MULTIPLIER = 0.4f;
+    private static final float BIG_SIZE_MULTIPLIER = 0.6f;
+
     private World world;
 
     /** Textures **/
@@ -60,19 +63,43 @@ public class WorldRenderer  extends Renderer {
         Color color = getCellColor(cell.getType());
         renderer.setColor(color);
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), UNIT_SIZE * 0.4f);
+
+        if (cell.isBig()) {
+            renderCellWithMultiplier(cell, BIG_SIZE_MULTIPLIER);
+        } else {
+            renderCellWithMultiplier(cell, STANDARD_SIZE_MULTIPLIER);
+        }
+
         if (cell.isSelected())
-            renderer.setColor(Color.RED);
+            renderer.setColor(Color.WHITE);
             renderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), UNIT_SIZE * 0.1f);
         renderer.end();
     }
 
+    private void renderCellWithMultiplier(Cell cell, float multiplier) {
+        float centerX = shiftX(getSqX(cell.getY()), cell.getX());
+        float centerY = getSqY(cell.getX());
+
+        renderer.circle(centerX, centerY, UNIT_SIZE * multiplier, 6);
+
+        renderer.setColor(Color.BLACK);
+
+        float powerArc = (float)cell.getPower() / cell.getMaxPower()*360f;
+        renderer.arc(centerX, centerY, UNIT_SIZE * multiplier * .7f, 270f, powerArc);
+
+        renderer.setColor(getCellColor(cell.getType()));
+        renderer.circle(centerX, centerY, UNIT_SIZE * multiplier * .6f);
+
+    }
+
     private void drawRoutes(int[][] matrix) {
+        Gdx.gl.glLineWidth(3);
         for (Cell c : world.getCells()) {
             if (c.isValid()) {
                 drawCellRoutes(c, matrix);
             }
         }
+        Gdx.gl.glLineWidth(1);
     }
 
     private void drawCellRoutes(Cell cell, int[][] matrix) {
@@ -122,8 +149,6 @@ public class WorldRenderer  extends Renderer {
                 renderer.end();
             }
         }
-
-//        int x = translatedY % 2 == 1 ? (translatedX-unit_size_w/2)/(unit_size_w) : translatedX/(unit_size_w);
     }
 
     private Color getCellColor(int type) {
@@ -145,7 +170,7 @@ public class WorldRenderer  extends Renderer {
                 color = Color.MAGENTA;
                 break;
             default:
-                color = Color.DARK_GRAY;
+                color = Color.GRAY;
                 break;
         }
         return color;
@@ -153,7 +178,6 @@ public class WorldRenderer  extends Renderer {
 
     private void drawList() {
         renderer.setColor(new Color(0.2f, 0.2f, 0.5f, 0.75f));
-        Gdx.gl.glLineWidth(3);
 
         drawRoutes(world.getMinimal());
         drawCells(world.getCells());
