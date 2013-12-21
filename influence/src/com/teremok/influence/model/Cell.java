@@ -61,7 +61,7 @@ public class Cell {
         Random rnd = new Random();
         cell.setType(rnd.nextInt(MAX_TYPE + 1));
         cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
-        cell.setPower(cell.maxPower);
+        cell.setPower(1 + rnd.nextInt(cell.maxPower-1));
         return cell;
     }
 
