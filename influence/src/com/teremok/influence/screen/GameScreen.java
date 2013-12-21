@@ -122,20 +122,28 @@ public class GameScreen implements Screen, InputProcessor {
 
     private void touchUpNormal(int screenX, int screenY, int pointer, int button) {
 
-        System.out.println("Touch! (" + screenX + "; " + screenY + ");");
+        float realToVirtualRatioW = Renderer.SCREEN_WIDTH /width;
+        float realToVirtualRatioH = Renderer.SCREEN_HEIGHT / height;
 
-        int unit_size_w = (int) (width* Renderer.FIELD_ASPECT_HOR/5);
-        int unit_size_h = (int) (height*Renderer.FIELD_ASPECT_VERT/7);
-        System.out.println("Unit size: (" + unit_size_w + "; " + unit_size_h + ");");
-        int y = screenY / (unit_size_h);
-        //int x = screenX / (unit_size_w);
-        int x = screenY % 2 == 1 ? (screenX-unit_size_w/2)/(unit_size_w) : screenX/(unit_size_w);
-        Cell cell = world.getCells().get(Cell.calcNumber(x, y));
-        System.out.println("(" + x + "; " + y + "); Cell = " + cell);
-        System.out.println("TouchRecalculated: (" + x*unit_size_w + "; " + y*unit_size_h + ");");
+        double translatedX = (screenX * realToVirtualRatioH);
+        double translatedY = (screenY * realToVirtualRatioW);
 
-        if (cell.getNumber() != -1)
-            world.setSelectedCell(cell);
+        if (translatedY < Renderer.FIELD_HEIGHT) {
+
+            double unit_size_w = (Renderer.FIELD_WIDTH/5);
+            double unit_size_h = (Renderer.FIELD_HEIGHT/7);
+
+            double dblY = (translatedY / (unit_size_h));
+            double dblX = (int)dblY % 2 == 1 ? ((translatedX-unit_size_w/2)/(unit_size_w)) : (translatedX/(unit_size_w));
+
+            int x = (int) Math.floor(dblX);
+            int y = (int) Math.floor(dblY);
+
+            Cell cell = world.getCells().get(Cell.calcNumber(x, y));
+
+            if (cell.getNumber() != -1 && x >= 0 && y >= 0)
+                world.setSelectedCell(cell);
+        }
     }
 
     @Override
