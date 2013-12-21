@@ -1,9 +1,19 @@
 package com.teremok.influence.model;
 
+import java.util.Random;
+
 /**
  * Created by Alexx on 12.12.13.
  */
 public class Cell {
+
+    static private final int POWER_BIG = 12;
+    static private final int POWER_STANDARD = 8;
+
+    static private final float BIG_POSSIBILITY = 0.3f;
+
+    static private final int MAX_TYPE = 4;
+
     // доступные места для ячеек
     private boolean[] availiable;
 
@@ -18,6 +28,12 @@ public class Cell {
 
     // тип (цвет)
     int type;
+
+    // мощность - количество секторов
+    int power;
+
+    // максимальное количество секторов
+    int maxPower;
 
     boolean selected;
 
@@ -38,6 +54,19 @@ public class Cell {
     public Cell(int number, int x, int y, int type) {
         this(number, x, y);
         this.type = type;
+    }
+
+    public static Cell makeRandomCell(int number, int x, int y) {
+        Cell cell = new Cell(number, x, y);
+        Random rnd = new Random();
+        cell.setType(rnd.nextInt(MAX_TYPE + 1));
+        cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
+        cell.setPower(cell.maxPower);
+        return cell;
+    }
+
+    public static Cell makeInvalidCell() {
+        return new Cell(-1, 0, 0);
     }
 
     public int getX() {
@@ -86,7 +115,28 @@ public class Cell {
         this.selected = selected;
     }
 
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public int getMaxPower() {
+        return maxPower;
+    }
+
+    public void setMaxPower(int maxPower) {
+        this.maxPower = maxPower;
+    }
+
+    public boolean isBig() {
+        return maxPower == POWER_BIG;
+    }
+
     static public int calcNumber(int x, int y) {
         return x + y*5;
     }
+
 }
