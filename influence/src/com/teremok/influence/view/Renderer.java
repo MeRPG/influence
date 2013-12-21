@@ -11,14 +11,11 @@ public abstract class Renderer {
 
     public static final float UNIT_SIZE = 32f;
 
-    protected static final float CAMERA_WIDTH = UNIT_SIZE*10f;
-    protected static final float CAMERA_HEIGHT = UNIT_SIZE*15f;
+    public static final float SCREEN_WIDTH = UNIT_SIZE*10f; // 320px
+    public static final float SCREEN_HEIGHT = UNIT_SIZE*15f; // 348px
 
-    public static final float FIELD_ASPECT_VERT = .85f;
-    public static final float FIELD_ASPECT_HOR = 1f;
-
-    public static final float FIELD_HEIGHT = CAMERA_HEIGHT*FIELD_ASPECT_VERT;
-    public static final float FIELD_WIDTH = CAMERA_WIDTH*FIELD_ASPECT_HOR;
+    public static final float FIELD_WIDTH = UNIT_SIZE*10f;
+    public static final float FIELD_HEIGHT = UNIT_SIZE*13f;
 
     protected OrthographicCamera cam;
 
@@ -37,9 +34,9 @@ public abstract class Renderer {
     }
 
     public Renderer() {
-        this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
-        cam.setToOrtho(true, CAMERA_WIDTH, CAMERA_HEIGHT);
-        this.cam.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
+        this.cam = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
+        cam.setToOrtho(true, SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.cam.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
         this.cam.update();
         spriteBatch = new SpriteBatch();
         loadTextures();
