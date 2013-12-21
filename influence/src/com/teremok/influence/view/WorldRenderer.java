@@ -40,8 +40,9 @@ public class WorldRenderer  extends Renderer {
         /* draw textures */
         // sprite.draw(spriteBatch);
         spriteBatch.end();
-
+        //drawTouchFields();
         drawList();
+
 
         if (debug)
             drawDebug();
@@ -93,6 +94,38 @@ public class WorldRenderer  extends Renderer {
         }
     }
 
+    private void drawTouchFields() {
+        int unit_size_w = (int)FIELD_WIDTH/5;
+        int unit_size_h = (int)FIELD_HEIGHT/7;
+
+        if (world.getSelectedCell() != null) {
+            renderer.setColor(new Color(.85f,.85f,.17f,.04f));
+            renderer.begin(ShapeRenderer.ShapeType.Filled);
+            renderer.rect(0, world.getSelectedCell().getX()*unit_size_h, FIELD_WIDTH, unit_size_h);
+            renderer.end();
+
+            renderer.setColor(new Color(.95f,.75f,.17f,.04f));
+            renderer.begin(ShapeRenderer.ShapeType.Filled);
+            renderer.rect(world.getSelectedCell().getY()*unit_size_h, 0,  unit_size_w, FIELD_HEIGHT);
+            renderer.end();
+        }
+
+        for (int i = 0; i < 5; i++ ) {
+            for (int j = 0; j < 7; j++) {
+                renderer.setColor(Color.WHITE);
+                renderer.begin(ShapeRenderer.ShapeType.Line);
+                if (j%2 == 1) {
+                    renderer.rect(i*unit_size_w+unit_size_w/2, j*unit_size_h, unit_size_w, unit_size_h );
+                } else {
+                    renderer.rect(i*unit_size_w, j*unit_size_h, unit_size_w, unit_size_h );
+                }
+                renderer.end();
+            }
+        }
+
+//        int x = translatedY % 2 == 1 ? (translatedX-unit_size_w/2)/(unit_size_w) : translatedX/(unit_size_w);
+    }
+
     private Color getCellColor(int type) {
         Color color;
         switch (type) {
@@ -136,9 +169,6 @@ public class WorldRenderer  extends Renderer {
     protected void drawDebug() {
         renderer.setColor(Color.LIGHT_GRAY);
         renderer.setProjectionMatrix(cam.combined);
-
-        drawCells(world.getCells());
-        drawRoutes(world.getMatrix());
 
     }
 
