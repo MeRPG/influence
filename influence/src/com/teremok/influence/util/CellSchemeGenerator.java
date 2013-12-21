@@ -90,7 +90,7 @@ public class CellSchemeGenerator {
     // исходя из координат в матрице и длины строки
     // num = col + (row*3) + 1;
     private int getNum( int i, int j) {
-        return j + i*5;
+        return j + i*World.MAX_CELLS_X;
     }
 
     public List<Cell> getCells() {
@@ -106,8 +106,10 @@ public class CellSchemeGenerator {
                 if (mask[i][j] > 0 && mask[i][j] < Integer.MAX_VALUE) {
                     int curNum = getNum(i, j);
                     checkAround(curNum, i, j);
-                    cells.add(new Cell(curNum,i,j, rnd.nextInt(5)));
-                } else {    cells.add(new Cell(-1, 0, 0));  }
+                    cells.add(Cell.makeRandomCell(curNum, i, j));
+                } else {
+                    cells.add(Cell.makeInvalidCell());
+                }
             }
         }
     }
