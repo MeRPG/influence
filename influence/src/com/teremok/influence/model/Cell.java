@@ -8,7 +8,7 @@ import com.teremok.influence.view.CellDrawer;
 import java.util.Random;
 
 /**
- * Created by Alexx on 12.12.13.
+ * Created by Alexx on 12.12.13
  */
 public class Cell extends Actor {
 

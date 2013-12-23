@@ -13,7 +13,7 @@ import java.util.Random;
 public class CellSchemeGenerator {
 
     private int GRAPH_MATRIX_SIZE = Field.MAX_CELLS_X * Field.MAX_CELLS_Y;
-    private float P = 0.0f;
+    private float KEEPING_ROUTES_POSSIBILITY = 0.7f;
 
     private int count;
     private Random rnd;
@@ -36,7 +36,7 @@ public class CellSchemeGenerator {
 
     public CellSchemeGenerator(int i, float p) {
         this(i);
-        this.P = p;
+        this.KEEPING_ROUTES_POSSIBILITY = p;
     }
 
     public void generate() {
@@ -63,16 +63,12 @@ public class CellSchemeGenerator {
         constructMatrix();
         //printMatrix();
 
-        updateMinimal(P);
+        updateMinimal(KEEPING_ROUTES_POSSIBILITY);
     }
 
-    public void updateMinimal(float newP) {
-
-
-
-        this.P = newP;
+    public void updateMinimal() {
         copyMatrixToMinimal();
-        System.out.println("Update minimal with p = " + P);
+        System.out.println("Update minimal with p = " + KEEPING_ROUTES_POSSIBILITY);
         Cell start;
         int i = 0;
         do {
@@ -84,7 +80,11 @@ public class CellSchemeGenerator {
         DFS(start.getNumber(), start.getNumber());
         //printMinimal();
         //printList();
+    }
 
+    public void updateMinimal(float newP) {
+        this.KEEPING_ROUTES_POSSIBILITY = newP;
+        updateMinimal();
     }
     // получить номер элемента
     // исходя из координат в матрице и длины строки
@@ -276,7 +276,7 @@ public class CellSchemeGenerator {
     private void DFS(int v, int from) {
         if (mark[v])  // Если мы здесь уже были, то тут больше делать нечего
         {
-            if (rnd.nextFloat() > P) {
+            if (rnd.nextFloat() > KEEPING_ROUTES_POSSIBILITY) {
                 minimal[v][from] = 0;
                 minimal[from][v] = 0;
             }

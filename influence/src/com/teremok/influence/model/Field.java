@@ -13,7 +13,7 @@ import com.teremok.influence.view.FieldDrawer;
 import java.util.List;
 
 /**
- * Created by Alexx on 11.12.13.
+ * Created by Alexx on 11.12.13
  */
 public class Field extends Group {
 
@@ -30,17 +30,6 @@ public class Field extends Group {
 
     private Cell selectedCell;
 
-    private int P;
-
-    public void setP(int p) {
-        this.P = p;
-    }
-
-    public int getP() {
-        return this.P;
-    }
-
-
     public Field() {
 
         float actorX = 0f;
@@ -51,7 +40,6 @@ public class Field extends Group {
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 
-        setP(7);
         regenerate();
     }
 
@@ -88,7 +76,7 @@ public class Field extends Group {
     }
 
     public void regenerate() {
-        generator = new CellSchemeGenerator(25, P*0.1f);
+        generator = new CellSchemeGenerator(25);
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
@@ -97,7 +85,7 @@ public class Field extends Group {
     }
 
     public void updateMinimal() {
-        generator.updateMinimal(P*0.1f);
+        generator.updateMinimal();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
         matrix = generator.getMatrix();
