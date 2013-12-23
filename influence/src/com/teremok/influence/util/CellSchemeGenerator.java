@@ -186,7 +186,6 @@ public class CellSchemeGenerator {
             System.out.println();
         }
         System.out.println("Percents: " + ((float)ones * 100 )/(count*count) + "%");
-        System.out.println("Memory: " + SizeOfUtil.measure(minimal));
         System.out.println(" - - - ");
 
     }
@@ -197,7 +196,6 @@ public class CellSchemeGenerator {
         for (Cell c : cells) {
             System.out.println(c);
         }
-        System.out.println("Memory: " + SizeOfUtil.measure(cells));
         System.out.println(" - - - ");
     }
 
