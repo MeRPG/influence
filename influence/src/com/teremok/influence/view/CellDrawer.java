@@ -20,6 +20,7 @@ public class CellDrawer {
     private static Cell current;
 
     public static void draw(Cell cell, SpriteBatch batch, float parentAlpha) {
+        current = cell;
         batch.end();
 
         renderer.setProjectionMatrix(batch.getProjectionMatrix());

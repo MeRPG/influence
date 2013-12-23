@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.util.RenderHelper;
+import com.teremok.influence.view.CellDrawer;
 
 /**
  * Created by Alexx on 11.12.13
@@ -32,7 +33,7 @@ public class GameScreen extends AbstractScreen {
         stage.getCamera().translate(-stage.getGutterWidth(), -stage.getGutterHeight(), 0);
 
         field.setTouchable(Touchable.childrenOnly);
-        field.setBitmapFont(getFont());
+        CellDrawer.setBitmapFont(getFont());
         field.updateMinimal();
         stage.addActor(field);
     }

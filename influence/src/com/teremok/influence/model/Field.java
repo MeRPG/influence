@@ -1,13 +1,13 @@
 package com.teremok.influence.model;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.util.CellSchemeGenerator;
 import com.teremok.influence.util.RenderHelper;
-import com.teremok.influence.view.CellDrawer;
+import com.teremok.influence.view.FieldDrawer;
 
 import java.util.List;
 
@@ -39,8 +39,6 @@ public class Field extends Group {
         return this.P;
     }
 
-    ShapeRenderer renderer;
-    BitmapFont bitmapFont;
 
     public Field() {
 
@@ -52,8 +50,6 @@ public class Field extends Group {
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 
-        renderer = new ShapeRenderer();
-
         setP(7);
         regenerate();
     }
@@ -62,8 +58,6 @@ public class Field extends Group {
 
     private void registerCellsForDrawing(List<Cell> cells) {
         this.clear();
-
-        CellDrawer.setBitmapFont(bitmapFont);
 
         for (final Cell cell : cells) {
             if (cell.isValid()) {
@@ -139,45 +133,7 @@ public class Field extends Group {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-         batch.end();
-
-        for (Cell c : cells) {
-            drawCellRoutes(c);
-        }
-
-        renderer.setProjectionMatrix(batch.getProjectionMatrix());
-        renderer.setTransformMatrix(batch.getTransformMatrix());
-        renderer.translate(getX(), getY(), 0);
-
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        renderer.rect(0, 0, getWidth(), getHeight());
-        renderer.end();
-
-        batch.begin();
-
+        FieldDrawer.draw(this, batch, parentAlpha);
         super.draw(batch, parentAlpha);
-    }
-
-    private void drawCellRoutes(Cell cell) {
-        for (int j = 0; j < 35; j++) {
-            if (cell.isValid() && minimal[cell.getNumber()][j] == 1) {
-                Cell toCell = cells.get(j);
-                if (toCell.isValid()) {
-                    if (cell.getType() == toCell.getType()) {
-                        renderer.setColor(RenderHelper.getCellColorByType(cell.getType()));
-                    } else {
-                        renderer.setColor(Color.GRAY);
-                    }
-                    renderer.begin(ShapeRenderer.ShapeType.Line);
-                    renderer.line(cell.getX()+cell.getWidth()/2, cell.getY() + cell.getHeight()/2,
-                                toCell.getX()+toCell.getWidth()/2, toCell.getY() + toCell.getHeight()/2);
-                    renderer.end();
-                }
-            }
-        }
-    }
-
-    public void setBitmapFont(BitmapFont bitmapFont) {
-        this.bitmapFont = bitmapFont;
     }
 }
