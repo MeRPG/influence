@@ -3,7 +3,7 @@ package com.teremok.influence.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.teremok.influence.model.World;
+import com.teremok.influence.model.Field;
 import com.teremok.influence.util.RenderHelper;
 
 /**
@@ -11,12 +11,12 @@ import com.teremok.influence.util.RenderHelper;
  */
 public class GameScreen extends AbstractScreen {
 
-    World world;
+    Field field;
 
     public GameScreen(Game game) {
         super(game);
 
-        world = new World();
+        field = new Field();
 
     }
 
@@ -31,10 +31,10 @@ public class GameScreen extends AbstractScreen {
 // и выравниваем камеру по центру
         stage.getCamera().translate(-stage.getGutterWidth(), -stage.getGutterHeight(), 0);
 
-        world.setTouchable(Touchable.childrenOnly);
-        world.setBitmapFont(getFont());
-        world.updateMinimal();
-        stage.addActor(world);
+        field.setTouchable(Touchable.childrenOnly);
+        field.setBitmapFont(getFont());
+        field.updateMinimal();
+        stage.addActor(field);
     }
 
     @Override

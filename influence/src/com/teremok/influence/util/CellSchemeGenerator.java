@@ -1,7 +1,7 @@
 package com.teremok.influence.util;
 
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.World;
+import com.teremok.influence.model.Field;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class CellSchemeGenerator {
 
-    private int GRAPH_MATRIX_SIZE = World.MAX_CELLS_X * World.MAX_CELLS_Y;
+    private int GRAPH_MATRIX_SIZE = Field.MAX_CELLS_X * Field.MAX_CELLS_Y;
     private float P = 0.0f;
 
     private int count;
@@ -40,7 +40,7 @@ public class CellSchemeGenerator {
     }
 
     public void generate() {
-        mask = new int[World.MAX_CELLS_Y][World.MAX_CELLS_X];
+        mask = new int[Field.MAX_CELLS_Y][Field.MAX_CELLS_X];
         mask[1][4] = Integer.MAX_VALUE;
         mask[3][4] = Integer.MAX_VALUE;
         mask[5][4] = Integer.MAX_VALUE;
@@ -49,8 +49,8 @@ public class CellSchemeGenerator {
         for (int i = 0; i < count; i ++) {
             do {
                 cycles++;
-                x = rnd.nextInt(World.MAX_CELLS_Y);
-                y = rnd.nextInt(World.MAX_CELLS_X);
+                x = rnd.nextInt(Field.MAX_CELLS_Y);
+                y = rnd.nextInt(Field.MAX_CELLS_X);
 
                 if (isEmpty(x, y) && i == 0)
                     break;
@@ -90,7 +90,7 @@ public class CellSchemeGenerator {
     // исходя из координат в матрице и длины строки
     // num = col + (row*3) + 1;
     private int getNum( int i, int j) {
-        return j + i*World.MAX_CELLS_X;
+        return j + i* Field.MAX_CELLS_X;
     }
 
     public List<Cell> getCells() {
@@ -101,8 +101,8 @@ public class CellSchemeGenerator {
         matrix = new int[GRAPH_MATRIX_SIZE][GRAPH_MATRIX_SIZE];
         cells = new LinkedList<Cell>();
 
-        for (int i = 0; i < World.MAX_CELLS_Y; i++) {
-            for (int j = 0; j < World.MAX_CELLS_X; j++) {
+        for (int i = 0; i < Field.MAX_CELLS_Y; i++) {
+            for (int j = 0; j < Field.MAX_CELLS_X; j++) {
                 if (mask[i][j] > 0 && mask[i][j] < Integer.MAX_VALUE) {
                     int curNum = getNum(i, j);
                     checkAround(curNum, i, j);
@@ -139,7 +139,7 @@ public class CellSchemeGenerator {
     }
 
     private void checkForMatrix(int curNum, int x, int y) {
-        if (x < 0 || y < 0 || x >= World.MAX_CELLS_Y || y >= World.MAX_CELLS_X) {
+        if (x < 0 || y < 0 || x >= Field.MAX_CELLS_Y || y >= Field.MAX_CELLS_X) {
             return;
         }
         if (mask[x][y] > 0 && mask[x][y] < Integer.MAX_VALUE) {
@@ -223,7 +223,7 @@ public class CellSchemeGenerator {
 
     private boolean isEmptyIncludeMax(int x, int y) {
 
-        if (x < 0 || y < 0 || x >= World.MAX_CELLS_Y || y >= World.MAX_CELLS_X) {
+        if (x < 0 || y < 0 || x >= Field.MAX_CELLS_Y || y >= Field.MAX_CELLS_X) {
             return true;
         }
 
@@ -236,7 +236,7 @@ public class CellSchemeGenerator {
 
     private boolean isEmpty(int x, int y) {
 
-        if (x < 0 || y < 0 || x >= World.MAX_CELLS_Y || y >= World.MAX_CELLS_X) {
+        if (x < 0 || y < 0 || x >= Field.MAX_CELLS_Y || y >= Field.MAX_CELLS_X) {
             return true;
         }
 
@@ -249,8 +249,8 @@ public class CellSchemeGenerator {
 
     private void printMask() {
         System.out.println(" - - - - - - - - ");
-        for (int i = 0; i < World.MAX_CELLS_Y; i++) {
-            for (int j = 0; j < World.MAX_CELLS_X; j++) {
+        for (int i = 0; i < Field.MAX_CELLS_Y; i++) {
+            for (int j = 0; j < Field.MAX_CELLS_X; j++) {
                 if (mask[i][j] == Integer.MAX_VALUE)
                     System.out.print("-\t");
                 else

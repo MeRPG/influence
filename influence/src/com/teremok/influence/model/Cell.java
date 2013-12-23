@@ -63,8 +63,8 @@ public class Cell extends Actor {
         this.unitsX = unitsX;
         this.unitsY = unitsY;
 
-        float actorWidth = RenderHelper.FIELD_WIDTH / 5;
-        float actorHeight = RenderHelper.FIELD_HEIGHT / 7;
+        float actorWidth = Field.WIDTH / 5;
+        float actorHeight = Field.HEIGHT / 7;
 
         float actorX;
         if (unitsX%2 == 1) {
@@ -124,7 +124,7 @@ public class Cell extends Actor {
     public boolean isValid() {
         if (number == -1)
             return false;
-        if (unitsX < 0 || unitsY < 0 || unitsX >= World.MAX_CELLS_Y || unitsY >= World.MAX_CELLS_X)
+        if (unitsX < 0 || unitsY < 0 || unitsX >= Field.MAX_CELLS_Y || unitsY >= Field.MAX_CELLS_X)
             return false;
 
         return true;

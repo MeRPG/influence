@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * Created by Alexx on 11.12.13.
  */
-public class World extends Group {
+public class Field extends Group {
 
     public static final int MAX_CELLS_Y = 7;
     public static final int MAX_CELLS_X = 5;
 
-    //public static final float WIDTH = 7f;
-    //public static final float HEIGHT = 8.5f;
+    public static final float WIDTH = RenderHelper.UNIT_SIZE*10f;
+    public static final float HEIGHT = RenderHelper.UNIT_SIZE*13f;
 
     private int[][] matrix;
     private int[][] minimal;
@@ -41,14 +41,13 @@ public class World extends Group {
     ShapeRenderer renderer;
     BitmapFont bitmapFont;
 
-    public World() {
+    public Field() {
 
         float actorX = 0f;
-        //setY(RenderHelper.reflectY(0));
-        float actorY = RenderHelper.SCREEN_HEIGHT - RenderHelper.FIELD_HEIGHT-1;
+        float actorY = RenderHelper.SCREEN_HEIGHT - HEIGHT-1;
 
-        float actorWidth = RenderHelper.FIELD_WIDTH-1f;
-        float actorHeight = RenderHelper.FIELD_HEIGHT;
+        float actorWidth = WIDTH-1f;
+        float actorHeight = HEIGHT;
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 

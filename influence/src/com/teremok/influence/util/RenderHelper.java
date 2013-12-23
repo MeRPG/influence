@@ -1,7 +1,7 @@
 package com.teremok.influence.util;
 
 import com.badlogic.gdx.graphics.Color;
-import com.teremok.influence.model.World;
+import com.teremok.influence.model.Field;
 
 /**
  * Created by Alexx on 23.12.13
@@ -12,9 +12,6 @@ public class RenderHelper {
 
     public static final float SCREEN_WIDTH = UNIT_SIZE*10f; // 320px
     public static final float SCREEN_HEIGHT = UNIT_SIZE*15f; // 348px
-
-    public static final float FIELD_WIDTH = UNIT_SIZE*10f;
-    public static final float FIELD_HEIGHT = UNIT_SIZE*13f;
 
     public static Color getCellColorByType (int type) {
             Color color;
@@ -53,11 +50,11 @@ public class RenderHelper {
     }
 
     public static float getSqHeight() {
-        return FIELD_HEIGHT / World.MAX_CELLS_Y;
+        return Field.HEIGHT / Field.MAX_CELLS_Y;
     }
 
     public static float getSqWidth() {
-        return FIELD_WIDTH / World.MAX_CELLS_X;
+        return Field.WIDTH / Field.MAX_CELLS_X;
     }
 
     public static float shiftY(float sqY, int i) {
