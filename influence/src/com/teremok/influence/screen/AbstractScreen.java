@@ -9,14 +9,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-/**
- * The base class for all game screens.
- */
 public abstract class AbstractScreen implements Screen {
 
     public static final float WIDTH = 320f;
@@ -24,8 +18,6 @@ public abstract class AbstractScreen implements Screen {
 
     protected final Game game;
     protected BitmapFont font;
-    protected SpriteBatch batch;
-    protected Skin skin;
     protected final Stage stage;
 
     public AbstractScreen(Game game) {
@@ -37,24 +29,6 @@ public abstract class AbstractScreen implements Screen {
         if (font == null)
             font = new BitmapFont();
         return font;
-    }
-
-    public SpriteBatch getBatch() {
-        if (batch == null)
-            batch = new SpriteBatch();
-        return batch;
-    }
-
-    public Skin getSkin() {
-        if( skin == null ) {
-            skin = new Skin( Gdx.files.internal( "uiskin.json" ), new TextureAtlas(Gdx.files.internal( "uiskin.png" )) );
-        }
-        return skin;
-    }
-
-    protected String getName()
-    {
-        return getClass().getSimpleName();
     }
 
     // Screen implementation
@@ -101,8 +75,7 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void dispose() {
         // dispose the collaborators
-        if (stage != null) stage.dispose();
-        if (batch != null) batch.dispose();
+        stage.dispose();
         if (font  != null) font.dispose();
     }
 }
