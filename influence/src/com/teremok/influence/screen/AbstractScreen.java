@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.teremok.influence.util.RenderHelper;
 
 /**
  * The base class for all game screens.
@@ -63,7 +64,9 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         // resize the stage
-        stage.setViewport(width, height, true);
+        stage.setViewport(RenderHelper.SCREEN_WIDTH, RenderHelper.SCREEN_HEIGHT, true);
+// и выравниваем камеру по центру
+        stage.getCamera().translate(-stage.getGutterWidth(), -stage.getGutterHeight(), 0);
     }
 
     @Override
