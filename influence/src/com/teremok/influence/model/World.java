@@ -1,6 +1,7 @@
 package com.teremok.influence.model;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -38,6 +39,7 @@ public class World extends Group {
     }
 
     ShapeRenderer renderer;
+    BitmapFont bitmapFont;
 
     public World() {
 
@@ -63,6 +65,7 @@ public class World extends Group {
 
         for (final Cell cell : cells) {
             if (cell.isValid()) {
+                cell.setBitmapFont(bitmapFont);
                 cell. addListener(new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -171,5 +174,9 @@ public class World extends Group {
                 }
             }
         }
+    }
+
+    public void setBitmapFont(BitmapFont bitmapFont) {
+        this.bitmapFont = bitmapFont;
     }
 }

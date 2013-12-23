@@ -67,7 +67,7 @@ public class SplashScreen extends AbstractScreen {
 
         Action completeAction = new Action(){
             public boolean act( float delta ) {
-                game.setScreen( new GameScreen(game) );
+                game.setScreen( new StartScreen(game) );
                 return true;
             }
         };

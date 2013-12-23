@@ -1,6 +1,7 @@
 package com.teremok.influence.model;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -47,6 +48,7 @@ public class Cell extends Actor {
     boolean selected;
 
     private static ShapeRenderer renderer = new ShapeRenderer();
+    BitmapFont bitmapFont;
 
     private Cell() {
     }
@@ -155,6 +157,12 @@ public class Cell extends Actor {
         renderer.end();
 
         batch.begin();
+
+        if (bitmapFont != null) {
+            BitmapFont.TextBounds textBounds = bitmapFont.getBounds(power+"");
+            bitmapFont.draw(batch, power+"", getX()+getWidth()/2 - textBounds.width/2, getY()+getHeight()/2 + textBounds.height/2);
+        }
+
     }
 
     private void drawBoundingBox() {
@@ -177,6 +185,10 @@ public class Cell extends Actor {
         renderer.setColor(RenderHelper.getCellColorByType(type));
         renderer.circle(centerX, centerY, RenderHelper.UNIT_SIZE * multiplier * .6f);
 
+    }
+
+    public void setBitmapFont(BitmapFont bitmapFont) {
+        this.bitmapFont = bitmapFont;
     }
 
     public int getType() {

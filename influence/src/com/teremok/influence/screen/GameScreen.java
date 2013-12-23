@@ -32,6 +32,8 @@ public class GameScreen extends AbstractScreen {
         stage.getCamera().translate(-stage.getGutterWidth(), -stage.getGutterHeight(), 0);
 
         world.setTouchable(Touchable.childrenOnly);
+        world.setBitmapFont(getFont());
+        world.updateMinimal();
         stage.addActor(world);
     }
 
