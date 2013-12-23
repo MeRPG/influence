@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.teremok.influence.util.CellSchemeGenerator;
 import com.teremok.influence.util.RenderHelper;
+import com.teremok.influence.view.CellDrawer;
 
 import java.util.List;
 
@@ -62,9 +63,10 @@ public class Field extends Group {
     private void registerCellsForDrawing(List<Cell> cells) {
         this.clear();
 
+        CellDrawer.setBitmapFont(bitmapFont);
+
         for (final Cell cell : cells) {
             if (cell.isValid()) {
-                cell.setBitmapFont(bitmapFont);
                 cell. addListener(new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
