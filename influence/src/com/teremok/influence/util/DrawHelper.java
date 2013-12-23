@@ -6,12 +6,12 @@ import com.teremok.influence.model.Field;
 /**
  * Created by Alexx on 23.12.13
  */
-public class RenderHelper {
+public class DrawHelper {
 
     public static final float UNIT_SIZE = 32f;
 
-    public static final float SCREEN_WIDTH = UNIT_SIZE*10f; // 320px
-    public static final float SCREEN_HEIGHT = UNIT_SIZE*15f; // 348px
+    public static final float SCREEN_WIDTH = 320f;
+    public static final float SCREEN_HEIGHT = 480f;
 
     public static Color getCellColorByType (int type) {
             Color color;
@@ -72,6 +72,6 @@ public class RenderHelper {
     }
 
     public static float reflectY(float y) {
-        return RenderHelper.SCREEN_HEIGHT - y;
+        return DrawHelper.SCREEN_HEIGHT - y;
     }
 }

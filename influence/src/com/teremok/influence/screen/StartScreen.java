@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.teremok.influence.util.RenderHelper;
+import com.teremok.influence.util.DrawHelper;
 
 /**
  * Created by Alexx on 20.12.13
@@ -43,15 +43,15 @@ public class StartScreen extends AbstractScreen {
 
         public StartScreenActor(BitmapFont font) {
             this.font = font;
-            setBounds(0, 0, RenderHelper.SCREEN_WIDTH, RenderHelper.SCREEN_HEIGHT);
+            setBounds(0, 0, DrawHelper.SCREEN_WIDTH, DrawHelper.SCREEN_HEIGHT);
         }
 
         @Override
         public void draw(SpriteBatch batch, float parentAlpha) {
 
             BitmapFont.TextBounds textBounds = font.getBounds("Touch to continue...");
-            font.draw(batch, "Touch to continue...",    (RenderHelper.SCREEN_WIDTH - textBounds.width)/2,
-                                                        (RenderHelper.SCREEN_HEIGHT - textBounds.height)/2 + textBounds.height);
+            font.draw(batch, "Touch to continue...",    (DrawHelper.SCREEN_WIDTH - textBounds.width)/2,
+                                                        (DrawHelper.SCREEN_HEIGHT - textBounds.height)/2 + textBounds.height);
 
             super.draw(batch, parentAlpha);
         }

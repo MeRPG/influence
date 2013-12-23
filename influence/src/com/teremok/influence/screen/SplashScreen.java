@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-import com.teremok.influence.util.RenderHelper;
+import com.teremok.influence.util.DrawHelper;
 
 /**
  * Created by Alexx on 22.12.13
@@ -34,7 +34,7 @@ public class SplashScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height) {
-        stage.setViewport(RenderHelper.SCREEN_WIDTH, RenderHelper.SCREEN_HEIGHT, false);
+        stage.setViewport(DrawHelper.SCREEN_WIDTH, DrawHelper.SCREEN_HEIGHT, false);
         // let's make sure the stage is clear
         stage.clear();
 

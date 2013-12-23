@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.model.Field;
-import com.teremok.influence.util.RenderHelper;
+import com.teremok.influence.util.DrawHelper;
 import com.teremok.influence.view.CellDrawer;
 
 /**
@@ -28,7 +28,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height) {
-        stage.setViewport(RenderHelper.SCREEN_WIDTH, RenderHelper.SCREEN_HEIGHT, true);
+        stage.setViewport(DrawHelper.SCREEN_WIDTH, DrawHelper.SCREEN_HEIGHT, true);
 // и выравниваем камеру по центру
         stage.getCamera().translate(-stage.getGutterWidth(), -stage.getGutterHeight(), 0);
 

@@ -2,7 +2,7 @@ package com.teremok.influence.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.teremok.influence.util.RenderHelper;
+import com.teremok.influence.util.DrawHelper;
 import com.teremok.influence.view.CellDrawer;
 
 import java.util.Random;
@@ -71,8 +71,8 @@ public class Cell extends Actor {
         cell.setPower(1 + rnd.nextInt(cell.maxPower-1));
 
 
-        cell.setWidth(RenderHelper.UNIT_SIZE*2);
-        cell.setHeight(RenderHelper.UNIT_SIZE*2);
+        cell.setWidth(DrawHelper.UNIT_SIZE*2);
+        cell.setHeight(DrawHelper.UNIT_SIZE*2);
 
         return cell;
     }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.util.CellSchemeGenerator;
-import com.teremok.influence.util.RenderHelper;
+import com.teremok.influence.util.DrawHelper;
 import com.teremok.influence.view.FieldDrawer;
 
 import java.util.List;
@@ -19,8 +19,8 @@ public class Field extends Group {
     public static final int MAX_CELLS_Y = 7;
     public static final int MAX_CELLS_X = 5;
 
-    public static final float WIDTH = RenderHelper.UNIT_SIZE*10f;
-    public static final float HEIGHT = RenderHelper.UNIT_SIZE*13f;
+    public static final float WIDTH = DrawHelper.UNIT_SIZE*10f;
+    public static final float HEIGHT = DrawHelper.UNIT_SIZE*13f;
 
     private int[][] matrix;
     private int[][] minimal;
@@ -43,7 +43,7 @@ public class Field extends Group {
     public Field() {
 
         float actorX = 0f;
-        float actorY = RenderHelper.SCREEN_HEIGHT - HEIGHT-1;
+        float actorY = DrawHelper.SCREEN_HEIGHT - HEIGHT-1;
 
         float actorWidth = WIDTH-1f;
         float actorHeight = HEIGHT;
