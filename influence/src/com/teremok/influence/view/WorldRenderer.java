@@ -72,13 +72,13 @@ public class WorldRenderer  extends Renderer {
 
         if (cell.isSelected())
             renderer.setColor(Color.WHITE);
-            renderer.circle(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()), UNIT_SIZE * 0.1f);
+            renderer.circle(shiftX(getSqX(cell.getUnitsY()), cell.getUnitsX()), getSqY(cell.getUnitsX()), UNIT_SIZE * 0.1f);
         renderer.end();
     }
 
     private void renderCellWithMultiplier(Cell cell, float multiplier) {
-        float centerX = shiftX(getSqX(cell.getY()), cell.getX());
-        float centerY = getSqY(cell.getX());
+        float centerX = shiftX(getSqX(cell.getUnitsY()), cell.getUnitsX());
+        float centerY = getSqY(cell.getUnitsX());
 
         renderer.circle(centerX, centerY, UNIT_SIZE * multiplier, 6);
 
@@ -113,8 +113,8 @@ public class WorldRenderer  extends Renderer {
                         renderer.setColor(Color.GRAY);
                     }
                     renderer.begin(ShapeRenderer.ShapeType.Line);
-                    renderer.line(shiftX(getSqX(cell.getY()), cell.getX()), getSqY(cell.getX()),
-                            shiftX(getSqX(toCell.getY()), toCell.getX()), getSqY(toCell.getX()));
+                    renderer.line(shiftX(getSqX(cell.getUnitsY()), cell.getUnitsX()), getSqY(cell.getUnitsX()),
+                            shiftX(getSqX(toCell.getUnitsY()), toCell.getUnitsX()), getSqY(toCell.getUnitsX()));
                     renderer.end();
                 }
             }
@@ -128,12 +128,12 @@ public class WorldRenderer  extends Renderer {
         if (world.getSelectedCell() != null) {
             renderer.setColor(new Color(.85f,.85f,.17f,.04f));
             renderer.begin(ShapeRenderer.ShapeType.Filled);
-            renderer.rect(0, world.getSelectedCell().getX()*unit_size_h, FIELD_WIDTH, unit_size_h);
+            renderer.rect(0, world.getSelectedCell().getUnitsX()*unit_size_h, FIELD_WIDTH, unit_size_h);
             renderer.end();
 
             renderer.setColor(new Color(.95f,.75f,.17f,.04f));
             renderer.begin(ShapeRenderer.ShapeType.Filled);
-            renderer.rect(world.getSelectedCell().getY()*unit_size_h, 0,  unit_size_w, FIELD_HEIGHT);
+            renderer.rect(world.getSelectedCell().getUnitsY()*unit_size_h, 0,  unit_size_w, FIELD_HEIGHT);
             renderer.end();
         }
 
