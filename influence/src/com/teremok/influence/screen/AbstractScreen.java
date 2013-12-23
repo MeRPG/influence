@@ -13,12 +13,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.teremok.influence.util.DrawHelper;
 
 /**
  * The base class for all game screens.
  */
 public abstract class AbstractScreen implements Screen {
+
+    public static final float WIDTH = 320f;
+    public static final float HEIGHT = 480f;
+
     protected final Game game;
     protected BitmapFont font;
     protected SpriteBatch batch;
@@ -64,7 +67,7 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         // resize the stage
-        stage.setViewport(DrawHelper.SCREEN_WIDTH, DrawHelper.SCREEN_HEIGHT, true);
+        stage.setViewport(WIDTH, HEIGHT, true);
 // и выравниваем камеру по центру
         stage.getCamera().translate(-stage.getGutterWidth(), -stage.getGutterHeight(), 0);
     }

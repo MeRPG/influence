@@ -2,6 +2,7 @@ package com.teremok.influence.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.teremok.influence.model.Field;
+import com.teremok.influence.screen.AbstractScreen;
 
 /**
  * Created by Alexx on 23.12.13
@@ -9,9 +10,6 @@ import com.teremok.influence.model.Field;
 public class DrawHelper {
 
     public static final float UNIT_SIZE = 32f;
-
-    public static final float SCREEN_WIDTH = 320f;
-    public static final float SCREEN_HEIGHT = 480f;
 
     public static Color getCellColorByType (int type) {
             Color color;
@@ -72,6 +70,6 @@ public class DrawHelper {
     }
 
     public static float reflectY(float y) {
-        return DrawHelper.SCREEN_HEIGHT - y;
+        return AbstractScreen.HEIGHT - y;
     }
 }

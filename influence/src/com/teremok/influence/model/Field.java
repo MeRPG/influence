@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.util.CellSchemeGenerator;
 import com.teremok.influence.util.DrawHelper;
 import com.teremok.influence.view.FieldDrawer;
@@ -43,7 +44,7 @@ public class Field extends Group {
     public Field() {
 
         float actorX = 0f;
-        float actorY = DrawHelper.SCREEN_HEIGHT - HEIGHT-1;
+        float actorY = AbstractScreen.HEIGHT - HEIGHT-1;
 
         float actorWidth = WIDTH-1f;
         float actorHeight = HEIGHT;
