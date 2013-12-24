@@ -31,8 +31,6 @@ public abstract class AbstractScreen implements Screen {
         return font;
     }
 
-    // Screen implementation
-
     @Override
     public void show() {
         Gdx.input.setInputProcessor( stage );
@@ -40,22 +38,17 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        // resize the stage
         stage.setViewport(WIDTH, HEIGHT, true);
-// и выравниваем камеру по центру
+        // выравнивание камеры по центру
         stage.getCamera().translate(-stage.getGutterWidth(), -stage.getGutterHeight(), 0);
     }
 
     @Override
     public void render(float delta) {
-
         stage.act( delta );
 
-        // the following code clears the screen with the given RGB color (black)
         Gdx.gl.glClearColor( 0f, 0f, 0f, 1f );
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
-
-        // update and draw the stage actors
         stage.draw();
     }
 
