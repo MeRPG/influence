@@ -2,8 +2,6 @@ package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
@@ -12,16 +10,17 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
  */
 public class StartScreen extends AbstractScreen {
 
+    private final String WELCOME_TEXT = "Touch to continue...";
+
     public StartScreen(Game game) {
         super(game);
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
+    public void show() {
+        super.show();
 
-        StartScreenActor actor = new StartScreenActor(getFont());
-        actor.addListener(new InputListener(){
+        stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -32,29 +31,19 @@ public class StartScreen extends AbstractScreen {
                 game.setScreen(new GameScreen(game));
             }
         });
-
-        stage.addActor(actor);
     }
 
-    private static class StartScreenActor extends Actor {
+    @Override
+    public void render(float delta) {
+        super.render(delta);
 
-        BitmapFont font;
+        batch = getBatch();
+        font = getFont();
 
-        public StartScreenActor(BitmapFont font) {
-            this.font = font;
-            setBounds(0, 0, WIDTH, HEIGHT);
-        }
-
-        @Override
-        public void draw(SpriteBatch batch, float parentAlpha) {
-
-            BitmapFont.TextBounds textBounds = font.getBounds("Touch to continue...");
-            font.draw(batch, "Touch to continue...",    (WIDTH- textBounds.width)/2,
-                                                        (HEIGHT - textBounds.height)/2 + textBounds.height);
-
-            super.draw(batch, parentAlpha);
-        }
+        batch.begin();
+        BitmapFont.TextBounds textBounds = font.getBounds(WELCOME_TEXT);
+        font.draw(batch, WELCOME_TEXT,    (WIDTH- textBounds.width)/2,
+                (HEIGHT - textBounds.height)/2 + textBounds.height);
+        batch.end();
     }
-
-
 }

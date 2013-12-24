@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public abstract class AbstractScreen implements Screen {
@@ -19,6 +20,7 @@ public abstract class AbstractScreen implements Screen {
     protected final Game game;
     protected BitmapFont font;
     protected final Stage stage;
+    protected SpriteBatch batch;
 
     public AbstractScreen(Game game) {
         this.game = game;
@@ -29,6 +31,12 @@ public abstract class AbstractScreen implements Screen {
         if (font == null)
             font = new BitmapFont();
         return font;
+    }
+
+    public SpriteBatch getBatch() {
+        if (batch == null)
+            batch = stage.getSpriteBatch();
+        return batch;
     }
 
     @Override
