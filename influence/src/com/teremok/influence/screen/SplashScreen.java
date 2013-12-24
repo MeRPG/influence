@@ -27,59 +27,63 @@ public class SplashScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
-
         atlas = new TextureAtlas(Gdx.files.internal("splash.pack"));
     }
 
     @Override
     public void resize(int width, int height) {
         stage.setViewport(WIDTH, HEIGHT, false);
-        // let's make sure the stage is clear
         stage.clear();
-
-        // in the image atlas, our splash image begins at (0,0) of the
-        // upper-left corner and has a dimension of 512x301
 
         TextureRegion splashRegion;
         splashRegion = atlas.findRegion("splashLogo");
-        // here we create the splash image actor and set its size
 
         Image splashImage = new Image( new TextureRegionDrawable(splashRegion), Scaling.stretch, Align.bottom | Align.left );
         splashImage.setWidth(width);
         splashImage.setHeight(height);
-
-        // this is needed for the fade-in effect to work correctly; we're just
-        // making the image completely transparent
         splashImage.getColor().a = 0f;
 
-        // configure the fade-in/out effect on the splash image
-        AlphaAction alphaIn = new AlphaAction();
-        alphaIn.setAlpha(1f);
-        alphaIn.setDuration(0.75f);
+        splashImage.addAction(constructSequenceAction());
 
+        stage.addActor( splashImage );
+    }
+
+    private Action constructSequenceAction() {
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(createFadeInAction());
+        sequenceAction.addAction(createDelayAction());
+        sequenceAction.addAction(createFadeOutAction());
+        sequenceAction.addAction(createCompleteAction());
+        return sequenceAction;
+    }
+
+    private Action createFadeInAction(){
+        AlphaAction fadeIn = new AlphaAction();
+        fadeIn.setAlpha(1f);
+        fadeIn.setDuration(0.75f);
+        return fadeIn;
+    }
+
+    private Action createFadeOutAction(){
+        AlphaAction fadeOut = new AlphaAction();
+        fadeOut.setAlpha(0f);
+        fadeOut.setDuration(0.75f);
+        return fadeOut;
+    }
+
+    private Action createDelayAction(){
         DelayAction delayAction = new DelayAction();
         delayAction.setDuration(1.75f);
+        return delayAction;
+    }
 
-        AlphaAction alphaOut = new AlphaAction();
-        alphaOut.setAlpha(0f);
-        alphaOut.setDuration(0.75f);
-
+    private Action createCompleteAction(){
         Action completeAction = new Action(){
             public boolean act( float delta ) {
                 game.setScreen( new StartScreen(game) );
                 return true;
             }
         };
-
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(alphaIn);
-        sequenceAction.addAction(delayAction);
-        sequenceAction.addAction(alphaOut);
-        sequenceAction.addAction(completeAction);
-
-        splashImage.addAction(sequenceAction);
-
-        // and finally we add the actors to the stage, on the correct order
-        stage.addActor( splashImage );
+        return completeAction;
     }
 }
