@@ -43,7 +43,27 @@ public class Field extends Group {
         regenerate();
     }
 
-    public List<Cell> getCells() {return cells; }
+    public void setCells(List<Cell> cells) {
+        registerCellsForDrawing(cells);
+        this.cells = cells;
+    }
+
+    public void regenerate() {
+        generator = new CellSchemeGenerator(25);
+        generator.generate();
+        cells = generator.getCells();
+        registerCellsForDrawing(cells);
+        matrix = generator.getMatrix();
+        minimal = generator.getMinimal();
+    }
+
+    public void updateMinimal() {
+        generator.updateMinimal();
+        cells = generator.getCells();
+        registerCellsForDrawing(cells);
+        matrix = generator.getMatrix();
+        minimal = generator.getMinimal();
+    }
 
     private void registerCellsForDrawing(List<Cell> cells) {
         this.clear();
@@ -70,26 +90,34 @@ public class Field extends Group {
         }
     }
 
-    public void setCells(List<Cell> cells) {
-        registerCellsForDrawing(cells);
-        this.cells = cells;
+    public void setSelectedCell(Cell cell) {
+
+        if (selectedCell != null) {
+            if (isCellsConnected(selectedCell, cell)) {
+                cell.setType(selectedCell.getType());
+            }
+            selectedCell.setSelected(false);
+        }
+
+        cell.setSelected(true);
+        selectedCell = cell;
+
     }
 
-    public void regenerate() {
-        generator = new CellSchemeGenerator(25);
-        generator.generate();
-        cells = generator.getCells();
-        registerCellsForDrawing(cells);
-        matrix = generator.getMatrix();
-        minimal = generator.getMinimal();
+    private boolean isCellsConnected(Cell from, Cell to) {
+        return minimal[from.getNumber()][to.getNumber()] == 1 || minimal[to.getNumber()][from.getNumber()] == 1;
     }
 
-    public void updateMinimal() {
-        generator.updateMinimal();
-        cells = generator.getCells();
-        registerCellsForDrawing(cells);
-        matrix = generator.getMatrix();
-        minimal = generator.getMinimal();
+    @Override
+    public void draw(SpriteBatch batch, float parentAlpha) {
+        FieldDrawer.draw(this, batch, parentAlpha);
+        super.draw(batch, parentAlpha);
+    }
+
+    // Auto-generated
+
+    public Cell getSelectedCell() {
+        return selectedCell;
     }
 
     public int[][] getMatrix() {
@@ -100,29 +128,6 @@ public class Field extends Group {
         return minimal;
     }
 
-    private boolean isCellsConnected(Cell from, Cell to) {
-        return minimal[from.getNumber()][to.getNumber()] == 1 || minimal[to.getNumber()][from.getNumber()] == 1;
-    }
+    public List<Cell> getCells() {return cells; }
 
-    public Cell getSelectedCell() {
-        return selectedCell;
-    }
-
-    public void setSelectedCell(Cell cell) {
-        if (selectedCell != null && isCellsConnected(selectedCell, cell))
-            cell.setType(selectedCell.getType());
-
-        if (selectedCell != null)
-            selectedCell.setSelected(false);
-
-        cell.setSelected(true);
-        selectedCell = cell;
-
-    }
-
-    @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        FieldDrawer.draw(this, batch, parentAlpha);
-        super.draw(batch, parentAlpha);
-    }
 }

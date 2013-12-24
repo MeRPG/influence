@@ -70,10 +70,8 @@ public class Cell extends Actor {
         cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
         cell.setPower(1 + rnd.nextInt(cell.maxPower-1));
 
-
         cell.setWidth(DrawHelper.UNIT_SIZE*2);
         cell.setHeight(DrawHelper.UNIT_SIZE*2);
-
         return cell;
     }
 
@@ -81,30 +79,18 @@ public class Cell extends Actor {
         return new Cell(-1, 0, 0);
     }
 
-    @Override
-    public String toString() {
-        return "Cell{" +
-                "unitsX=" + unitsX +
-                ", unitsY=" + unitsY +
-                ", number=" + number +
-                '}';
-    }
-
     public boolean isValid() {
-        if (number == -1)
+        if (number == -1) {
             return false;
-        if (unitsX < 0 || unitsY < 0 || unitsX >= Field.MAX_CELLS_Y || unitsY >= Field.MAX_CELLS_X)
+        }
+        if (unitsX < 0 || unitsY < 0) {
             return false;
-
+        }
+        if (unitsX >= Field.MAX_CELLS_Y || unitsY >= Field.MAX_CELLS_X) {
+            return false;
+        }
         return true;
     }
-
-    @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        CellDrawer.draw(this, batch, parentAlpha);
-    }
-
-    // Auto-generated
 
     public boolean isBig() {
         return maxPower == POWER_BIG;
@@ -113,6 +99,13 @@ public class Cell extends Actor {
     static public int calcNumber(int x, int y) {
         return x + y*5;
     }
+
+    @Override
+    public void draw(SpriteBatch batch, float parentAlpha) {
+        CellDrawer.draw(this, batch, parentAlpha);
+    }
+
+    // Auto-generated
 
     public int getType() {
         return type;
@@ -158,4 +151,12 @@ public class Cell extends Actor {
         return number;
     }
 
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "unitsX=" + unitsX +
+                ", unitsY=" + unitsY +
+                ", number=" + number +
+                '}';
+    }
 }
