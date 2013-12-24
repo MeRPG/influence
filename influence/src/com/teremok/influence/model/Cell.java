@@ -17,7 +17,7 @@ public class Cell extends Actor {
 
     static private final float BIG_POSSIBILITY = 0.3f;
 
-    static private final int MAX_TYPE = 4;
+    static public final int MAX_TYPE = 4;
 
     // координаты на сетке
     int unitsX, unitsY;
