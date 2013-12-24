@@ -24,17 +24,14 @@ public class FieldDrawer {
 
         batch.end();
 
-        for (Cell c : current.getCells()) {
-            drawCellRoutes(c);
-        }
-
         renderer.setProjectionMatrix(batch.getProjectionMatrix());
         renderer.setTransformMatrix(batch.getTransformMatrix());
         renderer.translate(current.getX(), current.getY(), 0);
 
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        renderer.rect(0, 0, current.getWidth(), current.getHeight());
-        renderer.end();
+        drawBoundingBox();
+        for (Cell c : current.getCells()) {
+            drawCellRoutes(c);
+        }
 
         batch.begin();
     }
@@ -58,6 +55,20 @@ public class FieldDrawer {
         }
     }
 
+    static private void drawBoundingBox() {
+
+        Cell selected = current.getSelectedCell();
+
+        if (selected != null && selected.isValid()) {
+            renderer.setColor(DrawHelper.getCellColorByType(selected.getType()));
+        } else {
+            renderer.setColor(Color.WHITE);
+        }
+
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        renderer.rect(0,0,current.getWidth(), current.getHeight());
+        renderer.end();
+    }
 
     public static void setBitmapFont(BitmapFont bitmapFont) {
         FieldDrawer.bitmapFont = bitmapFont;
