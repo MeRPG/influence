@@ -3,7 +3,7 @@ package com.teremok.influence.model;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.util.DrawHelper;
-import com.teremok.influence.view.CellDrawer;
+import com.teremok.influence.view.Drawer;
 
 import java.util.Random;
 
@@ -102,7 +102,7 @@ public class Cell extends Actor {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        CellDrawer.draw(this, batch, parentAlpha);
+        Drawer.draw(this, batch, parentAlpha);
     }
 
     // Auto-generated

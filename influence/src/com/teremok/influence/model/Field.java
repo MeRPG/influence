@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.util.CellSchemeGenerator;
 import com.teremok.influence.util.DrawHelper;
-import com.teremok.influence.view.FieldDrawer;
+import com.teremok.influence.view.Drawer;
 
 import java.util.List;
 
@@ -110,7 +110,7 @@ public class Field extends Group {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        FieldDrawer.draw(this, batch, parentAlpha);
+        Drawer.draw(this, batch, parentAlpha);
         super.draw(batch, parentAlpha);
     }
 

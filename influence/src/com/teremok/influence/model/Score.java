@@ -3,7 +3,7 @@ package com.teremok.influence.model;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.screen.AbstractScreen;
-import com.teremok.influence.view.ScoreDrawer;
+import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 24.12.13
@@ -40,7 +40,7 @@ public class Score extends Actor {
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        ScoreDrawer.draw(this, batch, parentAlpha);
+        Drawer.draw(this, batch, parentAlpha);
     }
 
     @Override
@@ -50,7 +50,6 @@ public class Score extends Actor {
     }
 
     // Auto-generated
-
 
     public int[] getScores() {
         return scores;
