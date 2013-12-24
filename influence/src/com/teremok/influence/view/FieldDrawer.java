@@ -1,7 +1,6 @@
 package com.teremok.influence.view;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
@@ -11,22 +10,12 @@ import com.teremok.influence.util.DrawHelper;
 /**
  * Created by Alexx on 23.12.13
  */
-public class FieldDrawer {
+public class FieldDrawer extends AbstractDrawer<Field> {
 
-
-    private static ShapeRenderer renderer = new ShapeRenderer();
-    private static BitmapFont bitmapFont;
-
-    private static Field current;
-
-    public static void draw (Field field, SpriteBatch batch, float patentAlpha) {
-        current = field;
-
+    @Override
+    public void draw (Field field, SpriteBatch batch, float parentAlpha) {
+        super.draw(field, batch, parentAlpha);
         batch.end();
-
-        renderer.setProjectionMatrix(batch.getProjectionMatrix());
-        renderer.setTransformMatrix(batch.getTransformMatrix());
-        renderer.translate(current.getX(), current.getY(), 0);
 
         drawBoundingBox();
         for (Cell c : current.getCells()) {
@@ -36,7 +25,7 @@ public class FieldDrawer {
         batch.begin();
     }
 
-    private static void drawCellRoutes(Cell cell) {
+    private void drawCellRoutes(Cell cell) {
         for (int j = 0; j < 35; j++) {
             if (cell.isValid() && current.getMinimal()[cell.getNumber()][j] == 1) {
                 Cell toCell = current.getCells().get(j);
@@ -55,7 +44,8 @@ public class FieldDrawer {
         }
     }
 
-    static private void drawBoundingBox() {
+    @Override
+    protected void drawBoundingBox() {
 
         Cell selected = current.getSelectedCell();
 
@@ -65,12 +55,6 @@ public class FieldDrawer {
             renderer.setColor(Color.WHITE);
         }
 
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        renderer.rect(0,0,current.getWidth(), current.getHeight());
-        renderer.end();
-    }
-
-    public static void setBitmapFont(BitmapFont bitmapFont) {
-        FieldDrawer.bitmapFont = bitmapFont;
+        super.drawBoundingBox();
     }
 }

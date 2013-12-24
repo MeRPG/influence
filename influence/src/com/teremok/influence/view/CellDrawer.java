@@ -10,26 +10,19 @@ import com.teremok.influence.util.DrawHelper;
 /**
  * Created by Alexx on 23.12.13
  */
-public class CellDrawer {
+public class CellDrawer extends AbstractDrawer<Cell> {
 
     private static final float STANDARD_SIZE_MULTIPLIER = 0.4f;
     private static final float BIG_SIZE_MULTIPLIER = 0.6f;
 
-    private static ShapeRenderer renderer = new ShapeRenderer();
-    private static BitmapFont bitmapFont;
-    private static Cell current;
+    @Override
+    public void draw(Cell cell, SpriteBatch batch, float parentAlpha) {
+        super.draw(cell, batch, parentAlpha);
 
-    public static void draw(Cell cell, SpriteBatch batch, float parentAlpha) {
-        current = cell;
-        batch.end();
-
-        renderer.setProjectionMatrix(batch.getProjectionMatrix());
-        renderer.setTransformMatrix(batch.getTransformMatrix());
-        renderer.translate(current.getX(), current.getY(), 0);
         Color color = DrawHelper.getCellColorByType(current.getType());
         renderer.setColor(color);
-
-        //drawBoundingBox();
+        batch.end();
+        drawBoundingBox();
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -57,13 +50,7 @@ public class CellDrawer {
         }
     }
 
-    static private void drawBoundingBox() {
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        renderer.rect(0,0,current.getWidth(), current.getHeight());
-        renderer.end();
-    }
-
-    private static void renderWithMultiplier(float multiplier) {
+    private void renderWithMultiplier(float multiplier) {
         float centerX = current.getWidth()/2;
         float centerY = current.getHeight()/2;
 
@@ -78,9 +65,4 @@ public class CellDrawer {
         renderer.circle(centerX, centerY, DrawHelper.UNIT_SIZE * multiplier * .6f);
 
     }
-
-    public static void setBitmapFont(BitmapFont bitmapFont) {
-        CellDrawer.bitmapFont = bitmapFont;
-    }
-
 }
