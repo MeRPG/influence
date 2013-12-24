@@ -105,6 +105,14 @@ public class Cell extends Actor {
         Drawer.draw(this, batch, parentAlpha);
     }
 
+    public void setPowerGreaterZero(int power) {
+        if (power <= 0) {
+            this.power = 1;
+        } else {
+            this.power = power;
+        }
+    }
+
     // Auto-generated
 
     public int getType() {

@@ -22,7 +22,7 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         Color color = DrawHelper.getCellColorByType(current.getType());
         renderer.setColor(color);
         batch.end();
-        drawBoundingBox();
+        //drawBoundingBox();
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -45,6 +45,7 @@ public class CellDrawer extends AbstractDrawer<Cell> {
 
         if (bitmapFont != null) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(current.getPower()+"");
+            bitmapFont.setColor(Color.BLACK);
             bitmapFont.draw(batch, current.getPower()+"", current.getX()+current.getWidth()/2 - textBounds.width/2,
                                                             current.getY()+current.getHeight()/2 + textBounds.height/2);
         }
