@@ -64,8 +64,6 @@ public class Calculator {
 
     static void calculateResults() {
 
-        int overHead = 3;
-
         int attackDices = countDices(n);
         int defenseDices = countDices(m);
 
@@ -74,25 +72,9 @@ public class Calculator {
         if (delta > 0) {
             b = a;
             b = b - defenseDices;
-           /*
-            if (Math.abs(delta) > overHead) {
-                b = b - 1;
-            } else {
-                b = b - defenseDices;
-            }
-            */
         } else {
             b = b - attackDices;
-            /*
-            if (Math.abs(delta) > overHead) {
-                b = b;
-            } else {
-                b = b - attackDices;
-            }
-            */
         }
-
-
 
         a = 1;
 
@@ -118,7 +100,6 @@ public class Calculator {
     }
 
     // Auto-generated
-
 
     public static void setA(int a) {
         Calculator.a = a;
