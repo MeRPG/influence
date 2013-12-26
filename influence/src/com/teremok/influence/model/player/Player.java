@@ -21,10 +21,12 @@ public class Player {
     }
 
     static public Player next() {
-        currentNum++;
-        if (currentNum > 4) {
-            currentNum = 0;
-        }
+        do {
+            currentNum++;
+            if (currentNum > 4) {
+                currentNum = 0;
+            }
+        } while (players[currentNum].getScore() == 0);
         System.out.println("Turn ended. Next player : " + currentNum);
         return players[currentNum];
     }
