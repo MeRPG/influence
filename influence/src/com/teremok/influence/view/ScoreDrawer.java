@@ -26,13 +26,17 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
 
     private void drawScores(SpriteBatch batch) {
         int i = 0;
-        for (int score : current.getScores()) {
-            bitmapFont.setColor(DrawHelper.getCellColorByType(i));
+        for (Player player : Player.getPlayers()) {
+            if (player.getScore() == 0) {
+                bitmapFont.setColor(DrawHelper.getCellColorByType( -1 ));
+            } else {
+                bitmapFont.setColor(DrawHelper.getCellColorByType(player.getType()));
+            }
             String toDraw;
             if (i == Player.current().getType()) {
-                toDraw = "-" + score + "-";
+                toDraw = "-" + player.getScore() + "-";
             } else {
-                toDraw = " " + score + " ";
+                toDraw = " " + player.getScore() + " ";
             }
             bitmapFont.draw(batch, toDraw, 25f + i*50f, current.getHeight()/2);
             i++;
@@ -42,7 +46,7 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
     private void drawPower(SpriteBatch batch) {
         if (GameScreen.currentPhase == GameScreen.TurnPhase.DISTRIBUTE) {
             bitmapFont.setColor(DrawHelper.getCellColorByType(Player.current().getType()));
-            bitmapFont.draw(batch, "(" +Player.current().getPowerToDistribute() + ") ", current.getWidth() - 25, current.getHeight()/2);
+            bitmapFont.draw(batch, "(" +Player.current().getPowerToDistribute() + ") ", current.getWidth() - 35, current.getHeight()/2);
         }
     }
 }

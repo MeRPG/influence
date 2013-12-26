@@ -11,12 +11,9 @@ import com.teremok.influence.view.Drawer;
 public class Score extends Actor {
 
     Field field;
-    int[] scores;
-
 
     public Score(Field field) {
         this.field = field;
-        scores = new int[Cell.MAX_TYPE+1];
 
         float actorX = 0;
         float actorY = 0;
@@ -28,11 +25,12 @@ public class Score extends Actor {
 
     public void update() {
         for (int i = 0; i < Cell.MAX_TYPE+1; i++) {
-            scores[i] = 0;
+            Player.getPlayers()[i].setScore(0);
         }
         for (Cell cell : field.getCells()) {
             if (cell.isValid()) {
-                scores[cell.getType()] += cell.getPower();
+                int score = Player.getPlayers()[cell.getType()].getScore();
+                Player.getPlayers()[cell.getType()].setScore(score + cell.getPower());
             }
         }
     }
@@ -50,8 +48,4 @@ public class Score extends Actor {
     }
 
     // Auto-generated
-
-    public int[] getScores() {
-        return scores;
-    }
 }

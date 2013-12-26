@@ -9,6 +9,7 @@ public class Player {
 
     protected int type;
     protected int power;
+    protected int score;
 
     static public void addPlayer(Player player, int num) {
         if (num < 0 || num > 4) {
@@ -52,7 +53,20 @@ public class Player {
 
     // Auto-generated
 
+
+    public static Player[] getPlayers() {
+        return players;
+    }
+
     public int getType() {
         return type;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
