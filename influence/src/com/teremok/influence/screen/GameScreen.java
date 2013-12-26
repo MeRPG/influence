@@ -3,9 +3,11 @@ package com.teremok.influence.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.teremok.influence.model.Player;
 import com.teremok.influence.model.Field;
+import com.teremok.influence.model.HumanPlayer;
 import com.teremok.influence.model.Score;
 import com.teremok.influence.view.CellDrawer;
 import com.teremok.influence.view.ScoreDrawer;
@@ -15,18 +17,40 @@ import com.teremok.influence.view.ScoreDrawer;
  */
 public class GameScreen extends AbstractScreen {
 
+    public static enum TurnPhase {
+        ATTACK,
+        DISTRIBUTE
+    };
+
     Field field;
     Score score;
+    public static TurnPhase currentPhase;
 
     public GameScreen(Game game) {
         super(game);
         field = new Field();
         score = new Score(field);
+
+        for (int i = 0; i < 5; i ++) {
+            Player.addPlayer(new HumanPlayer(i), i);
+        }
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+
+        if (currentPhase == TurnPhase.DISTRIBUTE && Player.current().getPowerToDistribute() == 0) {
+            Player.next();
+            currentPhase = TurnPhase.ATTACK;
+        }
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width,height);
+
+        currentPhase = TurnPhase.ATTACK;
 
         CellDrawer.setBitmapFont(getFont());
         ScoreDrawer.setBitmapFont(getFont());
@@ -37,7 +61,7 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(field);
         stage.addActor(score);
 
-        stage.addListener(new InputListener() {
+        stage.addListener(new ClickListener() {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -46,7 +70,21 @@ public class GameScreen extends AbstractScreen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                field.regenerate();
+                if (! event.isHandled()) {
+                    switch (currentPhase) {
+                        case ATTACK:
+                            Player.current().setPowerToDistribute(10);
+                            currentPhase = TurnPhase.DISTRIBUTE;
+                            System.out.println("Distribute power phase.");
+                            break;
+                        case DISTRIBUTE:
+                            Player.next();
+                            currentPhase = TurnPhase.ATTACK;
+                            break;
+                        default:
+                            ;
+                    }
+                }
             }
 
             @Override
