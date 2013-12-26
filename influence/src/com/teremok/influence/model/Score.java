@@ -2,6 +2,7 @@ package com.teremok.influence.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.teremok.influence.model.player.Player;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.view.Drawer;
 

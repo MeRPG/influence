@@ -1,4 +1,4 @@
-package com.teremok.influence.model;
+package com.teremok.influence.model.player;
 
 /**
  * Created by Alexx on 26.12.13

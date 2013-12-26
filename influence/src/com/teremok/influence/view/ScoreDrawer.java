@@ -1,7 +1,7 @@
 package com.teremok.influence.view;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.teremok.influence.model.Player;
+import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.Score;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.DrawHelper;
