@@ -23,7 +23,7 @@ public class Calculator {
 
         delta = n - m;
 
-        getResultsByDelta();
+        calculateResults();
 
         System.out.println(inA + "\t|\t" + inB + "\t|\t" + inN  + "\t|\t" + inM  + "\t|\t" + a  + "\t|\t" + b);
         System.out.println(" - - - ");
@@ -55,46 +55,58 @@ public class Calculator {
 
         delta = n - m;
 
-        getResultsByDelta();
+        calculateResults();
 
         System.out.println("Result:\t" + a + " \t->\t " + b);
         System.out.println("-\t-\t-\t-\t-");
         return delta;
     }
 
-    private static void getResultsByDelta() {
-        if (delta == 0) {
-            a = 1;
-            b = 1;
-        }
+    static void calculateResults() {
 
-        int overPower = 6;
-        boolean greatDifference = delta > overPower;
+        int overHead = 3;
 
-        if (delta < 0) {
-            if (greatDifference) {
-                b = b-1;
-                a = 1;
-            } else {
-                b = b - Math.abs(a - 1);
-                a = 1;
-            }
-        }
+        int attackDices = countDices(n);
+        int defenseDices = countDices(m);
+
+        System.out.println("Dices: " + attackDices + "\t->\t" + defenseDices);
 
         if (delta > 0) {
-            if (greatDifference) {
-                b = a - 1;
-                a = 1;
+            b = a;
+            b = b - defenseDices;
+           /*
+            if (Math.abs(delta) > overHead) {
+                b = b - 1;
             } else {
-                b = a - Math.abs(a - 1);
-                a = 1;
+                b = b - defenseDices;
             }
+            */
+        } else {
+            b = b - attackDices;
+            /*
+            if (Math.abs(delta) > overHead) {
+                b = b;
+            } else {
+                b = b - attackDices;
+            }
+            */
         }
 
-        if (a <= 0 )
-            a = 1;
-        if (b <= 0 )
+
+
+        a = 1;
+
+        if (b <= 0 || delta == 0 )
             b = 1;
+    }
+
+    static int countDices(int score) {
+        int num = score/6;
+        int modulo = score%6;
+        if (modulo != 0) {
+            num += 1;
+        }
+        return num;
     }
 
     public static int getResultPowerA() {
@@ -103,6 +115,29 @@ public class Calculator {
 
     public static int getResultPowerB() {
         return b;
+    }
+
+    // Auto-generated
+
+
+    public static void setA(int a) {
+        Calculator.a = a;
+    }
+
+    public static void setB(int b) {
+        Calculator.b = b;
+    }
+
+    public static void setN(int n) {
+        Calculator.n = n;
+    }
+
+    public static void setM(int m) {
+        Calculator.m = m;
+    }
+
+    public static void setDelta(int delta) {
+        Calculator.delta = delta;
     }
 
     public static int getDelta() {
