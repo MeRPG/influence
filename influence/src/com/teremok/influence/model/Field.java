@@ -6,12 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.screen.AbstractScreen;
+import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.CellSchemeGenerator;
 import com.teremok.influence.util.DrawHelper;
 import com.teremok.influence.view.Drawer;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Alexx on 11.12.13
@@ -23,6 +23,8 @@ public class Field extends Group {
 
     public static final float WIDTH = DrawHelper.UNIT_SIZE*10f;
     public static final float HEIGHT = DrawHelper.UNIT_SIZE*13f;
+
+    private static final int GREAT_WIN_DELTA = 7;
 
     private int[][] matrix;
     private int[][] minimal;
@@ -80,7 +82,13 @@ public class Field extends Group {
 
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        setSelectedCell((Cell)event.getTarget());
+                        if (! event.isHandled()) {
+                            if (GameScreen.currentPhase == GameScreen.TurnPhase.ATTACK) {
+                                setSelectedCell((Cell)event.getTarget());
+                            } else {
+                                addPower((Cell)event.getTarget());
+                            }
+                        }
                     }
                 });
                 cell.setTouchable(Touchable.enabled);
@@ -100,48 +108,36 @@ public class Field extends Group {
                 int a = selectedCell.getPower();
                 int b = cell.getPower();
 
-                int fightResult = fight(selectedCell, cell);
+                int delta = fight(selectedCell, cell);
 
-                System.out.println("Result: " + fightResult);
-
-                switch (fightResult) {
-                    case 0:
-                        cell.setPowerGreaterZero(b - a + 1);
-                        selectedCell.setPower(1);
-                        break;
-                    case 3:
-                        cell.setPowerGreaterZero(a - 1);
-                        cell.setType(selectedCell.getType());
-                        selectedCell.setPower(1);
-                        break;
-                    case 1:
-                        cell.setPowerGreaterZero(a - b - 1);
-                        cell.setType(selectedCell.getType());
-                        selectedCell.setPower(1);
-                        break;
-                    case -1:
-                        cell.setPowerGreaterZero(b - Math.abs(a - b));
-                        selectedCell.setPower(a - Math.abs(a - b));
-                        break;
-                    case -3:
-                        selectedCell.setPower(1);
-                        break;
-                    default:
+                if (delta > 0) {
+                    cell.setType(selectedCell.getType());
+                    reallySetSelected(cell);
                 }
 
-                System.out.println(selectedCell.getPower() + " \t--\t " + cell.getPower());
-                System.out.println(" - - - ");
-
-                if (fightResult > 0) {
-                    selectedCell.setSelected(false);
-                    cell.setSelected(true);
-                    selectedCell = cell;
-                }
+            } else  {
+                reallySetSelected(cell);
             }
-            selectedCell.setSelected(false);
-            cell.setSelected(true);
-            selectedCell = cell;
         } else {
+            reallySetSelected(cell);
+        }
+    }
+
+    private void addPower(Cell cell) {
+        if (cell.getType() == Player.current().getType()) {
+            int newPower = cell.getPower() + 1;
+            int maxPower = cell.getMaxPower();
+            if (newPower <= maxPower) {
+                cell.setPower(cell.getPower() + 1);
+                Player.current().subtractPowerToDistribute();
+            }
+        }
+    }
+
+    private void reallySetSelected(Cell cell) {
+        if (cell.getType() == Player.current().getType()) {
+            if (selectedCell != null)
+                selectedCell.setSelected(false);
             cell.setSelected(true);
             selectedCell = cell;
         }
@@ -152,37 +148,12 @@ public class Field extends Group {
         System.out.println("Attack!");
         System.out.println(attack.getPower() + " \t->\t " + defense.getPower());
 
-        int attackDice = rollDice(attack.getPower());
-        int defenseDice = rollDice(defense.getPower());
+        int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
-        System.out.println(attackDice + " \t->\t " + defenseDice);
+        attack.setPower(Calculator.getResultPowerA());
+        defense.setPower(Calculator.getResultPowerB());
 
-        int delta = attackDice - defenseDice;
-
-        System.out.println("Delta: " + delta);
-
-        if (delta == 0) {
-            return 0;
-        }
-        if (delta > 3) {
-            return 3;
-        }
-        if (delta > 0) {
-            return 1;
-        }
-        if (delta > -3) {
-            return -1;
-        }
-        return -3;
-    }
-
-    private int rollDice(int number) {
-        int result = 0;
-        Random rnd = new Random();
-        for (int i = 0; i < number; i++) {
-            result += rnd.nextInt(6) + 1;
-        }
-        return result;
+        return delta;
     }
 
     private boolean isCellsConnected(Cell from, Cell to) {
@@ -214,5 +185,4 @@ public class Field extends Group {
     }
 
     public List<Cell> getCells() {return cells; }
-
 }
