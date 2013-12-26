@@ -143,6 +143,13 @@ public class Field extends Group {
         }
     }
 
+    public void resetSelection() {
+        if (selectedCell != null) {
+            selectedCell.setSelected(false);
+            selectedCell = null;
+        }
+    }
+
     private int fight(Cell attack, Cell defense) {
 
         System.out.println("Attack!");

@@ -73,9 +73,10 @@ public class GameScreen extends AbstractScreen {
                 if (! event.isHandled()) {
                     switch (currentPhase) {
                         case ATTACK:
-                            Player.current().setPowerToDistribute(10);
+                            Player.current().setPowerToDistribute(25);
                             currentPhase = TurnPhase.DISTRIBUTE;
                             System.out.println("Distribute power phase.");
+                            field.resetSelection();
                             break;
                         case DISTRIBUTE:
                             Player.next();
