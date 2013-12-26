@@ -18,7 +18,7 @@ public class GameScreen extends AbstractScreen {
     public static enum TurnPhase {
         ATTACK,
         DISTRIBUTE
-    };
+    }
 
     Field field;
     Score score;
@@ -83,7 +83,7 @@ public class GameScreen extends AbstractScreen {
                             currentPhase = TurnPhase.ATTACK;
                             break;
                         default:
-                            ;
+
                     }
                 }
             }
