@@ -172,6 +172,16 @@ public class Field extends Group {
         return minimal[from.getNumber()][to.getNumber()] == 1 || minimal[to.getNumber()][from.getNumber()] == 1;
     }
 
+    public int getPowerToDistribute(int type){
+        int power = 0;
+        for (Cell cell : cells) {
+            if (cell.isValid() && cell.getType() == type) {
+                power += 1;
+            }
+        }
+        return power;
+    }
+
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         Drawer.draw(this, batch, parentAlpha);

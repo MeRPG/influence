@@ -69,9 +69,11 @@ public class GameScreen extends AbstractScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
+                    Player player = Player.current();
                     switch (currentPhase) {
                         case ATTACK:
-                            Player.current().setPowerToDistribute(25);
+                            int power = field.getPowerToDistribute(player.getType());
+                            player.setPowerToDistribute(power);
                             currentPhase = TurnPhase.DISTRIBUTE;
                             System.out.println("Distribute power phase.");
                             field.resetSelection();
