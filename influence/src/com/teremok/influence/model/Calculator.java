@@ -76,7 +76,7 @@ public class Calculator {
                 b = b-1;
                 a = 1;
             } else {
-                b = b - Math.abs(a - b);
+                b = b - Math.abs(a - 1);
                 a = 1;
             }
         }
@@ -86,7 +86,7 @@ public class Calculator {
                 b = a - 1;
                 a = 1;
             } else {
-                b = b - Math.abs(a - b);
+                b = a - Math.abs(a - 1);
                 a = 1;
             }
         }
