@@ -13,7 +13,7 @@ import java.util.Random;
 public class CellSchemeGenerator {
 
     private int GRAPH_MATRIX_SIZE = Field.MAX_CELLS_X * Field.MAX_CELLS_Y;
-    private float KEEPING_ROUTES_POSSIBILITY = 0.7f;
+    private float KEEPING_ROUTES_POSSIBILITY = 0.8f;
 
     private int count;
     private Random rnd;
