@@ -29,7 +29,7 @@ public class Score extends Actor {
             Player.getPlayers()[i].setScore(0);
         }
         for (Cell cell : field.getCells()) {
-            if (cell.isValid()) {
+            if (cell.isValid() && cell.getType() != -1) {
                 int score = Player.getPlayers()[cell.getType()].getScore();
                 Player.getPlayers()[cell.getType()].setScore(score + cell.getPower());
             }

@@ -67,6 +67,10 @@ public class Calculator {
         int attackDices = countDices(n);
         int defenseDices = countDices(m);
 
+        if (defenseDices == 0) {
+            defenseDices++;
+        }
+
         System.out.println("Dices: " + attackDices + "\t->\t" + defenseDices);
 
         if (delta > 0) {
