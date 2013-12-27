@@ -45,4 +45,8 @@ public class AbstractDrawer <T extends Actor> {
     public static void setBitmapFont(BitmapFont bitmapFont) {
         AbstractDrawer.bitmapFont = bitmapFont;
     }
+
+    public static BitmapFont getBitmapFont() {
+        return bitmapFont;
+    }
 }

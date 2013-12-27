@@ -5,10 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.teremok.influence.model.player.*;
-import com.teremok.influence.model.*;
-import com.teremok.influence.view.CellDrawer;
-import com.teremok.influence.view.ScoreDrawer;
+import com.teremok.influence.model.Field;
+import com.teremok.influence.model.Score;
+import com.teremok.influence.model.player.HumanPlayer;
+import com.teremok.influence.model.player.Player;
+import com.teremok.influence.view.AbstractDrawer;
+import com.teremok.influence.view.TooltipHandler;
 
 /**
  * Created by Alexx on 11.12.13
@@ -50,14 +52,14 @@ public class GameScreen extends AbstractScreen {
 
         currentPhase = TurnPhase.ATTACK;
 
-        CellDrawer.setBitmapFont(getFont());
-        ScoreDrawer.setBitmapFont(getFont());
+        AbstractDrawer.setBitmapFont(getFont());
 
         field.setTouchable(Touchable.childrenOnly);
         field.updateMinimal();
 
         stage.addActor(field);
         stage.addActor(score);
+        stage.addActor(TooltipHandler.getInstance());
 
         stage.addListener(new ClickListener() {
 
