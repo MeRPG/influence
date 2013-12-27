@@ -55,7 +55,7 @@ public class GameScreen extends AbstractScreen {
         AbstractDrawer.setBitmapFont(getFont());
 
         field.setTouchable(Touchable.childrenOnly);
-        field.updateMinimal();
+        //field.updateMinimal();
 
         stage.addActor(field);
         stage.addActor(score);

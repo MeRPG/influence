@@ -66,8 +66,9 @@ public class Field extends Group {
         placeStartPositions();
         matrix = generator.getMatrix();
         minimal = generator.getMinimal();
+        System.out.println("regenerate");
     }
-
+/*
     public void updateMinimal() {
         generator.updateMinimal();
         cells = generator.getCells();
@@ -76,7 +77,7 @@ public class Field extends Group {
         matrix = generator.getMatrix();
         minimal = generator.getMinimal();
     }
-
+*/
     private void placeStartPositions() {
         Random rnd = new Random();
         for (int type = 0; type <= Cell.MAX_TYPE; type++) {
