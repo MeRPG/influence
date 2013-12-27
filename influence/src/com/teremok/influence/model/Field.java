@@ -86,7 +86,7 @@ public class Field extends Group {
                 number = rnd.nextInt(25);
                 target = cells.get(number);
             } while (! (target.isValid()) && (target.getType()==0));
-            target.setPower(4);
+            target.setPower(3);
             target.setType(type);
         }
     }
