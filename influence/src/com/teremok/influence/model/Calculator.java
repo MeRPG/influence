@@ -124,4 +124,12 @@ public class Calculator {
     public static int getDelta() {
         return delta;
     }
+
+    public static int getN() {
+        return n;
+    }
+
+    public static int getM() {
+        return m;
+    }
 }
