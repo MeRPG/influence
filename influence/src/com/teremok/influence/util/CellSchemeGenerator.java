@@ -106,7 +106,7 @@ public class CellSchemeGenerator {
                 if (mask[i][j] > 0 && mask[i][j] < Integer.MAX_VALUE) {
                     int curNum = getNum(i, j);
                     checkAround(curNum, i, j);
-                    cells.add(Cell.makeRandomCell(curNum, i, j));
+                    cells.add(Cell.makeEmptyCell(curNum, i, j));
                 } else {
                     cells.add(Cell.makeInvalidCell());
                 }

@@ -79,6 +79,18 @@ public class Cell extends Actor {
         return new Cell(-1, 0, 0);
     }
 
+    public static Cell makeEmptyCell(int number, int x, int y) {
+        Cell cell = new Cell(number, x, y);
+        Random rnd = new Random();
+        cell.setType(-1);
+        cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
+
+        cell.setWidth(DrawHelper.UNIT_SIZE*2);
+        cell.setHeight(DrawHelper.UNIT_SIZE*2);
+
+        return cell;
+    }
+
     public boolean isValid() {
         if (number == -1) {
             return false;

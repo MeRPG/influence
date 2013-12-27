@@ -18,6 +18,7 @@ import com.teremok.influence.view.Tooltip;
 import com.teremok.influence.view.TooltipHandler;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Alexx on 11.12.13
@@ -62,6 +63,7 @@ public class Field extends Group {
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
+        placeStartPositions();
         matrix = generator.getMatrix();
         minimal = generator.getMinimal();
     }
@@ -70,8 +72,23 @@ public class Field extends Group {
         generator.updateMinimal();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
+        placeStartPositions();
         matrix = generator.getMatrix();
         minimal = generator.getMinimal();
+    }
+
+    private void placeStartPositions() {
+        Random rnd = new Random();
+        for (int type = 0; type <= Cell.MAX_TYPE; type++) {
+            int number;
+            Cell target;
+            do {
+                number = rnd.nextInt(25);
+                target = cells.get(number);
+            } while (! (target.isValid()) && (target.getType()==0));
+            target.setPower(4);
+            target.setType(type);
+        }
     }
 
     private void registerCellsForDrawing(List<Cell> cells) {
