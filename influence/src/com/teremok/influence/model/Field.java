@@ -1,5 +1,7 @@
 package com.teremok.influence.model;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,7 +12,10 @@ import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.CellSchemeGenerator;
 import com.teremok.influence.util.DrawHelper;
+import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Drawer;
+import com.teremok.influence.view.Tooltip;
+import com.teremok.influence.view.TooltipHandler;
 
 import java.util.List;
 
@@ -158,6 +163,8 @@ public class Field extends Group {
 
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
+        riseDiceTooltips(attack, defense);
+
         attack.setPower(Calculator.getResultPowerA());
         defense.setPower(Calculator.getResultPowerB());
 
@@ -180,6 +187,40 @@ public class Field extends Group {
             }
         }
         return power;
+    }
+
+
+    public void riseDiceTooltips(Cell attack, Cell defense) {
+        String message = Calculator.getN() + "";
+        BitmapFont font = AbstractDrawer.getBitmapFont();
+        Color color;
+        if (Calculator.getDelta() >= 0) {
+            color = Color.GREEN;
+        } else {
+            color = Color.RED;
+        }
+        float tooltipX = calculateTooltipX(attack.getX());
+        float tooltipY = calculateTooltipY(attack.getY());
+        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
+
+        message = Calculator.getM() + "";
+        if (Calculator.getDelta() <= 0) {
+            color = Color.GREEN;
+        } else {
+            color = Color.RED;
+        }
+        tooltipX = calculateTooltipX(defense.getX());
+        tooltipY = calculateTooltipY(defense.getY());
+        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY, 0.75f));
+
+    }
+
+    private float calculateTooltipX(float cellX) {
+        return getX() + cellX + 16f;
+    }
+
+    private float calculateTooltipY(float cellY) {
+        return getY() + cellY + 16f;
     }
 
     @Override
