@@ -17,6 +17,7 @@ import com.teremok.influence.view.Drawer;
 import com.teremok.influence.view.Tooltip;
 import com.teremok.influence.view.TooltipHandler;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -148,7 +149,7 @@ public class Field extends Group {
         }
     }
 
-    private void addPower(Cell cell) {
+    public void addPower(Cell cell) {
         if (cell.getType() == Player.current().getType()) {
             int newPower = cell.getPower() + 1;
             int maxPower = cell.getMaxPower();
@@ -193,6 +194,9 @@ public class Field extends Group {
     private boolean isCellsConnected(Cell from, Cell to) {
 
         if (from.getNumber() == to.getNumber())
+            return false;
+
+        if (! (from.isValid() && to.isValid()))
             return false;
 
         return minimal[from.getNumber()][to.getNumber()] == 1 || minimal[to.getNumber()][from.getNumber()] == 1;
@@ -246,6 +250,20 @@ public class Field extends Group {
     public void draw(SpriteBatch batch, float parentAlpha) {
         Drawer.draw(this, batch, parentAlpha);
         super.draw(batch, parentAlpha);
+    }
+
+    public List<Cell> getConnectedCells(Cell cell) {
+        List<Cell> list = new LinkedList<Cell>();
+
+        for (int i = 0; i < MAX_CELLS_X*MAX_CELLS_Y; i++) {
+            Cell cellToAdd = cells.get(i);
+            if (isCellsConnected(cell, cellToAdd)) {
+                if (cellToAdd.isValid())
+                    list.add(cellToAdd);
+            }
+        }
+
+        return list;
     }
 
     // Auto-generated

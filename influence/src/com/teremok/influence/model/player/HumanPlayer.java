@@ -7,4 +7,9 @@ public class HumanPlayer extends Player {
     public HumanPlayer(int type) {
         super(type);
     }
+
+    @Override
+    protected void actLogic(float delta) {
+
+    }
 }

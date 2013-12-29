@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Score;
+import com.teremok.influence.model.player.ComputerPlayer;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.view.AbstractDrawer;
@@ -39,6 +40,7 @@ public class GameScreen extends AbstractScreen {
         super(game);
         addPlayers(gameType);
         field = new Field();
+        Player.setField(field);
         score = new Score(field);
     }
 
@@ -61,17 +63,21 @@ public class GameScreen extends AbstractScreen {
 
     private void addPlayersForMultiplayer() {
         Player.addPlayer(new HumanPlayer(0), 0);
-        Player.addPlayer(new HumanPlayer(1), 1);
+        Player.addPlayer(new ComputerPlayer(1, this), 1);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
 
-        if (currentPhase == TurnPhase.DISTRIBUTE && Player.current().getPowerToDistribute() == 0) {
-            Player.next();
+        Player currentPlayer = Player.current();
+
+        if (currentPhase == TurnPhase.DISTRIBUTE && currentPlayer.getPowerToDistribute() == 0) {
+            currentPlayer = Player.next();
             currentPhase = TurnPhase.ATTACK;
         }
+
+        currentPlayer.act(delta);
     }
 
     @Override
@@ -99,18 +105,12 @@ public class GameScreen extends AbstractScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
-                    Player player = Player.current();
                     switch (currentPhase) {
                         case ATTACK:
-                            int power = field.getPowerToDistribute(player.getType());
-                            player.setPowerToDistribute(power);
-                            currentPhase = TurnPhase.DISTRIBUTE;
-                            System.out.println("Distribute power phase.");
-                            field.resetSelection();
+                            setDistributePhase();
                             break;
                         case DISTRIBUTE:
-                            Player.next();
-                            currentPhase = TurnPhase.ATTACK;
+                            setAttackPhase();
                             break;
                         default:
 
@@ -127,5 +127,19 @@ public class GameScreen extends AbstractScreen {
             }
 
         });
+    }
+
+    public void setDistributePhase() {
+        Player player = Player.current();
+        int power = field.getPowerToDistribute(player.getType());
+        player.setPowerToDistribute(power);
+        currentPhase = TurnPhase.DISTRIBUTE;
+        System.out.println("Distribute power phase.");
+        field.resetSelection();
+    }
+
+    public void setAttackPhase() {
+        Player.next();
+        currentPhase = TurnPhase.ATTACK;
     }
 }
