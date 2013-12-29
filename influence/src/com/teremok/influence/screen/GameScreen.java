@@ -22,6 +22,11 @@ public class GameScreen extends AbstractScreen {
         DISTRIBUTE
     }
 
+    public static enum GameType {
+        SINGLEPLAYER,
+        MULTIPLAYER
+    }
+
     Field field;
     Score score;
     public static TurnPhase currentPhase;
@@ -30,10 +35,31 @@ public class GameScreen extends AbstractScreen {
         super(game);
         field = new Field();
         score = new Score(field);
+    }
 
+    public GameScreen(Game game, GameType gameType) {
+        this(game);
+        addPlayers(gameType);
+    }
+
+    private void addPlayers(GameType gameType) {
+        if (gameType == GameType.MULTIPLAYER) {
+            addPlayersForMultiplayer();
+        } else {
+            addPlayersForSingleplayer();
+        }
+
+    }
+
+    private void addPlayersForSingleplayer() {
         for (int i = 0; i < 5; i ++) {
             Player.addPlayer(new HumanPlayer(i), i);
         }
+    }
+
+    private void addPlayersForMultiplayer() {
+        Player.addPlayer(new HumanPlayer(0), 0);
+        Player.addPlayer(new HumanPlayer(1), 1);
     }
 
     @Override
