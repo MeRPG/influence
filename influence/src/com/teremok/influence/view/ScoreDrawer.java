@@ -25,8 +25,8 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
     }
 
     private void drawScores(SpriteBatch batch) {
-        int i = 0;
-        for (Player player : Player.getPlayers()) {
+        for (int i = 0; i < Player.getNumberOfPlayers(); i++) {
+            Player player = Player.getPlayers()[i];
             if (player.getScore() == 0) {
                 bitmapFont.setColor(DrawHelper.getCellColorByType( -1 ));
             } else {
@@ -39,7 +39,6 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
                 toDraw = " " + player.getScore() + " ";
             }
             bitmapFont.draw(batch, toDraw, 25f + i*50f, current.getHeight()/2);
-            i++;
         }
     }
 

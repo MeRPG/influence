@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.influence.model.player.Player;
 
 /**
  * Created by Alexx on 20.12.13
@@ -31,6 +32,15 @@ public class StartScreen extends AbstractScreen {
                 game.setScreen(new GameScreen(game));
             }
         });
+    }
+
+    public void startMultiplayerGame () {
+        game.setScreen(new GameScreen(game, GameScreen.GameType.MULTIPLAYER));
+    }
+
+
+    public void startSingleplayerGame () {
+        game.setScreen(new GameScreen(game, GameScreen.GameType.SINGLEPLAYER));
     }
 
     @Override

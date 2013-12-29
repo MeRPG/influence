@@ -6,13 +6,15 @@ package com.teremok.influence.model.player;
 public class Player {
     static private int currentNum = 0;
     static private Player[] players = new Player[5];
+    static private int numberOfPlayers = 0;
+
 
     protected int type;
     protected int power;
     protected int score;
 
     static public void addPlayer(Player player, int num) {
-        if (num < 0 || num > 4) {
+        if (num < 0 || num > numberOfPlayers-1) {
             return;
         }
 
@@ -23,10 +25,10 @@ public class Player {
     static public Player next() {
         do {
             currentNum++;
-            if (currentNum > 4) {
+            if (currentNum > numberOfPlayers-1) {
                 currentNum = 0;
             }
-        } while (players[currentNum].getScore() == 0);
+        } while (players[currentNum].getScore() == 0 );
         System.out.println("Turn ended. Next player : " + currentNum);
         return players[currentNum];
     }
@@ -55,6 +57,14 @@ public class Player {
 
     // Auto-generated
 
+
+    public static int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public static void setNumberOfPlayers(int numberOfPlayers) {
+        Player.numberOfPlayers = numberOfPlayers;
+    }
 
     public static Player[] getPlayers() {
         return players;

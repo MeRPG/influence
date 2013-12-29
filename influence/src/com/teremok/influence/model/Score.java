@@ -25,7 +25,7 @@ public class Score extends Actor {
     }
 
     public void update() {
-        for (int i = 0; i < Cell.MAX_TYPE+1; i++) {
+        for (int i = 0; i < Player.getNumberOfPlayers(); i++) {
             Player.getPlayers()[i].setScore(0);
         }
         for (Cell cell : field.getCells()) {

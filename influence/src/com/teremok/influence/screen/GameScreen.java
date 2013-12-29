@@ -33,19 +33,21 @@ public class GameScreen extends AbstractScreen {
 
     public GameScreen(Game game) {
         super(game);
+    }
+
+    public GameScreen(Game game, GameType gameType) {
+        super(game);
+        addPlayers(gameType);
         field = new Field();
         score = new Score(field);
     }
 
-    public GameScreen(Game game, GameType gameType) {
-        this(game);
-        addPlayers(gameType);
-    }
-
     private void addPlayers(GameType gameType) {
         if (gameType == GameType.MULTIPLAYER) {
+            Player.setNumberOfPlayers(2);
             addPlayersForMultiplayer();
         } else {
+            Player.setNumberOfPlayers(5);
             addPlayersForSingleplayer();
         }
 
