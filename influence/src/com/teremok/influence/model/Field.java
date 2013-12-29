@@ -80,10 +80,7 @@ public class Field extends Group {
 */
     private void placeStartPositions() {
         Random rnd = new Random();
-        for (int type = 0; type <= Cell.MAX_TYPE; type++) {
-
-            if (Player.getPlayers()[type] == null)
-                break;
+        for (int type = 0; type < Player.getNumberOfPlayers(); type++) {
 
             int number;
             Cell target;
