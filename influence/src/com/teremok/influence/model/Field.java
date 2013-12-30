@@ -69,16 +69,7 @@ public class Field extends Group {
         minimal = generator.getMinimal();
         System.out.println("regenerate");
     }
-/*
-    public void updateMinimal() {
-        generator.updateMinimal();
-        cells = generator.getCells();
-        registerCellsForDrawing(cells);
-        placeStartPositions();
-        matrix = generator.getMatrix();
-        minimal = generator.getMinimal();
-    }
-*/
+
     private void placeStartPositions() {
         Random rnd = new Random();
         for (int type = 0; type < Player.getNumberOfPlayers(); type++) {
@@ -131,9 +122,6 @@ public class Field extends Group {
                     && selectedCell.getPower() > 1
                     && selectedCell.getType() != cell.getType()) {
 
-                int a = selectedCell.getPower();
-                int b = cell.getPower();
-
                 int delta = fight(selectedCell, cell);
 
                 if (delta > 0) {
@@ -154,6 +142,9 @@ public class Field extends Group {
             int newPower = cell.getPower() + 1;
             int maxPower = cell.getMaxPower();
             if (newPower <= maxPower) {
+
+                //riseAddPowerTooltip(cell);
+
                 cell.setPower(cell.getPower() + 1);
                 Player.current().subtractPowerToDistribute();
             }
@@ -204,11 +195,15 @@ public class Field extends Group {
 
     public int getPowerToDistribute(int type){
         int power = 0;
+        int maxCapacity = 0;
         for (Cell cell : cells) {
             if (cell.isValid() && cell.getType() == type) {
                 power += 1;
+                maxCapacity += cell.getMaxPower() - cell.getPower();
             }
         }
+        if (power > maxCapacity)
+            power = maxCapacity;
         return power;
     }
 
@@ -238,6 +233,18 @@ public class Field extends Group {
 
     }
 
+    public void riseAddPowerTooltip(Cell cell) {
+
+        String message = "+1";
+        BitmapFont font = AbstractDrawer.getBitmapFont();
+        Color color = Color.GREEN;
+
+        float tooltipX = calculateTooltipX(cell.getX());
+        float tooltipY = calculateTooltipY(cell.getY());
+        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
+
+    }
+
     private float calculateTooltipX(float cellX) {
         return getX() + cellX + 16f;
     }
@@ -264,6 +271,16 @@ public class Field extends Group {
         }
 
         return list;
+    }
+
+    public List<Cell> getConnectedEnemies(Cell cell) {
+        List<Cell> enemies = new LinkedList<Cell>();
+        for (Cell enemy : getConnectedCells(cell)) {
+            if (enemy.getType() != cell.getType()) {
+                enemies.add(enemy);
+            }
+        }
+        return enemies;
     }
 
     // Auto-generated
