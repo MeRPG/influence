@@ -182,10 +182,22 @@ public class Field extends Group {
 
         riseDiceTooltips(attack, defense);
 
-        attack.setPower(Calculator.getResultPowerA());
-        defense.setPower(Calculator.getResultPowerB());
+        setResultPower(attack, defense);
 
         return delta;
+    }
+
+    private void setResultPower(Cell attack, Cell defense) {
+        int calcA = Calculator.getResultPowerA();
+        int calcB = Calculator.getResultPowerB();
+
+        if (calcB > defense.getMaxPower()) {
+            calcA += calcB - defense.getMaxPower();
+            calcB = defense.getMaxPower();
+        }
+
+        attack.setPower(calcA);
+        defense.setPower(calcB);
     }
 
     private boolean isCellsConnected(Cell from, Cell to) {

@@ -56,8 +56,8 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void addPlayersForSingleplayer() {
-        //Player.addPlayer(new HumanPlayer(0), 0);
-        Player.addPlayer(new ComputerPlayer(0, this), 0);
+        Player.addPlayer(new HumanPlayer(0), 0);
+        //Player.addPlayer(new ComputerPlayer(0, this), 0);
         for (int i = 1; i < Player.getNumberOfPlayers(); i ++) {
             Player.addPlayer(new ComputerPlayer(i, this), i);
         }
