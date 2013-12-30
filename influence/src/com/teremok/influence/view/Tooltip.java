@@ -55,7 +55,7 @@ public class Tooltip extends Actor {
     private Action createFadeOutAction(){
         AlphaAction fadeOut = new AlphaAction();
         fadeOut.setAlpha(0f);
-        fadeOut.setDuration(1.5f);
+        fadeOut.setDuration(1f);
         return fadeOut;
     }
 
