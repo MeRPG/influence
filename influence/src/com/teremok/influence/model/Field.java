@@ -32,8 +32,6 @@ public class Field extends Group {
     public static final float WIDTH = DrawHelper.UNIT_SIZE*10f;
     public static final float HEIGHT = DrawHelper.UNIT_SIZE*13f;
 
-    private static final int GREAT_WIN_DELTA = 7;
-
     private int[][] matrix;
     private int[][] minimal;
     private List<Cell> cells;
@@ -52,11 +50,6 @@ public class Field extends Group {
         setBounds(actorX, actorY, actorWidth, actorHeight);
 
         regenerate();
-    }
-
-    public void setCells(List<Cell> cells) {
-        registerCellsForDrawing(cells);
-        this.cells = cells;
     }
 
     public void regenerate() {
@@ -305,10 +298,6 @@ public class Field extends Group {
 
     public Cell getSelectedCell() {
         return selectedCell;
-    }
-
-    public int[][] getMatrix() {
-        return matrix;
     }
 
     public int[][] getMinimal() {
