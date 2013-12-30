@@ -1,12 +1,9 @@
 package com.teremok.influence.model.player;
 
-import android.util.Pair;
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.Field;
 import com.teremok.influence.screen.GameScreen;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,8 +17,9 @@ public class ComputerPlayer extends Player {
     public final static float TURN_DELAY = .50f;
     private Map<Integer, Cell> actions;
     private GameScreen screen;
+    private Random rnd = new Random();
 
-    public ComputerPlayer(int type) {
+    private ComputerPlayer(int type) {
         super(type);
     }
 
@@ -38,21 +36,21 @@ public class ComputerPlayer extends Player {
         }
     }
 
-    private float timelost = 0;
+    private float turnTime = 0;
     private int turn = 0;
     boolean oneMoreMove;
 
     private void actAttackLogic(float delta) {
 
-        if (timelost == 0 || oneMoreMove) {
+        if (turnTime == 0 || oneMoreMove) {
             prepareActions();
 
-        }  else {
-            if (timelost / TURN_DELAY > turn ) {
+        } else {
+            if (turnTime / TURN_DELAY > turn ) {
                 doFirstAction();
             }
         }
-        timelost += delta;
+        turnTime += delta;
     }
 
     private void prepareActions() {
@@ -60,16 +58,14 @@ public class ComputerPlayer extends Player {
         actions = new HashMap<Integer, Cell>();
         turn = 0;
         oneMoreMove = false;
-        outer:
         for (Cell cell : field.getCells()) {
-            if (cell.isValid() && cell.getType() == type) {
-                inner:
-                for (Cell enemy : field.getConnectedCells(cell)) {
-                    if ( cell.getPower() != 0 && cell.getType() != enemy.getType()  ) {
-                        actions.put(t++,cell);
-                        actions.put(t++,enemy);
-                        break outer;
-                    }
+            if (cell.isValid() && cell.getType() == type && cell.getPower() > 1) {
+                List<Cell> enemies = field.getConnectedEnemies(cell);
+                if (! enemies.isEmpty()) {
+                    int cellNumberToAttack = rnd.nextInt(enemies.size());
+                    Cell cellToAttack = enemies.get(cellNumberToAttack);
+                    actions.put(t++, cell);
+                    actions.put(t++, cellToAttack);
                 }
             }
         }
@@ -81,7 +77,6 @@ public class ComputerPlayer extends Player {
             cell = actions.get(turn);
 
             int beforeType = cell.getType();
-
             System.out.println("Selecting cell: " + cell);
             field.setSelectedCell(cell);
 
@@ -89,12 +84,13 @@ public class ComputerPlayer extends Player {
 
             if (cell.getType() != beforeType && cell.getPower() > 1) {
                 oneMoreMove = true;
+                turnTime = 0;
             }
 
             turn++;
         } else {
             turn = 0;
-            timelost = 0;
+            turnTime = 0;
             screen.setDistributePhase();
         }
     }
@@ -102,7 +98,7 @@ public class ComputerPlayer extends Player {
     private void actDistributeLogic(float delta) {
         System.out.println("Distributing power!");
         for (Cell cell : field.getCells()) {
-            if (cell.isValid() && cell.getType() == type) {
+            if (cell.isValid() && cell.getType() == type && power > 0) {
                 field.addPower(cell);
             }
         }

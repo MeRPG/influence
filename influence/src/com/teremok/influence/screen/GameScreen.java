@@ -56,8 +56,10 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void addPlayersForSingleplayer() {
-        for (int i = 0; i < 5; i ++) {
-            Player.addPlayer(new HumanPlayer(i), i);
+        //Player.addPlayer(new HumanPlayer(0), 0);
+        Player.addPlayer(new ComputerPlayer(0, this), 0);
+        for (int i = 1; i < Player.getNumberOfPlayers(); i ++) {
+            Player.addPlayer(new ComputerPlayer(i, this), i);
         }
     }
 
@@ -89,7 +91,6 @@ public class GameScreen extends AbstractScreen {
         AbstractDrawer.setBitmapFont(getFont());
 
         field.setTouchable(Touchable.childrenOnly);
-        //field.updateMinimal();
 
         stage.addActor(field);
         stage.addActor(score);
