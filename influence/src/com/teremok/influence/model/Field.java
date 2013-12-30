@@ -77,9 +77,15 @@ public class Field extends Group {
             int number;
             Cell target;
             do {
-                number = rnd.nextInt(25);
+                number = rnd.nextInt(cells.size());
                 target = cells.get(number);
-            } while (! (target.isValid()) && (target.getType()==0));
+
+                if (target.isValid() && target.getType() == -1) {
+                    break;
+                }
+
+            } while (true);
+            System.out.println("Placing player: " + target);
             target.setPower(3);
             target.setType(type);
         }
