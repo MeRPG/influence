@@ -32,9 +32,6 @@ public class Field extends Group {
     public static final float WIDTH = DrawHelper.UNIT_SIZE*10f;
     public static final float HEIGHT = DrawHelper.UNIT_SIZE*13f;
 
-    private static final int GREAT_WIN_DELTA = 7;
-
-    private int[][] matrix;
     private int[][] minimal;
     private List<Cell> cells;
     private CellSchemeGenerator generator;
@@ -54,18 +51,12 @@ public class Field extends Group {
         regenerate();
     }
 
-    public void setCells(List<Cell> cells) {
-        registerCellsForDrawing(cells);
-        this.cells = cells;
-    }
-
     public void regenerate() {
         generator = new CellSchemeGenerator(25);
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
         placeStartPositions();
-        matrix = generator.getMatrix();
         minimal = generator.getMinimal();
         System.out.println("regenerate");
     }
@@ -305,10 +296,6 @@ public class Field extends Group {
 
     public Cell getSelectedCell() {
         return selectedCell;
-    }
-
-    public int[][] getMatrix() {
-        return matrix;
     }
 
     public int[][] getMinimal() {
