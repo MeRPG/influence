@@ -32,6 +32,8 @@ public class Field extends Group {
     public static final float WIDTH = DrawHelper.UNIT_SIZE*10f;
     public static final float HEIGHT = DrawHelper.UNIT_SIZE*13f;
 
+    private static final int CELLS_COUNT = 25;
+
     private int[][] graphMatrix;
     private List<Cell> cells;
     private GraphGenerator generator;
@@ -52,7 +54,7 @@ public class Field extends Group {
     }
 
     public void regenerate() {
-        generator = new GraphGenerator(25);
+        generator = new GraphGenerator(CELLS_COUNT);
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);

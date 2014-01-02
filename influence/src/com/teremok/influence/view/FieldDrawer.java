@@ -26,8 +26,10 @@ public class FieldDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawCellRoutes(Cell cell) {
-        for (int j = 0; j < 35; j++) {
-            if (cell.isValid() && current.getGraphMatrix()[cell.getNumber()][j] == 1) {
+        int[][] graphMatrix = current.getGraphMatrix();
+        for (int j = 0; j < graphMatrix[0].length; j++) {
+            int currentCellNumber = cell.getNumber();
+            if (cell.isValid() && graphMatrix[currentCellNumber][j] == 1) {
                 Cell toCell = current.getCells().get(j);
                 if (toCell.isValid()) {
                     if (cell.getType() == toCell.getType()) {

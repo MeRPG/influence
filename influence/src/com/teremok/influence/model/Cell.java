@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.util.DrawHelper;
 import com.teremok.influence.view.Drawer;
 
+import static com.teremok.influence.model.Field.*;
+
 import java.util.Random;
 
 /**
@@ -21,16 +23,12 @@ public class Cell extends Actor {
 
     // координаты на сетке
     int unitsX, unitsY;
-
     // порядковый номер
     int number;
-
     // тип (цвет)
     int type;
-
     // мощность - количество секторов
     int power;
-
     // максимальное количество секторов
     int maxPower;
 
@@ -49,8 +47,8 @@ public class Cell extends Actor {
         this.unitsX = unitsX;
         this.unitsY = unitsY;
 
-        float actorWidth = Field.WIDTH / 5;
-        float actorHeight = Field.HEIGHT / 7;
+        float actorWidth = Field.WIDTH / MAX_CELLS_X;
+        float actorHeight = Field.HEIGHT / MAX_CELLS_Y;
 
         float actorX;
         if (unitsX%2 == 1) {
@@ -108,21 +106,9 @@ public class Cell extends Actor {
         return maxPower == POWER_BIG;
     }
 
-    static public int calcNumber(int x, int y) {
-        return x + y*5;
-    }
-
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         Drawer.draw(this, batch, parentAlpha);
-    }
-
-    public void setPowerGreaterZero(int power) {
-        if (power <= 0) {
-            this.power = 1;
-        } else {
-            this.power = power;
-        }
     }
 
     // Auto-generated

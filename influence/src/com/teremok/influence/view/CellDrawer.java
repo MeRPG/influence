@@ -22,7 +22,6 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         Color color = DrawHelper.getCellColorByType(current.getType());
         renderer.setColor(color);
         batch.end();
-        //drawBoundingBox();
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
