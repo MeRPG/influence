@@ -1,6 +1,7 @@
 package com.teremok.influence.model.player;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 
 /**
@@ -39,6 +40,15 @@ public abstract class Player {
 
     static public Player current() {
         return players[currentNum];
+    }
+
+    static public void update() {
+        Player player;
+        for (int i = 0; i < Player.getNumberOfPlayers(); i++) {
+            player = Player.getPlayers()[i];
+            int scoreToSet = field.calcScore(player.type);
+            player.setScore(scoreToSet);
+        }
     }
 
     // Non-static

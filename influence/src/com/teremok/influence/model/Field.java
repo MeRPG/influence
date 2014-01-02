@@ -294,6 +294,16 @@ public class Field extends Group {
         return enemies;
     }
 
+    public int calcScore(int type) {
+        int score = 0;
+        for (Cell cell : cells) {
+            if (cell.isValid() && cell.getType() == type) {
+                score += cell.getPower();
+            }
+        }
+        return score;
+    }
+
     // Auto-generated
 
     public Cell getSelectedCell() {

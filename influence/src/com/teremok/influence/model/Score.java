@@ -24,18 +24,6 @@ public class Score extends Actor {
         setBounds(actorX, actorY, actorWidth, actorHeight);
     }
 
-    public void update() {
-        for (int i = 0; i < Player.getNumberOfPlayers(); i++) {
-            Player.getPlayers()[i].setScore(0);
-        }
-        for (Cell cell : field.getCells()) {
-            if (cell.isValid() && cell.getType() != -1) {
-                int score = Player.getPlayers()[cell.getType()].getScore();
-                Player.getPlayers()[cell.getType()].setScore(score + cell.getPower());
-            }
-        }
-    }
-
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -45,7 +33,7 @@ public class Score extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        update();
+        Player.update();
     }
 
     // Auto-generated
