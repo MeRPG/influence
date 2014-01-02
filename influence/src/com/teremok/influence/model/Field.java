@@ -35,6 +35,8 @@ public class Field extends Group {
 
     private static final int CELLS_COUNT = 25;
 
+    private static final int INITIAL_CELL_POWER = 2;
+
     private int[][] graphMatrix;
     private List<Cell> cells;
     private GraphGenerator generator;
@@ -59,30 +61,26 @@ public class Field extends Group {
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
-        placeStartPositions();
         graphMatrix = generator.getMatrix();
-        System.out.println("regenerate");
     }
 
-    private void placeStartPositions() {
+    public void placeStartPosition(int type) {
         Random rnd = new Random();
-        for (int type = 0; type < PlayerManager.getNumberOfPlayers(); type++) {
+        int number;
+        Cell target;
 
-            int number;
-            Cell target;
-            do {
-                number = rnd.nextInt(cells.size());
-                target = cells.get(number);
+        do {
+            number = rnd.nextInt(cells.size());
+            target = cells.get(number);
 
-                if (target.isValid() && target.getType() == -1) {
-                    break;
-                }
+            if (target.isValid() && target.getType() == -1) {
+                break;
+            }
 
-            } while (true);
-            System.out.println("Placing player: " + target);
-            target.setPower(3);
-            target.setType(type);
-        }
+        } while (true);
+        System.out.println("Placing player: " + target);
+        target.setPower(INITIAL_CELL_POWER);
+        target.setType(type);
     }
 
     private void registerCellsForDrawing(List<Cell> cells) {

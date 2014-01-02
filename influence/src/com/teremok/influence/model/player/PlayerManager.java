@@ -49,18 +49,36 @@ public class PlayerManager {
 
 
     static public void addPlayersForSingleplayer(GameScreen gameScreen) {
-        PlayerManager.setNumberOfPlayers(5);
-        PlayerManager.addPlayer(new HumanPlayer(0), 0);
+        numberOfPlayers = 5;
+        addPlayer(new HumanPlayer(0), 0);
         //Player.addPlayer(new ComputerPlayer(0, gameScreen), 0);
-        for (int i = 1; i < PlayerManager.getNumberOfPlayers(); i ++) {
-            PlayerManager.addPlayer(new ComputerPlayer(i, gameScreen, field), i);
+        for (int i = 1; i < numberOfPlayers; i ++) {
+            addPlayer(new ComputerPlayer(i, gameScreen, field), i);
         }
+        placeStartPositions();
     }
 
     static public  void addPlayersForMultiplayer(GameScreen gameScreen) {
-        PlayerManager.setNumberOfPlayers(2);
-        PlayerManager.addPlayer(new HumanPlayer(0), 0);
-        PlayerManager.addPlayer(new ComputerPlayer(1, gameScreen, field), 1);
+        numberOfPlayers = 2;
+        addPlayer(new HumanPlayer(0), 0);
+        addPlayer(new ComputerPlayer(1, gameScreen, field), 1);
+        placeStartPositions();
+    }
+
+    private static void placeStartPositions() {
+        for (Player player : players) {
+            field.placeStartPosition(player.getType());
+        }
+    }
+
+    public static void setField(Field field) {
+        PlayerManager.field = field;
+
+        for (Player player : players) {
+            if (player instanceof ComputerPlayer) {
+                ((ComputerPlayer)player).setField(field);
+            }
+        }
     }
 
     // Auto-generated
@@ -79,9 +97,5 @@ public class PlayerManager {
 
     public static Field getField() {
         return field;
-    }
-
-    public static void setField(Field field) {
-        PlayerManager.field = field;
     }
 }

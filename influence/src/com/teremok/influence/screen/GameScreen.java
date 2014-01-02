@@ -39,9 +39,9 @@ public class GameScreen extends AbstractScreen {
 
     public GameScreen(Game game, GameType gameType) {
         super(game);
-        addPlayers(gameType);
         field = new Field();
         PlayerManager.setField(field);
+        addPlayers(gameType);
         score = new Score(field);
     }
 

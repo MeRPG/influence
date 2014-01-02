@@ -108,4 +108,9 @@ public class ComputerPlayer extends Player {
         oneMoreMove = true;
     }
 
+    // Auto-generated
+
+    public void setField(Field field) {
+        this.field = field;
+    }
 }
