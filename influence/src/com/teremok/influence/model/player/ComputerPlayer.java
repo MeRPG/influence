@@ -17,22 +17,14 @@ public class ComputerPlayer extends Player {
 
     public final static float TURN_DELAY = .50f;
     private Map<Integer, Cell> actions;
-    private GameScreen screen;
-    private Field field;
     private Random rnd = new Random();
 
-    private ComputerPlayer(int type) {
-        super(type);
-    }
-
     public ComputerPlayer(int type, GameScreen screen, Field field) {
-        this(type);
-        this.screen = screen;
-        this.field = field;
+        super(type, screen, field);
     }
 
     protected void actLogic(float delta) {
-        if (GameScreen.currentPhase == GameScreen.TurnPhase.ATTACK) {
+        if (gameScreen.currentPhase == GameScreen.TurnPhase.ATTACK) {
             actAttackLogic(delta);
         } else {
             actDistributeLogic(delta);
@@ -94,23 +86,17 @@ public class ComputerPlayer extends Player {
         } else {
             turn = 0;
             turnTime = 0;
-            screen.setDistributePhase();
+            gameScreen.setDistributePhase();
         }
     }
 
     private void actDistributeLogic(float delta) {
         System.out.println("Distributing power!");
         for (Cell cell : field.getCells()) {
-            if (cell.isValid() && cell.getType() == type && power > 0) {
+            if (cell.isValid() && cell.getType() == type && powerToDistribute > 0) {
                 field.addPower(cell);
             }
         }
         oneMoreMove = true;
-    }
-
-    // Auto-generated
-
-    public void setField(Field field) {
-        this.field = field;
     }
 }

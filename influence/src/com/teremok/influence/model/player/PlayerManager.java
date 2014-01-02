@@ -50,7 +50,7 @@ public class PlayerManager {
 
     static public void addPlayersForSingleplayer(GameScreen gameScreen) {
         numberOfPlayers = 5;
-        addPlayer(new HumanPlayer(0), 0);
+        addPlayer(new HumanPlayer(0, gameScreen, field), 0);
         //Player.addPlayer(new ComputerPlayer(0, gameScreen), 0);
         for (int i = 1; i < numberOfPlayers; i ++) {
             addPlayer(new ComputerPlayer(i, gameScreen, field), i);
@@ -60,7 +60,7 @@ public class PlayerManager {
 
     static public  void addPlayersForMultiplayer(GameScreen gameScreen) {
         numberOfPlayers = 2;
-        addPlayer(new HumanPlayer(0), 0);
+        addPlayer(new HumanPlayer(0, gameScreen, field), 0);
         addPlayer(new ComputerPlayer(1, gameScreen, field), 1);
         placeStartPositions();
     }
@@ -76,7 +76,7 @@ public class PlayerManager {
 
         for (Player player : players) {
             if (player instanceof ComputerPlayer) {
-                ((ComputerPlayer)player).setField(field);
+                player.setField(field);
             }
         }
     }

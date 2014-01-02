@@ -1,8 +1,7 @@
 package com.teremok.influence.model.player;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
+import com.teremok.influence.screen.GameScreen;
 
 /**
  * Created by Alexx on 26.12.13
@@ -10,23 +9,27 @@ import com.teremok.influence.model.Field;
 public abstract class Player {
 
     protected int type;
-    protected int power;
+    protected int powerToDistribute;
     protected int score;
+    protected GameScreen gameScreen;
+    protected Field field;
 
-    public Player(int type) {
+    protected Player(int type, GameScreen gameScreen, Field field) {
         this.type = type;
+        this.gameScreen = gameScreen;
+        this.field = field;
     }
 
     public void setPowerToDistribute(int power) {
-        this.power = power;
+        this.powerToDistribute = power;
     }
 
     public int getPowerToDistribute() {
-        return power;
+        return powerToDistribute;
     }
 
     public void subtractPowerToDistribute() {
-        power--;
+        powerToDistribute--;
     }
 
     public void act(float delta) {
@@ -49,4 +52,7 @@ public abstract class Player {
         this.score = score;
     }
 
+    public void setField(Field field) {
+        this.field = field;
+    }
 }
