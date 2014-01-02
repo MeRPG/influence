@@ -101,7 +101,7 @@ public class GameScreen extends AbstractScreen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (! event.isHandled()) {
+                if (! event.isHandled() && PlayerManager.current() instanceof HumanPlayer) {
                     switch (currentPhase) {
                         case ATTACK:
                             setDistributePhase();
@@ -124,6 +124,15 @@ public class GameScreen extends AbstractScreen {
             }
 
         });
+    }
+
+    public void switchPhase() {
+        if (currentPhase == TurnPhase.ATTACK) {
+            setDistributePhase();
+        } else {
+            setAttackPhase();
+        }
+
     }
 
     public void setDistributePhase() {
