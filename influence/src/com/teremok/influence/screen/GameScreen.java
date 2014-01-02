@@ -138,5 +138,6 @@ public class GameScreen extends AbstractScreen {
     public void setAttackPhase() {
         PlayerManager.next();
         currentPhase = TurnPhase.ATTACK;
+        System.out.println("Attack phase.");
     }
 }
