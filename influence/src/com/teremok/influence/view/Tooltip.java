@@ -60,13 +60,12 @@ public class Tooltip extends Actor {
     }
 
     private Action createCompleteAction(){
-        Action completeAction = new Action(){
+        return new Action(){
             public boolean act( float delta ) {
                 TooltipHandler.removeTooltip(id);
                 return true;
             }
         };
-        return completeAction;
     }
 
     @Override

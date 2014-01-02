@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.model.player.Player;
+import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.GraphGenerator;
@@ -65,7 +66,7 @@ public class Field extends Group {
 
     private void placeStartPositions() {
         Random rnd = new Random();
-        for (int type = 0; type < Player.getNumberOfPlayers(); type++) {
+        for (int type = 0; type < PlayerManager.getNumberOfPlayers(); type++) {
 
             int number;
             Cell target;
@@ -137,7 +138,7 @@ public class Field extends Group {
     }
 
     public void addPower(Cell cell) {
-        if (cell.getType() == Player.current().getType()) {
+        if (cell.getType() == PlayerManager.current().getType()) {
             int newPower = cell.getPower() + 1;
             int maxPower = cell.getMaxPower();
             if (newPower <= maxPower) {
@@ -145,13 +146,13 @@ public class Field extends Group {
                 //riseAddPowerTooltip(cell);
 
                 cell.setPower(cell.getPower() + 1);
-                Player.current().subtractPowerToDistribute();
+                PlayerManager.current().subtractPowerToDistribute();
             }
         }
     }
 
     private void reallySetSelected(Cell cell) {
-        if (cell.getType() == Player.current().getType()) {
+        if (cell.getType() == PlayerManager.current().getType()) {
             if (selectedCell != null)
                 selectedCell.setSelected(false);
             cell.setSelected(true);

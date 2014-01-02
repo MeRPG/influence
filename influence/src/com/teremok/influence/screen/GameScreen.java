@@ -10,6 +10,7 @@ import com.teremok.influence.model.Score;
 import com.teremok.influence.model.player.ComputerPlayer;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
+import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.TooltipHandler;
 
@@ -40,42 +41,37 @@ public class GameScreen extends AbstractScreen {
         super(game);
         addPlayers(gameType);
         field = new Field();
-        Player.setField(field);
+        PlayerManager.setField(field);
         score = new Score(field);
     }
 
     private void addPlayers(GameType gameType) {
         if (gameType == GameType.MULTIPLAYER) {
-            Player.setNumberOfPlayers(2);
+            PlayerManager.setNumberOfPlayers(2);
             addPlayersForMultiplayer();
         } else {
-            Player.setNumberOfPlayers(5);
+            PlayerManager.setNumberOfPlayers(5);
             addPlayersForSingleplayer();
         }
 
     }
 
     private void addPlayersForSingleplayer() {
-        Player.addPlayer(new HumanPlayer(0), 0);
-        //Player.addPlayer(new ComputerPlayer(0, this), 0);
-        for (int i = 1; i < Player.getNumberOfPlayers(); i ++) {
-            Player.addPlayer(new ComputerPlayer(i, this), i);
-        }
+        PlayerManager.addPlayersForSingleplayer(this);
     }
 
     private void addPlayersForMultiplayer() {
-        Player.addPlayer(new HumanPlayer(0), 0);
-        Player.addPlayer(new ComputerPlayer(1, this), 1);
+        PlayerManager.addPlayersForMultiplayer(this);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
 
-        Player currentPlayer = Player.current();
+        Player currentPlayer = PlayerManager.current();
 
         if (currentPhase == TurnPhase.DISTRIBUTE && currentPlayer.getPowerToDistribute() == 0) {
-            currentPlayer = Player.next();
+            currentPlayer = PlayerManager.next();
             currentPhase = TurnPhase.ATTACK;
         }
 
@@ -131,7 +127,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void setDistributePhase() {
-        Player player = Player.current();
+        Player player = PlayerManager.current();
         int power = field.getPowerToDistribute(player.getType());
         player.setPowerToDistribute(power);
         currentPhase = TurnPhase.DISTRIBUTE;
@@ -140,7 +136,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void setAttackPhase() {
-        Player.next();
+        PlayerManager.next();
         currentPhase = TurnPhase.ATTACK;
     }
 }

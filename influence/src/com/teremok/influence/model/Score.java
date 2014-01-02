@@ -3,6 +3,7 @@ package com.teremok.influence.model;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.model.player.Player;
+import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.view.Drawer;
 
@@ -33,7 +34,7 @@ public class Score extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        Player.update();
+        PlayerManager.update();
     }
 
     // Auto-generated

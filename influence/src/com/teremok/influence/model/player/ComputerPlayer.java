@@ -1,6 +1,7 @@
 package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.Field;
 import com.teremok.influence.screen.GameScreen;
 
 import java.util.*;
@@ -17,15 +18,17 @@ public class ComputerPlayer extends Player {
     public final static float TURN_DELAY = .50f;
     private Map<Integer, Cell> actions;
     private GameScreen screen;
+    private Field field;
     private Random rnd = new Random();
 
     private ComputerPlayer(int type) {
         super(type);
     }
 
-    public ComputerPlayer(int type, GameScreen screen) {
+    public ComputerPlayer(int type, GameScreen screen, Field field) {
         this(type);
         this.screen = screen;
+        this.field = field;
     }
 
     protected void actLogic(float delta) {
