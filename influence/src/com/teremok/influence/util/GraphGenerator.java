@@ -1,7 +1,7 @@
 package com.teremok.influence.util;
 
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.Field;
+import static com.teremok.influence.model.Field.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.Random;
 /**
  * Created by Alexx on 12.12.13
  */
-public class CellSchemeGenerator {
+public class GraphGenerator {
 
-    private int GRAPH_MATRIX_SIZE = Field.MAX_CELLS_X * Field.MAX_CELLS_Y;
+    private int MATRIX_SIZE = MAX_CELLS_X * MAX_CELLS_Y;
     private float KEEPING_ROUTES_POSSIBILITY = 0.8f;
 
     private int count;
@@ -21,26 +21,19 @@ public class CellSchemeGenerator {
 
     private int[][] matrix;
 
-    private int[][] minimal;
-
     int cycles;
 
     List<Cell> cells;
 
-    public CellSchemeGenerator(int i) {
+    public GraphGenerator(int i) {
         count = i;
         rnd = new Random();
         matrix = new int[i][i];
         cells = new LinkedList<Cell>();
     }
 
-    public CellSchemeGenerator(int i, float p) {
-        this(i);
-        this.KEEPING_ROUTES_POSSIBILITY = p;
-    }
-
     public void generate() {
-        mask = new int[Field.MAX_CELLS_Y][Field.MAX_CELLS_X];
+        mask = new int[MAX_CELLS_Y][MAX_CELLS_X];
         mask[1][4] = Integer.MAX_VALUE;
         mask[3][4] = Integer.MAX_VALUE;
         mask[5][4] = Integer.MAX_VALUE;
@@ -49,8 +42,8 @@ public class CellSchemeGenerator {
         for (int i = 0; i < count; i ++) {
             do {
                 cycles++;
-                x = rnd.nextInt(Field.MAX_CELLS_Y);
-                y = rnd.nextInt(Field.MAX_CELLS_X);
+                x = rnd.nextInt(MAX_CELLS_Y);
+                y = rnd.nextInt(MAX_CELLS_X);
 
                 if (isEmpty(x, y) && i == 0)
                     break;
@@ -58,39 +51,37 @@ public class CellSchemeGenerator {
             } while (!isEmpty(x, y) || isAlone(x, y));
             mask[x][y] = 1;
         }
-
-        //printMask();
         constructMatrix();
-        //printMatrix();
-
-        updateMinimal(KEEPING_ROUTES_POSSIBILITY);
+        minimizeMatrix();
     }
 
-    public void updateMinimal() {
-        copyMatrixToMinimal();
-        System.out.println("Update minimal with p = " + KEEPING_ROUTES_POSSIBILITY);
-        Cell start;
-        int i = 0;
-        do {
-            start= cells.get(i++);
-        } while (!start.isValid());
-        for (i = 0; i < GRAPH_MATRIX_SIZE; i++) {
-            mark[i] = false;
+    public void minimizeMatrix() {
+        int startNumber = getFirstValidVertexNumber();
+
+        for (int i = 0; i < MATRIX_SIZE; i++) {
+            markedVertexes[i] = false;
         }
-        DFS(start.getNumber(), start.getNumber());
-        //printMinimal();
-        //printList();
+
+        DFS(startNumber, startNumber);
     }
 
-    public void updateMinimal(float newP) {
-        this.KEEPING_ROUTES_POSSIBILITY = newP;
-        updateMinimal();
+    private int getFirstValidVertexNumber() {
+
+        for (int i = 0; i < MATRIX_SIZE; i++){
+            for (int j = 0; j < MATRIX_SIZE; j++) {
+                if (matrix[i][j] == 1) {
+                    return i;
+                }
+            }
+        }
+        return 0;
     }
+
     // получить номер элемента
     // исходя из координат в матрице и длины строки
     // num = col + (row*3) + 1;
     private int getNum( int i, int j) {
-        return j + i* Field.MAX_CELLS_X;
+        return j + i*MAX_CELLS_X;
     }
 
     public List<Cell> getCells() {
@@ -98,11 +89,11 @@ public class CellSchemeGenerator {
     }
 
     public void constructMatrix() {
-        matrix = new int[GRAPH_MATRIX_SIZE][GRAPH_MATRIX_SIZE];
+        matrix = new int[MATRIX_SIZE][MATRIX_SIZE];
         cells = new LinkedList<Cell>();
 
-        for (int i = 0; i < Field.MAX_CELLS_Y; i++) {
-            for (int j = 0; j < Field.MAX_CELLS_X; j++) {
+        for (int i = 0; i < MAX_CELLS_Y; i++) {
+            for (int j = 0; j < MAX_CELLS_X; j++) {
                 if (mask[i][j] > 0 && mask[i][j] < Integer.MAX_VALUE) {
                     int curNum = getNum(i, j);
                     checkAround(curNum, i, j);
@@ -112,10 +103,6 @@ public class CellSchemeGenerator {
                 }
             }
         }
-    }
-
-    public int[][] getMatrix() {
-        return matrix;
     }
 
     private void checkAround(int curNum, int x, int y) {
@@ -139,7 +126,7 @@ public class CellSchemeGenerator {
     }
 
     private void checkForMatrix(int curNum, int x, int y) {
-        if (x < 0 || y < 0 || x >= Field.MAX_CELLS_Y || y >= Field.MAX_CELLS_X) {
+        if (x < 0 || y < 0 || x >= MAX_CELLS_Y || y >= MAX_CELLS_X) {
             return;
         }
         if (mask[x][y] > 0 && mask[x][y] < Integer.MAX_VALUE) {
@@ -175,30 +162,6 @@ public class CellSchemeGenerator {
 
     }
 
-    private void printMinimal() {
-        System.out.println("Minimal for graph: ");
-        int ones = 0;
-        for (int i = 0; i < count; i++) {
-            for (int j = 0; j < count; j++) {
-                System.out.print(minimal[i][j] + "\t");
-                if (minimal[i][j] == 1) ones++;
-            }
-            System.out.println();
-        }
-        System.out.println("Percents: " + ((float)ones * 100 )/(count*count) + "%");
-        System.out.println(" - - - ");
-
-    }
-
-    private void printList() {
-        System.out.println(" List size: " + cells.size());
-
-        for (Cell c : cells) {
-            System.out.println(c);
-        }
-        System.out.println(" - - - ");
-    }
-
     private boolean isAlone(int x, int y) {
         for (int i = -1; i < 2; i++ ) {
             for (int j = -1; j < 2; j++ ) {
@@ -223,7 +186,7 @@ public class CellSchemeGenerator {
 
     private boolean isEmptyIncludeMax(int x, int y) {
 
-        if (x < 0 || y < 0 || x >= Field.MAX_CELLS_Y || y >= Field.MAX_CELLS_X) {
+        if (x < 0 || y < 0 || x >= MAX_CELLS_Y || y >= MAX_CELLS_X) {
             return true;
         }
 
@@ -236,7 +199,7 @@ public class CellSchemeGenerator {
 
     private boolean isEmpty(int x, int y) {
 
-        if (x < 0 || y < 0 || x >= Field.MAX_CELLS_Y || y >= Field.MAX_CELLS_X) {
+        if (x < 0 || y < 0 || x >= MAX_CELLS_Y || y >= MAX_CELLS_X) {
             return true;
         }
 
@@ -249,8 +212,8 @@ public class CellSchemeGenerator {
 
     private void printMask() {
         System.out.println(" - - - - - - - - ");
-        for (int i = 0; i < Field.MAX_CELLS_Y; i++) {
-            for (int j = 0; j < Field.MAX_CELLS_X; j++) {
+        for (int i = 0; i < MAX_CELLS_Y; i++) {
+            for (int j = 0; j < MAX_CELLS_X; j++) {
                 if (mask[i][j] == Integer.MAX_VALUE)
                     System.out.print("-\t");
                 else
@@ -261,47 +224,36 @@ public class CellSchemeGenerator {
         System.out.println(" - - - Cycles: " + cycles);
     }
 
-    private void copyMatrixToMinimal() {
-        minimal = new int[GRAPH_MATRIX_SIZE][GRAPH_MATRIX_SIZE];
+    private boolean[] markedVertexes = new boolean[MATRIX_SIZE];
 
-        for (int i = 0; i < GRAPH_MATRIX_SIZE; i++) {
-            for (int j = 0; j < GRAPH_MATRIX_SIZE; j++) {
-                minimal[i][j] = matrix[i][j];
-            }
-        }
-    }
-
-    private boolean[] mark = new boolean[GRAPH_MATRIX_SIZE];
-
-    private void DFS(int v, int from) {
-        if (mark[v])  // Если мы здесь уже были, то тут больше делать нечего
-        {
+    private void DFS(int current, int from) {
+        if (markedVertexes[current]) {
             if (rnd.nextFloat() > KEEPING_ROUTES_POSSIBILITY) {
-                minimal[v][from] = 0;
-                minimal[from][v] = 0;
+                matrix[current][from] = 0;
+                matrix[from][current] = 0;
             }
             return;
         }
 
-        boolean flag = true;
-        for (int i = 0; i < GRAPH_MATRIX_SIZE; i++) {
-            flag = flag && mark[i];
+        boolean allMarked = true;
+        for (int vertex = 0; vertex < MATRIX_SIZE; vertex++) {
+            allMarked = allMarked && markedVertexes[vertex];
         }
-        if (flag) {
+        if (allMarked) {
             return;
         }
 
-        mark[v] = true;   // Помечаем, что мы здесь были
+        markedVertexes[current] = true;
 
-
-        for (int i = 0; i < GRAPH_MATRIX_SIZE; i++)  // Для каждого ребра
-        {
-            if (minimal[v][i] == 1 && i != v && i != from)
-                DFS(i, v);  // Запускаемся из соседа
+        for (int vertex = 0; vertex < MATRIX_SIZE; vertex++) {
+            if (matrix[current][vertex] == 1 && vertex != current && vertex != from)
+                DFS(vertex, current);  // Запускаемся из соседа
         }
     }
 
-    public int[][] getMinimal() {
-        return minimal;
+    // Auto-generated
+
+    public int[][] getMatrix() {
+        return matrix;
     }
 }

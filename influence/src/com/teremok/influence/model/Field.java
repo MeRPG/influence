@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
-import com.teremok.influence.util.CellSchemeGenerator;
+import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.util.DrawHelper;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Drawer;
@@ -32,9 +32,9 @@ public class Field extends Group {
     public static final float WIDTH = DrawHelper.UNIT_SIZE*10f;
     public static final float HEIGHT = DrawHelper.UNIT_SIZE*13f;
 
-    private int[][] minimal;
+    private int[][] graphMatrix;
     private List<Cell> cells;
-    private CellSchemeGenerator generator;
+    private GraphGenerator generator;
 
     private Cell selectedCell;
 
@@ -52,12 +52,12 @@ public class Field extends Group {
     }
 
     public void regenerate() {
-        generator = new CellSchemeGenerator(25);
+        generator = new GraphGenerator(25);
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
         placeStartPositions();
-        minimal = generator.getMinimal();
+        graphMatrix = generator.getMatrix();
         System.out.println("regenerate");
     }
 
@@ -199,7 +199,7 @@ public class Field extends Group {
         if (! (from.isValid() && to.isValid()))
             return false;
 
-        return minimal[from.getNumber()][to.getNumber()] == 1 || minimal[to.getNumber()][from.getNumber()] == 1;
+        return graphMatrix[from.getNumber()][to.getNumber()] == 1 || graphMatrix[to.getNumber()][from.getNumber()] == 1;
     }
 
     public int getPowerToDistribute(int type){
@@ -298,8 +298,8 @@ public class Field extends Group {
         return selectedCell;
     }
 
-    public int[][] getMinimal() {
-        return minimal;
+    public int[][] getGraphMatrix() {
+        return graphMatrix;
     }
 
     public List<Cell> getCells() {return cells; }

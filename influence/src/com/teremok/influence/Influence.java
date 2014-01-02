@@ -8,6 +8,6 @@ import com.teremok.influence.screen.StartScreen;
 public class Influence extends Game {
 	@Override
 	public void create() {
-    	setScreen(new GameScreen(this, GameScreen.GameType.MULTIPLAYER));
+    	setScreen(new GameScreen(this, GameScreen.GameType.SINGLEPLAYER));
 	}
 }
