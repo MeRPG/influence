@@ -1,11 +1,19 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.player.Player;
+import com.teremok.influence.ui.Button;
 
 /**
  * Created by Alexx on 20.12.13
@@ -14,8 +22,37 @@ public class StartScreen extends AbstractScreen {
 
     private final String WELCOME_TEXT = "Нажми на экран...";
 
+    private final String SINGLEPLAYER = "singleplayer";
+    private final String MULTIPLAYER = "multiplayer";
+
+    private TextureAtlas atlas;
+    private TextureRegion background;
+
     public StartScreen(Game game) {
         super(game);
+        atlas = new TextureAtlas(Gdx.files.internal("startScreen.pack"));
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        background = atlas.findRegion("background");
+
+        Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );
+
+        TextureRegion singlePlayerRegion =  atlas.findRegion(SINGLEPLAYER);
+        TextureRegion multiPlayerRegion = atlas.findRegion(MULTIPLAYER);
+        float centerX = getCenterX(singlePlayerRegion.getRegionWidth());
+        Button singleplayer = new Button(SINGLEPLAYER, singlePlayerRegion, centerX, 360);
+        Button multiplayer = new Button(MULTIPLAYER, multiPlayerRegion, centerX, 256);
+
+        stage.addActor(backImage);
+        stage.addActor(singleplayer);
+        stage.addActor(multiplayer);
+    }
+
+    private float getCenterX(float width) {
+        return (WIDTH - width) / 2;
     }
 
     @Override
@@ -25,12 +62,19 @@ public class StartScreen extends AbstractScreen {
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
+                return stage.hit(x,y,true) instanceof Button;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                startSingleplayerGame();
+                if (! event.isHandled()) {
+                    Button target = (Button)event.getTarget();
+                    if (target.getCode().equals(SINGLEPLAYER)) {
+                        startSingleplayerGame();
+                    } else {
+                        startMultiplayerGame();
+                    }
+                }
             }
         });
     }
@@ -42,20 +86,5 @@ public class StartScreen extends AbstractScreen {
 
     public void startSingleplayerGame () {
         game.setScreen(new GameScreen(game, GameScreen.GameType.SINGLEPLAYER));
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-
-        batch = getBatch();
-        font = getFont();
-
-        batch.begin();
-        BitmapFont.TextBounds textBounds = font.getBounds(WELCOME_TEXT);
-        font.setColor(Color.WHITE);
-        font.draw(batch, WELCOME_TEXT,    (WIDTH- textBounds.width)/2,
-                (HEIGHT - textBounds.height)/2 + textBounds.height);
-        batch.end();
     }
 }

@@ -1,0 +1,26 @@
+
+startScreen.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 1, 133
+  size: 480, 720
+  orig: 480, 720
+  offset: 0, 0
+  index: -1
+multiplayer
+  rotate: false
+  xy: 1, 67
+  size: 256, 64
+  orig: 256, 64
+  offset: 0, 0
+  index: -1
+singleplayer
+  rotate: false
+  xy: 1, 1
+  size: 256, 64
+  orig: 256, 64
+  offset: 0, 0
+  index: -1

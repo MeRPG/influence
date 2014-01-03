@@ -32,16 +32,12 @@ public class SplashScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height) {
-        stage.setViewport(WIDTH, HEIGHT, false);
-        stage.clear();
+       super.resize(width, height);
 
         TextureRegion splashRegion;
         splashRegion = atlas.findRegion("splashLogo");
 
-        Image splashImage = new Image( new TextureRegionDrawable(splashRegion), Scaling.stretch, Align.bottom | Align.left );
-        splashImage.setWidth(width);
-        splashImage.setHeight(height);
-        splashImage.getColor().a = 0f;
+        Image splashImage = new Image( new TextureRegionDrawable(splashRegion), Scaling.fit, Align.center);
 
         splashImage.addAction(constructSequenceAction());
 
