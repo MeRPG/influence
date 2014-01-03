@@ -59,7 +59,7 @@ public class PlayerManager {
     }
 
     static public  void addPlayersForMultiplayer(GameScreen gameScreen) {
-        resetPlayersArray(5);
+        resetPlayersArray(2);
         addPlayer(new HumanPlayer(0, gameScreen, field), 0);
         addPlayer(new ComputerPlayer(1, gameScreen, field), 1);
         placeStartPositions();
