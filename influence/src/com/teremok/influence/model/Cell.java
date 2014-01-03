@@ -2,7 +2,6 @@ package com.teremok.influence.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.teremok.influence.util.DrawHelper;
 import com.teremok.influence.view.Drawer;
 
 import static com.teremok.influence.model.Field.*;
@@ -68,8 +67,8 @@ public class Cell extends Actor {
         cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
         cell.setPower(1 + rnd.nextInt(cell.maxPower-1));
 
-        cell.setWidth(DrawHelper.UNIT_SIZE*2);
-        cell.setHeight(DrawHelper.UNIT_SIZE*2);
+        cell.setWidth(Drawer.UNIT_SIZE*2);
+        cell.setHeight(Drawer.UNIT_SIZE*2);
         return cell;
     }
 
@@ -83,8 +82,8 @@ public class Cell extends Actor {
         cell.setType(-1);
         cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
 
-        cell.setWidth(DrawHelper.UNIT_SIZE*2);
-        cell.setHeight(DrawHelper.UNIT_SIZE*2);
+        cell.setWidth(Drawer.UNIT_SIZE*2);
+        cell.setHeight(Drawer.UNIT_SIZE*2);
 
         return cell;
     }
@@ -108,7 +107,7 @@ public class Cell extends Actor {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        Drawer.draw(this, batch, parentAlpha);
+        com.teremok.influence.view.Drawer.draw(this, batch, parentAlpha);
     }
 
     // Auto-generated

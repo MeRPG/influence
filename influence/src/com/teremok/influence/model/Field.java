@@ -8,14 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.model.player.HumanPlayer;
-import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
-import com.teremok.influence.util.GraphGenerator;
-import com.teremok.influence.util.DrawHelper;
-import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Drawer;
+import com.teremok.influence.util.GraphGenerator;
+import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Tooltip;
 import com.teremok.influence.view.TooltipHandler;
 
@@ -31,8 +29,8 @@ public class Field extends Group {
     public static final int MAX_CELLS_Y = 7;
     public static final int MAX_CELLS_X = 5;
 
-    public static final float WIDTH = DrawHelper.UNIT_SIZE*10f;
-    public static final float HEIGHT = DrawHelper.UNIT_SIZE*13f;
+    public static final float WIDTH = Drawer.UNIT_SIZE*10f;
+    public static final float HEIGHT = Drawer.UNIT_SIZE*13f;
 
     private static final int CELLS_COUNT = 25;
 
@@ -266,7 +264,7 @@ public class Field extends Group {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        Drawer.draw(this, batch, parentAlpha);
+        com.teremok.influence.view.Drawer.draw(this, batch, parentAlpha);
         super.draw(batch, parentAlpha);
     }
 

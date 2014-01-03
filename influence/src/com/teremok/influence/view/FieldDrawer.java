@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
-import com.teremok.influence.util.DrawHelper;
 
 /**
  * Created by Alexx on 23.12.13
@@ -33,7 +32,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                 Cell toCell = current.getCells().get(j);
                 if (toCell.isValid()) {
                     if (cell.getType() == toCell.getType()) {
-                        renderer.setColor(DrawHelper.getCellColorByType(cell.getType()));
+                        renderer.setColor(Drawer.getCellColorByType(cell.getType()));
                     } else {
                         renderer.setColor(Color.GRAY);
                     }
@@ -52,7 +51,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
         Cell selected = current.getSelectedCell();
 
         if (selected != null && selected.isValid()) {
-            renderer.setColor(DrawHelper.getCellColorByType(selected.getType()));
+            renderer.setColor(Drawer.getCellColorByType(selected.getType()));
         } else {
             renderer.setColor(Color.WHITE);
         }

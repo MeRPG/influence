@@ -5,7 +5,6 @@ import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.Score;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.GameScreen;
-import com.teremok.influence.util.DrawHelper;
 
 /**
  * Created by Alexx on 24.12.13
@@ -29,9 +28,9 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
         for (int i = 0; i < PlayerManager.getNumberOfPlayers(); i++) {
             Player player = PlayerManager.getPlayers()[i];
             if (player.getScore() == 0) {
-                bitmapFont.setColor(DrawHelper.getCellColorByType( -1 ));
+                bitmapFont.setColor(Drawer.getCellColorByType(-1));
             } else {
-                bitmapFont.setColor(DrawHelper.getCellColorByType(player.getType()));
+                bitmapFont.setColor(Drawer.getCellColorByType(player.getType()));
             }
             String toDraw;
             if (i == PlayerManager.current().getType()) {
@@ -45,7 +44,7 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
 
     private void drawPower(SpriteBatch batch) {
         if (GameScreen.currentPhase == GameScreen.TurnPhase.DISTRIBUTE) {
-            bitmapFont.setColor(DrawHelper.getCellColorByType(PlayerManager.current().getType()));
+            bitmapFont.setColor(Drawer.getCellColorByType(PlayerManager.current().getType()));
             bitmapFont.draw(batch, "(" +PlayerManager.current().getPowerToDistribute() + ") ", current.getWidth() - 35, current.getHeight()/2);
         }
     }

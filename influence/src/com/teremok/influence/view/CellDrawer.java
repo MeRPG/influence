@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.util.DrawHelper;
+import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 23.12.13
@@ -19,7 +19,7 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     public void draw(Cell cell, SpriteBatch batch, float parentAlpha) {
         super.draw(cell, batch, parentAlpha);
 
-        Color color = DrawHelper.getCellColorByType(current.getType());
+        Color color = Drawer.getCellColorByType(current.getType());
         renderer.setColor(color);
         batch.end();
 
@@ -36,7 +36,7 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         renderer.begin(ShapeRenderer.ShapeType.Line);
         if (current.isSelected()) {
             renderer.setColor(Color.WHITE);
-            renderer.circle(current.getWidth()/2, current.getHeight()/2, DrawHelper.UNIT_SIZE * BIG_SIZE_MULTIPLIER);
+            renderer.circle(current.getWidth()/2, current.getHeight()/2, Drawer.UNIT_SIZE * BIG_SIZE_MULTIPLIER);
         }
         renderer.end();
 
@@ -54,15 +54,15 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         float centerX = current.getWidth()/2;
         float centerY = current.getHeight()/2;
 
-        renderer.circle(centerX, centerY, DrawHelper.UNIT_SIZE * multiplier, 6);
+        renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * multiplier, 6);
 
         renderer.setColor(Color.BLACK);
 
         float powerArc = (float)current.getPower() / current.getMaxPower() * 360f;
-        renderer.arc(centerX, centerY, DrawHelper.UNIT_SIZE * multiplier * .7f, 90f, powerArc);
+        renderer.arc(centerX, centerY, Drawer.UNIT_SIZE * multiplier * .7f, 90f, powerArc);
 
-        renderer.setColor(DrawHelper.getCellColorByType(current.getType()));
-        renderer.circle(centerX, centerY, DrawHelper.UNIT_SIZE * multiplier * .6f);
+        renderer.setColor(Drawer.getCellColorByType(current.getType()));
+        renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * multiplier * .6f);
 
     }
 }
