@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public abstract class AbstractScreen implements Screen {
 
-    public static final float WIDTH = 320f;
-    public static final float HEIGHT = 480f;
+    public static final float WIDTH = 480f;
+    public static final float HEIGHT = 720f;
 
     protected final Game game;
     protected BitmapFont font;
