@@ -11,6 +11,10 @@ import com.teremok.influence.screen.GameScreen;
  */
 public class ScoreDrawer extends AbstractDrawer<Score> {
 
+    private static float LEFT_MARGIN = 25f;
+    private static float RIGHT_MARGIN = 35f;
+    private static float TEXT_PADDING = 50f;
+
     @Override
     public void draw(Score score, SpriteBatch batch, float parentAlpha) {
         super.draw(score, batch, parentAlpha);
@@ -38,14 +42,15 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
             } else {
                 toDraw = " " + player.getScore() + " ";
             }
-            bitmapFont.draw(batch, toDraw, 25f + i*50f, current.getHeight()/2);
+            bitmapFont.draw(batch, toDraw, LEFT_MARGIN + i*TEXT_PADDING, current.getHeight()/2);
         }
     }
 
     private void drawPower(SpriteBatch batch) {
         if (GameScreen.currentPhase == GameScreen.TurnPhase.DISTRIBUTE) {
             bitmapFont.setColor(Drawer.getCellColorByType(PlayerManager.current().getType()));
-            bitmapFont.draw(batch, "(" +PlayerManager.current().getPowerToDistribute() + ") ", current.getWidth() - 35, current.getHeight()/2);
+            String text = "(" +PlayerManager.current().getPowerToDistribute() + ") ";
+            bitmapFont.draw(batch, text, current.getWidth() - RIGHT_MARGIN, current.getHeight()/2);
         }
     }
 }
