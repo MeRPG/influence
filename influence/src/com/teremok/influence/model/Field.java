@@ -72,7 +72,7 @@ public class Field extends Group {
             number = rnd.nextInt(cells.size());
             target = cells.get(number);
 
-            if (target.isValid() && target.getType() == -1) {
+            if (isValidForStartPosition(target)) {
                 break;
             }
 
@@ -80,6 +80,18 @@ public class Field extends Group {
         System.out.println("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
+    }
+
+    private boolean isValidForStartPosition(Cell target) {
+        if (target.isValid() && target.getType() == -1) {
+            for (Cell enemy : getConnectedEnemies(target)) {
+                if (enemy.getType() != -1){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     private void registerCellsForDrawing(List<Cell> cells) {
