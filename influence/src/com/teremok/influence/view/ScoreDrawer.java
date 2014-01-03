@@ -11,9 +11,9 @@ import com.teremok.influence.screen.GameScreen;
  */
 public class ScoreDrawer extends AbstractDrawer<Score> {
 
-    private static float LEFT_MARGIN = 25f;
-    private static float RIGHT_MARGIN = 35f;
-    private static float TEXT_PADDING = 50f;
+    private static float LEFT_MARGIN = Drawer.UNIT_SIZE * 0.8f;
+    private static float RIGHT_MARGIN = Drawer.UNIT_SIZE * 1.1f;
+    private static float TEXT_PADDING = Drawer.UNIT_SIZE * 1.6f;
 
     @Override
     public void draw(Score score, SpriteBatch batch, float parentAlpha) {
