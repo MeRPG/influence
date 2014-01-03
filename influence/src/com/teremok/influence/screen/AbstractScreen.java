@@ -4,6 +4,7 @@ package com.teremok.influence.screen;
  * Created by Alexx on 22.12.13
  * */
 
+import android.graphics.Color;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -28,8 +29,11 @@ public abstract class AbstractScreen implements Screen {
     }
 
     public BitmapFont getFont() {
-        if (font == null)
-            font = new BitmapFont();
+        if (font == null)  {
+            font = new BitmapFont(
+                    Gdx.files.internal("test.fnt"),
+                    Gdx.files.internal("test.png"), false);
+        }
         return font;
     }
 
