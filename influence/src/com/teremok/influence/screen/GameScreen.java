@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Score;
-import com.teremok.influence.model.player.ComputerPlayer;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -31,6 +30,7 @@ public class GameScreen extends AbstractScreen {
 
     Field field;
     Score score;
+    GameType gameType;
     public static TurnPhase currentPhase;
 
     public GameScreen(Game game) {
@@ -39,18 +39,19 @@ public class GameScreen extends AbstractScreen {
 
     public GameScreen(Game game, GameType gameType) {
         super(game);
+
+        this.gameType = gameType;
+
         field = new Field();
         PlayerManager.setField(field);
-        addPlayers(gameType);
+        addPlayers();
         score = new Score(field);
     }
 
-    private void addPlayers(GameType gameType) {
+    private void addPlayers() {
         if (gameType == GameType.MULTIPLAYER) {
-            PlayerManager.setNumberOfPlayers(2);
             addPlayersForMultiplayer();
         } else {
-            PlayerManager.setNumberOfPlayers(5);
             addPlayersForSingleplayer();
         }
 
@@ -119,6 +120,7 @@ public class GameScreen extends AbstractScreen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.R) {
                     field.regenerate();
+                    addPlayers();
                 }
                 return true;
             }

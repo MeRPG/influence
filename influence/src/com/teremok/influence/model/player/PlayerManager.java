@@ -49,7 +49,7 @@ public class PlayerManager {
 
 
     static public void addPlayersForSingleplayer(GameScreen gameScreen) {
-        numberOfPlayers = 5;
+        resetPlayersArray(5);
         addPlayer(new HumanPlayer(0, gameScreen, field), 0);
         //Player.addPlayer(new ComputerPlayer(0, gameScreen), 0);
         for (int i = 1; i < numberOfPlayers; i ++) {
@@ -59,10 +59,15 @@ public class PlayerManager {
     }
 
     static public  void addPlayersForMultiplayer(GameScreen gameScreen) {
-        numberOfPlayers = 2;
+        resetPlayersArray(5);
         addPlayer(new HumanPlayer(0, gameScreen, field), 0);
         addPlayer(new ComputerPlayer(1, gameScreen, field), 1);
         placeStartPositions();
+    }
+
+    static private void resetPlayersArray(int number) {
+        numberOfPlayers = number;
+        players = new Player[number];
     }
 
     private static void placeStartPositions() {
