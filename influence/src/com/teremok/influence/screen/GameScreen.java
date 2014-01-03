@@ -12,7 +12,7 @@ import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.view.AbstractDrawer;
-import com.teremok.influence.view.TooltipHandler;
+import com.teremok.influence.ui.TooltipHandler;
 
 /**
  * Created by Alexx on 11.12.13

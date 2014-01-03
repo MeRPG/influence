@@ -1,4 +1,4 @@
-package com.teremok.influence.view;
+package com.teremok.influence.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

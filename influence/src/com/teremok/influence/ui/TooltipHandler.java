@@ -1,4 +1,4 @@
-package com.teremok.influence.view;
+package com.teremok.influence.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;

@@ -14,8 +14,8 @@ import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.view.Drawer;
 import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.view.AbstractDrawer;
-import com.teremok.influence.view.Tooltip;
-import com.teremok.influence.view.TooltipHandler;
+import com.teremok.influence.ui.Tooltip;
+import com.teremok.influence.ui.TooltipHandler;
 
 import java.util.LinkedList;
 import java.util.List;
