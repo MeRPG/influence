@@ -255,11 +255,11 @@ public class Field extends Group {
     }
 
     private float calculateTooltipX(float cellX) {
-        return getX() + cellX + 16f;
+        return getX() + cellX + Drawer.UNIT_SIZE/2;
     }
 
     private float calculateTooltipY(float cellY) {
-        return getY() + cellY + 16f;
+        return getY() + cellY + Drawer.UNIT_SIZE/2;
     }
 
     @Override
