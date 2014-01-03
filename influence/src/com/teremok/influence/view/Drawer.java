@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Score;
+import com.teremok.influence.screen.AbstractScreen;
 
 /**
  * Created by Alexx on 24.12.13
@@ -13,7 +14,7 @@ import com.teremok.influence.model.Score;
 
 public class Drawer {
 
-    public static final float UNIT_SIZE = 32f;
+    public static final float UNIT_SIZE = AbstractScreen.WIDTH/10f;
 
     private static CellDrawer cellDrawer;
     private static FieldDrawer fieldDrawer;
