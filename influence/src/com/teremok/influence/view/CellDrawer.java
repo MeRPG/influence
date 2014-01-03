@@ -24,9 +24,6 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     TextureRegion cellBig;
     TextureRegion maskSmall;
     TextureRegion maskBig;
-    TextureRegion currentMask;
-    TextureRegion currentCell;
-
 
     public CellDrawer() {
         super();
@@ -50,36 +47,19 @@ public class CellDrawer extends AbstractDrawer<Cell> {
 
         Color color = Drawer.getCellColorByType(current.getType());
         renderer.setColor(color);
-        Color normalBatchColor = batch.getColor();
         batch.setColor(color);
 
 
         if (current.isBig()) {
-            currentMask = maskBig;
-            currentCell = cellBig;
+            drawBigCell(batch);
         } else {
-            currentMask = maskSmall;
-            currentCell = maskSmall;
+            drawSmallCell(batch);
         }
-
-        batch.draw(currentMask, current.getX(), current.getY());
-        batch.setColor(Color.WHITE);
-        batch.draw(currentCell, current.getX(), current.getY());
 
         batch.end();
 
         //drawBoundingBox();
-              /*
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        if (current.isBig()) {
-            renderWithMultiplier(BIG_SIZE_MULTIPLIER);
-        } else {
-            renderWithMultiplier(STANDARD_SIZE_MULTIPLIER);
-        }
-
-        renderer.end();
-                 */
         renderer.begin(ShapeRenderer.ShapeType.Line);
         if (current.isSelected()) {
             renderer.setColor(Color.WHITE);
@@ -95,6 +75,18 @@ public class CellDrawer extends AbstractDrawer<Cell> {
             bitmapFont.draw(batch, current.getPower()+"", current.getX()+current.getWidth()/2 - textBounds.width/2,
                                                             current.getY()+current.getHeight()/2 + textBounds.height/2);
         }
+    }
+
+    private void drawBigCell(SpriteBatch batch) {
+        batch.draw(maskBig, current.getX(), current.getY());
+        batch.setColor(Color.WHITE);
+        batch.draw(cellBig, current.getX(), current.getY());
+    }
+
+    private void drawSmallCell(SpriteBatch batch) {
+        batch.draw(maskSmall, current.getX(), current.getY());
+        //batch.setColor(Color.WHITE);
+        batch.draw(cellSmall, current.getX(), current.getY());
     }
 
     private void renderWithMultiplier(float multiplier) {
