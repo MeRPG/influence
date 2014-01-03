@@ -1,0 +1,26 @@
+
+gameScreen.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cellBig
+  rotate: false
+  xy: 1, 8
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+cellStandard
+  rotate: false
+  xy: 131, 8
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+route
+  rotate: false
+  xy: 1, 1
+  size: 128, 5
+  orig: 128, 5
+  offset: 0, 0
+  index: -1
