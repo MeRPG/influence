@@ -6,15 +6,29 @@ repeat: none
 cellBig
   rotate: false
   xy: 1, 8
-  size: 128, 128
-  orig: 128, 128
+  size: 96, 96
+  orig: 96, 96
   offset: 0, 0
   index: -1
-cellStandard
+cellSmall
   rotate: false
-  xy: 131, 8
-  size: 128, 128
-  orig: 128, 128
+  xy: 99, 8
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+maskSmall
+  rotate: false
+  xy: 99, 8
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+maskBig
+  rotate: false
+  xy: 197, 8
+  size: 96, 96
+  orig: 96, 96
   offset: 0, 0
   index: -1
 route

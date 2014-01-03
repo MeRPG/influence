@@ -29,16 +29,6 @@ public class FieldDrawer extends AbstractDrawer<Field> {
         for (Cell c : current.getCells()) {
             drawCellRoutesTexture(c, batch);
         }
-
-        batch.end();
-
-        drawBoundingBox();
-
-        for (Cell c : current.getCells()) {
-            drawCellRoutes(c);
-        }
-
-        batch.begin();
     }
 
     private void drawCellRoutes(Cell cell) {
@@ -68,7 +58,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                 float centerX = current.getX() + cell.getX() + cell.getWidth()/2;
                 float centerY = current.getY() + cell.getY() + cell.getHeight()/2;
 
-                float rotation = 0f;
+                float rotation;
 
                 switch (cell.getNumber() - toCell.getNumber()) {
                     case 0:
@@ -78,7 +68,6 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                     case -4:
                         break;
                     case -1:
-                        //batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
                         break;
                     case 1:
                         rotation = 180f;

@@ -18,16 +18,23 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     private static final float BIG_SIZE_MULTIPLIER = 0.6f;
 
     private TextureAtlas atlas;
-    TextureRegion cellStandard;
+    TextureRegion cellSmall;
     TextureRegion cellBig;
+    TextureRegion maskSmall;
+    TextureRegion maskBig;
+    TextureRegion currentMask;
+    TextureRegion currentCell;
+
 
     public CellDrawer() {
         super();
 
         atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
 
-        cellStandard = atlas.findRegion("cellStandard");
+        cellSmall = atlas.findRegion("cellSmall");
         cellBig = atlas.findRegion("cellBig");
+        maskSmall = atlas.findRegion("maskSmall");
+        maskBig = atlas.findRegion("maskBig");
 
     }
 
@@ -40,13 +47,18 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         Color normalBatchColor = batch.getColor();
         batch.setColor(color);
 
+
         if (current.isBig()) {
-            batch.draw(cellBig, current.getX()-16, current.getY()-16);
+            currentMask = maskBig;
+            currentCell = cellBig;
         } else {
-            batch.draw(cellStandard, current.getX()-16, current.getY()-16);
+            currentMask = maskSmall;
+            currentCell = maskSmall;
         }
 
-        batch.setColor(normalBatchColor);
+        batch.draw(currentMask, current.getX(), current.getY());
+        batch.setColor(Color.WHITE);
+        batch.draw(currentCell, current.getX(), current.getY());
 
         batch.end();
 
