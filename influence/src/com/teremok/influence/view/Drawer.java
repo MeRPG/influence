@@ -8,11 +8,26 @@ import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Score;
 import com.teremok.influence.screen.AbstractScreen;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Alexx on 24.12.13
  */
 
 public class Drawer {
+
+    private static Map<String, Color> colors;
+
+    static {
+        colors = new HashMap<String, Color>();
+        colors.put("CYAN", new Color(0x1569C7FF));
+        colors.put("GREEN", new Color(0x59E817FF));
+        colors.put("ORANGE", new Color(0xE8A317FF));
+        colors.put("PINK", new Color(0xF52887FF));
+        colors.put("MAGENTA", new Color(0x4B0082FF));
+        colors.put("GREY", new Color(0x848482FF));
+    }
 
     public static final float UNIT_SIZE = AbstractScreen.WIDTH/10f;
 
@@ -47,22 +62,22 @@ public class Drawer {
         Color color;
         switch (type) {
             case 0:
-                color = Color.CYAN;
+                color = colors.get("CYAN");
                 break;
             case 1:
-                color = Color.GREEN;
+                color = colors.get("GREEN");
                 break;
             case 2:
-                color = Color.ORANGE;
+                color = colors.get("ORANGE");
                 break;
             case 3:
-                color = Color.PINK;
+                color = colors.get("PINK");
                 break;
             case 4:
-                color = Color.MAGENTA;
+                color = colors.get("MAGENTA");
                 break;
             default:
-                color = Color.GRAY;
+                color = colors.get("GREY");
                 break;
         }
         return color;
