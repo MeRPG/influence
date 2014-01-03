@@ -1,6 +1,7 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -11,7 +12,7 @@ import com.teremok.influence.model.player.Player;
  */
 public class StartScreen extends AbstractScreen {
 
-    private final String WELCOME_TEXT = "Touch to continue...";
+    private final String WELCOME_TEXT = "Нажми на экран...";
 
     public StartScreen(Game game) {
         super(game);
@@ -52,6 +53,7 @@ public class StartScreen extends AbstractScreen {
 
         batch.begin();
         BitmapFont.TextBounds textBounds = font.getBounds(WELCOME_TEXT);
+        font.setColor(Color.WHITE);
         font.draw(batch, WELCOME_TEXT,    (WIDTH- textBounds.width)/2,
                 (HEIGHT - textBounds.height)/2 + textBounds.height);
         batch.end();
