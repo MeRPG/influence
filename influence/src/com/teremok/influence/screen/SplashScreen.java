@@ -27,7 +27,7 @@ public class SplashScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
-        atlas = new TextureAtlas(Gdx.files.internal("splash.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("splashScreen.pack"));
     }
 
     @Override

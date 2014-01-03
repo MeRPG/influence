@@ -1,8 +1,11 @@
 package com.teremok.influence.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 
@@ -14,14 +17,41 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     private static final float STANDARD_SIZE_MULTIPLIER = 0.4f;
     private static final float BIG_SIZE_MULTIPLIER = 0.6f;
 
+    private TextureAtlas atlas;
+    TextureRegion cellStandard;
+    TextureRegion cellBig;
+
+    public CellDrawer() {
+        super();
+
+        atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
+
+        cellStandard = atlas.findRegion("cellStandard");
+        cellBig = atlas.findRegion("cellBig");
+
+    }
+
     @Override
     public void draw(Cell cell, SpriteBatch batch, float parentAlpha) {
         super.draw(cell, batch, parentAlpha);
 
         Color color = Drawer.getCellColorByType(current.getType());
         renderer.setColor(color);
+        Color normalBatchColor = batch.getColor();
+        batch.setColor(color);
+
+        if (current.isBig()) {
+            batch.draw(cellBig, current.getX()-16, current.getY()-16);
+        } else {
+            batch.draw(cellStandard, current.getX()-16, current.getY()-16);
+        }
+
+        batch.setColor(normalBatchColor);
+
         batch.end();
 
+        //drawBoundingBox();
+              /*
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
         if (current.isBig()) {
@@ -31,7 +61,7 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         }
 
         renderer.end();
-
+                 */
         renderer.begin(ShapeRenderer.ShapeType.Line);
         if (current.isSelected()) {
             renderer.setColor(Color.WHITE);

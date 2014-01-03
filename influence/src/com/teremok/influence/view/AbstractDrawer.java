@@ -21,6 +21,13 @@ public class AbstractDrawer <T extends Actor> {
         renderer = new ShapeRenderer();
     }
 
+    public static AbstractDrawer getDrawer(Actor actor) {
+        if (instance == null) {
+            instance = new AbstractDrawer<Actor>();
+        }
+        return instance;
+    }
+
     public void draw(T actor, SpriteBatch batch, float parentAlpha) {
         current = actor;
 

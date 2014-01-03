@@ -1,7 +1,10 @@
 package com.teremok.influence.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
@@ -11,12 +14,26 @@ import com.teremok.influence.model.Field;
  */
 public class FieldDrawer extends AbstractDrawer<Field> {
 
+    TextureAtlas atlas;
+    TextureRegion route;
+
+    public FieldDrawer() {
+        atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
+        route = atlas.findRegion("route");
+    }
+
     @Override
     public void draw (Field field, SpriteBatch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
+
+        for (Cell c : current.getCells()) {
+            drawCellRoutesTexture(c, batch);
+        }
+
         batch.end();
 
         drawBoundingBox();
+
         for (Cell c : current.getCells()) {
             drawCellRoutes(c);
         }
@@ -25,21 +42,66 @@ public class FieldDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawCellRoutes(Cell cell) {
-        int[][] graphMatrix = current.getGraphMatrix();
-        for (int j = 0; j < graphMatrix[0].length; j++) {
-            int currentCellNumber = cell.getNumber();
-            if (cell.isValid() && graphMatrix[currentCellNumber][j] == 1) {
-                Cell toCell = current.getCells().get(j);
-                if (toCell.isValid()) {
-                    if (cell.getType() == toCell.getType()) {
-                        renderer.setColor(Drawer.getCellColorByType(cell.getType()));
-                    } else {
-                        renderer.setColor(Color.GRAY);
-                    }
-                    renderer.begin(ShapeRenderer.ShapeType.Line);
-                    renderer.line(cell.getX()+cell.getWidth()/2, cell.getY() + cell.getHeight()/2,
-                            toCell.getX()+toCell.getWidth()/2, toCell.getY() + toCell.getHeight()/2);
-                    renderer.end();
+        for (Cell toCell : current.getConnectedCells(cell)) {
+            if (toCell.isValid()) {
+                if (cell.getType() == toCell.getType()) {
+                    renderer.setColor(Drawer.getCellColorByType(cell.getType()));
+                } else {
+                    renderer.setColor(Color.GRAY);
+                }
+                renderer.begin(ShapeRenderer.ShapeType.Line);
+                renderer.line(cell.getX()+cell.getWidth()/2, cell.getY() + cell.getHeight()/2,
+                        toCell.getX()+toCell.getWidth()/2, toCell.getY() + toCell.getHeight()/2);
+                renderer.end();
+            }
+        }
+    }
+
+    private void drawCellRoutesTexture(Cell cell, SpriteBatch batch) {
+        for (Cell toCell : current.getConnectedCells(cell)) {
+            if (toCell.isValid()) {
+                if (cell.getType() == toCell.getType()) {
+                    batch.setColor(Drawer.getCellColorByType(cell.getType()));
+                } else {
+                    batch.setColor(Color.GRAY);
+                }
+                float centerX = current.getX() + cell.getX() + cell.getWidth()/2;
+                float centerY = current.getY() + cell.getY() + cell.getHeight()/2;
+
+                float rotation = 0f;
+
+                switch (cell.getNumber() - toCell.getNumber()) {
+                    case 0:
+                        break;
+                    case -5:
+                        break;
+                    case -4:
+                        break;
+                    case -1:
+                        //batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
+                        break;
+                    case 1:
+                        rotation = 180f;
+                        batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
+                        break;
+                    case 4:
+                        rotation = 300f;
+                        batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
+                        break;
+                    case 5:
+                        if (cell.getUnitsX() % 2 == 1) {
+                            rotation = 240f;
+                        } else {
+                            rotation = 300f;
+                        }
+                        batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
+                        break;
+                    case 6:
+                        rotation = 240f;
+                        batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
