@@ -2,11 +2,13 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.teremok.influence.model.Cell;
 
 /**
@@ -30,6 +32,10 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         super();
 
         atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
+
+        for (Texture txt : atlas.getTextures()) {
+            txt.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
 
         cellSmall = atlas.findRegion("cellSmall");
         cellBig = atlas.findRegion("cellBig");

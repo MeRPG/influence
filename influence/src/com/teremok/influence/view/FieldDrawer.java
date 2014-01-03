@@ -2,6 +2,7 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,6 +21,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
     public FieldDrawer() {
         atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
         route = atlas.findRegion("route");
+        route.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     @Override
