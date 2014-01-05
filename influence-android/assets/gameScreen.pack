@@ -3,34 +3,174 @@ gameScreen.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-cellBig
+big
+  rotate: false
+  xy: 1, 400
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+big
+  rotate: false
+  xy: 1, 302
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
+big
+  rotate: false
+  xy: 99, 400
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 10
+big
+  rotate: false
+  xy: 1, 204
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 11
+big
+  rotate: false
+  xy: 99, 302
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 12
+big
+  rotate: false
+  xy: 197, 400
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 2
+big
+  rotate: false
+  xy: 1, 106
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 3
+big
+  rotate: false
+  xy: 99, 204
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 4
+big
+  rotate: false
+  xy: 197, 302
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 5
+big
+  rotate: false
+  xy: 295, 400
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 6
+big
   rotate: false
   xy: 1, 8
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: -1
-cellSmall
+  index: 7
+big
   rotate: false
-  xy: 99, 8
+  xy: 99, 106
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 8
+big
+  rotate: false
+  xy: 197, 204
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 9
+maskBig
+  rotate: false
+  xy: 295, 302
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 maskSmall
   rotate: false
-  xy: 99, 8
+  xy: 393, 400
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
-maskBig
+small
+  rotate: false
+  xy: 99, 8
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 0
+small
+  rotate: false
+  xy: 197, 106
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 1
+small
+  rotate: false
+  xy: 295, 204
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 2
+small
+  rotate: false
+  xy: 393, 302
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 3
+small
   rotate: false
   xy: 197, 8
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: -1
+  index: 4
+small
+  rotate: false
+  xy: 295, 106
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 5
+small
+  rotate: false
+  xy: 393, 204
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 6
+small
+  rotate: false
+  xy: 295, 8
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 7
+small
+  rotate: false
+  xy: 393, 106
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 8
 route
   rotate: false
   xy: 1, 1

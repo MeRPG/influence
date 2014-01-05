@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Array;
 import com.teremok.influence.model.Cell;
 
 /**
@@ -20,8 +21,8 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     private static final float BIG_SIZE_MULTIPLIER = 0.6f;
 
     private TextureAtlas atlas;
-    TextureRegion cellSmall;
-    TextureRegion cellBig;
+    Array<TextureAtlas.AtlasRegion> cellSmall;
+    Array<TextureAtlas.AtlasRegion> cellBig;
     TextureRegion maskSmall;
     TextureRegion maskBig;
 
@@ -33,9 +34,10 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         for (Texture txt : atlas.getTextures()) {
             txt.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
+        cellBig = atlas.findRegions("big");
 
-        cellSmall = atlas.findRegion("cellSmall");
-        cellBig = atlas.findRegion("cellBig");
+        cellSmall = atlas.findRegions("small");
+
         maskSmall = atlas.findRegion("maskSmall");
         maskBig = atlas.findRegion("maskBig");
 
@@ -80,13 +82,13 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     private void drawBigCell(SpriteBatch batch) {
         batch.draw(maskBig, current.getX(), current.getY());
         batch.setColor(Color.WHITE);
-        batch.draw(cellBig, current.getX(), current.getY());
+        batch.draw(cellBig.get(current.getPower()), current.getX(), current.getY());
     }
 
     private void drawSmallCell(SpriteBatch batch) {
         batch.draw(maskSmall, current.getX(), current.getY());
-        //batch.setColor(Color.WHITE);
-        batch.draw(cellSmall, current.getX(), current.getY());
+        batch.setColor(Color.WHITE);
+        batch.draw(cellSmall.get(current.getPower()), current.getX(), current.getY());
     }
 
     private void renderWithMultiplier(float multiplier) {
