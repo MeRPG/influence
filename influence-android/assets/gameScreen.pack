@@ -3,135 +3,142 @@ gameScreen.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-big
-  rotate: false
-  xy: 1, 400
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 0
-big
+background
   rotate: false
   xy: 1, 302
-  size: 96, 96
-  orig: 96, 96
+  size: 480, 720
+  orig: 480, 720
   offset: 0, 0
-  index: 1
-big
-  rotate: false
-  xy: 99, 400
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 10
+  index: -1
 big
   rotate: false
   xy: 1, 204
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 11
+  index: 0
 big
   rotate: false
-  xy: 99, 302
+  xy: 483, 926
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 12
-big
-  rotate: false
-  xy: 197, 400
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 2
+  index: 1
 big
   rotate: false
   xy: 1, 106
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 3
+  index: 10
 big
   rotate: false
   xy: 99, 204
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 4
+  index: 11
 big
   rotate: false
-  xy: 197, 302
+  xy: 483, 828
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 5
+  index: 12
 big
   rotate: false
-  xy: 295, 400
+  xy: 581, 926
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 6
+  index: 2
 big
   rotate: false
   xy: 1, 8
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 7
+  index: 3
 big
   rotate: false
   xy: 99, 106
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 8
+  index: 4
 big
   rotate: false
   xy: 197, 204
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
+  index: 5
+big
+  rotate: false
+  xy: 483, 730
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 6
+big
+  rotate: false
+  xy: 581, 828
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 7
+big
+  rotate: false
+  xy: 679, 926
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 8
+big
+  rotate: false
+  xy: 99, 8
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
   index: 9
 maskBig
   rotate: false
-  xy: 295, 302
+  xy: 197, 106
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 maskSmall
   rotate: false
-  xy: 393, 400
+  xy: 295, 204
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 small
   rotate: false
-  xy: 99, 8
+  xy: 483, 632
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 0
 small
   rotate: false
-  xy: 197, 106
+  xy: 581, 730
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 1
 small
   rotate: false
-  xy: 295, 204
+  xy: 679, 828
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 2
 small
   rotate: false
-  xy: 393, 302
+  xy: 777, 926
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
@@ -152,21 +159,21 @@ small
   index: 5
 small
   rotate: false
-  xy: 393, 204
+  xy: 483, 534
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 6
 small
   rotate: false
-  xy: 295, 8
+  xy: 581, 632
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 7
 small
   rotate: false
-  xy: 393, 106
+  xy: 679, 730
   size: 96, 96
   orig: 96, 96
   offset: 0, 0

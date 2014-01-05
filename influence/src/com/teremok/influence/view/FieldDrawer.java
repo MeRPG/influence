@@ -17,16 +17,23 @@ public class FieldDrawer extends AbstractDrawer<Field> {
 
     TextureAtlas atlas;
     TextureRegion route;
+    TextureRegion background;
 
     public FieldDrawer() {
         atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
+
         route = atlas.findRegion("route");
         route.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        background = atlas.findRegion("background");
+        background.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     @Override
     public void draw (Field field, SpriteBatch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
+        batch.setColor(Color.WHITE);
+        batch.draw(background, 0,0);
 
         for (Cell c : current.getCells()) {
             drawCellRoutesTexture(c, batch);

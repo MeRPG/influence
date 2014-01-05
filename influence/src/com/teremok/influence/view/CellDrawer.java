@@ -81,13 +81,13 @@ public class CellDrawer extends AbstractDrawer<Cell> {
 
     private void drawBigCell(SpriteBatch batch) {
         batch.draw(maskBig, current.getX(), current.getY());
-        batch.setColor(Color.WHITE);
+        batch.setColor(Color.BLACK);
         batch.draw(cellBig.get(current.getPower()), current.getX(), current.getY());
     }
 
     private void drawSmallCell(SpriteBatch batch) {
         batch.draw(maskSmall, current.getX(), current.getY());
-        batch.setColor(Color.WHITE);
+        batch.setColor(Color.BLACK);
         batch.draw(cellSmall.get(current.getPower()), current.getX(), current.getY());
     }
 

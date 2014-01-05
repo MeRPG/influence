@@ -88,9 +88,10 @@ public class GameScreen extends AbstractScreen {
         AbstractDrawer.setBitmapFont(getFont());
 
         field.setTouchable(Touchable.childrenOnly);
-
         stage.addActor(field);
+
         stage.addActor(score);
+
         stage.addActor(TooltipHandler.getInstance());
 
         stage.addListener(new ClickListener() {
