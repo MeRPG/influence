@@ -81,14 +81,22 @@ public class CellDrawer extends AbstractDrawer<Cell> {
 
     private void drawBigCell(SpriteBatch batch) {
         batch.draw(maskBig, current.getX(), current.getY());
-        batch.setColor(Color.BLACK);
-        batch.draw(cellBig.get(current.getPower()), current.getX(), current.getY());
+        batch.setColor(Color.WHITE);
+        if (current.getType() == -1)  {
+            batch.draw(cellBig.get(current.getMaxPower()), current.getX(), current.getY());
+        } else {
+            batch.draw(cellBig.get(current.getPower()), current.getX(), current.getY());
+        }
     }
 
     private void drawSmallCell(SpriteBatch batch) {
         batch.draw(maskSmall, current.getX(), current.getY());
-        batch.setColor(Color.BLACK);
-        batch.draw(cellSmall.get(current.getPower()), current.getX(), current.getY());
+        batch.setColor(Color.WHITE);
+        if (current.getType() == -1)  {
+            batch.draw(cellSmall.get(current.getMaxPower()), current.getX(), current.getY());
+        } else {
+            batch.draw(cellSmall.get(current.getPower()), current.getX(), current.getY());
+        }
     }
 
     private void renderWithMultiplier(float multiplier) {

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 
@@ -17,6 +16,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
 
     TextureAtlas atlas;
     TextureRegion route;
+    TextureRegion maskRoute;
     TextureRegion background;
 
     public FieldDrawer() {
@@ -24,6 +24,9 @@ public class FieldDrawer extends AbstractDrawer<Field> {
 
         route = atlas.findRegion("route");
         route.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        maskRoute = atlas.findRegion("maskRoute");
+        maskRoute.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         background = atlas.findRegion("background");
         background.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -46,10 +49,10 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                 if (cell.getType() == toCell.getType()) {
                     batch.setColor(Drawer.getCellColorByType(cell.getType()));
                 } else {
-                    batch.setColor(Color.GRAY);
+                    batch.setColor(Drawer.getCellColorByType(-1));
                 }
-                float centerX = current.getX() + cell.getX() + cell.getWidth()/2;
-                float centerY = current.getY() + cell.getY() + cell.getHeight()/2;
+                float centerX = current.getX() + cell.getX() + cell.getWidth()/2 - 9;
+                float centerY = current.getY() + cell.getY() + cell.getHeight()/2 + 7;
 
                 float rotation;
 
@@ -64,11 +67,11 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                         break;
                     case 1:
                         rotation = 180f;
-                        batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
+                        drawRoute(batch, centerX, centerY, rotation);
                         break;
                     case 4:
                         rotation = 300f;
-                        batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
+                        drawRoute(batch, centerX, centerY, rotation);
                         break;
                     case 5:
                         if (cell.getUnitsX() % 2 == 1) {
@@ -76,17 +79,33 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                         } else {
                             rotation = 300f;
                         }
-                        batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
+                        drawRoute(batch, centerX, centerY, rotation);
                         break;
                     case 6:
                         rotation = 240f;
-                        batch.draw(route, centerX, centerY, 0, 0, 96, 5, 1, 1, rotation);
+                        drawRoute(batch, centerX, centerY, rotation);
                         break;
                     default:
                         break;
                 }
             }
         }
+    }
+    
+   private void drawRoute(SpriteBatch batch, float centerX, float centerY, float rotation) {
+       /*
+       if (rotation != 180)
+        rotation -= 5;
+       */
+       batch.draw(maskRoute, centerX, centerY, 0, 0,
+               maskRoute.getRegionWidth(), maskRoute.getRegionHeight(),
+                1, 1, rotation);
+
+       batch.setColor(Color.WHITE);
+
+       batch.draw(route, centerX, centerY, 0, 0,
+               route.getRegionWidth(), route.getRegionHeight(),
+               1, 1, rotation);
     }
 
     @Override
