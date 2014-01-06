@@ -58,6 +58,12 @@ public class Drawer {
 
     }
 
+    public static void dispose() {
+        scoreDrawer = null;
+        fieldDrawer = null;
+        cellDrawer = null;
+    }
+
     public static Color getCellColorByType (int type) {
         Color color;
         switch (type) {
