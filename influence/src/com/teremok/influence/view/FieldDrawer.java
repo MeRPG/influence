@@ -40,22 +40,6 @@ public class FieldDrawer extends AbstractDrawer<Field> {
         }
     }
 
-    private void drawCellRoutes(Cell cell) {
-        for (Cell toCell : current.getConnectedCells(cell)) {
-            if (toCell.isValid()) {
-                if (cell.getType() == toCell.getType()) {
-                    renderer.setColor(Drawer.getCellColorByType(cell.getType()));
-                } else {
-                    renderer.setColor(Color.GRAY);
-                }
-                renderer.begin(ShapeRenderer.ShapeType.Line);
-                renderer.line(cell.getX()+cell.getWidth()/2, cell.getY() + cell.getHeight()/2,
-                        toCell.getX()+toCell.getWidth()/2, toCell.getY() + toCell.getHeight()/2);
-                renderer.end();
-            }
-        }
-    }
-
     private void drawCellRoutesTexture(Cell cell, SpriteBatch batch) {
         for (Cell toCell : current.getConnectedCells(cell)) {
             if (toCell.isValid()) {
