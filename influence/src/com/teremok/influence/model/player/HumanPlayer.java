@@ -1,7 +1,6 @@
 package com.teremok.influence.model.player;
 
-import com.teremok.influence.model.Field;
-import com.teremok.influence.screen.GameScreen;
+import com.teremok.influence.model.Match;
 
 /**
  * Created by Alexx on 26.12.13
@@ -9,8 +8,8 @@ import com.teremok.influence.screen.GameScreen;
 public class HumanPlayer extends Player {
 
 
-    protected HumanPlayer(int type, GameScreen screen, Field field) {
-        super(type, screen, field);
+    protected HumanPlayer(int type, Match match) {
+        super(type, match);
     }
 
     @Override

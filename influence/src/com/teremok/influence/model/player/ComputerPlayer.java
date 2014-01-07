@@ -1,9 +1,7 @@
 package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.Field;
-import com.teremok.influence.screen.GameScreen;
-
+import com.teremok.influence.model.Match;
 import java.util.*;
 
 /**
@@ -26,12 +24,12 @@ public class ComputerPlayer extends Player {
         }
     }
 
-    public ComputerPlayer(int type, GameScreen screen, Field field) {
-        super(type, screen, field);
+    public ComputerPlayer(int type, Match match) {
+        super(type, match);
     }
 
     protected void actLogic(float delta) {
-        if (gameScreen.currentPhase == GameScreen.TurnPhase.ATTACK) {
+        if (match.isInAttackPhase()) {
             System.out.println("actAttackLogic, time = " + turnTime);
             actAttackLogic(delta);
         } else {
@@ -49,7 +47,7 @@ public class ComputerPlayer extends Player {
             turnTime = 0;
             if (nextMove == null) {
                 System.out.println("setDistributePhase, time = " + turnTime);
-                gameScreen.setDistributePhase();
+                match.switchPhase();
             }
 
         } else {

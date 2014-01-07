@@ -7,10 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
-import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.view.Drawer;
 import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.view.AbstractDrawer;
@@ -40,9 +38,13 @@ public class Field extends Group {
     private List<Cell> cells;
     private GraphGenerator generator;
 
+    private Match match;
+    private PlayerManager pm;
     private Cell selectedCell;
 
-    public Field() {
+    public Field(Match match) {
+        this.match = match;
+        this.pm = match.getPm();
 
         float actorX = 0f;
         float actorY = AbstractScreen.HEIGHT - HEIGHT-1;
@@ -146,8 +148,8 @@ public class Field extends Group {
 
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        if (! event.isHandled() && PlayerManager.current() instanceof HumanPlayer) {
-                            if (GameScreen.currentPhase == GameScreen.TurnPhase.ATTACK) {
+                        if (! event.isHandled() && pm.isHumanActing()) {
+                            if (match.isInAttackPhase()) {
                                 setSelectedCell((Cell)event.getTarget());
                             } else {
                                 addPower((Cell)event.getTarget());
@@ -185,7 +187,7 @@ public class Field extends Group {
     }
 
     public void addPower(Cell cell) {
-        if (cell.getType() == PlayerManager.current().getType()) {
+        if (cell.getType() == pm.current().getType()) {
             int newPower = cell.getPower() + 1;
             int maxPower = cell.getMaxPower();
             if (newPower <= maxPower) {
@@ -193,13 +195,13 @@ public class Field extends Group {
                 //riseAddPowerTooltip(cell);
 
                 cell.setPower(cell.getPower() + 1);
-                PlayerManager.current().subtractPowerToDistribute();
+                pm.current().subtractPowerToDistribute();
             }
         }
     }
 
     private void reallySetSelected(Cell cell) {
-        if (cell.getType() == PlayerManager.current().getType()) {
+        if (cell.getType() == pm.current().getType()) {
             if (selectedCell != null)
                 selectedCell.setSelected(false);
             cell.setSelected(true);

@@ -1,10 +1,9 @@
 package com.teremok.influence.view;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.Score;
-import com.teremok.influence.model.player.PlayerManager;
-import com.teremok.influence.screen.GameScreen;
 
 /**
  * Created by Alexx on 24.12.13
@@ -29,15 +28,17 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
     }
 
     private void drawScores(SpriteBatch batch) {
-        for (int i = 0; i < PlayerManager.getNumberOfPlayers(); i++) {
-            Player player = PlayerManager.getPlayers()[i];
+        PlayerManager pm = current.getPm();
+
+        for (int i = 0; i < pm.getNumberOfPlayers(); i++) {
+            Player player = pm.getPlayers()[i];
             if (player.getScore() == 0) {
                 bitmapFont.setColor(Drawer.getCellColorByType(-1));
             } else {
                 bitmapFont.setColor(Drawer.getCellColorByType(player.getType()));
             }
             String toDraw;
-            if (i == PlayerManager.current().getType()) {
+            if (i == pm.current().getType()) {
                 toDraw = "-" + player.getScore() + "-";
             } else {
                 toDraw = " " + player.getScore() + " ";
@@ -47,9 +48,10 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
     }
 
     private void drawPower(SpriteBatch batch) {
-        if (GameScreen.currentPhase == GameScreen.TurnPhase.DISTRIBUTE) {
-            bitmapFont.setColor(Drawer.getCellColorByType(PlayerManager.current().getType()));
-            String text = "(" +PlayerManager.current().getPowerToDistribute() + ") ";
+        PlayerManager pm = current.getPm();
+        if (current.getMatch().isInDistributePhase()) {
+            bitmapFont.setColor(Drawer.getCellColorByType(pm.current().getType()));
+            String text = "(" +pm.current().getPowerToDistribute() + ") ";
             bitmapFont.draw(batch, text, current.getWidth() - RIGHT_MARGIN, current.getHeight()/2);
         }
     }

@@ -1,20 +1,25 @@
 package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Field;
-import com.teremok.influence.screen.GameScreen;
+import com.teremok.influence.model.Match;
 
 /**
- * Created by Alexx on 02.01.14
+ * Created by Alexx on 07.01.14
  */
-
 public class PlayerManager {
 
-    static private int currentNum = 0;
-    static private Player[] players = new Player[5];
-    static private int numberOfPlayers = 0;
-    static protected Field field;
+    private int currentNum = 0;
+    private Player[] players = new Player[5];
+    private int numberOfPlayers = 0;
+    private Field field;
+    private Match match;
 
-    static public void addPlayer(Player player, int num) {
+    public PlayerManager(Match match) {
+        this.match = match;
+        this.field = match.getField();
+    }
+
+    public void addPlayer(Player player, int num) {
         if (num < 0 || num > numberOfPlayers-1) {
             return;
         }
@@ -23,7 +28,7 @@ public class PlayerManager {
 
     }
 
-    static public Player next() {
+    public Player next() {
         do {
             currentNum++;
             if (currentNum > numberOfPlayers-1) {
@@ -34,11 +39,11 @@ public class PlayerManager {
         return players[currentNum];
     }
 
-    static public Player current() {
+    public Player current() {
         return players[currentNum];
     }
 
-    static public void update() {
+    public void update() {
         Player player;
         for (int i = 0; i < numberOfPlayers; i++) {
             player = players[i];
@@ -47,42 +52,49 @@ public class PlayerManager {
         }
     }
 
-
-    static public void addPlayersForSingleplayer(GameScreen gameScreen) {
+    public void addPlayersForSingleplayer(Field field) {
+        this.field = field;
         resetPlayersArray(5);
-        addPlayer(new HumanPlayer(0, gameScreen, field), 0);
-        //Player.addPlayer(new ComputerPlayer(0, gameScreen), 0);
+        addPlayer(new HumanPlayer(0, match), 0);
         for (int i = 1; i < numberOfPlayers; i ++) {
-            addPlayer(new ComputerPlayer(i, gameScreen, field), i);
+            addPlayer(new ComputerPlayer(i, match), i);
         }
         placeStartPositions();
     }
 
-    static public  void addPlayersForMultiplayer(GameScreen gameScreen) {
-        resetPlayersArray(2);
-        addPlayer(new HumanPlayer(0, gameScreen, field), 0);
-        addPlayer(new HumanPlayer(1, gameScreen, field), 1);
+    public  void addPlayersForMultiplayer(Field field) {
+        this.field = field;
+        resetPlayersArray(3);
+        addPlayer(new HumanPlayer(0, match), 0);
+        addPlayer(new HumanPlayer(1, match), 1);
+        addPlayer(new HumanPlayer(2, match), 2);
         placeStartPositionsMultiplayer();
     }
 
-    static private void resetPlayersArray(int number) {
+    private void resetPlayersArray(int number) {
         numberOfPlayers = number;
         players = new Player[number];
     }
 
-    private static void placeStartPositions() {
+    private void placeStartPositions() {
         for (Player player : players) {
             field.placeStartPosition(player.getType());
         }
     }
 
-    private static void placeStartPositionsMultiplayer() {
+    private void placeStartPositionsMultiplayer() {
+        field.placeStartPosition(players[0].type);
+        field.placeStartPosition(players[1].type);
+        field.placeStartPosition(players[2].type);
+        /*
         field.placeStartPositionFromRange(players[0].type, 0, 9);
         field.placeStartPositionFromRange(players[1].type, 26, 35);
+        field.placeStartPositionFromRange(players[1].type, 26, 35);
+        */
     }
 
-    public static void setField(Field field) {
-        PlayerManager.field = field;
+    public void setField(Field field) {
+        this.field = field;
 
         for (Player player : players) {
             if (player instanceof ComputerPlayer) {
@@ -91,21 +103,21 @@ public class PlayerManager {
         }
     }
 
+    public boolean isHumanActing() {
+        return current() instanceof HumanPlayer;
+    }
+
     // Auto-generated
 
-    public static int getNumberOfPlayers() {
+    public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
-    public static void setNumberOfPlayers(int numberOfPlayers) {
-        PlayerManager.numberOfPlayers = numberOfPlayers;
-    }
-
-    public static Player[] getPlayers() {
+    public Player[] getPlayers() {
         return players;
     }
 
-    public static Field getField() {
+    public Field getField() {
         return field;
     }
 }

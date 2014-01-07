@@ -1,6 +1,7 @@
 package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Field;
+import com.teremok.influence.model.Match;
 import com.teremok.influence.screen.GameScreen;
 
 /**
@@ -11,13 +12,13 @@ public abstract class Player {
     protected int type;
     protected int powerToDistribute;
     protected int score;
-    protected GameScreen gameScreen;
+    protected Match match;
     protected Field field;
 
-    protected Player(int type, GameScreen gameScreen, Field field) {
+    protected Player(int type, Match match) {
         this.type = type;
-        this.gameScreen = gameScreen;
-        this.field = field;
+        this.match = match;
+        this.field = match.getField();
     }
 
     public void setPowerToDistribute(int power) {
