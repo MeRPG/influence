@@ -82,6 +82,44 @@ public class Field extends Group {
         target.setType(type);
     }
 
+    public void placeStartPositionFromRange(int type, int startNumber, int endNumber) {
+
+        if (startNumber < 0 || startNumber >= cells.size()) {
+            startNumber = 0;
+        }
+
+        if (endNumber <= 0 || endNumber >= cells.size()) {
+            endNumber = cells.size() - 1;
+        }
+
+        if (endNumber < startNumber) {
+            int tmp = startNumber;
+            startNumber = endNumber;
+            endNumber = tmp;
+        }
+
+        Random rnd = new Random();
+        int number;
+        Cell target;
+
+        do {
+            number = rnd.nextInt(cells.size());
+            target = cells.get(number);
+
+            if (isValidForStartPosition(target) && isBetween(number, startNumber, endNumber)) {
+                break;
+            }
+
+        } while (true);
+        System.out.println("Placing player: " + target);
+        target.setPower(INITIAL_CELL_POWER);
+        target.setType(type);
+    }
+
+    private boolean isBetween (int number, int start, int end) {
+        return number >= start && number <= end;
+    }
+
     private boolean isValidForStartPosition(Cell target) {
         if (target.isValid() && target.getType() == -1) {
             for (Cell enemy : getConnectedEnemies(target)) {

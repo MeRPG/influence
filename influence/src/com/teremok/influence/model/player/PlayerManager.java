@@ -62,7 +62,7 @@ public class PlayerManager {
         resetPlayersArray(2);
         addPlayer(new HumanPlayer(0, gameScreen, field), 0);
         addPlayer(new HumanPlayer(1, gameScreen, field), 1);
-        placeStartPositions();
+        placeStartPositionsMultiplayer();
     }
 
     static private void resetPlayersArray(int number) {
@@ -74,6 +74,11 @@ public class PlayerManager {
         for (Player player : players) {
             field.placeStartPosition(player.getType());
         }
+    }
+
+    private static void placeStartPositionsMultiplayer() {
+        field.placeStartPositionFromRange(players[0].type, 0, 9);
+        field.placeStartPositionFromRange(players[1].type, 26, 35);
     }
 
     public static void setField(Field field) {
