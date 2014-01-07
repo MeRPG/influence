@@ -21,7 +21,7 @@ public class Drawer {
 
     static {
         colors = new HashMap<String, Color>();
-        colors.put("CYAN", new Color(0x1569C7FF));
+        colors.put("CYAN", new Color(0x3090C7FF));
         colors.put("GREEN", new Color(0x59E817FF));
         colors.put("ORANGE", new Color(0xFFD801FF));
         colors.put("PINK", new Color(0xF52887FF));
