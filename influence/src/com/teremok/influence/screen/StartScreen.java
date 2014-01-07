@@ -2,8 +2,6 @@ package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,15 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
-import com.teremok.influence.model.player.Player;
 import com.teremok.influence.ui.Button;
 
 /**
  * Created by Alexx on 20.12.13
  */
 public class StartScreen extends AbstractScreen {
-
-    private final String WELCOME_TEXT = "Нажми на экран...";
 
     private final String SINGLEPLAYER = "singleplayer";
     private final String MULTIPLAYER = "multiplayer";
@@ -83,7 +78,6 @@ public class StartScreen extends AbstractScreen {
     public void startMultiplayerGame () {
         game.setScreen(new GameScreen(game, GameType.MULTIPLAYER));
     }
-
 
     public void startSingleplayerGame () {
         game.setScreen(new GameScreen(game, GameType.SINGLEPLAYER));
