@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
+import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.ui.Button;
 
@@ -80,11 +81,11 @@ public class StartScreen extends AbstractScreen {
     }
 
     public void startMultiplayerGame () {
-        game.setScreen(new GameScreen(game, GameScreen.GameType.MULTIPLAYER));
+        game.setScreen(new GameScreen(game, GameType.MULTIPLAYER));
     }
 
 
     public void startSingleplayerGame () {
-        game.setScreen(new GameScreen(game, GameScreen.GameType.SINGLEPLAYER));
+        game.setScreen(new GameScreen(game, GameType.SINGLEPLAYER));
     }
 }
