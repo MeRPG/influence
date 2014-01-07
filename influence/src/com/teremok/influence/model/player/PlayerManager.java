@@ -64,10 +64,9 @@ public class PlayerManager {
 
     public  void addPlayersForMultiplayer(Field field) {
         this.field = field;
-        resetPlayersArray(3);
+        resetPlayersArray(2);
         addPlayer(new HumanPlayer(0, match), 0);
         addPlayer(new HumanPlayer(1, match), 1);
-        addPlayer(new HumanPlayer(2, match), 2);
         placeStartPositionsMultiplayer();
     }
 
@@ -83,24 +82,8 @@ public class PlayerManager {
     }
 
     private void placeStartPositionsMultiplayer() {
-        field.placeStartPosition(players[0].type);
-        field.placeStartPosition(players[1].type);
-        field.placeStartPosition(players[2].type);
-        /*
         field.placeStartPositionFromRange(players[0].type, 0, 9);
         field.placeStartPositionFromRange(players[1].type, 26, 35);
-        field.placeStartPositionFromRange(players[1].type, 26, 35);
-        */
-    }
-
-    public void setField(Field field) {
-        this.field = field;
-
-        for (Player player : players) {
-            if (player instanceof ComputerPlayer) {
-                player.setField(field);
-            }
-        }
     }
 
     public boolean isHumanActing() {

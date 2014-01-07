@@ -94,11 +94,7 @@ public class Match {
     public Field getField() {
         return field;
     }
-    /*
-    public Phase getPhase() {
-        return phase;
-    }
-    */
+
     public PlayerManager getPm() {
         return pm;
     }
