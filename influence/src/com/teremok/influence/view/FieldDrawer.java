@@ -51,8 +51,8 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                 } else {
                     batch.setColor(Drawer.getCellColorByType(-1));
                 }
-                float centerX = current.getX() + cell.getX() + cell.getWidth()/2 - 9;
-                float centerY = current.getY() + cell.getY() + cell.getHeight()/2 + 7;
+                float centerX = current.getX() + cell.getX() + cell.getWidth()/2 - 8;
+                float centerY = current.getY() + cell.getY() + cell.getHeight()/2 + 6;
 
                 float rotation;
 
