@@ -107,6 +107,26 @@ public class PlayerManager {
         return current() instanceof HumanPlayer;
     }
 
+    public boolean isHumanInGame() {
+        for (Player player : players) {
+            if (player instanceof HumanPlayer && player.getScore() > 0)
+                return true;
+        }
+        return false;
+    }
+
+    public int getNumberOfPlayerInGame(){
+        int playersInGame = 0;
+
+        for (Player player : players) {
+            if (player.getScore() > 0) {
+                playersInGame++;
+            }
+        }
+
+        return playersInGame;
+    }
+
     // Auto-generated
 
     public int getNumberOfPlayers() {

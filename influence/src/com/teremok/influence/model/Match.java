@@ -75,14 +75,18 @@ public class Match {
         return phase.equals(Phase.DISTRIBUTE);
     }
 
-
-
     public boolean isInAttackPhase() {
         return phase.equals(Phase.ATTACK);
     }
 
     public boolean isHumanActing() {
         return pm.isHumanActing();
+    }
+
+    public boolean isEnded() {
+        int playersInGame = pm.getNumberOfPlayerInGame();
+
+        return playersInGame == 1 || ! pm.isHumanInGame();
     }
 
     // Auto-generated

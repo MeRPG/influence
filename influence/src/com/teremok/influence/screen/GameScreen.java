@@ -50,22 +50,29 @@ public class GameScreen extends AbstractScreen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (! event.isHandled() && match.isHumanActing()) {
-                    match.switchPhase();
+                if (! event.isHandled()) {
+                    if (match.isHumanActing())
+                        match.switchPhase();
+                    if (match.isEnded())
+                        startNewMatch();
                 }
             }
 
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && keycode == Input.Keys.R) {
-                    System.out.println("Starting new match");
-                    match = new Match(match.getGameType());
-                    updateMatchDependentActors();
+                    startNewMatch();
                 }
                 return true;
             }
 
         });
+    }
+
+    private void  startNewMatch() {
+        System.out.println("Starting new match");
+        match = new Match(match.getGameType());
+        updateMatchDependentActors();
     }
 
     private void updateMatchDependentActors() {
