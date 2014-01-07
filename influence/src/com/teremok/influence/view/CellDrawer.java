@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.teremok.influence.model.Cell;
 
@@ -17,14 +15,13 @@ import com.teremok.influence.model.Cell;
  */
 public class CellDrawer extends AbstractDrawer<Cell> {
 
-    private static final float STANDARD_SIZE_MULTIPLIER = 0.4f;
-    private static final float BIG_SIZE_MULTIPLIER = 0.6f;
-
     private TextureAtlas atlas;
     Array<TextureAtlas.AtlasRegion> cellSmall;
     Array<TextureAtlas.AtlasRegion> cellBig;
     TextureRegion maskSmall;
     TextureRegion maskBig;
+    TextureRegion backlightSmall;
+    TextureRegion backlightBig;
 
     public CellDrawer() {
         super();
@@ -34,13 +31,15 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         for (Texture txt : atlas.getTextures()) {
             txt.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        cellBig = atlas.findRegions("big");
 
         cellSmall = atlas.findRegions("small");
+        cellBig = atlas.findRegions("big");
 
         maskSmall = atlas.findRegion("maskSmall");
         maskBig = atlas.findRegion("maskBig");
 
+        backlightSmall = atlas.findRegion("backlightSmall");
+        backlightBig = atlas.findRegion("backlightBig");
     }
 
     @Override
@@ -58,19 +57,6 @@ public class CellDrawer extends AbstractDrawer<Cell> {
             drawSmallCell(batch);
         }
 
-        batch.end();
-
-        //drawBoundingBox();
-
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        if (current.isSelected()) {
-            renderer.setColor(Color.WHITE);
-            renderer.circle(current.getWidth()/2, current.getHeight()/2, Drawer.UNIT_SIZE * BIG_SIZE_MULTIPLIER);
-        }
-        renderer.end();
-
-        batch.begin();
-
         if (bitmapFont != null) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(current.getPower()+"");
             bitmapFont.setColor(Color.BLACK);
@@ -80,6 +66,11 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     }
 
     private void drawBigCell(SpriteBatch batch) {
+
+        if (current.isSelected()){
+            batch.draw(backlightBig, current.getX(), current.getY());
+        }
+
         batch.draw(maskBig, current.getX(), current.getY());
         batch.setColor(Color.WHITE);
         if (current.getType() == -1)  {
@@ -90,6 +81,11 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     }
 
     private void drawSmallCell(SpriteBatch batch) {
+
+        if (current.isSelected()){
+            batch.draw(backlightSmall, current.getX(), current.getY());
+        }
+
         batch.draw(maskSmall, current.getX(), current.getY());
         batch.setColor(Color.WHITE);
         if (current.getType() == -1)  {
@@ -97,21 +93,5 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         } else {
             batch.draw(cellSmall.get(current.getPower()), current.getX(), current.getY());
         }
-    }
-
-    private void renderWithMultiplier(float multiplier) {
-        float centerX = current.getWidth()/2;
-        float centerY = current.getHeight()/2;
-
-        renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * multiplier, 6);
-
-        renderer.setColor(Color.BLACK);
-
-        float powerArc = (float)current.getPower() / current.getMaxPower() * 360f;
-        renderer.arc(centerX, centerY, Drawer.UNIT_SIZE * multiplier * .7f, 90f, powerArc);
-
-        renderer.setColor(Drawer.getCellColorByType(current.getType()));
-        renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * multiplier * .6f);
-
     }
 }

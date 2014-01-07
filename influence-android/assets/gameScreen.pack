@@ -5,190 +5,204 @@ filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 1, 295
+  xy: 1, 298
   size: 480, 720
   orig: 480, 720
   offset: 0, 0
   index: -1
-big
+backlightBig
   rotate: false
-  xy: 1, 197
+  xy: 1, 200
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
-  index: 0
+  index: -1
+backlightSmall
+  rotate: false
+  xy: 483, 922
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
 big
   rotate: false
-  xy: 483, 919
+  xy: 1, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 1
 big
   rotate: false
-  xy: 1, 99
+  xy: 99, 200
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 10
 big
   rotate: false
-  xy: 99, 197
+  xy: 483, 824
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 11
 big
   rotate: false
-  xy: 483, 821
+  xy: 581, 922
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 12
 big
   rotate: false
-  xy: 581, 919
+  xy: 1, 4
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 2
 big
   rotate: false
-  xy: 1, 1
+  xy: 99, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 3
 big
   rotate: false
-  xy: 99, 99
+  xy: 197, 200
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 4
 big
   rotate: false
-  xy: 197, 197
+  xy: 483, 726
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 5
 big
   rotate: false
-  xy: 483, 723
+  xy: 581, 824
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 6
 big
   rotate: false
-  xy: 581, 821
+  xy: 679, 922
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 7
 big
   rotate: false
-  xy: 679, 919
+  xy: 99, 4
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 8
 big
   rotate: false
-  xy: 99, 1
+  xy: 197, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 9
 maskBig
   rotate: false
-  xy: 197, 99
+  xy: 295, 200
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 maskSmall
   rotate: false
-  xy: 295, 197
+  xy: 483, 628
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 small
   rotate: false
-  xy: 483, 625
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: 0
-small
-  rotate: false
-  xy: 581, 723
+  xy: 581, 726
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 1
 small
   rotate: false
-  xy: 679, 821
+  xy: 679, 824
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 2
 small
   rotate: false
-  xy: 777, 919
+  xy: 777, 922
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 3
 small
   rotate: false
-  xy: 197, 1
+  xy: 197, 4
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 4
 small
   rotate: false
-  xy: 295, 99
+  xy: 295, 102
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 5
 small
   rotate: false
-  xy: 483, 527
+  xy: 483, 530
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 6
 small
   rotate: false
-  xy: 581, 625
+  xy: 581, 628
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 7
 small
   rotate: false
-  xy: 679, 723
+  xy: 679, 726
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: 8
 maskRoute
   rotate: false
-  xy: 777, 902
+  xy: 777, 905
   size: 96, 15
   orig: 96, 15
   offset: 0, 0
   index: -1
 route
   rotate: false
-  xy: 875, 1000
+  xy: 875, 1003
   size: 96, 15
   orig: 96, 15
   offset: 0, 0
   index: -1
+big
+  rotate: false
+  xy: 1, 1
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: 0
+small
+  rotate: false
+  xy: 1, 1
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: 0
