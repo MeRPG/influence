@@ -21,12 +21,12 @@ public class Drawer {
 
     static {
         colors = new HashMap<String, Color>();
-        colors.put("CYAN", new Color(0x3090C7FF));
-        colors.put("GREEN", new Color(0x59E817FF));
-        colors.put("ORANGE", new Color(0xFFD801FF));
-        colors.put("PINK", new Color(0xF52887FF));
-        colors.put("MAGENTA", new Color(0xF433FFFF));
-        colors.put("GREY", new Color(0x848482FF));
+        colors.put("CYAN", new Color(0x1691dfFF));
+        colors.put("GREEN", new Color(0x30d614FF));
+        colors.put("ORANGE", new Color(0xeade1aFF));
+        colors.put("PINK", new Color(0xe72020FF));
+        colors.put("MAGENTA", new Color(0xd91ceaFF));
+        colors.put("GREY", new Color(0x888888FF));
     }
 
     public static final float UNIT_SIZE = AbstractScreen.WIDTH/10f;
