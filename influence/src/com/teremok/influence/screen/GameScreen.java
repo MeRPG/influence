@@ -1,6 +1,7 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teremok.influence.model.GameType;
@@ -18,6 +19,7 @@ import static com.badlogic.gdx.Input.Keys;
 public class GameScreen extends AbstractScreen {
 
     Match match;
+    PausePanel pausePanel;
 
     public GameScreen(Game game, GameType gameType) {
         super(game);
@@ -75,7 +77,7 @@ public class GameScreen extends AbstractScreen {
         });
     }
 
-    private void  startNewMatch() {
+    void  startNewMatch() {
         System.out.println("Starting new match");
         match = new Match(match.getGameType());
         updateMatchDependentActors();
@@ -86,8 +88,23 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(match.getScore());
     }
 
-    private void pauseMatch() {
+    void pauseMatch() {
+        if (match.isPaused()) {
+            stage.getRoot().removeActor(pausePanel);
+        } else {
+            if (pausePanel == null)
+                pausePanel = new PausePanel(this);
+            stage.addActor(pausePanel);
+        }
         match.setPaused(! match.isPaused());
+    }
+
+    void exit() {
+        Gdx.app.exit();
+    }
+
+    void backToStartScreen() {
+        game.setScreen(new StartScreen(game));
     }
 
     @Override
