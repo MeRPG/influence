@@ -46,31 +46,11 @@ public class SplashScreen extends AbstractScreen {
 
     private Action constructSequenceAction() {
         SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(createFadeInAction());
-        sequenceAction.addAction(createDelayAction());
-        sequenceAction.addAction(createFadeOutAction());
+        sequenceAction.addAction(createFadeInAction(0.75f));
+        sequenceAction.addAction(createDelayAction(1.0f));
+        sequenceAction.addAction(createFadeOutAction(0.75f));
         sequenceAction.addAction(createCompleteAction());
         return sequenceAction;
-    }
-
-    private Action createFadeInAction(){
-        AlphaAction fadeIn = new AlphaAction();
-        fadeIn.setAlpha(1f);
-        fadeIn.setDuration(0.75f);
-        return fadeIn;
-    }
-
-    private Action createFadeOutAction(){
-        AlphaAction fadeOut = new AlphaAction();
-        fadeOut.setAlpha(0f);
-        fadeOut.setDuration(0.75f);
-        return fadeOut;
-    }
-
-    private Action createDelayAction(){
-        DelayAction delayAction = new DelayAction();
-        delayAction.setDuration(1.75f);
-        return delayAction;
     }
 
     private Action createCompleteAction(){

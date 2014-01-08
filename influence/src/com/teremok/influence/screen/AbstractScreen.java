@@ -11,7 +11,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 
 public abstract class AbstractScreen implements Screen {
 
@@ -89,5 +92,28 @@ public abstract class AbstractScreen implements Screen {
         // dispose the collaborators
         stage.dispose();
         if (font  != null) font.dispose();
+    }
+
+    // FX
+
+    protected Action createFadeInAction(float duration){
+        AlphaAction fadeIn = new AlphaAction();
+        fadeIn.setAlpha(1f);
+        fadeIn.setDuration(duration);
+        return fadeIn;
+    }
+
+
+    protected Action createFadeOutAction(float duration){
+        AlphaAction fadeOut = new AlphaAction();
+        fadeOut.setAlpha(0f);
+        fadeOut.setDuration(duration);
+        return fadeOut;
+    }
+
+    protected Action createDelayAction(float delay){
+        DelayAction delayAction = new DelayAction();
+        delayAction.setDuration(delay);
+        return delayAction;
     }
 }

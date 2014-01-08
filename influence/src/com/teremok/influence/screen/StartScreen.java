@@ -5,8 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -46,6 +48,9 @@ public class StartScreen extends AbstractScreen {
         stage.addActor(backImage);
         stage.addActor(singleplayer);
         stage.addActor(multiplayer);
+
+        stage.getRoot().getColor().a = 0;
+        stage.getRoot().addAction(createFadeInAction(0.75f));
     }
 
     private float getCenterX(float width) {
@@ -86,10 +91,35 @@ public class StartScreen extends AbstractScreen {
     }
 
     public void startMultiplayerGame () {
-        game.setScreen(new GameScreen(game, GameType.MULTIPLAYER));
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(createFadeOutAction(0.75f));
+        sequenceAction.addAction(createStartGameCompleteAction(GameType.MULTIPLAYER));
+        stage.addAction(sequenceAction);
     }
 
     public void startSingleplayerGame () {
-        game.setScreen(new GameScreen(game, GameType.SINGLEPLAYER));
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(createFadeOutAction(0.75f));
+        sequenceAction.addAction(createStartGameCompleteAction(GameType.SINGLEPLAYER));
+        stage.addAction(sequenceAction);
+    }
+
+    private Action createStartGameCompleteAction(GameType gameType) {
+        Action completeAction = new StartGameAction(game, gameType);
+        return completeAction;
+    }
+
+    public static class StartGameAction extends Action {
+        Game game;
+        GameType gameType;
+        private StartGameAction(Game game, GameType gameType) {
+            this.gameType = gameType;
+            this.game = game;
+        }
+        @Override
+        public boolean act(float delta) {
+            game.setScreen(new GameScreen(game, gameType));
+            return true;
+        }
     }
 }

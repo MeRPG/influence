@@ -1,8 +1,19 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Score;
@@ -19,16 +30,27 @@ public class GameScreen extends AbstractScreen {
 
     Match match;
     PausePanel pausePanel;
+    Image overlap;
+    Image border;
+
+    public static Color colorForBorder;
 
     public GameScreen(Game game, GameType gameType) {
         super(game);
         match = new Match(gameType);
+        pausePanel = new PausePanel(this);
+        pausePanel.getColor().a = 0f;
+        pausePanel.setTouchable(Touchable.disabled);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         match.act(delta);
+        if (colorForBorder != null) {
+            fastShowBorder(colorForBorder);
+            colorForBorder = null;
+        }
     }
 
     @Override
@@ -37,11 +59,23 @@ public class GameScreen extends AbstractScreen {
 
         AbstractDrawer.setBitmapFont(getFont());
 
-        stage.addActor(match.getField());
-
-        stage.addActor(match.getScore());
-
         stage.addActor(TooltipHandler.getInstance());
+
+
+
+        TextureRegion reg =  new TextureAtlas(Gdx.files.internal("startScreen.pack")).findRegion("background");
+
+        overlap = new Image(new TextureRegionDrawable(reg), Scaling.fit, Align.center);
+        overlap.setColor(Color.BLACK);
+        overlap.addAction(createFadeOutAction(0.75f));
+        overlap.setTouchable(Touchable.disabled);
+
+        border = new Image(new TextureRegionDrawable(reg), Scaling.fit, Align.center);
+        border.setColor(Color.BLACK);
+        border.addAction(createFadeOutAction(0.75f));
+        border.setTouchable(Touchable.disabled);
+
+        updateMatchDependentActors();
 
         stage.addListener(new ClickListener() {
 
@@ -77,6 +111,10 @@ public class GameScreen extends AbstractScreen {
     }
 
     void  startNewMatch() {
+        if (match.isPaused()) {
+            pausePanel.addAction(createFadeOutAction(0.75f));
+            pausePanel.setTouchable(Touchable.disabled);
+        }
         System.out.println("Starting new match");
         match = new Match(match.getGameType());
         updateMatchDependentActors();
@@ -84,22 +122,52 @@ public class GameScreen extends AbstractScreen {
 
     private void updateMatchDependentActors() {
         stage.addActor(match.getField());
+        stage.addActor(border);
         stage.addActor(match.getScore());
+        /*if (!stage.getRoot().getChildren().contains(TooltipHandler.getInstance(), false))
+            stage.addActor(TooltipHandler.getInstance());
+        */
+        stage.addActor(pausePanel);
+        stage.addActor(overlap);
     }
 
     void pauseMatch() {
         if (match.isPaused()) {
-            stage.getRoot().removeActor(pausePanel);
+            pausePanel.addAction(createFadeOutAction(0.75f));
+            pausePanel.setTouchable(Touchable.disabled);
         } else {
-            if (pausePanel == null)
-                pausePanel = new PausePanel(this);
-            stage.addActor(pausePanel);
+            pausePanel.addAction(createFadeInAction(0.75f));
+            pausePanel.setTouchable(Touchable.enabled);
         }
         match.setPaused(! match.isPaused());
     }
 
     void backToStartScreen() {
-        game.setScreen(new StartScreen(game));
+        pausePanel.addAction(createFadeOutAction(0.75f));
+
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(createFadeInAction(0.75f));
+        sequenceAction.addAction( new Action() {
+            @Override
+            public boolean act(float delta) {
+                game.setScreen(new StartScreen(game));
+                return true;
+            }
+        });
+        overlap.getColor().a = 0f;
+        overlap.addAction(sequenceAction);
+    }
+
+    public void fastShowBorder(Color color) {
+        border.setColor(color);
+        border.getColor().a = 0;
+
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(createFadeInAction(0.25f));
+        sequenceAction.addAction(createDelayAction(0.25f));
+        sequenceAction.addAction(createFadeOutAction(0.25f));
+
+        border.addAction(sequenceAction);
     }
 
     @Override
