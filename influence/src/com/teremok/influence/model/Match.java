@@ -1,5 +1,6 @@
 package com.teremok.influence.model;
 
+import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.Player;
 
@@ -54,7 +55,14 @@ public class Match {
         if (phase == Phase.ATTACK) {
             setDistributePhase();
         } else {
-            setAttackPhase();
+
+            Player player = pm.current();
+
+            if (player instanceof HumanPlayer) {
+                ((HumanPlayer) player).setAuto(true);
+            } else {
+                setAttackPhase();
+            }
         }
 
     }

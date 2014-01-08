@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.view.Drawer;
@@ -149,10 +150,13 @@ public class Field extends Group {
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                         if (! event.isHandled() && match.canHumanActing()) {
+                            Cell target = (Cell)event.getTarget();
                             if (match.isInAttackPhase()) {
-                                setSelectedCell((Cell)event.getTarget());
+                                setSelectedCell(target);
                             } else {
-                                addPower((Cell)event.getTarget());
+                                HumanPlayer player = (HumanPlayer)pm.current();
+                                player.addPowered(target.getNumber());
+                                addPower(target);
                             }
                         }
                     }
