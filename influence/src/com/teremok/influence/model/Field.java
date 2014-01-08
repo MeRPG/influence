@@ -148,7 +148,7 @@ public class Field extends Group {
 
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        if (! event.isHandled() && pm.isHumanActing()) {
+                        if (! event.isHandled() && match.canHumanActing()) {
                             if (match.isInAttackPhase()) {
                                 setSelectedCell((Cell)event.getTarget());
                             } else {

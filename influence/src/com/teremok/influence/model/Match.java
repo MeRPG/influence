@@ -18,6 +18,7 @@ public class Match {
     PlayerManager pm;
     Score score;
     GameType gameType;
+    boolean paused;
 
     public Match(GameType gameType) {
         pm = new PlayerManager(this);
@@ -36,14 +37,16 @@ public class Match {
     }
 
     public void act(float delta) {
-        Player currentPlayer = pm.current();
+        if (! paused) {
+            Player currentPlayer = pm.current();
 
-        if (phase == Phase.DISTRIBUTE && currentPlayer.getPowerToDistribute() == 0) {
-            currentPlayer = pm.next();
-            phase = Phase.ATTACK;
+            if (phase == Phase.DISTRIBUTE && currentPlayer.getPowerToDistribute() == 0) {
+                currentPlayer = pm.next();
+                phase = Phase.ATTACK;
+            }
+
+            currentPlayer.act(delta);
         }
-
-        currentPlayer.act(delta);
     }
 
 
@@ -79,8 +82,8 @@ public class Match {
         return phase.equals(Phase.ATTACK);
     }
 
-    public boolean isHumanActing() {
-        return pm.isHumanActing();
+    public boolean canHumanActing() {
+        return pm.isHumanActing() && !paused;
     }
 
     public boolean isEnded() {
@@ -105,5 +108,13 @@ public class Match {
 
     public GameType getGameType() {
         return gameType;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }
