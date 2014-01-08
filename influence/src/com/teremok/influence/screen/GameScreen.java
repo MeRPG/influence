@@ -99,10 +99,6 @@ public class GameScreen extends AbstractScreen {
         match.setPaused(! match.isPaused());
     }
 
-    void exit() {
-        Gdx.app.exit();
-    }
-
     void backToStartScreen() {
         game.setScreen(new StartScreen(game));
     }

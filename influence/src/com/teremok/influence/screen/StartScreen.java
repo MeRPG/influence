@@ -2,6 +2,7 @@ package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -71,6 +72,15 @@ public class StartScreen extends AbstractScreen {
                         startMultiplayerGame();
                     }
                 }
+            }
+
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
+                    exitGame();
+                    return true;
+                }
+                return false;
             }
         });
     }

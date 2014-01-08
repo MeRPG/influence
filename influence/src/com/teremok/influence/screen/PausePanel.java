@@ -102,6 +102,6 @@ public class PausePanel extends Group {
     }
 
     private void  exitGame() {
-        gameScreen.exit();
+        gameScreen.exitGame();
     }
 }
