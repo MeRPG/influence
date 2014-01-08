@@ -3,6 +3,7 @@ package com.teremok.influence.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
@@ -61,14 +63,18 @@ public class GameScreen extends AbstractScreen {
 
         TextureRegion reg =  new TextureAtlas(Gdx.files.internal("startScreen.pack")).findRegion("background");
 
-        overlap = new Image(new TextureRegionDrawable(reg), Scaling.fit, Align.center);
+        overlap = new Image( new TextureRegionDrawable(reg), Scaling.fit, Align.center);
         overlap.setColor(Color.BLACK);
         overlap.addAction(createFadeOutAction(0.75f));
         overlap.setTouchable(Touchable.disabled);
 
-        border = new Image(new TextureRegionDrawable(reg), Scaling.fit, Align.center);
-        border.setColor(Color.BLACK);
-        border.addAction(createFadeOutAction(0.75f));
+
+        Texture.setEnforcePotImages(false); // Удалить!
+        Texture texture = new Texture("backlight.png");
+        border = new Image(texture);
+        border.setScaling(Scaling.fit);
+        border.setAlign(Align.center);
+        border.getColor().a = 0f;
         border.setTouchable(Touchable.disabled);
 
         updateMatchDependentActors();
@@ -121,8 +127,8 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(border);
         stage.addActor(match.getScore());
 
-        if (!stage.getRoot().getChildren().contains(TooltipHandler.getInstance(), false))
-            stage.addActor(TooltipHandler.getInstance());
+        stage.getRoot().removeActor(TooltipHandler.getInstance());
+        stage.addActor(TooltipHandler.getInstance());
 
         stage.addActor(pausePanel);
         stage.addActor(overlap);
@@ -157,12 +163,12 @@ public class GameScreen extends AbstractScreen {
 
     public void fastShowBorder(Color color) {
         border.setColor(color);
-        border.getColor().a = 0;
+        border.getColor().a = 1f;
 
         SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(createFadeInAction(0.25f));
+        //sequenceAction.addAction(createFadeInAction(0.25f));
         sequenceAction.addAction(createDelayAction(0.25f));
-        sequenceAction.addAction(createFadeOutAction(0.25f));
+        sequenceAction.addAction(createFadeOutAction(0.75f));
 
         border.addAction(sequenceAction);
     }

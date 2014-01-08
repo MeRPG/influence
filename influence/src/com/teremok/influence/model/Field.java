@@ -27,6 +27,8 @@ import java.util.Random;
  */
 public class Field extends Group {
 
+    private static final String ADD_POWER_TOOLTIP = "+1";
+
     public static final int MAX_CELLS_Y = 7;
     public static final int MAX_CELLS_X = 5;
 
@@ -198,7 +200,7 @@ public class Field extends Group {
             int maxPower = cell.getMaxPower();
             if (newPower <= maxPower) {
 
-                //riseAddPowerTooltip(cell);
+                riseAddPowerTooltip(cell);
 
                 cell.setPower(cell.getPower() + 1);
                 pm.current().subtractPowerToDistribute();
@@ -287,7 +289,7 @@ public class Field extends Group {
         } else {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getType()) {
-                    if (Calculator.getDelta() >= 0) {
+                    if (Calculator.getDelta() > 0) {
                         GameScreen.colorForBorder = Color.RED;
                     } else {
                         GameScreen.colorForBorder = Color.GREEN;
@@ -299,6 +301,11 @@ public class Field extends Group {
     }
 
     public void riseDiceTooltips(Cell attack, Cell defense) {
+
+        if (defense.getType() == -1) {
+            return;
+        }
+
         String message = Calculator.getN() + "";
         BitmapFont font = AbstractDrawer.getBitmapFont();
         Color color;
@@ -325,13 +332,12 @@ public class Field extends Group {
 
     public void riseAddPowerTooltip(Cell cell) {
 
-        String message = "+1";
         BitmapFont font = AbstractDrawer.getBitmapFont();
         Color color = Color.GREEN;
 
         float tooltipX = calculateTooltipX(cell.getX());
         float tooltipY = calculateTooltipY(cell.getY());
-        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
+        TooltipHandler.addTooltip(new Tooltip(ADD_POWER_TOOLTIP, font, color, tooltipX, tooltipY));
 
     }
 
