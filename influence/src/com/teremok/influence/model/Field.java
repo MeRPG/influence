@@ -8,8 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.model.player.HumanPlayer;
+import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
+import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.view.Drawer;
 import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.view.AbstractDrawer;
@@ -228,7 +230,7 @@ public class Field extends Group {
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
         riseDiceTooltips(attack, defense);
-
+        fastShowBorder(attack, defense);
         setResultPower(attack, defense);
 
         return delta;
@@ -272,6 +274,29 @@ public class Field extends Group {
         return power;
     }
 
+    public void fastShowBorder(Cell attack, Cell defence) {
+
+        if (pm.isHumanActing()) {
+
+            if (Calculator.getDelta() > 0) {
+                if (defence.getType() != -1)
+                    GameScreen.colorForBorder = Color.GREEN;
+            } else {
+                GameScreen.colorForBorder = Color.RED;
+            }
+        } else {
+            for (Player player : pm.getPlayers()) {
+                if (player instanceof HumanPlayer && defence.getType() == player.getType()) {
+                    if (Calculator.getDelta() >= 0) {
+                        GameScreen.colorForBorder = Color.RED;
+                    } else {
+                        GameScreen.colorForBorder = Color.GREEN;
+                    }
+                    return;
+                }
+            }
+        }
+    }
 
     public void riseDiceTooltips(Cell attack, Cell defense) {
         String message = Calculator.getN() + "";
