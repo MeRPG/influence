@@ -29,8 +29,6 @@ public class Tooltip extends Actor {
         BitmapFont.TextBounds bounds = font.getBounds(message);
 
         setBounds(x, y, bounds.width, bounds.height);
-
-        this.addAction(constructSequenceAction());
     }
 
     public Tooltip(String message, BitmapFont font, Color color, float x, float y, float delay) {
@@ -38,39 +36,10 @@ public class Tooltip extends Actor {
         this.delay = delay;
     }
 
-    private Action createDelayAction(){
-        DelayAction delayAction = new DelayAction();
-        delayAction.setDuration(delay);
-        return delayAction;
-    }
-
-    private Action constructSequenceAction() {
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(createDelayAction());
-        sequenceAction.addAction(createFadeOutAction());
-        sequenceAction.addAction(createCompleteAction());
-        return sequenceAction;
-    }
-
-    private Action createFadeOutAction(){
-        AlphaAction fadeOut = new AlphaAction();
-        fadeOut.setAlpha(0f);
-        fadeOut.setDuration(1f);
-        return fadeOut;
-    }
-
-    private Action createCompleteAction(){
-        return new Action(){
-            public boolean act( float delta ) {
-                TooltipHandler.removeTooltip(id);
-                return true;
-            }
-        };
-    }
-
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        color.a = getColor().a;
         font.setColor(color);
         font.draw(batch, message, getX(), getY());
     }

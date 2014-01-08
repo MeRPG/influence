@@ -59,10 +59,6 @@ public class GameScreen extends AbstractScreen {
 
         AbstractDrawer.setBitmapFont(getFont());
 
-        stage.addActor(TooltipHandler.getInstance());
-
-
-
         TextureRegion reg =  new TextureAtlas(Gdx.files.internal("startScreen.pack")).findRegion("background");
 
         overlap = new Image(new TextureRegionDrawable(reg), Scaling.fit, Align.center);
@@ -124,9 +120,10 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(match.getField());
         stage.addActor(border);
         stage.addActor(match.getScore());
-        /*if (!stage.getRoot().getChildren().contains(TooltipHandler.getInstance(), false))
+
+        if (!stage.getRoot().getChildren().contains(TooltipHandler.getInstance(), false))
             stage.addActor(TooltipHandler.getInstance());
-        */
+
         stage.addActor(pausePanel);
         stage.addActor(overlap);
     }
