@@ -14,13 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class ColoredPanel extends Actor {
 
     ShapeRenderer renderer;
-    Texture texture;
 
     public ColoredPanel(Color color) {
         setColor(color.cpy());
-
-        Texture.setEnforcePotImages(false); // Удалить!
-        texture = new Texture("backlight.png");
 
         renderer = new ShapeRenderer();
     }
