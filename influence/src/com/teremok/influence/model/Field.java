@@ -12,6 +12,7 @@ import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
+import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.view.AbstractDrawer;
@@ -327,7 +328,7 @@ public class Field extends Group {
         }
         tooltipX = calculateTooltipX(defense.getX());
         tooltipY = calculateTooltipY(defense.getY());
-        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY, 0.75f));
+        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
 
     }
 
