@@ -4,7 +4,6 @@ package com.teremok.influence.screen;
  * Created by Alexx on 22.12.13
  * */
 
-import android.graphics.Color;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

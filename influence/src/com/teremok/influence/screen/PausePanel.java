@@ -18,10 +18,10 @@ import com.teremok.influence.ui.Button;
  */
 public class PausePanel extends Group {
 
-    private final String RESUME_CODE = "resume";
-    private final String MENU_CODE = "menu";
-    private final String F5_CODE = "f5";
-    private final String EXIT_CODE = "exit";
+    private static final String RESUME_CODE = "resume";
+    private static final String MENU_CODE = "menu";
+    private static final String F5_CODE = "f5";
+    private static final String EXIT_CODE = "exit";
 
     Button resume;
     Button menu;

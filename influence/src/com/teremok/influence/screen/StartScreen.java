@@ -21,8 +21,8 @@ import com.teremok.influence.ui.Button;
  */
 public class StartScreen extends AbstractScreen {
 
-    private final String SINGLEPLAYER = "singleplayer";
-    private final String MULTIPLAYER = "multiplayer";
+    private static final String SINGLEPLAYER = "singleplayer";
+    private static final String MULTIPLAYER = "multiplayer";
 
     private TextureAtlas atlas;
     private TextureRegion background;

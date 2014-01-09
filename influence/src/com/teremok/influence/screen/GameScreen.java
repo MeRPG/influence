@@ -1,11 +1,8 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -13,12 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Score;
+import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.view.Drawer;
@@ -32,14 +28,18 @@ public class GameScreen extends AbstractScreen {
 
     Match match;
     PausePanel pausePanel;
-    Image overlap;
-    Image border;
+    ColoredPanel overlap;
+    Image backlight;
 
     public static Color colorForBorder;
 
     public GameScreen(Game game, GameType gameType) {
         super(game);
         match = new Match(gameType);
+        initPausePanel();
+    }
+
+    private void initPausePanel() {
         pausePanel = new PausePanel(this);
         pausePanel.getColor().a = 0f;
         pausePanel.setTouchable(Touchable.disabled);
@@ -49,6 +49,8 @@ public class GameScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         match.act(delta);
+
+        // TODO: refactor!
         if (colorForBorder != null) {
             fastShowBorder(colorForBorder);
             colorForBorder = null;
@@ -61,21 +63,18 @@ public class GameScreen extends AbstractScreen {
 
         AbstractDrawer.setBitmapFont(getFont());
 
-        TextureRegion reg =  new TextureAtlas(Gdx.files.internal("startScreen.pack")).findRegion("background");
-
-        overlap = new Image( new TextureRegionDrawable(reg), Scaling.fit, Align.center);
-        overlap.setColor(Color.BLACK);
+        overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.addAction(createFadeOutAction(0.75f));
         overlap.setTouchable(Touchable.disabled);
 
 
         Texture.setEnforcePotImages(false); // Удалить!
         Texture texture = new Texture("backlight.png");
-        border = new Image(texture);
-        border.setScaling(Scaling.fit);
-        border.setAlign(Align.center);
-        border.getColor().a = 0f;
-        border.setTouchable(Touchable.disabled);
+        backlight = new Image(texture);
+        backlight.setScaling(Scaling.fit);
+        backlight.setAlign(Align.center);
+        backlight.getColor().a = 0f;
+        backlight.setTouchable(Touchable.disabled);
 
         updateMatchDependentActors();
 
@@ -124,7 +123,7 @@ public class GameScreen extends AbstractScreen {
 
     private void updateMatchDependentActors() {
         stage.addActor(match.getField());
-        stage.addActor(border);
+        stage.addActor(backlight);
         stage.addActor(match.getScore());
 
         stage.getRoot().removeActor(TooltipHandler.getInstance());
@@ -162,15 +161,15 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void fastShowBorder(Color color) {
-        border.setColor(color);
-        border.getColor().a = 1f;
+        backlight.setColor(color);
+        backlight.getColor().a = 1f;
 
         SequenceAction sequenceAction = new SequenceAction();
         //sequenceAction.addAction(createFadeInAction(0.25f));
         sequenceAction.addAction(createDelayAction(0.25f));
         sequenceAction.addAction(createFadeOutAction(0.75f));
 
-        border.addAction(sequenceAction);
+        backlight.addAction(sequenceAction);
     }
 
     @Override

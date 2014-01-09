@@ -276,6 +276,7 @@ public class Field extends Group {
         return power;
     }
 
+    // TODO: refactor
     public void fastShowBorder(Cell attack, Cell defence) {
 
         if (pm.isHumanActing()) {
