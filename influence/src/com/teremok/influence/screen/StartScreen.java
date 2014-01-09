@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
 import com.teremok.influence.ui.Button;
+import com.teremok.influence.view.Animation;
 
 /**
  * Created by Alexx on 20.12.13
@@ -91,22 +93,23 @@ public class StartScreen extends AbstractScreen {
     }
 
     public void startMultiplayerGame () {
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(createFadeOutAction(0.75f));
-        sequenceAction.addAction(createStartGameCompleteAction(GameType.MULTIPLAYER));
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.fadeOut(Animation.DURATION_NORMAL),
+                createStartGameAction(GameType.MULTIPLAYER)
+        );
         stage.addAction(sequenceAction);
     }
 
     public void startSingleplayerGame () {
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(createFadeOutAction(0.75f));
-        sequenceAction.addAction(createStartGameCompleteAction(GameType.SINGLEPLAYER));
+        SequenceAction sequenceAction = Actions.sequence(
+            Actions.fadeOut(Animation.DURATION_NORMAL),
+            createStartGameAction(GameType.SINGLEPLAYER)
+        );
         stage.addAction(sequenceAction);
     }
 
-    private Action createStartGameCompleteAction(GameType gameType) {
-        Action completeAction = new StartGameAction(game, gameType);
-        return completeAction;
+    private Action createStartGameAction(GameType gameType) {
+        return new StartGameAction(game, gameType);
     }
 
     public static class StartGameAction extends Action {

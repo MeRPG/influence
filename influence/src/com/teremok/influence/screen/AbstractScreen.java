@@ -109,10 +109,4 @@ public abstract class AbstractScreen implements Screen {
         fadeOut.setDuration(duration);
         return fadeOut;
     }
-
-    protected Action createDelayAction(float delay){
-        DelayAction delayAction = new DelayAction();
-        delayAction.setDuration(delay);
-        return delayAction;
-    }
 }

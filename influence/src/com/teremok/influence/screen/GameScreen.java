@@ -18,6 +18,7 @@ import com.teremok.influence.model.Score;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.ui.TooltipHandler;
+import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 
 import static com.badlogic.gdx.Input.Keys;
@@ -68,7 +69,7 @@ public class GameScreen extends AbstractScreen {
     void initOverlap() {
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.setTouchable(Touchable.disabled);
-        overlap.addAction(Actions.alpha(0f, 0.75f));
+        overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
     }
 
     void initBacklight() {
@@ -143,13 +144,13 @@ public class GameScreen extends AbstractScreen {
     void backToStartScreen() {
         pausePanel.hide();
 
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(Actions.alpha(1f, 0.75f));
-        sequenceAction.addAction(new Action() {
-            @Override
-            public boolean act(float delta) {
-                game.setScreen(new StartScreen(game));
-                return true;
+        SequenceAction sequenceAction = Actions.sequence(
+            Actions.alpha(1f, Animation.DURATION_NORMAL),
+            new Action() {
+                @Override
+                public boolean act(float delta) {
+                    game.setScreen(new StartScreen(game));
+                    return true;
             }
         });
         overlap.addAction(sequenceAction);
@@ -157,16 +158,17 @@ public class GameScreen extends AbstractScreen {
 
     void gracefullyStartNewMatch() {
         pausePanel.hide();
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(Actions.alpha(1f, 0.75f));
-        sequenceAction.addAction(new Action() {
+        SequenceAction sequenceAction = Actions.sequence(
+            Actions.alpha(1f, Animation.DURATION_NORMAL),
+            new Action() {
             @Override
             public boolean act(float delta) {
                 startNewMatch();
                 return true;
-            }
-        });
-        sequenceAction.addAction(Actions.alpha(0f, 0.75f));
+                }
+            },
+            Actions.alpha(0f, Animation.DURATION_NORMAL)
+        );
 
         overlap.addAction(sequenceAction);
     }
@@ -175,11 +177,28 @@ public class GameScreen extends AbstractScreen {
         backlight.setColor(color);
         backlight.getColor().a = 1f;
 
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(Actions.delay(0.25f));
-        sequenceAction.addAction(Actions.alpha(0f, 0.75f));
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.delay(Animation.DURATION_SHORT),
+                Actions.alpha(0f, Animation.DURATION_NORMAL)
+        );
 
         backlight.addAction(sequenceAction);
+    }
+
+    void gracefullyExitGame() {
+        pausePanel.hide();
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.alpha(1f, Animation.DURATION_NORMAL),
+                new Action() {
+                    @Override
+                    public boolean act(float delta) {
+                        exitGame();
+                        return true;
+                    }
+                }
+        );
+
+        overlap.addAction(sequenceAction);
     }
 
     @Override

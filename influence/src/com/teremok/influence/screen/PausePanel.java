@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.ui.Button;
+import com.teremok.influence.view.Animation;
 
 /**
  * Created by Alexx on 08.01.14
@@ -108,13 +109,13 @@ public class PausePanel extends Group {
         }
 
         clearActions();
-        addAction(Actions.alpha(1f, 0.75f));
+        addAction(Actions.alpha(1f, Animation.DURATION_NORMAL));
         setTouchable(Touchable.enabled);
     }
 
     public void hide() {
         clearActions();
-        addAction(Actions.alpha(0f, 0.75f));
+        addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
         setTouchable(Touchable.disabled);
     }
 
@@ -131,6 +132,6 @@ public class PausePanel extends Group {
     }
 
     private void  exitGame() {
-        gameScreen.exitGame();
+        gameScreen.gracefullyExitGame();
     }
 }
