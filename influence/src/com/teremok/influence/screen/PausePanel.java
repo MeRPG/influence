@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -28,7 +30,8 @@ public class PausePanel extends Group {
     Button f5;
     Button exit;
 
-    TextureAtlas atlas;
+    boolean loaded;
+
     TextureRegion background;
 
     GameScreen gameScreen;
@@ -36,13 +39,21 @@ public class PausePanel extends Group {
     PausePanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
 
-        atlas = new TextureAtlas(Gdx.files.internal("pausePanel.pack"));
+        getColor().a = 0f;
+        setTouchable(Touchable.disabled);
+        setBounds(0,0, AbstractScreen.WIDTH, AbstractScreen.HEIGHT);
+
+        loaded = false;
+    }
+
+    private void loadAndMakeButtons() {
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("pausePanel.pack"));
 
         for (Texture texture : atlas.getTextures()) {
             texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
 
-        setBounds(0,0, AbstractScreen.WIDTH, AbstractScreen.HEIGHT);
+
 
         background = atlas.findRegion("background");
         Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );
@@ -89,6 +100,24 @@ public class PausePanel extends Group {
         });
     }
 
+    public void show() {
+
+        if (! loaded) {
+            loadAndMakeButtons();
+            loaded = true;
+        }
+
+        clearActions();
+        addAction(Actions.alpha(1f, 0.75f));
+        setTouchable(Touchable.enabled);
+    }
+
+    public void hide() {
+        clearActions();
+        addAction(Actions.alpha(0f, 0.75f));
+        setTouchable(Touchable.disabled);
+    }
+
     private void  resume() {
         gameScreen.pauseMatch();
     }
@@ -98,7 +127,7 @@ public class PausePanel extends Group {
     }
 
     private void  f5() {
-        gameScreen.startNewMatch();
+        gameScreen.gracefullyStartNewMatch();
     }
 
     private void  exitGame() {
