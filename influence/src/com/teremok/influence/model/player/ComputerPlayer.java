@@ -30,10 +30,8 @@ public class ComputerPlayer extends Player {
 
     protected void actLogic(float delta) {
         if (match.isInAttackPhase()) {
-            System.out.println("actAttackLogic, time = " + turnTime);
             actAttackLogic(delta);
         } else {
-            System.out.println("actDistributeLogic, time = " + turnTime);
             actDistributeLogic(delta);
         }
     }
@@ -41,18 +39,15 @@ public class ComputerPlayer extends Player {
     private void actAttackLogic(float delta) {
 
         if (nextMove == null) {
-            System.out.println("prepareActions, time = " + turnTime);
             prepareActions();
 
             if (nextMove == null) {
-                System.out.println("setDistributePhase, time = " + turnTime);
                 if (turnTime > TURN_DELAY)
                     match.switchPhase();
             }
 
         } else {
             if (turnTime > TURN_DELAY) {
-                System.out.println("doNextMove, time = " + turnTime);
                 doNextMove();
                 turnTime = 0;
             }
@@ -84,12 +79,10 @@ public class ComputerPlayer extends Player {
             nextMove = null;
         }
 
-        System.out.println("Selecting cell: " + cell);
         field.setSelectedCell(cell);
     }
 
     private void actDistributeLogic(float delta) {
-        System.out.println("Distributing power!");
         for (Cell cell : field.getCells()) {
             if (cell.isValid() && cell.getType() == type && powerToDistribute > 0) {
                 field.addPower(cell);
