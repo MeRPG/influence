@@ -52,7 +52,7 @@ public class StartScreen extends AbstractScreen {
         stage.addActor(multiplayer);
 
         stage.getRoot().getColor().a = 0;
-        stage.getRoot().addAction(createFadeInAction(0.75f));
+        stage.getRoot().addAction(Actions.fadeIn(Animation.DURATION_NORMAL));
     }
 
     private float getCenterX(float width) {

@@ -88,25 +88,7 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void dispose() {
-        // dispose the collaborators
         stage.dispose();
         if (font  != null) font.dispose();
-    }
-
-    // FX
-
-    protected Action createFadeInAction(float duration){
-        AlphaAction fadeIn = new AlphaAction();
-        fadeIn.setAlpha(1f);
-        fadeIn.setDuration(duration);
-        return fadeIn;
-    }
-
-
-    protected Action createFadeOutAction(float duration){
-        AlphaAction fadeOut = new AlphaAction();
-        fadeOut.setAlpha(0f);
-        fadeOut.setDuration(duration);
-        return fadeOut;
     }
 }
