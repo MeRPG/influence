@@ -3,7 +3,6 @@ package com.teremok.influence.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,13 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class ColoredPanel extends Actor {
 
     ShapeRenderer renderer;
-    Texture texture;
 
     public ColoredPanel(Color color) {
         setColor(color.cpy());
-
-        Texture.setEnforcePotImages(false); // Удалить!
-        texture = new Texture("backlight.png");
 
         renderer = new ShapeRenderer();
     }
