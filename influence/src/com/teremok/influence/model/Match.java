@@ -25,6 +25,9 @@ public class Match {
         pm = new PlayerManager(this);
         field = new Field(this);
         score = new Score(this);
+
+        score.setStatus(Localizator.getString("selectYourCell"));
+
         this.gameType = gameType;
 
         if (gameType.equals(GameType.MULTIPLAYER)) {
@@ -98,6 +101,14 @@ public class Match {
         int playersInGame = pm.getNumberOfPlayerInGame();
 
         return playersInGame == 1 || ! pm.isHumanInGame();
+    }
+
+    public boolean isWon() {
+        return isEnded() && pm.isHumanInGame();
+    }
+
+    public boolean isLost() {
+        return isEnded() && ! pm.isHumanInGame();
     }
 
     // Auto-generated

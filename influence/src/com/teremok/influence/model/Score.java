@@ -13,10 +13,12 @@ public class Score extends Actor {
 
     Match match;
     PlayerManager pm;
+    String status;
 
     public Score(Match match) {
         this.match = match;
         this.pm = match.getPm();
+        status = "---emptyStatus---";
 
         float actorX = 0;
         float actorY = 0;
@@ -36,6 +38,11 @@ public class Score extends Actor {
     public void act(float delta) {
         super.act(delta);
         pm.update();
+        if (match.isWon()) {
+            status = Localizator.getString("youWon");
+        } else if (match.isLost()) {
+            status = Localizator.getString("youLost");
+        }
     }
 
     // Auto-generated
@@ -46,5 +53,13 @@ public class Score extends Actor {
 
     public PlayerManager getPm() {
         return pm;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

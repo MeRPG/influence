@@ -215,6 +215,16 @@ public class Field extends Group {
                 selectedCell.setSelected(false);
             cell.setSelected(true);
             selectedCell = cell;
+
+            if (pm.isHumanActing()) {
+                if (cell.getPower() <= 1) {
+                    match.score.setStatus(Localizator.getString("selectMoreThanOne"));
+                } else {
+                    match.score.setStatus(Localizator.getString("touchNearby"));
+                }
+            }  else {
+                match.score.setStatus("waitYourMove");
+            }
         }
     }
 

@@ -1,18 +1,22 @@
 package com.teremok.influence.view;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.Score;
+
+import static com.teremok.influence.view.Drawer.UNIT_SIZE;
 
 /**
  * Created by Alexx on 24.12.13
  */
 public class ScoreDrawer extends AbstractDrawer<Score> {
 
-    private static float LEFT_MARGIN = Drawer.UNIT_SIZE * 0.8f;
-    private static float RIGHT_MARGIN = Drawer.UNIT_SIZE * 1.1f;
-    private static float TEXT_PADDING = Drawer.UNIT_SIZE * 1.6f;
+    private static float LEFT_MARGIN = UNIT_SIZE * 0.8f;
+    private static float RIGHT_MARGIN = UNIT_SIZE * 1.1f;
+    private static float TEXT_PADDING = UNIT_SIZE * 1.6f;
+
 
     @Override
     public void draw(Score score, SpriteBatch batch, float parentAlpha) {
@@ -23,6 +27,8 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
         drawBoundingBox();
 
         batch.begin();
+
+        drawStatusString(batch);
         drawScores(batch);
         drawPower(batch);
     }
@@ -54,5 +60,12 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
             String text = "(" +pm.current().getPowerToDistribute() + ") ";
             bitmapFont.draw(batch, text, current.getWidth() - RIGHT_MARGIN, current.getHeight()/2);
         }
+    }
+
+    private void drawStatusString(SpriteBatch batch) {
+        BitmapFont.TextBounds bounds = bitmapFont.getBounds(current.getStatus());
+        float x = current.getX() + (current.getWidth() - bounds.width)/2;
+        float y = current.getY() + current.getHeight() - bounds.height*1.3f;
+        bitmapFont.draw(batch, current.getStatus(), x, y);
     }
 }
