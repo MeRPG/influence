@@ -18,8 +18,8 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     private TextureAtlas atlas;
     Array<TextureAtlas.AtlasRegion> cellSmall;
     Array<TextureAtlas.AtlasRegion> cellBig;
-    TextureRegion maskSmall;
-    TextureRegion maskBig;
+    Array<TextureAtlas.AtlasRegion> maskSmall;
+    Array<TextureAtlas.AtlasRegion> maskBig;
     TextureRegion backlightSmall;
     TextureRegion backlightBig;
 
@@ -35,8 +35,8 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         cellSmall = atlas.findRegions("small");
         cellBig = atlas.findRegions("big");
 
-        maskSmall = atlas.findRegion("maskSmall");
-        maskBig = atlas.findRegion("maskBig");
+        maskSmall = atlas.findRegions("maskSmall");
+        maskBig = atlas.findRegions("maskBig");
 
         backlightSmall = atlas.findRegion("backlightSmall");
         backlightBig = atlas.findRegion("backlightBig");
@@ -46,16 +46,15 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     public void draw(Cell cell, SpriteBatch batch, float parentAlpha) {
         super.draw(cell, batch, parentAlpha);
 
-        Color color = Drawer.getCellColorByType(current.getType());
-        renderer.setColor(color);
-        batch.setColor(color);
+
 
 
         if (current.isBig()) {
-            drawBigCell(batch);
+            drawCell(batch, backlightBig, maskBig, cellBig);
         } else {
-            drawSmallCell(batch);
+            drawCell(batch, backlightSmall, maskSmall, cellSmall);
         }
+
 
         if (bitmapFont != null) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(current.getPower()+"");
@@ -65,33 +64,22 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         }
     }
 
-    private void drawBigCell(SpriteBatch batch) {
+    private void drawCell(SpriteBatch batch, TextureRegion backlight,
+                            Array<TextureAtlas.AtlasRegion> masks,
+                            Array<TextureAtlas.AtlasRegion> cells) {
+        int type = current.getType();
+        int power = current.getPower();
 
         if (current.isSelected()){
-            batch.draw(backlightBig, current.getX(), current.getY());
-        }
+            Color color = Drawer.getCellColorByType(current.getType());
+            batch.setColor(color);
 
-        batch.draw(maskBig, current.getX(), current.getY());
+            batch.draw(backlight, current.getX(), current.getY());
+
+            batch.setColor(Color.WHITE);
+        }
+        batch.draw(masks.get(type+1), current.getX(), current.getY());
         batch.setColor(Color.WHITE);
-        if (current.getType() == -1)  {
-            batch.draw(cellBig.get(current.getMaxPower()), current.getX(), current.getY());
-        } else {
-            batch.draw(cellBig.get(current.getPower()), current.getX(), current.getY());
-        }
-    }
-
-    private void drawSmallCell(SpriteBatch batch) {
-
-        if (current.isSelected()){
-            batch.draw(backlightSmall, current.getX(), current.getY());
-        }
-
-        batch.draw(maskSmall, current.getX(), current.getY());
-        batch.setColor(Color.WHITE);
-        if (current.getType() == -1)  {
-            batch.draw(cellSmall.get(current.getMaxPower()), current.getX(), current.getY());
-        } else {
-            batch.draw(cellSmall.get(current.getPower()), current.getX(), current.getY());
-        }
+        batch.draw(cells.get(power), current.getX(), current.getY());
     }
 }
