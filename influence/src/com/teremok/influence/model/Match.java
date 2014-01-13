@@ -50,7 +50,11 @@ public class Match {
             }
 
             if (field.getSelectedCell() == null && pm.isHumanActing()) {
-                score.setStatus(Localizator.getString("selectYourCell"));
+                if (pm.current().getType() == 0)
+                    score.setStatus(Localizator.getString("selectYourCell"));
+                else {
+                    score.setStatus(Localizator.getString("selectYourCellGreen"));
+                }
             }
 
             currentPlayer.act(delta);
