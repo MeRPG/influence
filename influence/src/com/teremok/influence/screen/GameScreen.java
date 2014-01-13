@@ -109,6 +109,7 @@ public class GameScreen extends AbstractScreen {
                         gracefullyStartNewMatch();
                     }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
+
                         if (keycode != Keys.MENU) {
                             long newTime = System.currentTimeMillis();
 
