@@ -49,6 +49,10 @@ public class Match {
                 phase = Phase.ATTACK;
             }
 
+            if (field.getSelectedCell() == null && pm.isHumanActing()) {
+                score.setStatus(Localizator.getString("selectYourCell"));
+            }
+
             currentPlayer.act(delta);
         }
     }

@@ -223,7 +223,7 @@ public class Field extends Group {
                     match.score.setStatus(Localizator.getString("touchNearby"));
                 }
             }  else {
-                match.score.setStatus("waitYourMove");
+                match.score.setStatus(Localizator.getString("waitYourMove"));
             }
         }
     }
