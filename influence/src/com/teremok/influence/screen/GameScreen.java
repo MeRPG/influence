@@ -33,6 +33,8 @@ public class GameScreen extends AbstractScreen {
     ColoredPanel overlap;
     Image backlight;
 
+    long lastBackPress = 0;
+
     public static Color colorForBorder;
 
     public GameScreen(Game game, GameType gameType) {
@@ -107,7 +109,18 @@ public class GameScreen extends AbstractScreen {
                         gracefullyStartNewMatch();
                     }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
+                        if (keycode != Keys.MENU) {
+                            long newTime = System.currentTimeMillis();
+
+                            if (newTime - lastBackPress < 250) {
+                                backToStartScreen();
+                            }
+
+                            lastBackPress = newTime;
+                        }
+
                         pauseMatch();
+
                     }
                 }
                 return true;
