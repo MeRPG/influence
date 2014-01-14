@@ -41,8 +41,8 @@ public class Tooltip extends Actor {
 
     private Action fadeOutAfterDelay() {
         return Actions.sequence(
-            Actions.delay(Animation.DURATION_SHORT),
-            Actions.alpha(0f, Animation.DURATION_NORMAL),
+            Actions.delay(0.5f),
+            Actions.alpha(0f, 0.75f),
             Actions.removeActor()
         );
     }
