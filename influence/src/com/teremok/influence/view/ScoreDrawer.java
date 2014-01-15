@@ -2,9 +2,12 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.Score;
+import com.teremok.influence.screen.AbstractScreen;
 
 import static com.teremok.influence.view.Drawer.UNIT_SIZE;
 
@@ -18,6 +21,8 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
     private static float TEXT_PADDING = UNIT_SIZE * 1.6f;
 
 
+    float[] newWidth = new float[5];
+
     @Override
     public void draw(Score score, SpriteBatch batch, float parentAlpha) {
         super.draw(score, batch, parentAlpha);
@@ -29,8 +34,34 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
         batch.begin();
 
         drawStatusString(batch);
-        drawScores(batch);
+        //drawScores(batch);
         drawPower(batch);
+    }
+
+    @Override
+    protected void drawBoundingBox() {
+
+        PlayerManager pm = current.getPm();
+
+        renderer.setColor(Drawer.getBackgroundColor());
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.rect(0,0,current.getWidth(), current.getHeight());
+        renderer.end();
+
+        float lastWidth = 0;
+        float myWidth = 0;
+        int totalScore = pm.getTotalScore();
+
+        for (int i = 0; i < pm.getNumberOfPlayers(); i++) {
+            myWidth = (AbstractScreen.WIDTH-1)*((float) (pm.getPlayers()[i]).getScore() / totalScore);
+            newWidth[i] = myWidth;
+            renderer.setColor(Drawer.getCellColorByType(i));
+            renderer.begin(ShapeRenderer.ShapeType.Filled);
+            renderer.rect(lastWidth, current.getHeight()-24f, myWidth, 24f);
+            renderer.end();
+
+            lastWidth += myWidth;
+        }
     }
 
     private void drawScores(SpriteBatch batch) {
@@ -49,7 +80,7 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
             } else {
                 toDraw = " " + player.getScore() + " ";
             }
-            bitmapFont.draw(batch, toDraw, LEFT_MARGIN + i*TEXT_PADDING, current.getHeight()/2);
+            bitmapFont.draw(batch, toDraw, LEFT_MARGIN + i*TEXT_PADDING, current.getHeight()/2-16f);
         }
     }
 
@@ -65,7 +96,8 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
     private void drawStatusString(SpriteBatch batch) {
         BitmapFont.TextBounds bounds = bitmapFont.getBounds(current.getStatus());
         float x = current.getX() + (current.getWidth() - bounds.width)/2;
-        float y = current.getY() + current.getHeight() - bounds.height*1.3f;
+        float y = current.getY() + (current.getHeight() - 24f)/2;
+        bitmapFont.setColor(Drawer.getTextColor());
         bitmapFont.draw(batch, current.getStatus(), x, y);
     }
 }
