@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.teremok.influence.model.Cell;
 
@@ -49,16 +50,19 @@ public class CellDrawer extends AbstractDrawer<Cell> {
 
 
 
+        /*
         if (current.isBig()) {
             drawCell(batch, backlightBig, maskBig, cellBig);
         } else {
             drawCell(batch, backlightSmall, maskSmall, cellSmall);
         }
-
+        */
+        //drawBacklight(batch);
+        drawCellShape(batch);
 
         if (bitmapFont != null) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(current.getPower()+"");
-            bitmapFont.setColor(Color.BLACK);
+            bitmapFont.setColor(Drawer.BACKGROUND_COLOR);
             bitmapFont.draw(batch, current.getPower()+"", current.getX()+current.getWidth()/2 - textBounds.width/2,
                                                             current.getY()+current.getHeight()/2 + textBounds.height/2);
         }
@@ -71,7 +75,8 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         int power = current.getPower();
 
         if (current.isSelected()){
-            Color color = Drawer.getCellColorByType(current.getType());
+            Color color = Color.WHITE.cpy();
+            color.a = 0.4f;
             batch.setColor(color);
 
             batch.draw(backlight, current.getX(), current.getY());
@@ -81,5 +86,49 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         batch.draw(masks.get(type+1), current.getX(), current.getY());
         batch.setColor(Color.WHITE);
         batch.draw(cells.get(power), current.getX(), current.getY());
+    }
+
+    private void drawBacklight(SpriteBatch batch){
+        if (current.isSelected()){
+            TextureRegion backlight;
+            if (current.isBig()) {
+                backlight = backlightBig;
+            } else {
+                backlight = backlightSmall;
+            }
+
+            Color color = Drawer.getCellColorByType(current.getType());
+            batch.setColor(color);
+
+            batch.draw(backlight, current.getX(), current.getY());
+
+            batch.setColor(Color.WHITE);
+        }
+    }
+
+    private void drawCellShape(SpriteBatch batch) {
+        batch.end();
+
+        float centerX = current.getWidth()/2;
+        float centerY = current.getHeight()/2;
+
+        Color color = Drawer.getCellColorByType(current.getType()).cpy();
+
+        if (current.isSelected()) {
+            color.add(0.3f, 0.3f, 0.3f, 0f);
+        }
+
+        renderer.setColor(color);
+
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * (0.4f + current.getMaxPower()*0.03f), 6);
+        renderer.end();
+
+        renderer.setColor(color);
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * (0.4f + current.getPower()*0.03f), 6);
+        renderer.end();
+
+        batch.begin();
     }
 }

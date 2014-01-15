@@ -17,16 +17,18 @@ import java.util.Map;
 
 public class Drawer {
 
+    public static Color BACKGROUND_COLOR = new Color(0x000000FF);
+
     private static Map<String, Color> colors;
 
     static {
         colors = new HashMap<String, Color>();
-        colors.put("CYAN", new Color(0x1691dfFF));
-        colors.put("GREEN", new Color(0x30d614FF));
-        colors.put("ORANGE", new Color(0xeade1aFF));
-        colors.put("PINK", new Color(0xe72020FF));
-        colors.put("MAGENTA", new Color(0xd91ceaFF));
-        colors.put("GREY", new Color(0x888888FF));
+        colors.put("CYAN", new Color(0x37B7DEFF));
+        colors.put("GREEN", new Color(0x04D480FF));
+        colors.put("ORANGE", new Color(0xFFDA5BFF));
+        colors.put("PINK", new Color(0xEA6B58FF));
+        colors.put("MAGENTA", new Color(0x9969FDFF));
+        colors.put("GREY", new Color(0x231F20FF));
     }
 
     public static final float UNIT_SIZE = AbstractScreen.WIDTH/10f;

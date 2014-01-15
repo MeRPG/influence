@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 
@@ -36,10 +37,82 @@ public class FieldDrawer extends AbstractDrawer<Field> {
     public void draw (Field field, SpriteBatch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
         batch.setColor(Color.WHITE);
-        batch.draw(background, 0,0);
+        //batch.draw(background, 0,0);
+
+        drawShapeBackground(batch);
 
         for (Cell c : current.getCells()) {
-            drawCellRoutesTexture(c, batch);
+            //drawCellRoutesTexture(c, batch);
+            drawCellRoutesShape(batch, c);
+        }
+    }
+
+    private void drawShapeBackground(SpriteBatch batch) {
+        batch.end();
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        renderer.setColor(Drawer.BACKGROUND_COLOR);
+        renderer.rect(0,0, current.getWidth(), current.getHeight());
+
+        renderer.end();
+        batch.begin();
+    }
+
+    private void drawCellRoutesShape(SpriteBatch batch, Cell cell) {
+        for (Cell toCell : current.getConnectedCells(cell)) {
+            if (toCell.isValid()) {
+                if (cell.getType() == toCell.getType()) {
+                    batch.setColor(Drawer.getCellColorByType(cell.getType()));
+                } else {
+                    batch.setColor(Drawer.getCellColorByType(-1));
+                }
+
+                float centerX = cell.getX() + cell.getWidth()/2;
+                float centerY = cell.getY() + cell.getHeight()/2;
+
+
+                float centerXto = toCell.getX() + toCell.getWidth()/2;
+                float centerYto = toCell.getY() + toCell.getHeight()/2;
+
+                renderer.begin(ShapeRenderer.ShapeType.Line);
+                switch (cell.getNumber() - toCell.getNumber()) {
+                    case 0:
+                        break;
+                    case -5:
+                        break;
+                    case -4:
+                        break;
+                    case -1:
+                        break;
+                    case 1:
+                        renderer.line(centerX, centerY, centerXto, centerYto,
+                                    Drawer.getCellColorByType(cell.getType()),
+                                    Drawer.getCellColorByType(toCell.getType())
+                                    );
+                        break;
+                    case 4:
+                        renderer.line(centerX, centerY, centerXto, centerYto,
+                                Drawer.getCellColorByType(cell.getType()),
+                                Drawer.getCellColorByType(toCell.getType())
+                        );
+                        break;
+                    case 5:
+                        renderer.line(centerX, centerY, centerXto, centerYto,
+                                Drawer.getCellColorByType(cell.getType()),
+                                Drawer.getCellColorByType(toCell.getType())
+                        );
+                        break;
+                    case 6:
+                        renderer.line(centerX, centerY, centerXto, centerYto,
+                                Drawer.getCellColorByType(cell.getType()),
+                                Drawer.getCellColorByType(toCell.getType())
+                        );
+                        break;
+                    default:
+                        break;
+                }
+                renderer.end();
+            }
         }
     }
 
