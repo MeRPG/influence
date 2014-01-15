@@ -51,7 +51,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
         batch.end();
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        renderer.setColor(Drawer.BACKGROUND_COLOR);
+        renderer.setColor(Drawer.getBackgroundColor());
         renderer.rect(0,0, current.getWidth(), current.getHeight());
 
         renderer.end();
@@ -61,11 +61,6 @@ public class FieldDrawer extends AbstractDrawer<Field> {
     private void drawCellRoutesShape(SpriteBatch batch, Cell cell) {
         for (Cell toCell : current.getConnectedCells(cell)) {
             if (toCell.isValid()) {
-                if (cell.getType() == toCell.getType()) {
-                    batch.setColor(Drawer.getCellColorByType(cell.getType()));
-                } else {
-                    batch.setColor(Drawer.getCellColorByType(-1));
-                }
 
                 float centerX = cell.getX() + cell.getWidth()/2;
                 float centerY = cell.getY() + cell.getHeight()/2;
@@ -74,6 +69,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                 float centerXto = toCell.getX() + toCell.getWidth()/2;
                 float centerYto = toCell.getY() + toCell.getHeight()/2;
 
+                batch.end();
                 renderer.begin(ShapeRenderer.ShapeType.Line);
                 switch (cell.getNumber() - toCell.getNumber()) {
                     case 0:
@@ -112,6 +108,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                         break;
                 }
                 renderer.end();
+                batch.begin();
             }
         }
     }

@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 public class AbstractDrawer <T extends Actor> {
 
-    private static AbstractDrawer instance;
-
     protected T current;
     protected ShapeRenderer renderer;
 
@@ -21,19 +19,13 @@ public class AbstractDrawer <T extends Actor> {
         renderer = new ShapeRenderer();
     }
 
-    public static AbstractDrawer getDrawer(Actor actor) {
-        if (instance == null) {
-            instance = new AbstractDrawer<Actor>();
-        }
-        return instance;
-    }
-
     public void draw(T actor, SpriteBatch batch, float parentAlpha) {
         current = actor;
 
         renderer.setProjectionMatrix(batch.getProjectionMatrix());
         renderer.setTransformMatrix(batch.getTransformMatrix());
         renderer.translate(current.getX(), current.getY(), 0);
+
     }
 
     protected void drawBoundingBox() {

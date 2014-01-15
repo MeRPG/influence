@@ -27,6 +27,10 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     public CellDrawer() {
         super();
 
+        //loadAtlasTexture();
+    }
+
+    private void loadAtlasTexture() {
         atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
 
         for (Texture txt : atlas.getTextures()) {
@@ -47,24 +51,26 @@ public class CellDrawer extends AbstractDrawer<Cell> {
     public void draw(Cell cell, SpriteBatch batch, float parentAlpha) {
         super.draw(cell, batch, parentAlpha);
 
-
-
-
-        /*
-        if (current.isBig()) {
-            drawCell(batch, backlightBig, maskBig, cellBig);
-        } else {
-            drawCell(batch, backlightSmall, maskSmall, cellSmall);
-        }
-        */
-        //drawBacklight(batch);
+        // drawCellTexture(batch);
         drawCellShape(batch);
 
         if (bitmapFont != null) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(current.getPower()+"");
-            bitmapFont.setColor(Drawer.BACKGROUND_COLOR);
+            if (current.getType() == -1) {
+                bitmapFont.setColor(Drawer.getEmptyCellTextColor());
+            } else {
+                bitmapFont.setColor(Drawer.getCellTextColor());
+            }
             bitmapFont.draw(batch, current.getPower()+"", current.getX()+current.getWidth()/2 - textBounds.width/2,
                                                             current.getY()+current.getHeight()/2 + textBounds.height/2);
+        }
+    }
+
+    private void drawCellTexture(SpriteBatch batch) {
+        if (current.isBig()) {
+            drawCell(batch, backlightBig, maskBig, cellBig);
+        } else {
+            drawCell(batch, backlightSmall, maskSmall, cellSmall);
         }
     }
 
@@ -88,24 +94,6 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         batch.draw(cells.get(power), current.getX(), current.getY());
     }
 
-    private void drawBacklight(SpriteBatch batch){
-        if (current.isSelected()){
-            TextureRegion backlight;
-            if (current.isBig()) {
-                backlight = backlightBig;
-            } else {
-                backlight = backlightSmall;
-            }
-
-            Color color = Drawer.getCellColorByType(current.getType());
-            batch.setColor(color);
-
-            batch.draw(backlight, current.getX(), current.getY());
-
-            batch.setColor(Color.WHITE);
-        }
-    }
-
     private void drawCellShape(SpriteBatch batch) {
         batch.end();
 
@@ -115,11 +103,12 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         Color color = Drawer.getCellColorByType(current.getType()).cpy();
 
         if (current.isSelected()) {
-            color.add(0.3f, 0.3f, 0.3f, 0f);
+            color.add(0.2f, 0.2f, 0.2f, 0f);
         }
 
         renderer.setColor(color);
 
+        renderer.setColor(color);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * (0.4f + current.getMaxPower()*0.03f), 6);
         renderer.end();

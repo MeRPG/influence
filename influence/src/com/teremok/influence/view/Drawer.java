@@ -17,18 +17,36 @@ import java.util.Map;
 
 public class Drawer {
 
-    public static Color BACKGROUND_COLOR = new Color(0x000000FF);
-
     private static Map<String, Color> colors;
 
     static {
         colors = new HashMap<String, Color>();
-        colors.put("CYAN", new Color(0x37B7DEFF));
-        colors.put("GREEN", new Color(0x04D480FF));
-        colors.put("ORANGE", new Color(0xFFDA5BFF));
-        colors.put("PINK", new Color(0xEA6B58FF));
-        colors.put("MAGENTA", new Color(0x9969FDFF));
-        colors.put("GREY", new Color(0x231F20FF));
+        colors.put("CYAN", new Color(0x35B7DEFF));
+        colors.put("GREEN", new Color(0x02D47EFF));
+        colors.put("ORANGE", new Color(0xFFD95DFF));
+        colors.put("PINK", new Color(0xED6D5AFF));
+        colors.put("MAGENTA", new Color(0x9968FDFF));
+        colors.put("GREY", new Color(0x2E2E2EFF));
+        colors.put("TEXT_COLOR", Color.WHITE.cpy());
+        colors.put("CELL_TEXT_COLOR", Color.BLACK.cpy());
+        colors.put("EMPTY_CELL_TEXT_COLOR",  Color.BLACK.cpy());
+        colors.put("BACKGROUND_COLOR", Color.BLACK.cpy());
+    }
+
+    public static Color getBackgroundColor() {
+        return colors.get("BACKGROUND_COLOR");
+    }
+
+    public static Color getEmptyCellTextColor(){
+        return colors.get("EMPTY_CELL_TEXT_COLOR");
+    }
+
+    public static Color getCellTextColor(){
+        return colors.get("CELL_TEXT_COLOR");
+    }
+
+    public static Color getTextColor() {
+        return colors.get("TEXT_COLOR");
     }
 
     public static final float UNIT_SIZE = AbstractScreen.WIDTH/10f;
