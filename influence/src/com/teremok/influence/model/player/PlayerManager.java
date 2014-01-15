@@ -110,6 +110,14 @@ public class PlayerManager {
         return playersInGame;
     }
 
+    public int getTotalScore() {
+        int total = 0;
+        for (Player player : players) {
+            total += player.getScore();
+        }
+        return total;
+    }
+
     // Auto-generated
 
     public int getNumberOfPlayers() {
