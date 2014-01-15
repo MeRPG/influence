@@ -10,10 +10,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 
 public abstract class AbstractScreen implements Screen {
 
@@ -33,8 +30,8 @@ public abstract class AbstractScreen implements Screen {
     public BitmapFont getFont() {
         if (font == null)  {
             font = new BitmapFont(
-                    /*Gdx.files.internal("test.fnt"),
-                    Gdx.files.internal("test.png"), false*/
+                    Gdx.files.internal("test.fnt"),
+                    Gdx.files.internal("test.png"), false
             );
         }
         return font;
