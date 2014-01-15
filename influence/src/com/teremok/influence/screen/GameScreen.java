@@ -143,8 +143,8 @@ public class GameScreen extends AbstractScreen {
     private void updateMatchDependentActors() {
         stage.getRoot().clearChildren();
         stage.addActor(match.getField());
-        stage.addActor(backlight);
         stage.addActor(match.getScore());
+        stage.addActor(backlight);
         stage.addActor(TooltipHandler.getInstance());
         stage.addActor(pausePanel);
         stage.addActor(overlap);
