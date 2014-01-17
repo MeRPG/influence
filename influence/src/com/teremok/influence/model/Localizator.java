@@ -12,8 +12,8 @@ public class Localizator {
 
     static  {
         strings = new HashMap<String, String>();
-        strings.put("selectYourCell", "Touch a cell with your color (blue).");
-        strings.put("selectYourCellGreen", "Touch a cell with your color (green).");
+        strings.put("selectYourCell", "Touch a cell with your ");
+        strings.put("selectYourCellGreen", "Touch a cell with your ");
         strings.put("selectMoreThanOne", "Select a cell with 2+ power.");
         strings.put("touchNearby", "Touch a nearby cell to attack.");
         strings.put("waitYourMove", "Wait your move.");

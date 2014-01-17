@@ -36,6 +36,8 @@ public class Match {
             pm.addPlayersForSingleplayer(field);
         }
 
+        score.initColoredPanels();
+
         phase = Phase.ATTACK;
 
     }
