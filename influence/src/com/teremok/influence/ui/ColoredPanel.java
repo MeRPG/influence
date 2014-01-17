@@ -46,4 +46,8 @@ public class ColoredPanel extends Actor {
 
         batch.begin();
     }
+
+    public ColoredPanel copy() {
+        return new ColoredPanel(getColor().cpy(), getX(), getY(), getWidth(), getHeight());
+    }
 }
