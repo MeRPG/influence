@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
-import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Score;
 import com.teremok.influence.ui.ColoredPanel;
@@ -97,7 +96,7 @@ public class GameScreen extends AbstractScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
-                    FXPlayer.play();
+                    FXPlayer.playClick();
                     if (match.canHumanActing())
                         match.switchPhase();
                     if (match.isEnded())
@@ -225,5 +224,6 @@ public class GameScreen extends AbstractScreen {
     public void pause() {
         super.pause();
         Drawer.dispose();
+        FXPlayer.dispose();
     }
 }

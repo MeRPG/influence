@@ -12,6 +12,7 @@ import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
+import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 import com.teremok.influence.util.GraphGenerator;
@@ -155,6 +156,8 @@ public class Field extends Group {
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                         if (! event.isHandled() && match.canHumanActing()) {
+                            if (cell.getType() == pm.current().getType() || connectedToSelected(cell) && selectedCell.getPower() > 1)
+                            FXPlayer.playClick();
                             Cell target = (Cell)event.getTarget();
                             if (match.isInAttackPhase()) {
                                 setSelectedCell(target);
@@ -171,6 +174,17 @@ public class Field extends Group {
                 this.addActor(cell);
             }
         }
+    }
+
+    private boolean connectedToSelected(Cell cell) {
+        if (selectedCell == null)
+            return false;
+        for (Cell c : getConnectedCells(cell)) {
+            if (selectedCell == c) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setSelectedCell(Cell cell) {
@@ -293,18 +307,23 @@ public class Field extends Group {
         if (pm.isHumanActing()) {
 
             if (Calculator.getDelta() > 0) {
-                if (defence.getType() != -1)
+                if (defence.getType() != -1) {
                     GameScreen.colorForBorder = Color.GREEN;
+                    FXPlayer.playWin();
+                }
             } else {
                 GameScreen.colorForBorder = Color.RED;
+                FXPlayer.playLose();
             }
         } else {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getType()) {
                     if (Calculator.getDelta() > 0) {
                         GameScreen.colorForBorder = Color.RED;
+                        FXPlayer.playWin();
                     } else {
                         GameScreen.colorForBorder = Color.GREEN;
+                        FXPlayer.playLose();
                     }
                     return;
                 }
