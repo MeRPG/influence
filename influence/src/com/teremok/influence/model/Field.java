@@ -53,7 +53,7 @@ public class Field extends Group {
         this.pm = match.getPm();
 
         float actorX = 0f;
-        float actorY = AbstractScreen.HEIGHT - HEIGHT-1;
+        float actorY = AbstractScreen.HEIGHT - HEIGHT-1f;
 
         float actorWidth = WIDTH-1f;
         float actorHeight = HEIGHT;

@@ -2,6 +2,7 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -45,6 +46,12 @@ public class FieldDrawer extends AbstractDrawer<Field> {
             //drawCellRoutesTexture(c, batch);
             drawCellRoutesShape(batch, c);
         }
+
+        drawRenderedBitmap();
+    }
+
+    private void drawRenderedBitmap() {
+
     }
 
     private void drawShapeBackground(SpriteBatch batch) {

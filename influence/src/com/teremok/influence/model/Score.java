@@ -38,9 +38,9 @@ public class Score extends Group {
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 
-        background = new ColoredPanel(Color.BLACK.cpy(), actorX, actorY, actorWidth, actorHeight);
+        background = new ColoredPanel(Color.BLACK.cpy(), 0f, AbstractScreen.HEIGHT-8f, actorWidth, 8f);
         background.setTouchable(Touchable.disabled);
-        //this.addActor(background);
+        this.addActor(background);
     }
 
     public void initColoredPanels() {
@@ -50,7 +50,7 @@ public class Score extends Group {
         float panelWidth = getWidth()/pm.getNumberOfPlayers();
         for (int i = 0; i < pm.getNumberOfPlayers(); i++) {
             ColoredPanel newPanel = new ColoredPanel(Drawer.getCellColorByType(i),
-                    panelWidth*i, getHeight()-8f, panelWidth, 16f
+                    panelWidth*i, getHeight()-16f, panelWidth, 8f
             );
             newPanel.setTouchable(Touchable.disabled);
             panelsTop[i] = newPanel;
@@ -101,7 +101,7 @@ public class Score extends Group {
 
     private void updateBackground() {
         Color scoreBackground = Drawer.getCellColorByType(pm.current().getType()).cpy();
-        scoreBackground.add(0.2f, 0.2f, 0.2f, 0.2f);
+        //scoreBackground.add(0.2f, 0.2f, 0.2f, 0.2f);
 
         background.addAction(
                 Actions.color( scoreBackground, Animation.DURATION_SHORT)

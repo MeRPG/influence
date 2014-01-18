@@ -55,7 +55,7 @@ public class Cell extends Actor {
         } else {
             actorX = unitsY* actorWidth;
         }
-        float actorY = unitsX * actorHeight;
+        float actorY = unitsX * actorHeight-8f;
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
     }

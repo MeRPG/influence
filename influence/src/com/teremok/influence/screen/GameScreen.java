@@ -17,6 +17,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Score;
 import com.teremok.influence.ui.ColoredPanel;
+import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.view.Animation;
@@ -96,6 +97,7 @@ public class GameScreen extends AbstractScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
+                    FXPlayer.play();
                     if (match.canHumanActing())
                         match.switchPhase();
                     if (match.isEnded())
