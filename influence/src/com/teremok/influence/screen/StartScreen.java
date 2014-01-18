@@ -3,11 +3,13 @@ package com.teremok.influence.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -15,8 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
+import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
+import com.teremok.influence.ui.ButtonTexture;
+import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.view.Animation;
+import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 20.12.13
@@ -26,33 +32,42 @@ public class StartScreen extends AbstractScreen {
     private static final String SINGLEPLAYER = "singleplayer";
     private static final String MULTIPLAYER = "multiplayer";
 
-    private TextureAtlas atlas;
-    private TextureRegion background;
+    private ColoredPanel background;
+    private ColoredPanel overlap;
 
     public StartScreen(Game game) {
         super(game);
-        atlas = new TextureAtlas(Gdx.files.internal("startScreen.pack"));
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        background = atlas.findRegion("background");
 
-        Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );
+        background = new ColoredPanel(Drawer.getBackgroundColor(), 0,0, WIDTH, HEIGHT);
 
-        TextureRegion singlePlayerRegion =  atlas.findRegion(SINGLEPLAYER);
-        TextureRegion multiPlayerRegion = atlas.findRegion(MULTIPLAYER);
-        float centerX = getCenterX(singlePlayerRegion.getRegionWidth());
-        Button singleplayer = new Button(SINGLEPLAYER, singlePlayerRegion, centerX, 360);
-        Button multiplayer = new Button(MULTIPLAYER, multiPlayerRegion, centerX, 256);
+        float centerX = getCenterX(256f);
+        Button singleplayer = new Button(
+                Localizator.getString(SINGLEPLAYER),
+                getFont(),
+                Drawer.getTextColor(),
+                Drawer.getCellColorByType(0),
+                centerX, 360f, 256f, 64f);
 
-        stage.addActor(backImage);
+        Button multiplayer = new Button(
+                Localizator.getString(MULTIPLAYER),
+                getFont(),
+                Drawer.getTextColor(),
+                Drawer.getCellColorByType(1),
+                centerX, 256f, 256f,  64f);
+
+        overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
+        overlap.setTouchable(Touchable.disabled);
+        overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
+
+        stage.addActor(background);
         stage.addActor(singleplayer);
         stage.addActor(multiplayer);
-
-        stage.getRoot().getColor().a = 0;
-        stage.getRoot().addAction(Actions.fadeIn(Animation.DURATION_NORMAL));
+        stage.addActor(overlap);
     }
 
     private float getCenterX(float width) {
@@ -73,7 +88,7 @@ public class StartScreen extends AbstractScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
                     Button target = (Button)event.getTarget();
-                    if (target.getCode().equals(SINGLEPLAYER)) {
+                    if (target.getLabel().equals(Localizator.getString(SINGLEPLAYER))) {
                         startSingleplayerGame();
                     } else {
                         startMultiplayerGame();
@@ -94,18 +109,18 @@ public class StartScreen extends AbstractScreen {
 
     public void startMultiplayerGame () {
         SequenceAction sequenceAction = Actions.sequence(
-                Actions.fadeOut(Animation.DURATION_NORMAL),
+                Actions.fadeIn(Animation.DURATION_NORMAL),
                 createStartGameAction(GameType.MULTIPLAYER)
         );
-        stage.addAction(sequenceAction);
+        overlap.addAction(sequenceAction);
     }
 
     public void startSingleplayerGame () {
         SequenceAction sequenceAction = Actions.sequence(
-            Actions.fadeOut(Animation.DURATION_NORMAL),
+            Actions.fadeIn(Animation.DURATION_NORMAL),
             createStartGameAction(GameType.SINGLEPLAYER)
         );
-        stage.addAction(sequenceAction);
+        overlap.addAction(sequenceAction);
     }
 
     private Action createStartGameAction(GameType gameType) {

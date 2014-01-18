@@ -14,6 +14,9 @@ public class ColoredPanel extends Actor {
 
     ShapeRenderer renderer;
 
+    public ColoredPanel() {
+    }
+
     public ColoredPanel(Color color) {
         setColor(color.cpy());
 

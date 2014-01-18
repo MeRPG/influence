@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-import com.teremok.influence.ui.Button;
+import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -26,10 +26,10 @@ public class PausePanel extends Group {
     private static final String F5_CODE = "f5";
     private static final String EXIT_CODE = "exit";
 
-    Button resume;
-    Button menu;
-    Button f5;
-    Button exit;
+    ButtonTexture resume;
+    ButtonTexture menu;
+    ButtonTexture f5;
+    ButtonTexture exit;
 
     boolean loaded;
 
@@ -61,32 +61,32 @@ public class PausePanel extends Group {
         this.addActor(backImage);
 
         TextureRegion resumeRegion = atlas.findRegion("resume");
-        resume = new Button(RESUME_CODE, resumeRegion, 112f, 320f);
+        resume = new ButtonTexture(RESUME_CODE, resumeRegion, 112f, 320f);
         this.addActor(resume);
 
         TextureRegion menuRegion = atlas.findRegion("menu");
-        menu = new Button(MENU_CODE, menuRegion, 112f, 416f);
+        menu = new ButtonTexture(MENU_CODE, menuRegion, 112f, 416f);
         this.addActor(menu);
 
         TextureRegion f5Region = atlas.findRegion("f5");
-        f5 = new Button(F5_CODE, f5Region, 208, 416f);
+        f5 = new ButtonTexture(F5_CODE, f5Region, 208, 416f);
         this.addActor(f5);
 
         TextureRegion exitRegion = atlas.findRegion("exit");
-        exit = new Button(EXIT_CODE, exitRegion, 304f, 416f);
+        exit = new ButtonTexture(EXIT_CODE, exitRegion, 304f, 416f);
         this.addActor(exit);
 
         this.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return hit(x, y, true) instanceof Button;
+                return hit(x, y, true) instanceof ButtonTexture;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (! event.isHandled()) {
-                    Button target = (Button)event.getTarget();
+                    ButtonTexture target = (ButtonTexture)event.getTarget();
                     if (target.getCode().equals(RESUME_CODE)) {
                         resume();
                     } else if (target.getCode().equals(MENU_CODE)) {

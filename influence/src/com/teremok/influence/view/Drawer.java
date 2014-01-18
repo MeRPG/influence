@@ -51,22 +51,22 @@ public class Drawer {
 
     public static final float UNIT_SIZE = AbstractScreen.WIDTH/10f;
 
-    private static CellDrawer cellDrawer;
-    private static FieldDrawer fieldDrawer;
+    private static AbstractDrawer<Cell> cellDrawer;
+    private static AbstractDrawer<Field> fieldDrawer;
     private static ScoreDrawer scoreDrawer;
 
     public static void draw(Actor actor, SpriteBatch batch, float parentAlpha) {
 
         if (actor instanceof Cell) {
             if (cellDrawer == null)
-                cellDrawer = new CellDrawer();
+                cellDrawer = new CellShapeDrawer();
             cellDrawer.draw((Cell)actor, batch, parentAlpha);
             return;
         }
 
         if (actor instanceof Field) {
             if (fieldDrawer == null)
-                fieldDrawer = new FieldDrawer();
+                fieldDrawer = new FieldShapeDrawer();
             fieldDrawer.draw((Field)actor, batch, parentAlpha);
         }
 

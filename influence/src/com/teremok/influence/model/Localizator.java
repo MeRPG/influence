@@ -19,9 +19,11 @@ public class Localizator {
         strings.put("waitYourMove", "Wait your move.");
         strings.put("youWon", "You won! Touch here to start new game.");
         strings.put("youLost", "You lost! Touch here to start new game.");
+        strings.put("multiplayer", "Multiplayer");
+        strings.put("singleplayer", "Singleplayer");
     }
 
-    static String getString(String key) {
+    public static String getString(String key) {
         return strings.get(key);
     }
 }

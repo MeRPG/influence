@@ -1,36 +1,47 @@
 package com.teremok.influence.ui;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * Created by Alexx on 03.01.14
+ * Created by Alexx on 19.01.14
  */
-public class Button extends Actor {
-    String code;
-    private TextureRegion region;
+public class Button extends ColoredPanel {
 
-    public Button(String code, TextureRegion region, float x, float y) {
-        this.code = code;
-        this.region = region;
+    private String label;
+    private BitmapFont font;
 
-        float actorWidth = region.getRegionWidth();
-        float actorHeight = region.getRegionHeight();
+    private Color labelColor;
 
-        setBounds(x, y, actorWidth, actorHeight);
+    private float labelX;
+    private float labelY;
 
+    public Button(String label, BitmapFont font, Color labelColor, Color color, float x, float y, float width, float height) {
+        super(color, x, y, width, height);
+        this.label = label;
+        this.labelColor = labelColor;
+        this.font = font;
+
+        BitmapFont.TextBounds bounds = font.getBounds(label);
+        labelX = (width - bounds.width) / 2;
+        labelY = height/2 + bounds.height/2;
     }
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(region, getX(), getY());
+
+        labelColor.a = getColor().a;
+        font.setColor(labelColor);
+        font.draw(batch, label, getX() + labelX, getY() + labelY);
+
     }
 
     // Auto-generated
 
-    public String getCode() {
-        return code;
+
+    public String getLabel() {
+        return label;
     }
 }
