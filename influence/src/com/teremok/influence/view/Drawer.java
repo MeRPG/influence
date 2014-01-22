@@ -31,6 +31,8 @@ public class Drawer {
         colors.put("CELL_TEXT_COLOR", Color.BLACK.cpy());
         colors.put("EMPTY_CELL_TEXT_COLOR",  Color.BLACK.cpy());
         colors.put("BACKGROUND_COLOR", Color.BLACK.cpy());
+        colors.put("BACKLIGHT_WIN", new Color(0xFF0000DD));
+        colors.put("BACKLIGHT_LOSE", new Color(0x00FF00FF));
     }
 
     public static Color getBackgroundColor() {
@@ -47,6 +49,14 @@ public class Drawer {
 
     public static Color getTextColor() {
         return colors.get("TEXT_COLOR");
+    }
+
+    public static Color getBacklightWinColor() {
+        return colors.get("BACKLIGHT_WIN");
+    }
+
+    public static Color getBacklightLoseColor() {
+        return colors.get("BACKLIGHT_LOSE");
     }
 
     public static final float UNIT_SIZE = AbstractScreen.WIDTH/10f;

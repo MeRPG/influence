@@ -13,7 +13,6 @@ import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.view.AbstractDrawer;
@@ -257,7 +256,7 @@ public class Field extends Group {
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
         riseDiceTooltips(attack, defense);
-        fastShowBorder(attack, defense);
+        fastShowBacklight(attack, defense);
         setResultPower(attack, defense);
 
         return delta;
@@ -302,27 +301,27 @@ public class Field extends Group {
     }
 
     // TODO: refactor
-    public void fastShowBorder(Cell attack, Cell defence) {
+    public void fastShowBacklight(Cell attack, Cell defence) {
 
         if (pm.isHumanActing()) {
 
             if (Calculator.getDelta() > 0) {
                 if (defence.getType() != -1) {
-                    GameScreen.colorForBorder = Color.GREEN;
+                    GameScreen.colorForBorder = Drawer.getBacklightWinColor();
                     FXPlayer.playWin();
                 }
             } else {
-                GameScreen.colorForBorder = Color.RED;
+                GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
                 FXPlayer.playLose();
             }
         } else {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getType()) {
                     if (Calculator.getDelta() > 0) {
-                        GameScreen.colorForBorder = Color.RED;
+                        GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
                         FXPlayer.playWin();
                     } else {
-                        GameScreen.colorForBorder = Color.GREEN;
+                        GameScreen.colorForBorder = Drawer.getBacklightWinColor();
                         FXPlayer.playLose();
                     }
                     return;
