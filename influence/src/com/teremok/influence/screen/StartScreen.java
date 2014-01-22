@@ -1,25 +1,17 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Localizator;
-import com.teremok.influence.ui.Button;
-import com.teremok.influence.ui.ButtonTexture;
+import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
@@ -46,14 +38,14 @@ public class StartScreen extends AbstractScreen {
         background = new ColoredPanel(Drawer.getBackgroundColor(), 0,0, WIDTH, HEIGHT);
 
         float centerX = getCenterX(256f);
-        Button singleplayer = new Button(
+        ButtonColored singleplayer = new ButtonColored(
                 Localizator.getString(SINGLEPLAYER),
                 getFont(),
                 Drawer.getTextColor(),
                 Drawer.getCellColorByType(0),
                 centerX, 360f, 256f, 64f);
 
-        Button multiplayer = new Button(
+        ButtonColored multiplayer = new ButtonColored(
                 Localizator.getString(MULTIPLAYER),
                 getFont(),
                 Drawer.getTextColor(),
@@ -81,13 +73,13 @@ public class StartScreen extends AbstractScreen {
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return stage.hit(x,y,true) instanceof Button;
+                return stage.hit(x,y,true) instanceof ButtonColored;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
-                    Button target = (Button)event.getTarget();
+                    ButtonColored target = (ButtonColored)event.getTarget();
                     if (target.getLabel().equals(Localizator.getString(SINGLEPLAYER))) {
                         startSingleplayerGame();
                     } else {

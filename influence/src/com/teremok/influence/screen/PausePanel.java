@@ -13,8 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
+import com.teremok.influence.model.Localizator;
+import com.teremok.influence.ui.Button;
+import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.view.Animation;
+import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 08.01.14
@@ -26,7 +30,7 @@ public class PausePanel extends Group {
     private static final String F5_CODE = "f5";
     private static final String EXIT_CODE = "exit";
 
-    ButtonTexture resume;
+    ButtonColored resume;
     ButtonTexture menu;
     ButtonTexture f5;
     ButtonTexture exit;
@@ -60,8 +64,9 @@ public class PausePanel extends Group {
         Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );
         this.addActor(backImage);
 
-        TextureRegion resumeRegion = atlas.findRegion("resume");
-        resume = new ButtonTexture(RESUME_CODE, resumeRegion, 112f, 320f);
+        resume = new ButtonColored(Localizator.getString(RESUME_CODE), gameScreen.getFont(),
+                Drawer.getTextColor(), Drawer.getCellColorByType(0),
+                112f, 320f, 256f, 64f);
         this.addActor(resume);
 
         TextureRegion menuRegion = atlas.findRegion("menu");
@@ -79,15 +84,15 @@ public class PausePanel extends Group {
         this.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return hit(x, y, true) instanceof ButtonTexture;
+                return hit(x, y, true) instanceof Button;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (! event.isHandled()) {
-                    ButtonTexture target = (ButtonTexture)event.getTarget();
-                    if (target.getCode().equals(RESUME_CODE)) {
+                    Button target = (Button)event.getTarget();
+                    if (target.getCode().equals(Localizator.getString(RESUME_CODE))) {
                         resume();
                     } else if (target.getCode().equals(MENU_CODE)) {
                         menu();

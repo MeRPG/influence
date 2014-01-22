@@ -21,6 +21,7 @@ public class Localizator {
         strings.put("youLost", "You lost! Touch here to start new game.");
         strings.put("multiplayer", "Multiplayer");
         strings.put("singleplayer", "Singleplayer");
+        strings.put("resume", "Resume");
     }
 
     public static String getString(String key) {
