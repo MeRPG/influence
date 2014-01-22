@@ -1,47 +1,11 @@
 package com.teremok.influence.ui;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 /**
- * Created by Alexx on 19.01.14
+ * Created by Alexx on 22.01.14
  */
-public class Button extends ColoredPanel {
-
-    private String label;
-    private BitmapFont font;
-
-    private Color labelColor;
-
-    private float labelX;
-    private float labelY;
-
-    public Button(String label, BitmapFont font, Color labelColor, Color color, float x, float y, float width, float height) {
-        super(color, x, y, width, height);
-        this.label = label;
-        this.labelColor = labelColor;
-        this.font = font;
-
-        BitmapFont.TextBounds bounds = font.getBounds(label);
-        labelX = (width - bounds.width) / 2;
-        labelY = height/2 + bounds.height/2;
-    }
-
-    @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-
-        labelColor.a = getColor().a;
-        font.setColor(labelColor);
-        font.draw(batch, label, getX() + labelX, getY() + labelY);
-
-    }
-
-    // Auto-generated
+public interface Button {
 
 
-    public String getLabel() {
-        return label;
-    }
+
+    String getCode();
 }

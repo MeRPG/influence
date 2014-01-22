@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 /**
  * Created by Alexx on 03.01.14
  */
-public class ButtonTexture extends Actor {
+public class ButtonTexture extends Actor implements Button {
     String code;
     private TextureRegion region;
 
@@ -30,6 +30,7 @@ public class ButtonTexture extends Actor {
 
     // Auto-generated
 
+    @Override
     public String getCode() {
         return code;
     }
