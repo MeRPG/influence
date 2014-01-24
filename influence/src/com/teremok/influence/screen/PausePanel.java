@@ -64,7 +64,7 @@ public class PausePanel extends Group {
         Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );
         this.addActor(backImage);
 
-        resume = new ButtonColored(Localizator.getString(RESUME_CODE), gameScreen.getFont(),
+        resume = new ButtonColored(RESUME_CODE, gameScreen.getFont(),
                 Drawer.getTextColor(), Drawer.getCellColorByType(0),
                 112f, 320f, 256f, 64f);
         this.addActor(resume);

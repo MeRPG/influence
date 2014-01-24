@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Localizator;
+import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.view.Animation;
@@ -39,14 +40,14 @@ public class StartScreen extends AbstractScreen {
 
         float centerX = getCenterX(256f);
         ButtonColored singleplayer = new ButtonColored(
-                Localizator.getString(SINGLEPLAYER),
+                SINGLEPLAYER,
                 getFont(),
                 Drawer.getTextColor(),
                 Drawer.getCellColorByType(0),
                 centerX, 360f, 256f, 64f);
 
         ButtonColored multiplayer = new ButtonColored(
-                Localizator.getString(MULTIPLAYER),
+                MULTIPLAYER,
                 getFont(),
                 Drawer.getTextColor(),
                 Drawer.getCellColorByType(1),
@@ -73,14 +74,14 @@ public class StartScreen extends AbstractScreen {
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return stage.hit(x,y,true) instanceof ButtonColored;
+                return stage.hit(x,y,true) instanceof Button;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
-                    ButtonColored target = (ButtonColored)event.getTarget();
-                    if (target.getLabel().equals(Localizator.getString(SINGLEPLAYER))) {
+                    Button target = (Button)event.getTarget();
+                    if (target.getCode().equals(Localizator.getString(SINGLEPLAYER))) {
                         startSingleplayerGame();
                     } else {
                         startMultiplayerGame();
