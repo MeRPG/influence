@@ -28,6 +28,7 @@ public class Drawer {
         colors.put("MAGENTA", new Color(0x9968FDFF));
         colors.put("GREY", new Color(0x2E2E2EFF));
         colors.put("TEXT_COLOR", Color.WHITE.cpy());
+        colors.put("DIMMED_TEXT_COLOR", new Color(0x545454FF));
         colors.put("CELL_TEXT_COLOR", Color.BLACK.cpy());
         colors.put("EMPTY_CELL_TEXT_COLOR",  Color.BLACK.cpy());
         colors.put("BACKGROUND_COLOR", Color.BLACK.cpy());
@@ -49,6 +50,10 @@ public class Drawer {
 
     public static Color getTextColor() {
         return colors.get("TEXT_COLOR");
+    }
+
+    public static Color getDimmedTextColor() {
+        return colors.get("DIMMED_TEXT_COLOR");
     }
 
     public static Color getBacklightWinColor() {

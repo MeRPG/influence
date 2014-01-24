@@ -80,5 +80,12 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
             bitmapFont.setColor(Drawer.getTextColor());
             bitmapFont.draw(batch, current.getStatus(), x, y);
         }
+
+        if (current.getSubStatus() != null) {
+            BitmapFont.TextBounds subStatusBounds = bitmapFont.getBounds(current.getSubStatus());
+            bitmapFont.setColor(Drawer.getDimmedTextColor());
+            x = current.getX() + (current.getWidth() - subStatusBounds.width)/2;
+            bitmapFont.draw(batch, current.getSubStatus(), x, y - subStatusBounds.height * 1.5f);
+        }
     }
 }

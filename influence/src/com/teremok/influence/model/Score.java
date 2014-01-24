@@ -19,6 +19,7 @@ public class Score extends Group {
     Match match;
     PlayerManager pm;
     String status;
+    String subStatus;
 
     int lastTotalScore = 0;
 
@@ -77,6 +78,16 @@ public class Score extends Group {
             status = Localizator.getString("youWon");
         } else if (match.isLost()) {
             status = Localizator.getString("youLost");
+        }
+
+        if (match.getPm().isHumanActing()){
+            if (match.isInAttackPhase()) {
+                subStatus = Localizator.getString("orTouchToEndAttack");
+            } else {
+                subStatus = Localizator.getString("orTouchToEndTurn");
+            }
+        } else {
+            subStatus = null;
         }
 
         updateWidth();
@@ -146,5 +157,9 @@ public class Score extends Group {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getSubStatus() {
+        return subStatus;
     }
 }
