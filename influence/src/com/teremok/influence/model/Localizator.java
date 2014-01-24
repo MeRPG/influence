@@ -8,6 +8,11 @@ import java.util.Map;
  */
 public class Localizator {
 
+    public static final String LANGUAGE_RUSSIAN = "russian";
+    public static final String LANGUAGE_ENGLISH = "english";
+
+    private static String language;
+
     private static Map<String, String> strings;
 
     static  {
@@ -27,4 +32,36 @@ public class Localizator {
     public static String getString(String key) {
         return strings.get(key);
     }
+
+    public static void setDefaultLanguage() {
+        language = LANGUAGE_ENGLISH;
+    }
+
+    public static void setEnglishLanguage() {
+        language = LANGUAGE_ENGLISH;
+    }
+
+    public static void setRussianLanguage() {
+        language = LANGUAGE_RUSSIAN;
+    }
+
+    public static void setLanguage(String language) {
+        if (language == null) {
+            setDefaultLanguage();
+            return;
+        }
+
+        if (language.equals(LANGUAGE_ENGLISH) || language.equals(LANGUAGE_RUSSIAN)) {
+            Localizator.language = language;
+        } else {
+            setDefaultLanguage();
+        }
+    }
+
+    // Auto-generated
+
+    public static String getLanguage() {
+        return language;
+    }
+
 }
