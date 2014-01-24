@@ -35,11 +35,15 @@ public class HumanPlayer extends Player {
                 field.addPower(cell);
             }
         }
-        powered.clear();
+        clearPowered();
     }
 
     public void addPowered(int number) {
         powered.add(number);
+    }
+
+    public void clearPowered() {
+        powered.clear();
     }
 
     // Auto-generated

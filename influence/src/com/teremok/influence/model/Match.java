@@ -78,6 +78,9 @@ public class Match {
 
     public void setDistributePhase() {
         Player player = pm.current();
+        if (player instanceof HumanPlayer) {
+            ((HumanPlayer) player).clearPowered();
+        }
         int power = field.getPowerToDistribute(player.getType());
         player.setPowerToDistribute(power);
         phase = Phase.DISTRIBUTE;
