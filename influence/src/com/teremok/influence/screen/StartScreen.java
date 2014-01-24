@@ -81,7 +81,7 @@ public class StartScreen extends AbstractScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
                     Button target = (Button)event.getTarget();
-                    if (target.getCode().equals(Localizator.getString(SINGLEPLAYER))) {
+                    if (target.getCode().equals(SINGLEPLAYER)) {
                         startSingleplayerGame();
                     } else {
                         startMultiplayerGame();
