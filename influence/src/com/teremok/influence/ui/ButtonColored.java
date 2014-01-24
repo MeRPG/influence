@@ -34,6 +34,7 @@ public class ButtonColored extends ColoredPanel implements Button {
         labelY = getHeight()/2 + bounds.height/2;
 
         labelColor.a = getColor().a;
+        System.out.println("Pause button alpha: " + labelColor.a);
         font.setColor(labelColor);
         font.draw(batch, Localizator.getString(code), getX() + labelX, getY() + labelY);
 

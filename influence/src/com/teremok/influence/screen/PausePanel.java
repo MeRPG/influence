@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ButtonTexture;
@@ -92,7 +91,7 @@ public class PausePanel extends Group {
                 super.touchUp(event, x, y, pointer, button);
                 if (! event.isHandled()) {
                     Button target = (Button)event.getTarget();
-                    if (target.getCode().equals(Localizator.getString(RESUME_CODE))) {
+                    if (target.getCode().equals(RESUME_CODE)) {
                         resume();
                     } else if (target.getCode().equals(MENU_CODE)) {
                         menu();
@@ -115,12 +114,14 @@ public class PausePanel extends Group {
 
         clearActions();
         addAction(Actions.alpha(1f, Animation.DURATION_NORMAL));
+        resume.addAction(Actions.alpha(1f, Animation.DURATION_NORMAL));
         setTouchable(Touchable.enabled);
     }
 
     public void hide() {
         clearActions();
         addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
+        resume.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
         setTouchable(Touchable.disabled);
     }
 
