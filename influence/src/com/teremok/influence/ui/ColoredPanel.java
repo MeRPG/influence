@@ -14,9 +14,6 @@ public class ColoredPanel extends Actor {
 
     ShapeRenderer renderer;
 
-    public ColoredPanel() {
-    }
-
     public ColoredPanel(Color color) {
         setColor(color.cpy());
 
@@ -43,7 +40,9 @@ public class ColoredPanel extends Actor {
         renderer.translate(getX(), getY(), 0);
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(getColor());
+        Color color = getColor().cpy();
+        color.a = getColor().a < parentAlpha ? getColor().a : parentAlpha;
+        renderer.setColor(color);
         renderer.rect(0, 0, getWidth(), getHeight());
         renderer.end();
 

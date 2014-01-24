@@ -114,14 +114,12 @@ public class PausePanel extends Group {
 
         clearActions();
         addAction(Actions.alpha(1f, Animation.DURATION_NORMAL));
-        resume.addAction(Actions.alpha(1f, Animation.DURATION_NORMAL));
         setTouchable(Touchable.enabled);
     }
 
     public void hide() {
         clearActions();
         addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
-        resume.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
         setTouchable(Touchable.disabled);
     }
 

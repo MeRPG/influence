@@ -15,13 +15,10 @@ public class ButtonColored extends ColoredPanel implements Button {
 
     private Color labelColor;
 
-    private float labelX;
-    private float labelY;
-
     public ButtonColored(String code, BitmapFont font, Color labelColor, Color color, float x, float y, float width, float height) {
         super(color, x, y, width, height);
         this.code = code;
-        this.labelColor = labelColor;
+        this.labelColor = labelColor.cpy();
         this.font = font;
     }
 
@@ -30,11 +27,10 @@ public class ButtonColored extends ColoredPanel implements Button {
         super.draw(batch, parentAlpha);
 
         BitmapFont.TextBounds bounds = font.getBounds(Localizator.getString(code));
-        labelX = (getWidth() - bounds.width) / 2;
-        labelY = getHeight()/2 + bounds.height/2;
+        float labelX = (getWidth() - bounds.width) / 2;
+        float labelY = getHeight() / 2 + bounds.height / 2;
 
-        labelColor.a = getColor().a;
-        System.out.println("Pause button alpha: " + labelColor.a);
+        labelColor.a = getColor().a < parentAlpha ? getColor().a : parentAlpha;
         font.setColor(labelColor);
         font.draw(batch, Localizator.getString(code), getX() + labelX, getY() + labelY);
 
