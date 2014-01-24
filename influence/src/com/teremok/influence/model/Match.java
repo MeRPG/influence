@@ -52,7 +52,11 @@ public class Match {
             }
 
             if (field.getSelectedCell() == null && pm.isHumanActing()) {
-                score.setStatus(Localizator.getString("selectYourCell"));
+                if (isInDistributePhase()) {
+                    score.setStatus(Localizator.getString("touchToDistribute"));
+                } else {
+                    score.setStatus(Localizator.getString("selectYourCell"));
+                }
             }
 
             currentPlayer.act(delta);
