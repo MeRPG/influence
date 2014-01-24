@@ -1,6 +1,7 @@
 package com.teremok.influence.model;
 
 import junit.framework.Assert;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -12,10 +13,9 @@ import java.util.List;
  * Created by Alexx on 26.12.13
  */
 
+@Ignore
 @RunWith(Parameterized.class)
 public class CalculatorTest {
-
-    BufferedReader br;
 
     private final int a;
     private final int b;
