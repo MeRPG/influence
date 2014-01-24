@@ -52,11 +52,7 @@ public class Match {
             }
 
             if (field.getSelectedCell() == null && pm.isHumanActing()) {
-                if (pm.current().getType() == 0)
-                    score.setStatus(Localizator.getString("selectYourCell"));
-                else {
-                    score.setStatus(Localizator.getString("selectYourCellGreen"));
-                }
+                score.setStatus(Localizator.getString("selectYourCell"));
             }
 
             currentPlayer.act(delta);

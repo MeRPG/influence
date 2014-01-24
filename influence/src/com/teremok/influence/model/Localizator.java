@@ -26,7 +26,7 @@ public class Localizator {
         stringsEnglish.put("youWon", "You won! Touch here to start new game");
         stringsEnglish.put("youLost", "You lost! Touch here to start new game");
         stringsEnglish.put("singleplayer", "Singleplayer");
-        stringsEnglish.put("multiplayer", "Multiplayer");
+        stringsEnglish.put("multiplayer", "Play with friend");
         stringsEnglish.put("resume", "Resume");
 
         Map<String, String> stringsRussian;

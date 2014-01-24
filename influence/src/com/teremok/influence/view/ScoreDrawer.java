@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.Score;
@@ -88,8 +89,8 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
     }
 
     private void drawStatusString(SpriteBatch batch) {
-        String colorString = "color";
 
+        String colorString = Localizator.getString("ofYourColor");
 
         BitmapFont.TextBounds bounds = bitmapFont.getBounds(current.getStatus());
         float x = current.getX() + (current.getWidth() - bounds.width)/2;
