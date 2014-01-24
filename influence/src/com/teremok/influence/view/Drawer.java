@@ -31,8 +31,8 @@ public class Drawer {
         colors.put("CELL_TEXT_COLOR", Color.BLACK.cpy());
         colors.put("EMPTY_CELL_TEXT_COLOR",  Color.BLACK.cpy());
         colors.put("BACKGROUND_COLOR", Color.BLACK.cpy());
-        colors.put("BACKLIGHT_WIN", new Color(0xDD0000FF));
-        colors.put("BACKLIGHT_LOSE", new Color(0x00FF00FF));
+        colors.put("BACKLIGHT_WIN", new Color(0x00DD00FF));
+        colors.put("BACKLIGHT_LOSE", new Color(0xFF0000FF));
     }
 
     public static Color getBackgroundColor() {
