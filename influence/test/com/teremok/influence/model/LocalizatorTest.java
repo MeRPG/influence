@@ -50,4 +50,14 @@ public class LocalizatorTest {
 
     }
 
+    @Test
+    public void testSwitchLanguage() {
+        Localizator.setDefaultLanguage();
+        Localizator.switchLanguage();
+        Assert.assertEquals(LANGUAGE_RUSSIAN, Localizator.getLanguage());
+
+        Localizator.switchLanguage();
+        Assert.assertEquals(LANGUAGE_ENGLISH, Localizator.getLanguage());
+    }
+
 }

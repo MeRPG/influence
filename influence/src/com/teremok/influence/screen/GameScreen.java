@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
+import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Score;
 import com.teremok.influence.ui.ColoredPanel;
@@ -111,7 +112,7 @@ public class GameScreen extends AbstractScreen {
                         gracefullyStartNewMatch();
                     }
                     if (keycode == Keys.L) {
-                        //Localizator.switchLocale();
+                        Localizator.switchLanguage();
                     }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
 
