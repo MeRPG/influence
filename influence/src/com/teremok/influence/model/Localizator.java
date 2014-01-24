@@ -22,6 +22,8 @@ public class Localizator {
         stringsEnglish.put("ofYourColor", "of your color");
         stringsEnglish.put("selectMoreThanOne", "Select a cell with 2+ power");
         stringsEnglish.put("touchNearby", "Touch a nearby cell to attack");
+        stringsEnglish.put("touchToDistribute", "Distribute armies by touching cells ");
+        stringsEnglish.put("touchToEndTurn", "Коснитесь, чтобы завершить ход");
         stringsEnglish.put("waitYourMove", "Wait your move");
         stringsEnglish.put("youWon", "You won! Touch here to start new game");
         stringsEnglish.put("youLost", "You lost! Touch here to start new game");
@@ -35,6 +37,8 @@ public class Localizator {
         stringsRussian.put("ofYourColor", "вашего цвета");
         stringsRussian.put("selectMoreThanOne", "Выберите клетку с 2+ силы");
         stringsRussian.put("touchNearby", "Коснитесь соседней клетки, чтобы атаковать");
+        stringsRussian.put("touchToDistribute", "Раздайте армии, касаясь клеток ");
+        stringsRussian.put("touchToEndTurn", "Коснитесь, чтобы завершить ход");
         stringsRussian.put("waitYourMove", "Ожидайте своего хода");
         stringsRussian.put("youWon", "Победа! Коснитесь, чтобы начать новую игру.");
         stringsRussian.put("youLost", "Поражение! Коснитесь, чтобы начать новую игру.");
