@@ -226,6 +226,7 @@ public class GameScreen extends AbstractScreen {
         super.pause();
         Drawer.dispose();
         FXPlayer.dispose();
+        pauseMatch();
     }
 
     @Override
