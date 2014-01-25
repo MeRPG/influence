@@ -227,4 +227,10 @@ public class GameScreen extends AbstractScreen {
         Drawer.dispose();
         FXPlayer.dispose();
     }
+
+    @Override
+    public void resume() {
+        super.resume();
+        FXPlayer.load();
+    }
 }

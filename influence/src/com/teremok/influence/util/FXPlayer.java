@@ -39,5 +39,11 @@ public class FXPlayer {
             lose.dispose();
     }
 
+    public static void load() {
+        click = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
+        win = Gdx.audio.newSound(Gdx.files.internal("win.mp3"));
+        lose = Gdx.audio.newSound(Gdx.files.internal("lose.mp3"));
+    }
+
 
 }
