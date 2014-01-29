@@ -11,6 +11,8 @@ public class FXPlayer {
     static Sound click;
     static Sound win;
     static Sound lose;
+    static Sound winMatch;
+    static Sound loseMatch;
 
     public static void playClick() {
         if (click == null)
@@ -28,6 +30,18 @@ public class FXPlayer {
         if (lose == null)
             lose = Gdx.audio.newSound(Gdx.files.internal("lose.mp3"));
         lose.play();
+    }
+
+    public static void playWinMatch() {
+        if (winMatch == null)
+            winMatch = Gdx.audio.newSound(Gdx.files.internal("winMatch.mp3"));
+        winMatch.play();
+    }
+
+    public static void playLoseMatch() {
+        if (loseMatch == null)
+            loseMatch = Gdx.audio.newSound(Gdx.files.internal("loseMatch.mp3"));
+        loseMatch.play();
     }
 
     public static void dispose() {

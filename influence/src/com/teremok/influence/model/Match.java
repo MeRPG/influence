@@ -3,6 +3,7 @@ package com.teremok.influence.model;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.Player;
+import com.teremok.influence.util.FXPlayer;
 
 /**
  * Created by Alexx on 07.01.14
@@ -20,6 +21,7 @@ public class Match {
     Score score;
     GameType gameType;
     boolean paused;
+    boolean endSoundPlayed;
 
     public Match(GameType gameType) {
         pm = new PlayerManager(this);
@@ -56,6 +58,18 @@ public class Match {
                     score.setStatus(Localizator.getString("touchToDistribute"));
                 } else {
                     score.setStatus(Localizator.getString("selectYourCell"));
+                }
+            }
+
+            if (isWon()) {
+                if (! endSoundPlayed) {
+                    FXPlayer.playWinMatch();
+                    endSoundPlayed = true;
+                }
+            } else if (isLost()) {
+                if (! endSoundPlayed) {
+                    FXPlayer.playLoseMatch();
+                    endSoundPlayed = true;
                 }
             }
 
