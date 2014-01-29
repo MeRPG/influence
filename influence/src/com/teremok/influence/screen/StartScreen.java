@@ -14,6 +14,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ColoredPanel;
+import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 
@@ -80,6 +81,7 @@ public class StartScreen extends AbstractScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
+                    FXPlayer.playClick();
                     Button target = (Button)event.getTarget();
                     if (target.getCode().equals(SINGLEPLAYER)) {
                         startSingleplayerGame();
