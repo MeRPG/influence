@@ -34,6 +34,7 @@ public class Drawer {
         colors.put("BACKGROUND_COLOR", Color.BLACK.cpy());
         colors.put("BACKLIGHT_WIN", new Color(0x00DD00FF));
         colors.put("BACKLIGHT_LOSE", new Color(0xFF0000FF));
+        colors.put("GREEN", new Color(0x02D47EFF).lerp(Drawer.getBackgroundColor(), 0.3f));
     }
 
     public static Color getBackgroundColor() {
