@@ -6,6 +6,8 @@ import android.widget.RelativeLayout;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
+import java.util.Locale;
+
 public class MainActivity extends AndroidApplication {
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -16,7 +18,10 @@ public class MainActivity extends AndroidApplication {
         cfg.useWakelock = true;
         cfg.hideStatusBar = false;
         RelativeLayout layout = new RelativeLayout(this);
-        layout.addView(initializeForView(new Influence(), cfg));
+
+        Locale locale = getResources().getConfiguration().locale;
+
+        layout.addView(initializeForView(new Influence(locale), cfg));
         setContentView(layout);
     }
 }

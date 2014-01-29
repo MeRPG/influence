@@ -3,6 +3,8 @@ package com.teremok.influence;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+import java.util.Locale;
+
 public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
@@ -11,6 +13,8 @@ public class Main {
 		cfg.width = 480;
 		cfg.height = 720;
 
-		new LwjglApplication(new Influence(), cfg);
+        Locale locale = Locale.getDefault(Locale.Category.DISPLAY);
+
+		new LwjglApplication(new Influence(locale), cfg);
 	}
 }
