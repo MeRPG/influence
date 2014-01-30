@@ -1,16 +1,23 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
-import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ColoredPanel;
@@ -26,7 +33,7 @@ public class StartScreen extends AbstractScreen {
     private static final String SINGLEPLAYER = "singleplayer";
     private static final String MULTIPLAYER = "multiplayer";
 
-    private ColoredPanel background;
+    private Image background;
     private ColoredPanel overlap;
 
     public StartScreen(Game game) {
@@ -37,7 +44,15 @@ public class StartScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
 
-        background = new ColoredPanel(Drawer.getBackgroundColor(), 0,0, WIDTH, HEIGHT);
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("startScreen.pack"));
+        for (Texture tex : atlas.getTextures()) {
+            tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+        TextureRegion textureRegion = atlas.findRegion("background");
+        background = new Image(new TextureRegionDrawable(textureRegion));
+        background.setScaling(Scaling.fit);
+        background.setAlign(Align.center);
+        background.setTouchable(Touchable.disabled);
 
         float centerX = getCenterX(256f);
         ButtonColored singleplayer = new ButtonColored(
@@ -45,14 +60,14 @@ public class StartScreen extends AbstractScreen {
                 getFont(),
                 Drawer.getTextColor(),
                 Drawer.getCellColorByType(0),
-                centerX, 360f, 256f, 64f);
+                centerX, 296f, 256f, 64f);
 
         ButtonColored multiplayer = new ButtonColored(
                 MULTIPLAYER,
                 getFont(),
                 Drawer.getTextColor(),
                 Drawer.getCellColorByType(1),
-                centerX, 256f, 256f,  64f);
+                centerX, 192f, 256f,  64f);
 
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.setTouchable(Touchable.disabled);

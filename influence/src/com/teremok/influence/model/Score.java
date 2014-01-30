@@ -80,7 +80,7 @@ public class Score extends Group {
             status = Localizator.getString("youLost");
         }
 
-        if (match.getPm().isHumanActing()){
+        if (match.getPm().isHumanActing() && ! match.isEnded()){
             if (match.isInAttackPhase()) {
                 subStatus = Localizator.getString("orTouchToEndAttack");
             } else {
