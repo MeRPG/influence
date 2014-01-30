@@ -1,7 +1,10 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,9 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
+import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ButtonTexture;
+import com.teremok.influence.ui.Label;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
@@ -81,6 +86,15 @@ public class PausePanel extends Group {
         exit = new ButtonTexture(EXIT_CODE, exitRegion, 304f, 416f);
         this.addActor(exit);
 
+        BitmapFont bitmapFont = gameScreen.getFont();
+        String text = Localizator.getString("pause");
+        BitmapFont.TextBounds textBounds = bitmapFont.getBounds(text);
+
+        float centerX = gameScreen.WIDTH /2 - textBounds.width/2;
+        float Y = 480f + 142f / 2 - textBounds.height/2;
+        Label label = new Label("pause", bitmapFont, Drawer.getCellColorByType(0).cpy(), centerX, Y);
+        this.addActor(label);
+
         this.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -139,5 +153,10 @@ public class PausePanel extends Group {
 
     private void  exitGame() {
         gameScreen.gracefullyExitGame();
+    }
+
+    @Override
+    public void draw(SpriteBatch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
     }
 }

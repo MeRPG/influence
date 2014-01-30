@@ -32,6 +32,7 @@ public class Localizator {
         stringsEnglish.put("singleplayer", "Singleplayer");
         stringsEnglish.put("multiplayer", "Play with friend");
         stringsEnglish.put("resume", "Resume");
+        stringsEnglish.put("pause", "Pause");
 
         Map<String, String> stringsRussian;
         stringsRussian = new HashMap<String, String>();
@@ -49,6 +50,7 @@ public class Localizator {
         stringsRussian.put("singleplayer", "Одиночная игра");
         stringsRussian.put("multiplayer", "Игра с другом");
         stringsRussian.put("resume", "Продолжить");
+        stringsRussian.put("pause", "Пауза");
 
         dictionary = new HashMap<String, Map<String, String>>();
         dictionary.put(LANGUAGE_ENGLISH, stringsEnglish);
