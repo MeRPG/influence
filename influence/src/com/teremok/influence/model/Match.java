@@ -39,9 +39,9 @@ public class Match {
         }
 
         score.initColoredPanels();
+        pm.update();
 
         phase = Phase.ATTACK;
-
     }
 
     public void act(float delta) {
@@ -70,6 +70,7 @@ public class Match {
                 if (! endSoundPlayed) {
                     FXPlayer.playLoseMatch();
                     endSoundPlayed = true;
+                    isLost();
                 }
             }
 

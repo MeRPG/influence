@@ -86,7 +86,7 @@ public class StartScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
-
+        FXPlayer.load();
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -149,5 +149,11 @@ public class StartScreen extends AbstractScreen {
             game.setScreen(new GameScreen(game, gameType));
             return true;
         }
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+        FXPlayer.load();
     }
 }
