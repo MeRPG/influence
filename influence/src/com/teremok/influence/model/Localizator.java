@@ -8,8 +8,8 @@ import java.util.Map;
  */
 public class Localizator {
 
-    public static final String LANGUAGE_RUSSIAN = "russian";
-    public static final String LANGUAGE_ENGLISH = "english";
+    public static final String LANGUAGE_RUSSIAN = "ru";
+    public static final String LANGUAGE_ENGLISH = "en";
 
     private static String language;
 

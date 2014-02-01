@@ -18,8 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
+import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonColored;
+import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.view.Animation;
@@ -54,20 +56,16 @@ public class StartScreen extends AbstractScreen {
         background.setAlign(Align.center);
         background.setTouchable(Touchable.disabled);
 
-        float centerX = getCenterX(256f);
-        ButtonColored singleplayer = new ButtonColored(
-                SINGLEPLAYER,
-                getFont(),
-                Drawer.getTextColor(),
-                Drawer.getCellColorByType(0),
-                centerX, 296f, 256f, 64f);
+        System.out.print(Localizator.getLanguage());
 
-        ButtonColored multiplayer = new ButtonColored(
-                MULTIPLAYER,
-                getFont(),
-                Drawer.getTextColor(),
-                Drawer.getCellColorByType(1),
-                centerX, 192f, 256f,  64f);
+        ButtonTexture singleplayer = new ButtonTexture(SINGLEPLAYER,
+                atlas.findRegion(SINGLEPLAYER + "_" + Localizator.getLanguage()),
+                        115f, 269f);
+
+
+        ButtonTexture multiplayer = new ButtonTexture(MULTIPLAYER,
+                atlas.findRegion(MULTIPLAYER + "_" + Localizator.getLanguage()),
+                115f, 192f);
 
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.setTouchable(Touchable.disabled);

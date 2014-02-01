@@ -13,6 +13,8 @@ public class Influence extends Game {
         String language = locale.getLanguage();
         if (language.equals("ru") || language.equals("uk")) {
             Localizator.setRussianLanguage();
+        }  else {
+            Localizator.setEnglishLanguage();
         }
     }
 
