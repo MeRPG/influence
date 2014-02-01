@@ -325,6 +325,12 @@ public class Field extends Group {
                         FXPlayer.playLose();
                     }
                     return;
+                } else {
+                    if (Calculator.getDelta() > 0) {
+                        FXPlayer.playWin();
+                    }  else {
+                        FXPlayer.playLose();
+                    }
                 }
             }
         }
