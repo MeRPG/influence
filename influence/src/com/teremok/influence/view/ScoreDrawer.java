@@ -63,6 +63,7 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
             bitmapFont.draw(batch, colorString, x + X, y);
 
         } else if (current.getMatch().isInDistributePhase() && current.getPm().isHumanActing()) {
+            colorString = Localizator.getString("yourCells");
             String powerString = " (" +current.getPm().current().getPowerToDistribute() + ")";
             BitmapFont.TextBounds colorBounds = bitmapFont.getBounds(colorString);
             float Y = colorBounds.width;

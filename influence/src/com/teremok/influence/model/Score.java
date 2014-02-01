@@ -74,20 +74,25 @@ public class Score extends Group {
     public void act(float delta) {
         super.act(delta);
         pm.update();
-        if (match.isWon()) {
-            status = Localizator.getString("youWon");
-        } else if (match.isLost()) {
-            status = Localizator.getString("youLost");
-        }
 
-        if (match.getPm().isHumanActing() && ! match.isEnded()){
-            if (match.isInAttackPhase()) {
-                subStatus = Localizator.getString("orTouchToEndAttack");
-            } else {
-                subStatus = Localizator.getString("orTouchToEndTurn");
+        if (match.isEnded()){
+            if (match.isWon()) {
+                status = Localizator.getString("youWon");
+                subStatus = Localizator.getString("touchForNewGame");
+            } else if (match.isLost()) {
+                status = Localizator.getString("youLost");
+                subStatus = Localizator.getString("touchForNewGame");
             }
         } else {
-            subStatus = null;
+            if (match.getPm().isHumanActing()){
+                if (match.isInAttackPhase()) {
+                    subStatus = Localizator.getString("orTouchToEndAttack");
+                } else {
+                    subStatus = Localizator.getString("orTouchToEndTurn");
+                }
+            } else {
+                subStatus = null;
+            }
         }
 
         updateWidth();
