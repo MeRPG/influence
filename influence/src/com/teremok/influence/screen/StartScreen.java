@@ -60,7 +60,7 @@ public class StartScreen extends AbstractScreen {
 
         ButtonTexture singleplayer = new ButtonTexture(SINGLEPLAYER,
                 atlas.findRegion(SINGLEPLAYER + "_" + Localizator.getLanguage()),
-                        115f, 269f);
+                        115f, 296f);
 
 
         ButtonTexture multiplayer = new ButtonTexture(MULTIPLAYER,
