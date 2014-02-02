@@ -98,7 +98,7 @@ public class GameScreen extends AbstractScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
                     FXPlayer.playClick();
-                    if (match.canHumanActing())
+                    if (match.canHumanActing() && ! match.isEnded())
                         match.switchPhase();
                     if (match.isEnded())
                         gracefullyStartNewMatch();
