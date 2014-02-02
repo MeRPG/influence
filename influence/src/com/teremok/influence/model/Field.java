@@ -198,8 +198,9 @@ public class Field extends Group {
                 if (delta > 0) {
                     cell.setType(selectedCell.getType());
                     reallySetSelected(cell);
+                } else if (pm.isHumanActing()) {
+                    match.score.setStatus(Localizator.getString("selectMoreThanOne"));
                 }
-
             } else  {
                 reallySetSelected(cell);
             }
