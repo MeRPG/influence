@@ -30,7 +30,10 @@ public abstract class Player {
     }
 
     public void subtractPowerToDistribute() {
-        powerToDistribute--;
+        if (powerToDistribute > 0)
+            powerToDistribute--;
+        else
+            powerToDistribute = 0;
     }
 
     public void act(float delta) {
