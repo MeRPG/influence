@@ -126,7 +126,11 @@ public class GameScreen extends AbstractScreen {
                             lastBackPress = newTime;
                         }
 
-                        pauseMatch();
+                        if (match.isPaused()) {
+                            resumeMatch();
+                        } else {
+                            pauseMatch();
+                        }
 
                     }
                 }
@@ -153,12 +157,13 @@ public class GameScreen extends AbstractScreen {
     }
 
     void pauseMatch() {
-        if (match.isPaused()) {
-            pausePanel.hide();
-        } else {
-            pausePanel.show();
-        }
-        match.setPaused(! match.isPaused());
+        pausePanel.show();
+        match.setPaused(true);
+    }
+
+    void resumeMatch() {
+        match.setPaused(false);
+        pausePanel.hide();
     }
 
     void backToStartScreen() {
@@ -233,5 +238,7 @@ public class GameScreen extends AbstractScreen {
     public void resume() {
         super.resume();
         FXPlayer.load();
+        if (match.isPaused())
+            pausePanel.show();
     }
 }
