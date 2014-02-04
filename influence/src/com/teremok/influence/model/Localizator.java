@@ -45,8 +45,8 @@ public class Localizator {
         stringsRussian.put("touchNearby", "Коснитесь соседней клетки для атаки");
         stringsRussian.put("touchToDistribute", "Раздайте силу ");
         stringsRussian.put("touchToEndTurn", "Коснитесь, чтобы завершить ход");
-        stringsRussian.put("orTouchToEndAttack", "(коснитесь здесь, чтобы завешить ход)");
-        stringsRussian.put("orTouchToEndTurn", "(коснитесь здесь, чтобы завешить ход)");
+        stringsRussian.put("orTouchToEndAttack", "(коснитесь здесь, чтобы завершить ход)");
+        stringsRussian.put("orTouchToEndTurn", "(коснитесь здесь, чтобы завершить ход)");
         stringsRussian.put("waitYourMove", "Ожидайте своего хода");
         stringsRussian.put("youWon", "Победа!");
         stringsRussian.put("youLost", "Поражение!");
