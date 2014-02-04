@@ -9,7 +9,6 @@ import java.util.Locale;
 public class Influence extends Game {
 
     public Influence(Locale locale) {
-        System.out.println("Game started with locale:" + locale + ", lang: " + locale.getLanguage());
         String language = locale.getLanguage();
         if (language.equals("ru") || language.equals("uk") || language.equals("lt") || language.equals("kk")) {
             Localizator.setRussianLanguage();

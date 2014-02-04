@@ -56,8 +56,6 @@ public class StartScreen extends AbstractScreen {
         background.setAlign(Align.center);
         background.setTouchable(Touchable.disabled);
 
-        System.out.print(Localizator.getLanguage());
-
         ButtonTexture singleplayer = new ButtonTexture(SINGLEPLAYER,
                 atlas.findRegion(SINGLEPLAYER + "_" + Localizator.getLanguage()),
                         115f, 296f);
