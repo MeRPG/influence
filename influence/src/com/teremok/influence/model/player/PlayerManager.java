@@ -57,7 +57,7 @@ public class PlayerManager {
         resetPlayersArray(5);
         addPlayer(new HumanPlayer(0, match), 0);
         for (int i = 1; i < numberOfPlayers; i ++) {
-            addPlayer(new ComputerPlayer(i, match), i);
+            addPlayer(new Hunter(i, match), i);
         }
         placeStartPositions();
     }
@@ -66,7 +66,7 @@ public class PlayerManager {
         this.field = field;
         resetPlayersArray(2);
         addPlayer(new HumanPlayer(0, match), 0);
-        addPlayer(new HumanPlayer(1, match), 1);
+        addPlayer(new Hunter(1, match), 1);
         placeStartPositionsMultiplayer();
     }
 
