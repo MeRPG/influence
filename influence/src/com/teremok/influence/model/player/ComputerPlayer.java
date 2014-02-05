@@ -10,15 +10,15 @@ import java.util.*;
 public class ComputerPlayer extends Player {
 
     public final static float TURN_DELAY = .5f;
-    private Move nextMove;
-    private Random rnd = new Random();
-    private float turnTime;
+    protected Move nextMove;
+    protected Random rnd = new Random();
+    protected float turnTime;
 
-    private class Move {
-        private Cell cell;
-        private Cell enemy;
+    protected class Move {
+        protected Cell cell;
+        protected Cell enemy;
 
-        private Move(Cell cell, Cell enemy) {
+        protected Move(Cell cell, Cell enemy) {
             this.cell = cell;
             this.enemy = enemy;
         }
@@ -36,7 +36,7 @@ public class ComputerPlayer extends Player {
         }
     }
 
-    private void actAttackLogic(float delta) {
+    protected void actAttackLogic(float delta) {
 
         if (nextMove == null) {
             prepareActions();
@@ -55,7 +55,7 @@ public class ComputerPlayer extends Player {
         turnTime += delta;
     }
 
-    private void prepareActions() {
+    protected void prepareActions() {
         for (Cell cell : field.getCells()) {
             if (cell.isValid() && cell.getType() == type && cell.getPower() > 1) {
                 List<Cell> enemies = field.getConnectedEnemies(cell);
@@ -69,7 +69,7 @@ public class ComputerPlayer extends Player {
         }
     }
 
-    private void doNextMove() {
+    protected void doNextMove() {
         Cell cell;
         if (nextMove.cell != null) {
             cell = nextMove.cell;
@@ -82,7 +82,7 @@ public class ComputerPlayer extends Player {
         field.setSelectedCell(cell);
     }
 
-    private void actDistributeLogic(float delta) {
+    protected void actDistributeLogic(float delta) {
         for (Cell cell : field.getCells()) {
             if (cell.isValid() && cell.getType() == type && powerToDistribute > 0) {
                 field.addPower(cell);
