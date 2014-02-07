@@ -99,7 +99,7 @@ public class GraphGenerator {
                     checkAround(curNum, i, j);
                     cells.add(Cell.makeEmptyCell(curNum, i, j));
                 } else {
-                    cells.add(Cell.makeInvalidCell());
+                    //cells.add(Cell.makeInvalidCell());
                 }
             }
         }

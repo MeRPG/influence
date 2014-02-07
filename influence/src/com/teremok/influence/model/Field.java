@@ -395,7 +395,7 @@ public class Field extends Group {
     public List<Cell> getConnectedCells(Cell cell) {
         List<Cell> list = new LinkedList<Cell>();
 
-        for (int i = 0; i < MAX_CELLS_X*MAX_CELLS_Y; i++) {
+        for (int i = 0; i < CELLS_COUNT; i++) {
             Cell cellToAdd = cells.get(i);
             if (isCellsConnected(cell, cellToAdd)) {
                 if (cellToAdd.isValid())
@@ -424,6 +424,16 @@ public class Field extends Group {
             }
         }
         return score;
+    }
+
+    public List<Cell> getCellsByType(int type) {
+        List<Cell> list = new LinkedList<Cell>();
+        for (Cell cell : cells) {
+            if (cell.getType() == type) {
+                list.add(cell);
+            }
+        }
+        return list;
     }
 
     // Auto-generated

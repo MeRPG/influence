@@ -2,6 +2,7 @@ package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Match;
+import com.teremok.influence.model.player.strategy.PlayerFactory;
 
 /**
  * Created by Alexx on 07.01.14
@@ -57,7 +58,7 @@ public class PlayerManager {
         resetPlayersArray(5);
         addPlayer(new HumanPlayer(0, match), 0);
         for (int i = 1; i < numberOfPlayers; i ++) {
-            addPlayer(new Hunter(i, match), i);
+            addPlayer(PlayerFactory.getHunter(i, match), i);
         }
         placeStartPositions();
     }
@@ -65,8 +66,8 @@ public class PlayerManager {
     public  void addPlayersForMultiplayer(Field field) {
         this.field = field;
         resetPlayersArray(2);
-        addPlayer(new HumanPlayer(0, match), 0);
-        addPlayer(new Hunter(1, match), 1);
+        addPlayer(PlayerFactory.getSmarty(0, match), 0);
+        addPlayer(PlayerFactory.getHunter(1, match), 1);
         placeStartPositionsMultiplayer();
     }
 

@@ -9,7 +9,7 @@ import java.util.*;
  */
 public class ComputerPlayer extends Player {
 
-    public final static float TURN_DELAY = .5f;
+    public final static float TURN_DELAY = .35f;
     protected Move nextMove;
     protected Random rnd = new Random();
     protected float turnTime;
@@ -37,17 +37,13 @@ public class ComputerPlayer extends Player {
     }
 
     protected void actAttackLogic(float delta) {
-
-        if (nextMove == null) {
-            prepareActions();
-
+        if (turnTime > TURN_DELAY) {
             if (nextMove == null) {
-                if (turnTime > TURN_DELAY)
+                prepareActions();
+                if (nextMove == null) {
                     match.switchPhase();
-            }
-
-        } else {
-            if (turnTime > TURN_DELAY) {
+                }
+            } else {
                 doNextMove();
                 turnTime = 0;
             }
