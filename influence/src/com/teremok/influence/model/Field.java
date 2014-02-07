@@ -155,7 +155,7 @@ public class Field extends Group {
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                         if (! event.isHandled() && match.canHumanActing()) {
-                            if (cell.getType() == pm.current().getType() || connectedToSelected(cell) && selectedCell.getPower() > 1)
+                            if (cell.getType() == pm.current().getNumber() || connectedToSelected(cell) && selectedCell.getPower() > 1)
                             FXPlayer.playClick();
                             Cell target = (Cell)event.getTarget();
                             if (match.isInAttackPhase()) {
@@ -210,21 +210,23 @@ public class Field extends Group {
     }
 
     public void addPower(Cell cell) {
-        if (cell.getType() == pm.current().getType()) {
+        if (cell.getType() == pm.current().getNumber()) {
             int newPower = cell.getPower() + 1;
             int maxPower = cell.getMaxPower();
-            if (newPower <= maxPower) {
+            if (newPower <= maxPower && pm.current().getPowerToDistribute() > 0) {
 
                 riseAddPowerTooltip(cell);
 
                 cell.setPower(cell.getPower() + 1);
                 pm.current().subtractPowerToDistribute();
+            }  else {
+                System.out.println("Wrong add power " + cell);
             }
         }
     }
 
     private void reallySetSelected(Cell cell) {
-        if (cell.getType() == pm.current().getType()) {
+        if (cell.getType() == pm.current().getNumber()) {
             if (selectedCell != null)
                 selectedCell.setSelected(false);
             cell.setSelected(true);
@@ -317,7 +319,7 @@ public class Field extends Group {
             }
         } else {
             for (Player player : pm.getPlayers()) {
-                if (player instanceof HumanPlayer && defence.getType() == player.getType()) {
+                if (player instanceof HumanPlayer && defence.getType() == player.getNumber()) {
                     if (Calculator.getDelta() > 0) {
                         GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
                         FXPlayer.playWin();

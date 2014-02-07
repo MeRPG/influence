@@ -2,7 +2,7 @@ package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Match;
-import com.teremok.influence.model.player.strategy.PlayerFactory;
+import com.teremok.influence.model.player.PlayerFactory;
 
 /**
  * Created by Alexx on 07.01.14
@@ -48,7 +48,7 @@ public class PlayerManager {
         Player player;
         for (int i = 0; i < numberOfPlayers; i++) {
             player = players[i];
-            int scoreToSet = field.calcScore(player.type);
+            int scoreToSet = field.calcScore(player.number);
             player.setScore(scoreToSet);
         }
     }
@@ -78,13 +78,13 @@ public class PlayerManager {
 
     private void placeStartPositions() {
         for (Player player : players) {
-            field.placeStartPosition(player.getType());
+            field.placeStartPosition(player.getNumber());
         }
     }
 
     private void placeStartPositionsMultiplayer() {
-        field.placeStartPositionFromRange(players[0].type, 0, 9);
-        field.placeStartPositionFromRange(players[1].type, 26, 35);
+        field.placeStartPositionFromRange(players[0].number, 0, 9);
+        field.placeStartPositionFromRange(players[1].number, 26, 35);
     }
 
     public boolean isHumanActing() {

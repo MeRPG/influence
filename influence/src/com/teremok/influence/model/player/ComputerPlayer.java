@@ -26,6 +26,7 @@ public class ComputerPlayer extends Player {
 
     public ComputerPlayer(int type, Match match) {
         super(type, match);
+        this.type = PlayerType.Dummy;
     }
 
     protected void actLogic(float delta) {
@@ -53,7 +54,7 @@ public class ComputerPlayer extends Player {
 
     protected void prepareActions() {
         for (Cell cell : field.getCells()) {
-            if (cell.isValid() && cell.getType() == type && cell.getPower() > 1) {
+            if (cell.isValid() && cell.getType() == number && cell.getPower() > 1) {
                 List<Cell> enemies = field.getConnectedEnemies(cell);
                 if (! enemies.isEmpty()) {
                     int cellNumberToAttack = rnd.nextInt(enemies.size());
@@ -80,7 +81,7 @@ public class ComputerPlayer extends Player {
 
     protected void actDistributeLogic(float delta) {
         for (Cell cell : field.getCells()) {
-            if (cell.isValid() && cell.getType() == type && powerToDistribute > 0) {
+            if (cell.isValid() && cell.getType() == number && powerToDistribute > 0) {
                 field.addPower(cell);
             }
         }

@@ -1,4 +1,4 @@
-package com.teremok.influence.model.player.strategy.concrete.attack;
+package com.teremok.influence.model.player.strategy.attack;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;

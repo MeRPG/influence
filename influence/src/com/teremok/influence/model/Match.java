@@ -100,7 +100,7 @@ public class Match {
         if (player instanceof HumanPlayer) {
             ((HumanPlayer) player).clearPowered();
         }
-        int power = field.getPowerToDistribute(player.getType());
+        int power = field.getPowerToDistribute(player.getNumber());
         player.setPowerToDistribute(power);
         phase = Phase.DISTRIBUTE;
         System.out.println("Distribute power phase.");

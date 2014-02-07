@@ -2,7 +2,6 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -89,26 +88,26 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                         break;
                     case 1:
                         renderer.line(centerX, centerY, centerXto, centerYto,
-                                    Drawer.getCellColorByType(cell.getType()),
-                                    Drawer.getCellColorByType(toCell.getType())
+                                    Drawer.getCellColorByNumber(cell.getType()),
+                                    Drawer.getCellColorByNumber(toCell.getType())
                                     );
                         break;
                     case 4:
                         renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByType(cell.getType()),
-                                Drawer.getCellColorByType(toCell.getType())
+                                Drawer.getCellColorByNumber(cell.getType()),
+                                Drawer.getCellColorByNumber(toCell.getType())
                         );
                         break;
                     case 5:
                         renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByType(cell.getType()),
-                                Drawer.getCellColorByType(toCell.getType())
+                                Drawer.getCellColorByNumber(cell.getType()),
+                                Drawer.getCellColorByNumber(toCell.getType())
                         );
                         break;
                     case 6:
                         renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByType(cell.getType()),
-                                Drawer.getCellColorByType(toCell.getType())
+                                Drawer.getCellColorByNumber(cell.getType()),
+                                Drawer.getCellColorByNumber(toCell.getType())
                         );
                         break;
                     default:
@@ -124,9 +123,9 @@ public class FieldDrawer extends AbstractDrawer<Field> {
         for (Cell toCell : current.getConnectedCells(cell)) {
             if (toCell.isValid()) {
                 if (cell.getType() == toCell.getType()) {
-                    batch.setColor(Drawer.getCellColorByType(cell.getType()));
+                    batch.setColor(Drawer.getCellColorByNumber(cell.getType()));
                 } else {
-                    batch.setColor(Drawer.getCellColorByType(-1));
+                    batch.setColor(Drawer.getCellColorByNumber(-1));
                 }
                 float centerX = current.getX() + cell.getX() + cell.getWidth()/2 - 8;
                 float centerY = current.getY() + cell.getY() + cell.getHeight()/2 + 6;
@@ -191,7 +190,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
         Cell selected = current.getSelectedCell();
 
         if (selected != null && selected.isValid()) {
-            renderer.setColor(Drawer.getCellColorByType(selected.getType()));
+            renderer.setColor(Drawer.getCellColorByNumber(selected.getType()));
         } else {
             renderer.setColor(Color.WHITE);
         }

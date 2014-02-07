@@ -2,21 +2,21 @@ package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Match;
-import com.teremok.influence.screen.GameScreen;
 
 /**
  * Created by Alexx on 26.12.13
  */
 public abstract class Player {
 
-    protected int type;
+    protected int number;
     protected int powerToDistribute;
     protected int score;
     protected Match match;
     protected Field field;
+    protected PlayerType type;
 
-    protected Player(int type, Match match) {
-        this.type = type;
+    protected Player(int number, Match match) {
+        this.number = number;
         this.match = match;
         this.field = match.getField();
     }
@@ -44,9 +44,11 @@ public abstract class Player {
 
     // Auto-generated
 
-    public int getType() {
-        return type;
+    public int getNumber() {
+        return number;
     }
+
+    public PlayerType getType() { return type; }
 
     public int getScore() {
         return score;

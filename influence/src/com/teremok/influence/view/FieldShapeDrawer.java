@@ -58,26 +58,26 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
                         break;
                     case 1:
                         renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByType(cell.getType()),
-                                Drawer.getCellColorByType(toCell.getType())
+                                Drawer.getCellColorByNumber(cell.getType()),
+                                Drawer.getCellColorByNumber(toCell.getType())
                         );
                         break;
                     case 4:
                         renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByType(cell.getType()),
-                                Drawer.getCellColorByType(toCell.getType())
+                                Drawer.getCellColorByNumber(cell.getType()),
+                                Drawer.getCellColorByNumber(toCell.getType())
                         );
                         break;
                     case 5:
                         renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByType(cell.getType()),
-                                Drawer.getCellColorByType(toCell.getType())
+                                Drawer.getCellColorByNumber(cell.getType()),
+                                Drawer.getCellColorByNumber(toCell.getType())
                         );
                         break;
                     case 6:
                         renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByType(cell.getType()),
-                                Drawer.getCellColorByType(toCell.getType())
+                                Drawer.getCellColorByNumber(cell.getType()),
+                                Drawer.getCellColorByNumber(toCell.getType())
                         );
                         break;
                     default:
@@ -95,7 +95,7 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         Cell selected = current.getSelectedCell();
 
         if (selected != null && selected.isValid()) {
-            renderer.setColor(Drawer.getCellColorByType(selected.getType()));
+            renderer.setColor(Drawer.getCellColorByNumber(selected.getType()));
         } else {
             renderer.setColor(Color.WHITE);
         }

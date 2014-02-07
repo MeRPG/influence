@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Score;
+import com.teremok.influence.model.player.Player;
 import com.teremok.influence.screen.AbstractScreen;
 
 import java.util.HashMap;
@@ -100,9 +101,13 @@ public class Drawer {
         cellDrawer = null;
     }
 
-    public static Color getCellColorByType (int type) {
+    public static Color getPlayerColor(Player player) {
+        return getCellColorByNumber(player.getNumber());
+    }
+
+    public static Color getCellColorByNumber(int number) {
         Color color;
-        switch (type) {
+        switch (number) {
             case 0:
                 color = colors.get("CYAN");
                 break;

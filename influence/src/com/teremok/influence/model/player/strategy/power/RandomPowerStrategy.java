@@ -1,4 +1,4 @@
-package com.teremok.influence.model.player.strategy.concrete.power;
+package com.teremok.influence.model.player.strategy.power;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
@@ -6,25 +6,22 @@ import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.PowerStrategy;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Alexx on 06.02.14
  */
-public class DummyPowerStrategy implements PowerStrategy {
-
-   int i = 0;
+public class RandomPowerStrategy implements PowerStrategy {
+    Random rnd;
 
     @Override
     public Cell execute(List<Cell> cells, Field field, Strategist player) {
-        if (i >= cells.size())
-            i = 0;
-        Cell cell = cells.get(i);
-        i++;
+        rnd = player.getRnd();
+        Cell cell = cells.get(rnd.nextInt(cells.size()));
         return cell;
     }
 
     @Override
     public void afterExecute() {
-        i = 0;
     }
 }

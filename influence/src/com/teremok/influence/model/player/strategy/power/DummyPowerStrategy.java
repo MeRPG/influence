@@ -1,18 +1,18 @@
-package com.teremok.influence.model.player.strategy.concrete.enemy;
+package com.teremok.influence.model.player.strategy.power;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.player.Strategist;
-import com.teremok.influence.model.player.strategy.EnemyStrategy;
+import com.teremok.influence.model.player.strategy.PowerStrategy;
 
 import java.util.List;
 
 /**
  * Created by Alexx on 06.02.14
  */
-public class DummyEnemyStrategy implements EnemyStrategy {
+public class DummyPowerStrategy implements PowerStrategy {
 
-    int i = 0;
+   int i = 0;
 
     @Override
     public Cell execute(List<Cell> cells, Field field, Strategist player) {

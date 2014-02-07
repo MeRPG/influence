@@ -3,9 +3,9 @@ package com.teremok.influence.model.player;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.player.strategy.*;
-import com.teremok.influence.model.player.strategy.concrete.attack.DummyAttackStrategy;
-import com.teremok.influence.model.player.strategy.concrete.power.DummyPowerStrategy;
-import com.teremok.influence.model.player.strategy.concrete.enemy.DummyEnemyStrategy;
+import com.teremok.influence.model.player.strategy.attack.DummyAttackStrategy;
+import com.teremok.influence.model.player.strategy.power.DummyPowerStrategy;
+import com.teremok.influence.model.player.strategy.enemy.DummyEnemyStrategy;
 
 import java.util.List;
 import java.util.Random;
@@ -49,7 +49,7 @@ public class Strategist extends ComputerPlayer {
     @Override
     protected void prepareActions() {
         initDummyStrategies();
-        Cell cell = attackStrategy.execute(field.getCellsByType(type), field, this);
+        Cell cell = attackStrategy.execute(field.getCellsByType(number), field, this);
         if (cell.getPower() > 1) {
             List<Cell> enemies = field.getConnectedEnemies(cell);
             if (! enemies.isEmpty()) {
@@ -61,12 +61,14 @@ public class Strategist extends ComputerPlayer {
 
     @Override
     protected void actDistributeLogic(float delta) {
-        Cell cell = powerStrategy.execute(field.getCellsByType(type), field, this);
+        Cell cell = powerStrategy.execute(field.getCellsByType(number), field, this);
         if (cell != null)
             field.addPower(cell);
     }
 
     // Auto-generated
+
+    public void setStyle(PlayerType style) { this.type = style; }
 
     public Random getRnd() {
         return rnd;

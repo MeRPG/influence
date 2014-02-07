@@ -100,7 +100,7 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         float centerX = current.getWidth()/2;
         float centerY = current.getHeight()/2;
 
-        Color color = Drawer.getCellColorByType(current.getType()).cpy();
+        Color color = Drawer.getCellColorByNumber(current.getType()).cpy();
 
         if (current.isSelected()) {
             color.add(0.2f, 0.2f, 0.2f, 0f);

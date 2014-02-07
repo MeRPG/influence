@@ -1,4 +1,4 @@
-package com.teremok.influence.model.player.strategy.concrete.power;
+package com.teremok.influence.model.player.strategy.power;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
@@ -31,9 +31,9 @@ public class SmartyPowerStrategy implements PowerStrategy {
                 if (cell.getPower() < cell.getMaxPower()) {
                     toBePowered.add(cell.getNumber());
                 }
-                System.out.println("--- add power to cell " + cell + ", type" + cell.getType() + ", enemies: ");
+                System.out.println("--- add power to cell " + cell + ", number" + cell.getType() + ", enemies: ");
                 for (Cell en : field.getConnectedEnemies(cell)) {
-                    System.out.println(en + ", type: " + en.getType());
+                    System.out.println(en + ", number: " + en.getType());
                 }
                 System.out.println("--- end of the enemy list");
                 field.addPower(cell);

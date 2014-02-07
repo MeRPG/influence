@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Score;
 
-import static com.teremok.influence.view.Drawer.getCellColorByType;
+import static com.teremok.influence.view.Drawer.getCellColorByNumber;
 
 /**
  * Created by Alexx on 24.12.13
@@ -59,7 +59,7 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
             x = x - Y/2;
             bitmapFont.setColor(Drawer.getTextColor());
             bitmapFont.draw(batch, current.getStatus(), x, y);
-            bitmapFont.setColor(getCellColorByType(current.getPm().current().getType()));
+            bitmapFont.setColor(getCellColorByNumber(current.getPm().current().getNumber()));
             bitmapFont.draw(batch, colorString, x + X, y);
 
         } else if (current.getMatch().isInDistributePhase() && current.getPm().isHumanActing()) {
@@ -72,7 +72,7 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
             x = x - Y/2 - W/2;
             bitmapFont.setColor(Drawer.getTextColor());
             bitmapFont.draw(batch, current.getStatus(), x, y);
-            bitmapFont.setColor(getCellColorByType(current.getPm().current().getType()));
+            bitmapFont.setColor(getCellColorByNumber(current.getPm().current().getNumber()));
             bitmapFont.draw(batch, colorString, x + X, y);
             bitmapFont.draw(batch, powerString, x + X + Y, y);
 

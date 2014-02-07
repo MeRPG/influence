@@ -1,4 +1,4 @@
-package com.teremok.influence.model.player.strategy.concrete.attack;
+package com.teremok.influence.model.player.strategy.attack;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
@@ -14,7 +14,7 @@ import java.util.Random;
 public class BeefyAttackStrategy implements AttackStrategy {
     @Override
     public Cell execute(List<Cell> cells, Field field, Strategist player) {
-        int type = player.getType();
+        int type = player.getNumber();
         Random rnd = player.getRnd();
 
         int number;

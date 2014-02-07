@@ -16,6 +16,7 @@ public class HumanPlayer extends Player {
     protected HumanPlayer(int type, Match match) {
         super(type, match);
         powered = new HashSet<Integer>();
+        this.type = PlayerType.Human;
     }
 
     @Override
@@ -31,7 +32,7 @@ public class HumanPlayer extends Player {
     private void distributePowerAuto() {
         System.out.println("Distributing power!");
         for (Cell cell : field.getCells()) {
-            if (cell.isValid() && cell.getType() == type && powerToDistribute > 0 && !powered.contains(cell.getNumber())) {
+            if (cell.isValid() && cell.getType() == number && powerToDistribute > 0 && !powered.contains(cell.getNumber())) {
                 field.addPower(cell);
             }
         }

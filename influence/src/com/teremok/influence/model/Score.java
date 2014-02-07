@@ -50,7 +50,7 @@ public class Score extends Group {
 
         float panelWidth = getWidth()/pm.getNumberOfPlayers();
         for (int i = 0; i < pm.getNumberOfPlayers(); i++) {
-            ColoredPanel newPanel = new ColoredPanel(Drawer.getCellColorByType(i),
+            ColoredPanel newPanel = new ColoredPanel(Drawer.getCellColorByNumber(i),
                     panelWidth*i, getHeight()-16f, panelWidth, 8f
             );
             newPanel.setTouchable(Touchable.disabled);
@@ -116,7 +116,7 @@ public class Score extends Group {
     }
 
     private void updateBackground() {
-        Color scoreBackground = Drawer.getCellColorByType(pm.current().getType()).cpy();
+        Color scoreBackground = Drawer.getCellColorByNumber(pm.current().getNumber()).cpy();
         //scoreBackground.add(0.2f, 0.2f, 0.2f, 0.2f);
 
         background.addAction(
