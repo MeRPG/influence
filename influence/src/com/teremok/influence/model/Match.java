@@ -22,6 +22,7 @@ public class Match {
     GameType gameType;
     boolean paused;
     boolean endSoundPlayed;
+    boolean firstTurn = true;
 
     public Match(GameType gameType) {
         pm = new PlayerManager(this);
@@ -101,7 +102,12 @@ public class Match {
             ((HumanPlayer) player).clearPowered();
         }
         int power = field.getPowerToDistribute(player.getNumber());
-        player.setPowerToDistribute(power);
+        if (firstTurn && gameType == GameType.MULTIPLAYER && pm.getNumberOfPlayers() == 2){
+            player.setPowerToDistribute(power-1);
+            firstTurn = false;
+        } else {
+            player.setPowerToDistribute(power);
+        }
         phase = Phase.DISTRIBUTE;
         System.out.println("Distribute power phase.");
         field.resetSelection();

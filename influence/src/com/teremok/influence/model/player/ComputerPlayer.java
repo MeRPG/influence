@@ -2,6 +2,8 @@ package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
+import com.teremok.influence.model.Settings;
+
 import java.util.*;
 
 /**
@@ -9,7 +11,6 @@ import java.util.*;
  */
 public class ComputerPlayer extends Player {
 
-    public final static float TURN_DELAY = .35f;
     protected Move nextMove;
     protected Random rnd = new Random();
     protected float turnTime;
@@ -38,7 +39,7 @@ public class ComputerPlayer extends Player {
     }
 
     protected void actAttackLogic(float delta) {
-        if (turnTime > TURN_DELAY) {
+        if (turnTime > Settings.speed) {
             if (nextMove == null) {
                 prepareActions();
                 if (nextMove == null) {

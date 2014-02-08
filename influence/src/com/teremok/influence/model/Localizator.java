@@ -47,8 +47,8 @@ public class Localizator {
             return;
         }
 
-        if (language.equals(LANGUAGE_ENGLISH) || language.equals(LANGUAGE_RUSSIAN)) {
-            Localizator.language = language;
+        if (language.equals(LANGUAGE_RUSSIAN)) {
+            setRussianLanguage();
         } else {
             setDefaultLanguage();
         }
@@ -81,6 +81,11 @@ public class Localizator {
         stringsRussian.put("multiplayer", "Игра с другом");
         stringsRussian.put("resume", "Продолжить");
         stringsRussian.put("pause", "Пауза");
+        stringsRussian.put("settings", "Настройки");
+        stringsRussian.put("quickGame", "Быстрая игра");
+        stringsRussian.put("chooseLanguage", "Выберите язык: ");
+        stringsRussian.put("sounds", "Звук");
+        stringsRussian.put("vibrate", "Вибрация");
 
         dictionary.put(LANGUAGE_RUSSIAN, stringsRussian);
     }
@@ -105,6 +110,11 @@ public class Localizator {
         stringsEnglish.put("multiplayer", "Play with friend");
         stringsEnglish.put("resume", "Resume");
         stringsEnglish.put("pause", "Pause");
+        stringsEnglish.put("settings", "Settings");
+        stringsEnglish.put("quickGame", "Quick play");
+        stringsEnglish.put("chooseLanguage", "Choose language: ");
+        stringsEnglish.put("sounds", "Sound");
+        stringsEnglish.put("vibrate", "Vibrate");
 
         dictionary.put(LANGUAGE_ENGLISH, stringsEnglish);
     }

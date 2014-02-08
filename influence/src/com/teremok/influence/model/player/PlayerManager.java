@@ -66,7 +66,7 @@ public class PlayerManager {
     public  void addPlayersForMultiplayer(Field field) {
         this.field = field;
         resetPlayersArray(2);
-        addPlayer(PlayerFactory.getSmarty(0, match), 0);
+        addPlayer(PlayerFactory.getHunter(0, match), 0);
         addPlayer(PlayerFactory.getHunter(1, match), 1);
         placeStartPositionsMultiplayer();
     }
