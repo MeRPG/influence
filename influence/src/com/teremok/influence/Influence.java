@@ -2,6 +2,7 @@ package com.teremok.influence;
 
 import com.badlogic.gdx.Game;
 import com.teremok.influence.model.Localizator;
+import com.teremok.influence.model.Settings;
 import com.teremok.influence.screen.StartScreen;
 
 import java.util.Locale;

@@ -12,10 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
-import com.teremok.influence.model.GameType;
-import com.teremok.influence.model.Localizator;
-import com.teremok.influence.model.Match;
-import com.teremok.influence.model.Score;
+import com.teremok.influence.model.*;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.view.AbstractDrawer;
@@ -113,6 +110,12 @@ public class GameScreen extends AbstractScreen {
                     }
                     if (keycode == Keys.L) {
                         Localizator.switchLanguage();
+                    }
+                    if (keycode == Keys.I) {
+                        Settings.load();
+                    }
+                    if (keycode == Keys.O) {
+                        Settings.save();
                     }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
 

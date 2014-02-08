@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.teremok.influence.model.Settings;
 
 public abstract class AbstractScreen implements Screen {
 
@@ -44,6 +45,7 @@ public abstract class AbstractScreen implements Screen {
     }
 
     void exitGame() {
+        Settings.save();
         Gdx.app.exit();
     }
 

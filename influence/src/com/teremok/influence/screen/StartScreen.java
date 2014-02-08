@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Localizator;
+import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ButtonTexture;
@@ -32,14 +33,17 @@ import com.teremok.influence.view.Drawer;
  */
 public class StartScreen extends AbstractScreen {
 
+    private static final String QUICK = "quickGame";
     private static final String SINGLEPLAYER = "singleplayer";
     private static final String MULTIPLAYER = "multiplayer";
+    private static final String SETTINGS = "settings";
 
     private Image background;
     private ColoredPanel overlap;
 
     public StartScreen(Game game) {
         super(game);
+        Settings.init();
     }
 
     @Override
@@ -56,6 +60,10 @@ public class StartScreen extends AbstractScreen {
         background.setAlign(Align.center);
         background.setTouchable(Touchable.disabled);
 
+        ButtonColored quick = new ButtonColored(QUICK, getFont(),
+                Drawer.getTextColor(), Drawer.getCellColorByNumber(0),
+                115f, 400f, 256f, 64f);
+
         ButtonTexture singleplayer = new ButtonTexture(SINGLEPLAYER,
                 atlas.findRegion(SINGLEPLAYER + "_" + Localizator.getLanguage()),
                         115f, 296f);
@@ -65,13 +73,19 @@ public class StartScreen extends AbstractScreen {
                 atlas.findRegion(MULTIPLAYER + "_" + Localizator.getLanguage()),
                 115f, 192f);
 
+        ButtonColored settings = new ButtonColored(SETTINGS, getFont(),
+                Drawer.getTextColor(), Drawer.getCellColorByNumber(5),
+                400f, 64f, 64f, 64f);
+
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.setTouchable(Touchable.disabled);
         overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
 
         stage.addActor(background);
+        stage.addActor(quick);
         stage.addActor(singleplayer);
         stage.addActor(multiplayer);
+        stage.addActor(settings);
         stage.addActor(overlap);
     }
 
@@ -94,10 +108,15 @@ public class StartScreen extends AbstractScreen {
                 if (! event.isHandled()) {
                     FXPlayer.playClick();
                     Button target = (Button)event.getTarget();
-                    if (target.getCode().equals(SINGLEPLAYER)) {
+                    String code = target.getCode();
+                    if (code.equals(QUICK)) {
                         startSingleplayerGame();
-                    } else {
+                    } else if (code.equals(SINGLEPLAYER)) {
+                        startSingleplayerGame();
+                    } else if (code.equals(MULTIPLAYER)){
                         startMultiplayerGame();
+                    } else if (code.equals(SETTINGS)){
+                        openSettingsScreen();
                     }
                 }
             }
@@ -145,6 +164,24 @@ public class StartScreen extends AbstractScreen {
             game.setScreen(new GameScreen(game, gameType));
             return true;
         }
+    }
+
+    public void openSettingsScreen () {
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.fadeIn(Animation.DURATION_NORMAL),
+                createSettingsAction()
+        );
+        overlap.addAction(sequenceAction);
+    }
+
+    public Action createSettingsAction() {
+        return new Action() {
+            @Override
+            public boolean act(float delta) {
+                game.setScreen(new SettingsScreen(game));
+                return false;
+            }
+        };
     }
 
     @Override
