@@ -7,17 +7,15 @@ import java.util.HashSet;
 /**
  * Created by Alexx on 08.02.14
  */
-public abstract class Checkbox extends Actor {
+public abstract class Checkbox extends Actor implements UIElement {
     String code;
     boolean checked;
 
-    HashSet<Checkbox> group;
+    UIGroup group;
 
     public void check() {
         if (group != null) {
-            for (Checkbox checkbox : group) {
-                checkbox.unCheck();
-            }
+            group.select(this);
         }
         checked = true;
     }
@@ -26,10 +24,28 @@ public abstract class Checkbox extends Actor {
         checked = false;
     }
 
-    public void addToGroup(Checkbox checkbox) {
-        if (group == null)
-            group = new HashSet<Checkbox>();
-        group.add(checkbox);
+    public void addToGroup(UIGroup uiGroup) {
+        if (group != null)
+            group.remove(this);
+        group = uiGroup;
+        group.add(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Checkbox)) return false;
+
+        Checkbox checkbox = (Checkbox) o;
+
+        if (!code.equals(checkbox.code)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return code.hashCode();
     }
 
 
@@ -47,4 +63,7 @@ public abstract class Checkbox extends Actor {
         return code;
     }
 
+    public UIGroup getGroup() {
+        return group;
+    }
 }

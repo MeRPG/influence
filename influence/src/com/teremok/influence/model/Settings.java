@@ -15,9 +15,9 @@ import java.util.Locale;
  */
 public class Settings {
 
-    private static final float FAST = 0.3f;
-    private static final float NORMAL = 0.5f;
-    private static final float SLOW = 0.7f;
+    public static final float FAST = 0.3f;
+    public static final float NORMAL = 0.5f;
+    public static final float SLOW = 0.7f;
 
     public static boolean sound;
     public static boolean vibrate;

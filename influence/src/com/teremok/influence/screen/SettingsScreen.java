@@ -30,6 +30,13 @@ public class SettingsScreen extends AbstractScreen {
     private static final String CHOOSE_LANGUAGE = "chooseLanguage";
     private static final String SOUNDS = "sounds";
     private static final String VIBRATE = "vibrate";
+    private static final String SPEED = "computerPlayerSpeed";
+    private static final String SPEED_SLOW = "slow";
+    private static final String SPEED_NORMAL = "normal";
+    private static final String SPEED_FAST = "fast";
+
+    private static final int LANGUAGE_GROUP = 1;
+    private static final int SPEED_GROUP = 2;
 
     private Image background;
     private ColoredPanel overlap;
@@ -59,7 +66,7 @@ public class SettingsScreen extends AbstractScreen {
         Checkbox sounds = new CheckboxColored(SOUNDS,
                 Drawer.getBacklightWinColor(),
                 Drawer.getBacklightLoseColor(),
-                150f, 520f, 50f, 50f);
+                150f, 510f, 50f, 50f);
         sounds.setChecked(Settings.sound);
 
         Label vibrateLabel = new Label(VIBRATE, getFont(),Drawer.getTextColor(), 120f, 484f);
@@ -67,26 +74,59 @@ public class SettingsScreen extends AbstractScreen {
         Checkbox vibrate = new CheckboxColored(VIBRATE,
                 Drawer.getBacklightWinColor(),
                 Drawer.getBacklightLoseColor(),
-                150f, 420f, 50f, 50f);
+                150f, 410f, 50f, 50f);
         vibrate.setChecked(Settings.vibrate);
 
         Label language = new Label(CHOOSE_LANGUAGE, getFont(),Drawer.getTextColor(), 120f, 384f);
 
+        RadioGroup languageGroup = new RadioGroup(LANGUAGE_GROUP);
         Checkbox russian = new CheckboxColored(Localizator.LANGUAGE_RUSSIAN,
                 Drawer.getBacklightWinColor(),
                 Drawer.getBacklightLoseColor(),
-                150f, 300f, 50f, 50f);
+                150f, 310f, 50f, 50f);
 
         Checkbox english = new CheckboxColored(Localizator.LANGUAGE_ENGLISH,
                 Drawer.getBacklightWinColor(),
                 Drawer.getBacklightLoseColor(),
-                280f, 300f, 50f, 50f);
+                280f, 310f, 50f, 50f);
 
-        russian.addToGroup(english);
-        english.addToGroup(russian);
+        russian.addToGroup(languageGroup);
+        english.addToGroup(languageGroup);
 
         if (Localizator.getLanguage().equals(Localizator.LANGUAGE_RUSSIAN)) {
             russian.check();
+        } else {
+            english.check();
+        }
+
+        Label speed = new Label(SPEED, getFont(),Drawer.getTextColor(), 120f, 284f);
+
+        RadioGroup speedGroup = new RadioGroup(SPEED_GROUP);
+        Checkbox slow = new CheckboxColored(SPEED_SLOW,
+                Drawer.getBacklightWinColor(),
+                Drawer.getBacklightLoseColor(),
+                150f, 210f, 50f, 50f);
+
+        Checkbox normal = new CheckboxColored(SPEED_NORMAL,
+                Drawer.getBacklightWinColor(),
+                Drawer.getBacklightLoseColor(),
+                280f, 210f, 50f, 50f);
+
+        Checkbox fast = new CheckboxColored(SPEED_FAST,
+                Drawer.getBacklightWinColor(),
+                Drawer.getBacklightLoseColor(),
+                215f, 210f, 50f, 50f);
+
+        slow.addToGroup(speedGroup);
+        normal.addToGroup(speedGroup);
+        fast.addToGroup(speedGroup);
+
+        if (Settings.speed == Settings.NORMAL) {
+            normal.check();
+        } else if (Settings.speed == Settings.SLOW) {
+            slow.check();
+        } else if (Settings.speed == Settings.FAST) {
+            fast.check();
         }
 
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
@@ -96,11 +136,18 @@ public class SettingsScreen extends AbstractScreen {
         //stage.addActor(background);
         stage.addActor(soundsLabel);
         stage.addActor(sounds);
+
         stage.addActor(vibrateLabel);
         stage.addActor(vibrate);
+
         stage.addActor(language);
         stage.addActor(russian);
         stage.addActor(english);
+
+        stage.addActor(speed);
+        stage.addActor(slow);
+        stage.addActor(normal);
+        stage.addActor(fast);
         stage.addActor(overlap);
     }
 
@@ -130,14 +177,29 @@ public class SettingsScreen extends AbstractScreen {
                             checkbox.check();
                         }
                         String code = checkbox.getCode();
-                        if (code.equals(VIBRATE)) {
-                            Settings.vibrate = checkbox.isChecked();
-                        } else if (code.equals(SOUNDS)) {
-                            Settings.sound = checkbox.isChecked();
-                        } else if (code.equals(Localizator.LANGUAGE_RUSSIAN)) {
-                            Localizator.setRussianLanguage();
+                        RadioGroup group = (RadioGroup)checkbox.getGroup();
+                        if (group == null) {
+                            if (code.equals(VIBRATE)) {
+                                Settings.vibrate = checkbox.isChecked();
+                            } else if (code.equals(SOUNDS)) {
+                                Settings.sound = checkbox.isChecked();
+                            }
                         } else {
-                            Localizator.setEnglishLanguage();
+                            if (group.getCode() == LANGUAGE_GROUP) {
+                                if (code.equals(Localizator.LANGUAGE_RUSSIAN)) {
+                                    Localizator.setRussianLanguage();
+                                } else {
+                                    Localizator.setEnglishLanguage();
+                                }
+                            } else {
+                                if (code.equals(SPEED_NORMAL)) {
+                                    Settings.speed = Settings.NORMAL;
+                                } else if (code.equals(SPEED_FAST)) {
+                                    Settings.speed = Settings.FAST;
+                                } else if (code.equals(SPEED_SLOW)) {
+                                    Settings.speed = Settings.SLOW;
+                                }
+                            }
                         }
                     }
                     FXPlayer.playClick();

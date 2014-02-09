@@ -86,6 +86,7 @@ public class Localizator {
         stringsRussian.put("chooseLanguage", "Выберите язык: ");
         stringsRussian.put("sounds", "Звук");
         stringsRussian.put("vibrate", "Вибрация");
+        stringsRussian.put("computerPlayerSpeed", "Скорость ходов");
 
         dictionary.put(LANGUAGE_RUSSIAN, stringsRussian);
     }
@@ -115,6 +116,7 @@ public class Localizator {
         stringsEnglish.put("chooseLanguage", "Choose language: ");
         stringsEnglish.put("sounds", "Sound");
         stringsEnglish.put("vibrate", "Vibrate");
+        stringsEnglish.put("computerPlayerSpeed", "Computer speed");
 
         dictionary.put(LANGUAGE_ENGLISH, stringsEnglish);
     }
