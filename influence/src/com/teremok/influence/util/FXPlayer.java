@@ -2,6 +2,7 @@ package com.teremok.influence.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.teremok.influence.model.Settings;
 
 import java.util.HashMap;
 
@@ -19,31 +20,31 @@ public class FXPlayer {
     static HashMap<String, Sound> sounds;
 
     public static void playClick() {
-        if (sounds != null) {
+        if (Settings.sound && sounds != null) {
             sounds.get(CLICK).play();
         }
     }
 
     public static void playWin() {
-        if (sounds != null) {
+        if (Settings.sound && sounds != null) {
             sounds.get(WIN).play();
         }
     }
 
     public static void playLose() {
-        if (sounds != null) {
+        if (Settings.sound && sounds != null) {
             sounds.get(LOSE).play();
         }
     }
 
     public static void playWinMatch() {
-        if (sounds != null) {
+        if (Settings.sound && sounds != null) {
             sounds.get(WIN_MATCH).play();
         }
     }
 
     public static void playLoseMatch() {
-        if (sounds != null) {
+        if (Settings.sound && sounds != null) {
             sounds.get(LOSE_MATCH).play();
         }
     }

@@ -122,7 +122,6 @@ public class SettingsScreen extends AbstractScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
-                    FXPlayer.playClick();
                     if (event.getTarget() instanceof Checkbox) {
                         Checkbox checkbox = (Checkbox)event.getTarget();
                         if (checkbox.isChecked()) {
@@ -141,6 +140,7 @@ public class SettingsScreen extends AbstractScreen {
                             Localizator.setEnglishLanguage();
                         }
                     }
+                    FXPlayer.playClick();
                 }
             }
 
