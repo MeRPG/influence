@@ -143,7 +143,7 @@ public class GraphGenerator {
                 Logger.append(matrix[i][j] + "\t");
                 if (matrix[i][j] == 1) ones++;
             }
-            Logger.log();
+            Logger.log("");
         }
         Logger.log("Percents: " + ((float)ones * 100 )/(count*count) + "%");
         Logger.log(" - - - ");
@@ -156,7 +156,7 @@ public class GraphGenerator {
             for (int j = 0; j < sizeY; j++) {
                 Logger.append(matrix[i][j] + "\t");
             }
-            Logger.log();
+            Logger.log("");
         }
         Logger.log(" - - - ");
 
@@ -219,7 +219,7 @@ public class GraphGenerator {
                 else
                     Logger.append(mask[i][j] + "\t");
             }
-            Logger.log();
+            Logger.log("");
         }
         Logger.log(" - - - Cycles: " + cycles);
     }

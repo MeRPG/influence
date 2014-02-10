@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.view.Animation;

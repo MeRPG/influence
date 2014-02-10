@@ -2,6 +2,7 @@ package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
+import com.teremok.influence.util.Logger;
 
 import java.util.*;
 

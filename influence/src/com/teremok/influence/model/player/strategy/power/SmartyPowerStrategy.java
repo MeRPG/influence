@@ -4,6 +4,7 @@ import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.PowerStrategy;
+import com.teremok.influence.util.Logger;
 
 import java.util.HashSet;
 import java.util.List;

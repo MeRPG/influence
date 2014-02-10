@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
+import com.teremok.influence.util.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,9 +16,9 @@ import java.util.Locale;
  */
 public class Settings {
 
-    public static final float FAST = 0.3f;
-    public static final float NORMAL = 0.5f;
-    public static final float SLOW = 0.7f;
+    public static final float FAST = 0.25f;
+    public static final float NORMAL = 0.4f;
+    public static final float SLOW = 0.6f;
 
     public static boolean sound;
     public static boolean vibrate;

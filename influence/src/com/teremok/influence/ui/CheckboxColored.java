@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.influence.util.Logger;
 
 /**
  * Created by Alexx on 08.02.14
@@ -33,7 +34,7 @@ public class CheckboxColored extends Checkbox {
         super.check();
         color = colorOn;
         setColor(color);
-        Logger.log( code + " checked!");
+        Logger.log(code + " checked!");
     }
 
     @Override
@@ -41,7 +42,7 @@ public class CheckboxColored extends Checkbox {
         super.unCheck();
         color = colorOff;
         setColor(color);
-        Logger.log( code + " unchecked!");
+        Logger.log(code + " unchecked!");
     }
 
     @Override

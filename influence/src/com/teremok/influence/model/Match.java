@@ -4,6 +4,7 @@ import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.Logger;
 
 /**
  * Created by Alexx on 07.01.14
