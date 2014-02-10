@@ -19,6 +19,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 
@@ -181,6 +182,7 @@ public class SettingsScreen extends AbstractScreen {
                         if (group == null) {
                             if (code.equals(VIBRATE)) {
                                 Settings.vibrate = checkbox.isChecked();
+                                Vibrator.bzz();
                             } else if (code.equals(SOUNDS)) {
                                 Settings.sound = checkbox.isChecked();
                             }

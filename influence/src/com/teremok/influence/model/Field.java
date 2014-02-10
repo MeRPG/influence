@@ -11,6 +11,7 @@ import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.Drawer;
 import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.view.AbstractDrawer;
@@ -173,6 +174,7 @@ public class Field extends Group {
                         if (actor instanceof Cell) {
                             Cell cell = (Cell)actor;
                             addPowerFull(cell);
+                            Vibrator.bzz();
                         }
                         return super.longPress(actor, x, y);
                     }
@@ -332,6 +334,9 @@ public class Field extends Group {
                 GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
                 FXPlayer.playLose();
             }
+            if (defence.getPower() != 0) {
+                Vibrator.bzz();
+            }
         } else {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getNumber()) {
@@ -342,6 +347,7 @@ public class Field extends Group {
                         GameScreen.colorForBorder = Drawer.getBacklightWinColor();
                         FXPlayer.playLose();
                     }
+                    Vibrator.bzz();
                     return;
                 } else {
                     if (Calculator.getDelta() > 0) {
