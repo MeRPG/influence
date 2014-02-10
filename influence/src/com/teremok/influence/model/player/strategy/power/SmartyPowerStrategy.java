@@ -31,11 +31,11 @@ public class SmartyPowerStrategy implements PowerStrategy {
                 if (cell.getPower() < cell.getMaxPower()) {
                     toBePowered.add(cell.getNumber());
                 }
-                System.out.println("--- add power to cell " + cell + ", number" + cell.getType() + ", enemies: ");
+                Logger.log("--- add power to cell " + cell + ", number" + cell.getType() + ", enemies: ");
                 for (Cell en : field.getConnectedEnemies(cell)) {
-                    System.out.println(en + ", number: " + en.getType());
+                    Logger.log(en + ", number: " + en.getType());
                 }
-                System.out.println("--- end of the enemy list");
+                Logger.log("--- end of the enemy list");
                 field.addPower(cell);
 
             }

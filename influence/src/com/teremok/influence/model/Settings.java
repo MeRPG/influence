@@ -23,13 +23,15 @@ public class Settings {
     public static boolean vibrate;
     public static float speed;
 
+    public static boolean debug;
+
     private static final String FILENAME = ".influence-settings";
 
     public static void save() {
         FileHandle handle = Gdx.files.external(FILENAME);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
-            System.out.println(handle.file().getAbsolutePath());
+            Logger.log(handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             xml.element("settings")
                     .element("sound", sound)

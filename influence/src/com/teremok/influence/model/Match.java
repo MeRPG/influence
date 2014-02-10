@@ -109,14 +109,14 @@ public class Match {
             player.setPowerToDistribute(power);
         }
         phase = Phase.DISTRIBUTE;
-        System.out.println("Distribute power phase.");
+        Logger.log("Distribute power phase.");
         field.resetSelection();
     }
 
     public void setAttackPhase() {
         pm.next();
         phase = Phase.ATTACK;
-        System.out.println("Attack phase.");
+        Logger.log("Attack phase.");
     }
 
     public boolean isInDistributePhase() {

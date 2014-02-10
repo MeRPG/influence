@@ -84,7 +84,7 @@ public class Field extends Group {
             }
 
         } while (true);
-        System.out.println("Placing player: " + target);
+        Logger.log("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
@@ -118,7 +118,7 @@ public class Field extends Group {
             }
 
         } while (true);
-        System.out.println("Placing player: " + target);
+        Logger.log("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
@@ -231,7 +231,7 @@ public class Field extends Group {
                 cell.setPower(cell.getPower() + 1);
                 pm.current().subtractPowerToDistribute();
             }  else {
-                System.out.println("Wrong add power " + cell);
+                Logger.log("Wrong add power " + cell);
             }
         }
     }
@@ -270,8 +270,8 @@ public class Field extends Group {
 
     private int fight(Cell attack, Cell defense) {
 
-        System.out.println("Attack!");
-        System.out.println(attack.getPower() + " \t->\t " + defense.getPower());
+        Logger.log("Attack!");
+        Logger.log(attack.getPower() + " \t->\t " + defense.getPower());
 
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 

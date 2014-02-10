@@ -19,7 +19,7 @@ public class LazyEnemyStrategy implements EnemyStrategy {
         int number = 0;
         int minimalPower = 0;
 
-        System.out.println("Lazy -- Cells to attack: ");
+        Logger.log("Lazy -- Cells to attack: ");
 
         int[] powers = new int[6];
 
@@ -30,7 +30,7 @@ public class LazyEnemyStrategy implements EnemyStrategy {
                 number = i;
                 minimalPower = c.getPower();
             }
-            System.out.println("Lazy -- " + i + " " + c);
+            Logger.log("Lazy -- " + i + " " + c);
             powers[i] = c.getPower();
         }
 
@@ -47,8 +47,8 @@ public class LazyEnemyStrategy implements EnemyStrategy {
             number = numbersOfMinimal[rnd.nextInt(cellsWithMinimal)];
         }
 
-        System.out.println("Lazy -- cell number to attack: " + 0);
-        System.out.println("Lazy -- cell: " + number);
+        Logger.log("Lazy -- cell number to attack: " + 0);
+        Logger.log("Lazy -- cell: " + number);
         return cells.get(number);
     }
 

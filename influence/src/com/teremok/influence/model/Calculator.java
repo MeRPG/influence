@@ -1,5 +1,7 @@
 package com.teremok.influence.model;
 
+import com.teremok.influence.util.Logger;
+
 import java.util.Random;
 
 /**
@@ -25,8 +27,8 @@ public class Calculator {
 
         calculateResults();
 
-        System.out.println(inA + "\t|\t" + inB + "\t|\t" + inN  + "\t|\t" + inM  + "\t|\t" + a  + "\t|\t" + b);
-        System.out.println(" - - - ");
+        Logger.log(inA + "\t|\t" + inB + "\t|\t" + inN + "\t|\t" + inM + "\t|\t" + a + "\t|\t" + b);
+        Logger.log(" - - - ");
     }
 
     public static int rollNDices(int number) {
@@ -46,19 +48,19 @@ public class Calculator {
         a = powerA;
         b = powerB;
 
-        System.out.println("Attack:\t" + powerA + " \t->\t " + powerB);
+        Logger.log("Attack:\t" + powerA + " \t->\t " + powerB);
 
         n = rollNDices(powerA);
         m = rollNDices(powerB);
 
-        System.out.println("Delta:\t" + n + " \t->\t " + m);
+        Logger.log("Delta:\t" + n + " \t->\t " + m);
 
         delta = n - m;
 
         calculateResults();
 
-        System.out.println("Result:\t" + a + " \t->\t " + b);
-        System.out.println("-\t-\t-\t-\t-");
+        Logger.log("Result:\t" + a + " \t->\t " + b);
+        Logger.log("-\t-\t-\t-\t-");
         return delta;
     }
 
@@ -71,7 +73,7 @@ public class Calculator {
             defenseDices++;
         }
 
-        System.out.println("Dices: " + attackDices + "\t->\t" + defenseDices);
+        Logger.log("Dices: " + attackDices + "\t->\t" + defenseDices);
 
         if (delta > 0) {
             b = a;
