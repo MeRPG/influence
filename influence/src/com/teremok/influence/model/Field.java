@@ -3,10 +3,8 @@ package com.teremok.influence.model;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -168,6 +166,17 @@ public class Field extends Group {
                         }
                     }
                 });
+
+                cell.addListener( new ActorGestureListener() {
+                    @Override
+                    public boolean longPress(Actor actor, float x, float y) {
+                        if (actor instanceof Cell) {
+                            Cell cell = (Cell)actor;
+                            addPowerFull(cell);
+                        }
+                        return super.longPress(actor, x, y);
+                    }
+                });
                 cell.setTouchable(Touchable.enabled);
 
                 this.addActor(cell);
@@ -222,6 +231,12 @@ public class Field extends Group {
             }  else {
                 System.out.println("Wrong add power " + cell);
             }
+        }
+    }
+
+    public void addPowerFull(Cell cell) {
+        while (pm.current().getPowerToDistribute() > 0 && cell.getPower() < cell.getMaxPower()) {
+            addPower(cell);
         }
     }
 
