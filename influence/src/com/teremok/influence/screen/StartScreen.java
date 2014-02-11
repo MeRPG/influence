@@ -40,6 +40,7 @@ public class StartScreen extends AbstractScreen {
 
     private Image background;
     private ColoredPanel overlap;
+    private ColoredPanel credits;
 
     public StartScreen(Game game) {
         super(game);
@@ -97,6 +98,12 @@ public class StartScreen extends AbstractScreen {
     public void show() {
         super.show();
         FXPlayer.load();
+
+        if (credits == null) {
+            credits = new ColoredPanel(new Color(0x000000FF), 0f, 0f, WIDTH, 54f);
+            stage.addActor(credits);
+        }
+
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -128,6 +135,21 @@ public class StartScreen extends AbstractScreen {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        credits.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return stage.hit(x,y,true) == credits;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                if (!event.isHandled()) {
+                    openCreditsScreen();
+                }
             }
         });
     }
@@ -179,6 +201,24 @@ public class StartScreen extends AbstractScreen {
             @Override
             public boolean act(float delta) {
                 game.setScreen(new SettingsScreen(game));
+                return false;
+            }
+        };
+    }
+
+    public void openCreditsScreen () {
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.fadeIn(Animation.DURATION_NORMAL),
+                createCreditsAction()
+        );
+        overlap.addAction(sequenceAction);
+    }
+
+    public Action createCreditsAction() {
+        return new Action() {
+            @Override
+            public boolean act(float delta) {
+                game.setScreen(new CreditsScreen(game));
                 return false;
             }
         };
