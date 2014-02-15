@@ -60,11 +60,11 @@ public class StartScreen extends AbstractScreen {
         background.setScaling(Scaling.fit);
         background.setAlign(Align.center);
         background.setTouchable(Touchable.disabled);
-
+        /*
         ButtonColored quick = new ButtonColored(QUICK, getFont(),
                 Drawer.getTextColor(), Drawer.getCellColorByNumber(0),
                 115f, 400f, 256f, 64f);
-
+        */
         ButtonTexture singleplayer = new ButtonTexture(SINGLEPLAYER,
                 atlas.findRegion(SINGLEPLAYER + "_" + Localizator.getLanguage()),
                         115f, 296f);
@@ -74,24 +74,20 @@ public class StartScreen extends AbstractScreen {
                 atlas.findRegion(MULTIPLAYER + "_" + Localizator.getLanguage()),
                 115f, 192f);
 
-        ButtonColored settings = new ButtonColored(SETTINGS, getFont(),
-                Drawer.getTextColor(), Drawer.getCellColorByNumber(5),
-                400f, 64f, 64f, 64f);
+        ButtonTexture settings = new ButtonTexture(SETTINGS,
+                atlas.findRegion(SETTINGS),
+                401f, 68f);
 
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.setTouchable(Touchable.disabled);
         overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
 
         stage.addActor(background);
-        stage.addActor(quick);
+        //stage.addActor(quick);
         stage.addActor(singleplayer);
         stage.addActor(multiplayer);
         stage.addActor(settings);
         stage.addActor(overlap);
-    }
-
-    private float getCenterX(float width) {
-        return (WIDTH - width) / 2;
     }
 
     @Override
