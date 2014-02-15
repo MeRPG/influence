@@ -86,7 +86,7 @@ public class SettingsScreen extends AbstractScreen {
             coords[0][0] = 79f;
             coords[1][0] = 720f-347f;
             coords[0][1] = 265f;
-            coords[1][1] = 720f-347f;
+            coords[1][1] = 720f-352f;
             coords[0][2] = 42f;
             coords[1][2] = 720f-490f;
             coords[0][3] = 231f;
@@ -101,7 +101,7 @@ public class SettingsScreen extends AbstractScreen {
             coords[0][0] = 79f;
             coords[1][0] = 720f-347f;
             coords[0][1] = 265f;
-            coords[1][1] = 720f-347f;
+            coords[1][1] = 720f-352f;
             coords[0][2] = 42f;
             coords[1][2] = 720f-490f;
             coords[0][3] = 231f;
