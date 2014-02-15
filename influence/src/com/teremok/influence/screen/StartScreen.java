@@ -35,6 +35,7 @@ public class StartScreen extends AbstractScreen {
     private static final String SINGLEPLAYER = "singleplayer";
     private static final String MULTIPLAYER = "multiplayer";
     private static final String SETTINGS = "settings";
+    private static final String VK_COM = "vk";
 
     private Image background;
     private ColoredPanel overlap;
@@ -76,6 +77,10 @@ public class StartScreen extends AbstractScreen {
                 atlas.findRegion(SETTINGS),
                 401f, 68f);
 
+        ButtonTexture vkcom = new ButtonTexture(VK_COM,
+                atlas.findRegion(VK_COM),
+                17f, 69f);
+
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.setTouchable(Touchable.disabled);
         overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
@@ -85,6 +90,7 @@ public class StartScreen extends AbstractScreen {
         stage.addActor(singleplayer);
         stage.addActor(multiplayer);
         stage.addActor(settings);
+        stage.addActor(vkcom);
         stage.addActor(overlap);
     }
 
@@ -118,6 +124,8 @@ public class StartScreen extends AbstractScreen {
                         startMultiplayerGame();
                     } else if (code.equals(SETTINGS)){
                         openSettingsScreen();
+                    } else if (code.equals(VK_COM)){
+                        goToVkCom();
                     }
                 }
             }
@@ -162,6 +170,11 @@ public class StartScreen extends AbstractScreen {
             createStartGameAction(GameType.SINGLEPLAYER)
         );
         overlap.addAction(sequenceAction);
+    }
+
+    public void goToVkCom()
+    {
+        Gdx.net.openURI("https:/vk.com/teremokgames");
     }
 
     private Action createStartGameAction(GameType gameType) {
