@@ -31,13 +31,13 @@ import com.teremok.influence.view.Drawer;
 /**
  * Created by Alexx on 20.12.13
  */
-public class CreditsScreen extends AbstractScreen {
+public class AboutScreen extends AbstractScreen {
 
     private Image background;
     private ColoredPanel overlap;
     private ColoredPanel credits;
 
-    public CreditsScreen(Game game) {
+    public AboutScreen(Game game) {
         super(game);
     }
 
@@ -45,11 +45,11 @@ public class CreditsScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
 
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("creditsScreen.pack"));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("aboutScreen.pack"));
         for (Texture tex : atlas.getTextures()) {
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        TextureRegion textureRegion = atlas.findRegion("background");
+        TextureRegion textureRegion = atlas.findRegion("background_" + Localizator.getLanguage());
         background = new Image(new TextureRegionDrawable(textureRegion));
         background.setScaling(Scaling.fit);
         background.setAlign(Align.center);

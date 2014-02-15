@@ -21,12 +21,10 @@ import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.Button;
-import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.view.Animation;
-import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 20.12.13
@@ -144,7 +142,7 @@ public class StartScreen extends AbstractScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (!event.isHandled()) {
-                    openCreditsScreen();
+                    openAboutScreen();
                 }
             }
         });
@@ -202,19 +200,19 @@ public class StartScreen extends AbstractScreen {
         };
     }
 
-    public void openCreditsScreen () {
+    public void openAboutScreen() {
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
-                createCreditsAction()
+                createAboutAction()
         );
         overlap.addAction(sequenceAction);
     }
 
-    public Action createCreditsAction() {
+    public Action createAboutAction() {
         return new Action() {
             @Override
             public boolean act(float delta) {
-                game.setScreen(new CreditsScreen(game));
+                game.setScreen(new AboutScreen(game));
                 return false;
             }
         };
