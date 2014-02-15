@@ -27,6 +27,10 @@ public class Drawer {
         colors.put("ORANGE", new Color(0xFFD95DFF));
         colors.put("PINK", new Color(0xED6D5AFF));
         colors.put("MAGENTA", new Color(0x9968FDFF));
+        colors.put("RED", new Color(0xFF0000FF));
+        colors.put("BLUE", new Color(0x0000FFFF));
+        colors.put("YELLOW", new Color(0xFFFF00FF));
+        colors.put("AFJIK", new Color(0x00FFFFFF));
         colors.put("GREY", new Color(0x2E2E2EFF));
         colors.put("TEXT_COLOR", Color.WHITE.cpy());
         colors.put("DIMMED_TEXT_COLOR", new Color(0x545454FF));
@@ -66,7 +70,7 @@ public class Drawer {
         return colors.get("BACKLIGHT_LOSE");
     }
 
-    public static final float UNIT_SIZE = AbstractScreen.WIDTH/10f;
+    public static float UNIT_SIZE = AbstractScreen.WIDTH/(10f * 5f);
 
     private static AbstractDrawer<Cell> cellDrawer;
     private static AbstractDrawer<Field> fieldDrawer;
@@ -122,6 +126,18 @@ public class Drawer {
                 break;
             case 4:
                 color = colors.get("MAGENTA");
+                break;
+            case 5:
+                color = colors.get("RED");
+                break;
+            case 6:
+                color = colors.get("BLUE");
+                break;
+            case 7:
+                color = colors.get("YELLOW");
+                break;
+            case 8:
+                color = colors.get("AFJIK");
                 break;
             default:
                 color = colors.get("GREY");

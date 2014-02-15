@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -30,13 +29,13 @@ public class Field extends Group {
 
     private static final String ADD_POWER_TOOLTIP = "+1";
 
-    public static final int MAX_CELLS_Y = 7;
-    public static final int MAX_CELLS_X = 5;
+    public static final int MAX_CELLS_Y = 7*5;
+    public static final int MAX_CELLS_X = 5*5;
 
-    public static final float WIDTH = Drawer.UNIT_SIZE*10f;
-    public static final float HEIGHT = Drawer.UNIT_SIZE*13f;
+    public static float WIDTH = Drawer.UNIT_SIZE*10f*5;
+    public static float HEIGHT = Drawer.UNIT_SIZE*13f*5;
 
-    private static final int CELLS_COUNT = 25;
+    private static final int CELLS_COUNT = 350;
 
     private static final int INITIAL_CELL_POWER = 2;
 
@@ -55,8 +54,8 @@ public class Field extends Group {
         float actorX = 0f;
         float actorY = AbstractScreen.HEIGHT - HEIGHT-1f;
 
-        float actorWidth = WIDTH-1f;
-        float actorHeight = HEIGHT;
+        float actorWidth = MAX_CELLS_X *Drawer.UNIT_SIZE;
+        float actorHeight = MAX_CELLS_Y * Drawer.UNIT_SIZE;
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 
@@ -146,42 +145,30 @@ public class Field extends Group {
         for (final Cell cell : cells) {
             if (cell.isValid()) {
                 cell. addListener(new InputListener() {
+
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        super.touchDown(event,x,y,pointer,button);
-                        return true;
+                        super.touchDown(event, x, y, pointer, button);
+                        return event.getType().equals(InputEvent.Type.touchDown);
                     }
 
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        if (! event.isHandled() && match.canHumanActing()) {
+                        if (!event.isHandled() && match.canHumanActing()) {
                             if (cell.getType() == pm.current().getNumber() || connectedToSelected(cell) && selectedCell.getPower() > 1)
-                            FXPlayer.playClick();
-                            Cell target = (Cell)event.getTarget();
+                                FXPlayer.playClick();
+                            Cell target = (Cell) event.getTarget();
                             if (match.isInAttackPhase()) {
                                 setSelectedCell(target);
                             } else {
-                                HumanPlayer player = (HumanPlayer)pm.current();
+                                HumanPlayer player = (HumanPlayer) pm.current();
                                 player.addPowered(target.getNumber());
                                 addPower(target);
                             }
                         }
                     }
                 });
-
-                cell.addListener( new ActorGestureListener() {
-                    @Override
-                    public boolean longPress(Actor actor, float x, float y) {
-                        if (actor instanceof Cell) {
-                            Cell cell = (Cell)actor;
-                            addPowerFull(cell);
-                            Vibrator.bzz();
-                        }
-                        return super.longPress(actor, x, y);
-                    }
-                });
-                cell.setTouchable(Touchable.enabled);
-
+                this.setTouchable(Touchable.enabled);
                 this.addActor(cell);
             }
         }
@@ -227,7 +214,7 @@ public class Field extends Group {
             int maxPower = cell.getMaxPower();
             if (newPower <= maxPower && pm.current().getPowerToDistribute() > 0) {
 
-                riseAddPowerTooltip(cell);
+                // riseAddPowerTooltip(cell);
 
                 cell.setPower(cell.getPower() + 1);
                 pm.current().subtractPowerToDistribute();
@@ -276,7 +263,7 @@ public class Field extends Group {
 
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
-        riseDiceTooltips(attack, defense);
+        // riseDiceTooltips(attack, defense);
         fastShowBacklight(attack, defense);
         setResultPower(attack, defense);
 
@@ -458,6 +445,25 @@ public class Field extends Group {
             }
         }
         return list;
+    }
+
+    public void resize() {
+        this.setWidth(getZoomedWidth());
+        this.setHeight(getZoomedHeight());
+
+        for (Cell c : cells) {
+            c.updateBounds();
+        }
+
+    }
+
+    public static float getZoomedWidth() {
+        return WIDTH * GestureController.getZoom();
+    }
+
+    public static float getZoomedHeight() {
+        return HEIGHT * GestureController.getZoom();
+
     }
 
     // Auto-generated

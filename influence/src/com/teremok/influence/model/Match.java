@@ -42,6 +42,7 @@ public class Match {
 
         score.initColoredPanels();
         pm.update();
+        field.resize();
 
         phase = Phase.ATTACK;
     }

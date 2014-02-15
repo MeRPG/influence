@@ -46,18 +46,7 @@ public class Cell extends Actor {
         this.unitsX = unitsX;
         this.unitsY = unitsY;
 
-        float actorWidth = Field.WIDTH / MAX_CELLS_X;
-        float actorHeight = Field.HEIGHT / MAX_CELLS_Y;
-
-        float actorX;
-        if (unitsX%2 == 1) {
-            actorX = unitsY * actorWidth + actorWidth / 2;
-        } else {
-            actorX = unitsY* actorWidth;
-        }
-        float actorY = unitsX * actorHeight-8f;
-
-        setBounds(actorX, actorY, actorWidth, actorHeight);
+        updateBounds();
     }
 
     public static Cell makeRandomCell(int number, int x, int y) {
@@ -110,6 +99,20 @@ public class Cell extends Actor {
         com.teremok.influence.view.Drawer.draw(this, batch, parentAlpha);
     }
 
+    public void updateBounds() {
+        float actorWidth = Field.getZoomedWidth() / MAX_CELLS_X;
+        float actorHeight = Field.getZoomedHeight() / MAX_CELLS_Y;
+
+        float actorX;
+        if (unitsX%2 == 1) {
+            actorX = unitsY * actorWidth + actorWidth / 2;
+        } else {
+            actorX = unitsY* actorWidth;
+        }
+        float actorY = unitsX * actorHeight-8f;
+
+        setBounds(actorX, actorY, actorWidth, actorHeight);
+    }
     // Auto-generated
 
     public int getType() {

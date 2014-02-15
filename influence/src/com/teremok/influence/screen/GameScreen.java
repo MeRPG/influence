@@ -88,6 +88,15 @@ public class GameScreen extends AbstractScreen {
         stage.addListener(new ClickListener() {
 
             @Override
+            public boolean scrolled(InputEvent event, float x, float y, int amount) {
+                if (! event.isHandled()) {
+                    GestureController.changeZoomBySteps(-amount);
+                    match.getField().resize();
+                }
+                return true;
+            }
+
+            @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return stage.hit(x,y,true) instanceof Score;
             }
@@ -118,6 +127,14 @@ public class GameScreen extends AbstractScreen {
                     if (keycode == Keys.O) {
                         Settings.save();
                     }
+                    if (keycode == Keys.PLUS) {
+                        GestureController.addZoom();
+                        match.getField().resize();
+                    }
+                    if (keycode == Keys.MINUS) {
+                        GestureController.subZoom();
+                        match.getField().resize();
+                    }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
 
                         if (keycode != Keys.MENU) {
@@ -142,6 +159,8 @@ public class GameScreen extends AbstractScreen {
             }
 
         });
+
+        stage.addListener(new GestureController(this));
     }
 
     void  startNewMatch() {
@@ -244,5 +263,12 @@ public class GameScreen extends AbstractScreen {
         FXPlayer.load();
         if (match.isPaused())
             pausePanel.show();
+    }
+
+    // Auto-generated
+
+
+    public Match getMatch() {
+        return match;
     }
 }

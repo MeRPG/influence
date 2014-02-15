@@ -21,6 +21,8 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         for (Cell c : current.getCells()) {
             drawCellRoutesShape(batch, c);
         }
+
+        drawBoundingBox();
     }
 
     private void drawShapeBackground(SpriteBatch batch) {
@@ -47,42 +49,10 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
                 batch.end();
                 renderer.begin(ShapeRenderer.ShapeType.Line);
-                switch (cell.getNumber() - toCell.getNumber()) {
-                    case 0:
-                        break;
-                    case -5:
-                        break;
-                    case -4:
-                        break;
-                    case -1:
-                        break;
-                    case 1:
-                        renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByNumber(cell.getType()),
-                                Drawer.getCellColorByNumber(toCell.getType())
-                        );
-                        break;
-                    case 4:
-                        renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByNumber(cell.getType()),
-                                Drawer.getCellColorByNumber(toCell.getType())
-                        );
-                        break;
-                    case 5:
-                        renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByNumber(cell.getType()),
-                                Drawer.getCellColorByNumber(toCell.getType())
-                        );
-                        break;
-                    case 6:
-                        renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByNumber(cell.getType()),
-                                Drawer.getCellColorByNumber(toCell.getType())
-                        );
-                        break;
-                    default:
-                        break;
-                }
+                renderer.line(centerX, centerY, centerXto, centerYto,
+                        Drawer.getCellColorByNumber(cell.getType()),
+                        Drawer.getCellColorByNumber(toCell.getType())
+                );
                 renderer.end();
                 batch.begin();
             }

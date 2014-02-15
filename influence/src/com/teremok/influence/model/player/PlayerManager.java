@@ -56,11 +56,15 @@ public class PlayerManager {
 
     public void addPlayersForSingleplayer(Field field) {
         this.field = field;
-        resetPlayersArray(5);
+        resetPlayersArray(8);
         addPlayer(new HumanPlayer(0, match), 0);
-        for (int i = 1; i < numberOfPlayers; i ++) {
-            addPlayer(PlayerFactory.getHunter(i, match), i);
-        }
+        addPlayer(PlayerFactory.getLazy(1, match), 1);
+        addPlayer(PlayerFactory.getSmarty(2, match), 2);
+        addPlayer(PlayerFactory.getHunter(3, match), 3);
+        addPlayer(PlayerFactory.getRandomizer(4, match), 4);
+        addPlayer(PlayerFactory.getRandomizer(5, match), 5);
+        addPlayer(PlayerFactory.getRandomizer(6, match), 6);
+        addPlayer(PlayerFactory.getRandomizer(7, match), 7);
         placeStartPositions();
     }
 
