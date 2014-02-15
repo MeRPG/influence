@@ -170,6 +170,13 @@ public class Field extends Group {
                 });
 
                 cell.addListener( new ActorGestureListener() {
+
+                    @Override
+                    public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        super.touchDown(event, x, y, pointer, button);
+                        getGestureDetector().setLongPressSeconds(0.4f);
+                    }
+
                     @Override
                     public boolean longPress(Actor actor, float x, float y) {
                         if (actor instanceof Cell) {
