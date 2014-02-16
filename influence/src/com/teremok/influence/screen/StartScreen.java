@@ -38,6 +38,7 @@ public class StartScreen extends AbstractScreen {
     private static final String MULTIPLAYER = "multiplayer";
     private static final String SETTINGS = "settings";
     private static final String VK_COM = "vk";
+    private static final String GOOGLE_PLAY = "google_play";
 
     private Image background;
     private ColoredPanel overlap;
@@ -83,6 +84,10 @@ public class StartScreen extends AbstractScreen {
                 atlas.findRegion(VK_COM),
                 17f, 69f);
 
+        ButtonTexture googleplay = new ButtonTexture(GOOGLE_PLAY,
+                atlas.findRegion(GOOGLE_PLAY),
+                84f, 69f);
+
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.setTouchable(Touchable.disabled);
         overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
@@ -93,6 +98,7 @@ public class StartScreen extends AbstractScreen {
         stage.addActor(multiplayer);
         stage.addActor(settings);
         stage.addActor(vkcom);
+        stage.addActor(googleplay);
         stage.addActor(overlap);
     }
 
@@ -128,6 +134,8 @@ public class StartScreen extends AbstractScreen {
                         openSettingsScreen();
                     } else if (code.equals(VK_COM)){
                         goToVkCom();
+                    } else if (code.equals(GOOGLE_PLAY)){
+                        goToGooglePlay();
                     }
                 }
             }
@@ -177,6 +185,14 @@ public class StartScreen extends AbstractScreen {
     public void goToVkCom()
     {
         Gdx.net.openURI("https:/vk.com/teremokgames");
+    }
+
+    public void goToGooglePlay()
+    {
+        if(Localizator.getLanguage().equals("ru"))
+            Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.teremok.influence&hl=ru");
+        else
+            Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.teremok.influence&hl=en");
     }
 
     private Action createStartGameAction(GameType gameType) {

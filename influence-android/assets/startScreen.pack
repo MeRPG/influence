@@ -52,3 +52,10 @@ vk
   orig: 47, 47
   offset: 0, 0
   index: -1
+google_play
+  rotate: false
+  xy: 71, 51
+  size: 44, 48
+  orig: 44, 48
+  offset: 0, 0
+  index: -1
