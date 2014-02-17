@@ -21,14 +21,6 @@ public abstract class Player {
         this.field = match.getField();
     }
 
-    public void setPowerToDistribute(int power) {
-        this.powerToDistribute = power;
-    }
-
-    public int getPowerToDistribute() {
-        return powerToDistribute;
-    }
-
     public void subtractPowerToDistribute() {
         if (powerToDistribute > 0)
             powerToDistribute--;
@@ -42,7 +34,19 @@ public abstract class Player {
 
     protected abstract void actLogic(float delta);
 
+    public boolean hasPowerToDistribute() {
+        return powerToDistribute > 0;
+    }
+
     // Auto-generated
+
+    public void setPowerToDistribute(int power) {
+        this.powerToDistribute = power;
+    }
+
+    public int getPowerToDistribute() {
+        return powerToDistribute;
+    }
 
     public int getNumber() {
         return number;

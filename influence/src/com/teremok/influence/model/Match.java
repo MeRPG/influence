@@ -50,13 +50,13 @@ public class Match {
         if (! paused) {
             Player currentPlayer = pm.current();
 
-            if (phase == Phase.DISTRIBUTE && currentPlayer.getPowerToDistribute() == 0) {
+            if (phase == Phase.DISTRIBUTE && ! currentPlayer.hasPowerToDistribute()) {
                 currentPlayer = pm.next();
                 phase = Phase.ATTACK;
             }
 
             if (field.getSelectedCell() == null && pm.isHumanActing()) {
-                if (isInDistributePhase()) {
+                if (isInDistributePhase() && currentPlayer.hasPowerToDistribute()) {
                     score.setStatus(Localizator.getString("touchToDistribute"));
                 } else {
                     score.setStatus(Localizator.getString("selectYourCell"));
