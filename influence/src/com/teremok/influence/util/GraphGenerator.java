@@ -1,11 +1,13 @@
 package com.teremok.influence.util;
 
 import com.teremok.influence.model.Cell;
-import static com.teremok.influence.model.Field.*;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import static com.teremok.influence.model.Field.MAX_CELLS_X;
+import static com.teremok.influence.model.Field.MAX_CELLS_Y;
 
 /**
  * Created by Alexx on 12.12.13

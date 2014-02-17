@@ -10,14 +10,14 @@ import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
-import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.Logger;
-import com.teremok.influence.util.Vibrator;
-import com.teremok.influence.view.Drawer;
-import com.teremok.influence.util.GraphGenerator;
-import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.ui.Tooltip;
 import com.teremok.influence.ui.TooltipHandler;
+import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.GraphGenerator;
+import com.teremok.influence.util.Logger;
+import com.teremok.influence.util.Vibrator;
+import com.teremok.influence.view.AbstractDrawer;
+import com.teremok.influence.view.Drawer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,7 +42,6 @@ public class Field extends Group {
 
     private int[][] graphMatrix;
     private List<Cell> cells;
-    private GraphGenerator generator;
 
     private Match match;
     private PlayerManager pm;
@@ -64,7 +63,7 @@ public class Field extends Group {
     }
 
     public void regenerate() {
-        generator = new GraphGenerator(CELLS_COUNT);
+        GraphGenerator generator = new GraphGenerator(CELLS_COUNT);
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
@@ -137,10 +136,6 @@ public class Field extends Group {
         Logger.log("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
-    }
-
-    private boolean isBetween (int number, int start, int end) {
-        return number >= start && number <= end;
     }
 
     private boolean isValidForStartPosition(Cell target) {
@@ -486,10 +481,6 @@ public class Field extends Group {
 
     public Cell getSelectedCell() {
         return selectedCell;
-    }
-
-    public int[][] getGraphMatrix() {
-        return graphMatrix;
     }
 
     public List<Cell> getCells() {return cells; }

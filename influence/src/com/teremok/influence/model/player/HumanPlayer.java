@@ -4,7 +4,8 @@ import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.util.Logger;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Alexx on 26.12.13

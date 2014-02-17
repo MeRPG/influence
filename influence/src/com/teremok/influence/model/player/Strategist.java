@@ -2,10 +2,12 @@ package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
-import com.teremok.influence.model.player.strategy.*;
+import com.teremok.influence.model.player.strategy.AttackStrategy;
+import com.teremok.influence.model.player.strategy.EnemyStrategy;
+import com.teremok.influence.model.player.strategy.PowerStrategy;
 import com.teremok.influence.model.player.strategy.attack.DummyAttackStrategy;
-import com.teremok.influence.model.player.strategy.power.DummyPowerStrategy;
 import com.teremok.influence.model.player.strategy.enemy.DummyEnemyStrategy;
+import com.teremok.influence.model.player.strategy.power.DummyPowerStrategy;
 
 import java.util.List;
 import java.util.Random;

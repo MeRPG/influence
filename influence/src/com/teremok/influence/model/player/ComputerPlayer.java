@@ -4,7 +4,8 @@ import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Settings;
 
-import java.util.*;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Alexx on 29.12.13

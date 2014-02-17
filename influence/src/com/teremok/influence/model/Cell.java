@@ -4,9 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.view.Drawer;
 
-import static com.teremok.influence.model.Field.*;
-
 import java.util.Random;
+
+import static com.teremok.influence.model.Field.MAX_CELLS_X;
+import static com.teremok.influence.model.Field.MAX_CELLS_Y;
 
 /**
  * Created by Alexx on 12.12.13
