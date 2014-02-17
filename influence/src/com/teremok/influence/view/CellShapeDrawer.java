@@ -56,4 +56,9 @@ public class CellShapeDrawer extends AbstractDrawer<Cell> {
 
         batch.begin();
     }
+
+    private void drawNumber(SpriteBatch batch) {
+        bitmapFont.setColor(Color.WHITE.cpy());
+        bitmapFont.draw(batch, current.getNumber()+"", current.getX()+Drawer.UNIT_SIZE/4, current.getY()+Drawer.UNIT_SIZE/4);
+    }
 }

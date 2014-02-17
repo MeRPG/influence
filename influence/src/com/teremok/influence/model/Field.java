@@ -91,13 +91,12 @@ public class Field extends Group {
     }
 
     public void placeStartPositionFromRange(int type, int startNumber, int endNumber) {
-
-        if (startNumber < 0 || startNumber >= cells.size()) {
+        if (startNumber < 0 || startNumber >= MAX_CELLS_Y*MAX_CELLS_X-1) {
             startNumber = 0;
         }
 
-        if (endNumber <= 0 || endNumber >= cells.size()) {
-            endNumber = cells.size() - 1;
+        if (endNumber <= 0 || endNumber >= MAX_CELLS_Y*MAX_CELLS_X-1) {
+            endNumber = MAX_CELLS_Y*MAX_CELLS_X-1;
         }
 
         if (endNumber < startNumber) {
@@ -106,15 +105,31 @@ public class Field extends Group {
             endNumber = tmp;
         }
 
+        int firstInRange = 0;
+        int range = 0;
+        for (Cell cell : cells) {
+            if (cell.getNumber() >= endNumber)
+                break;
+            if (cell.getNumber() < startNumber) {
+                firstInRange++;
+            } else {
+                range++;
+            }
+        }
+
+        Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
+
         Random rnd = new Random();
         int number;
         Cell target;
 
         do {
-            number = rnd.nextInt(cells.size());
+            number = firstInRange + rnd.nextInt(range);
             target = cells.get(number);
 
-            if (isValidForStartPosition(target) && isBetween(number, startNumber, endNumber)) {
+            Logger.log("Trying number " + number);
+
+            if (isValidForStartPosition(target)) {
                 break;
             }
 
