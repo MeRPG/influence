@@ -158,6 +158,7 @@ public class StartScreen extends AbstractScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (!event.isHandled()) {
+                    FXPlayer.playClick();
                     openAboutScreen();
                 }
             }
