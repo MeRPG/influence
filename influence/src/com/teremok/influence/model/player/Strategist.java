@@ -53,7 +53,7 @@ public class Strategist extends ComputerPlayer {
         initDummyStrategies();
         Cell cell = attackStrategy.execute(field.getCellsByType(number), field, this);
         if (cell.getPower() > 1) {
-            List<Cell> enemies = field.getConnectedEnemies(cell);
+            List<Cell> enemies = cell.getEnemiesList();
             if (! enemies.isEmpty()) {
                 Cell enemy = enemyStrategy.execute(enemies, field, this);
                 nextMove = new Move(cell, enemy);

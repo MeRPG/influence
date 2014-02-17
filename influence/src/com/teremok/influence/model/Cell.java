@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.view.Drawer;
 
-import java.util.Random;
+import java.util.*;
 
 import static com.teremok.influence.model.Field.MAX_CELLS_X;
 import static com.teremok.influence.model.Field.MAX_CELLS_Y;
@@ -32,9 +32,14 @@ public class Cell extends Actor {
     // максимальное количество секторов
     int maxPower;
 
+    Set<Cell> neighbors;
+    Set<Cell> enemies;
+
     boolean selected;
 
     private Cell() {
+        enemies = new HashSet<Cell>();
+        neighbors = new HashSet<Cell>();
     }
 
     private Cell(int number) {
@@ -109,6 +114,51 @@ public class Cell extends Actor {
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         com.teremok.influence.view.Drawer.draw(this, batch, parentAlpha);
+    }
+
+    public void addNeighbor(Cell cell) {
+        if (neighbors == null) {
+            neighbors = new HashSet<Cell>();
+        }
+        neighbors.add(cell);
+    }
+
+    public void removeNeighbor(Cell cell) {
+        if (neighbors != null) {
+            neighbors.remove(cell);
+        }
+    }
+
+    public void clearNeighbors() {
+        enemies.clear();
+    }
+
+    public List<Cell> getNeighborsList() {
+        if (neighbors != null) {
+            return new LinkedList<Cell>(neighbors);
+        } else {
+            return null;
+        }
+    }
+
+    public void addEnemy(Cell cell) {
+        enemies.add(cell);
+    }
+
+    public void removeEnemy(Cell cell) {
+        enemies.remove(cell);
+    }
+
+    public void clearEnemies() {
+        enemies.clear();
+    }
+
+    public List<Cell> getEnemiesList() {
+        return new LinkedList<Cell>(enemies);
+    }
+
+    public boolean isFree() {
+        return type == -1;
     }
 
     // Auto-generated

@@ -57,7 +57,7 @@ public class ComputerPlayer extends Player {
     protected void prepareActions() {
         for (Cell cell : field.getCells()) {
             if (cell.isValid() && cell.getType() == number && cell.getPower() > 1) {
-                List<Cell> enemies = field.getConnectedEnemies(cell);
+                List<Cell> enemies = cell.getEnemiesList();
                 if (! enemies.isEmpty()) {
                     int cellNumberToAttack = rnd.nextInt(enemies.size());
                     Cell enemy = enemies.get(cellNumberToAttack);

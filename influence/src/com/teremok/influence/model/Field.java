@@ -19,9 +19,7 @@ import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Drawer;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Alexx on 11.12.13
@@ -59,15 +57,20 @@ public class Field extends Group {
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 
-        regenerate();
+        generate();
     }
 
-    public void regenerate() {
+    private void generate() {
         GraphGenerator generator = new GraphGenerator(CELLS_COUNT);
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
         graphMatrix = generator.getMatrix();
+    }
+
+    public void regenerate() {
+        generate();
+        updateLists();
     }
 
     public void placeStartPosition(int type) {
@@ -139,7 +142,7 @@ public class Field extends Group {
     }
 
     private boolean isValidForStartPosition(Cell target) {
-        if (target.isValid() && target.getType() == -1) {
+        if (target.isValid() && target.isFree()) {
             for (Cell enemy : getConnectedEnemies(target)) {
                 if (enemy.getType() != -1){
                     return false;
@@ -227,6 +230,7 @@ public class Field extends Group {
                 if (delta > 0) {
                     cell.setType(selectedCell.getType());
                     reallySetSelected(cell);
+                    updateLists();
                 } else if (pm.isHumanActing()) {
                     match.score.setStatus(Localizator.getString("selectMoreThanOne"));
                 }
@@ -380,7 +384,7 @@ public class Field extends Group {
 
     public void riseDiceTooltips(Cell attack, Cell defense) {
 
-        if (defense.getType() == -1) {
+        if (defense.isFree()) {
             return;
         }
 
@@ -433,7 +437,7 @@ public class Field extends Group {
         super.draw(batch, parentAlpha);
     }
 
-    public List<Cell> getConnectedCells(Cell cell) {
+    private List<Cell> getConnectedCells(Cell cell) {
         List<Cell> list = new LinkedList<Cell>();
 
         for (int i = 0; i < CELLS_COUNT; i++) {
@@ -447,7 +451,7 @@ public class Field extends Group {
         return list;
     }
 
-    public List<Cell> getConnectedEnemies(Cell cell) {
+    private List<Cell> getConnectedEnemies(Cell cell) {
         List<Cell> enemies = new LinkedList<Cell>();
         for (Cell enemy : getConnectedCells(cell)) {
             if (enemy.getType() != cell.getType()) {
@@ -475,6 +479,33 @@ public class Field extends Group {
             }
         }
         return list;
+    }
+
+    public void updateLists() {
+
+        Logger.log("update lists called.");
+
+        Player[] players = pm.getPlayers();
+        if (players != null) {
+            for (Player player : players) {
+                player.clearCells();
+            }
+        }
+
+        for (Cell cell : cells) {
+            cell.clearEnemies();
+            cell.clearNeighbors();
+            for (Cell cell2 : cells) {
+                if (isCellsConnected(cell, cell2) && ( cell.getType() != cell2.getType() || cell.isFree() )) {
+                    cell.addNeighbor(cell2);
+                    cell.addEnemy(cell2);
+                }
+            }
+            if (cell.getType() != -1) {
+                pm.getPlayers()[cell.getType()].addCell(cell);
+            }
+        }
+
     }
 
     // Auto-generated

@@ -20,7 +20,7 @@ public class CellShapeDrawer extends AbstractDrawer<Cell> {
         drawCell(batch);
         if (bitmapFont != null) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(current.getPower()+"");
-            if (current.getType() == -1) {
+            if (current.isFree()) {
                 bitmapFont.setColor(Drawer.getEmptyCellTextColor());
             } else {
                 bitmapFont.setColor(Drawer.getCellTextColor());

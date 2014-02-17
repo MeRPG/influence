@@ -21,7 +21,7 @@ public class RandomAttackStrategy implements AttackStrategy {
         int size = cells.size();
         do {
             cell = cells.get(rnd.nextInt(size));
-        } while (field.getConnectedEnemies(cell).isEmpty());
+        } while (cell.getEnemiesList().isEmpty());
             return cell;
     }
 
