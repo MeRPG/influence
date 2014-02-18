@@ -52,7 +52,10 @@ public class SettingsScreen extends AbstractScreen {
         this.width = width;
         this.height = height;
 
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("settingsScreen_" + Localizator.getLanguage() +".pack"));
+        if (atlas != null) {
+            atlas.dispose();
+        }
+        atlas = new TextureAtlas(Gdx.files.internal("settingsScreen_" + Localizator.getLanguage() +".pack"));
         for (Texture tex : atlas.getTextures()) {
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }

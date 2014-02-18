@@ -79,7 +79,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     void initBacklight() {
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
         for (Texture tex : atlas.getTextures()) {
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
@@ -240,6 +240,7 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void pause() {
         super.pause();
+        pausePanel.dispose();
         Drawer.dispose();
         FXPlayer.dispose();
         pauseMatch();

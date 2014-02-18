@@ -10,6 +10,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.teremok.influence.model.Settings;
 
@@ -22,6 +23,7 @@ public abstract class AbstractScreen implements Screen {
     protected BitmapFont font;
     protected final Stage stage;
     protected SpriteBatch batch;
+    protected TextureAtlas atlas;
 
     public AbstractScreen(Game game) {
         this.game = game;
@@ -88,6 +90,7 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        if (atlas != null) atlas.dispose();
         if (font  != null) font.dispose();
     }
 }

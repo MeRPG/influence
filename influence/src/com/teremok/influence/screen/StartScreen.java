@@ -51,7 +51,7 @@ public class StartScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
 
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("startScreen.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("startScreen.pack"));
         for (Texture tex : atlas.getTextures()) {
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
