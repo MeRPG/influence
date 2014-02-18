@@ -162,7 +162,6 @@ public class Field extends Group {
 
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        super.touchDown(event, x, y, pointer, button);
                         return event.getType().equals(InputEvent.Type.touchDown);
                     }
 

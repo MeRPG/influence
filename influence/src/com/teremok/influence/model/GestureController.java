@@ -28,13 +28,6 @@ public class GestureController extends ActorGestureListener{
         getGestureDetector().setLongPressSeconds(0.5f);
     }
 
-
-    @Override
-    public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        getGestureDetector().setLongPressSeconds(0.5f);
-        super.touchDown(event, x, y, pointer, button);
-    }
-
     @Override
     public boolean longPress(Actor actor, float x, float y) {
         Actor hit =  getField().hit(x - getField().getX(),y - getField().getY(),true);
@@ -49,23 +42,19 @@ public class GestureController extends ActorGestureListener{
 
     @Override
     public void zoom(InputEvent event, float initialDistance, float distance) {
-        if (! event.isHandled()) {
-            float delta = (distance - initialDistance) /  getField().WIDTH;
-            zoom += delta;
-            getField().resize();
-            Logger.log("Zooom! delta: " + delta);
-            Logger.log("Zooom! zoom: " + zoom);
-            Logger.log("Zoomed unit size: " + Drawer.UNIT_SIZE*zoom);
-        }
+        float delta = (distance - initialDistance) /  getField().WIDTH;
+        zoom += delta;
+        getField().resize();
+        Logger.log("Zooom! delta: " + delta);
+        Logger.log("Zooom! zoom: " + zoom);
+        Logger.log("Zoomed unit size: " + Drawer.UNIT_SIZE*zoom);
     }
       
     @Override
     public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-        if (! event.isHandled()) {
-            getField().setX( getField().getX() + deltaX);
-            getField().setY( getField().getY() + deltaY);
-            Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
-        }
+        getField().setX( getField().getX() + deltaX);
+        getField().setY( getField().getY() + deltaY);
+        Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
     }
 
     public static void changeZoomBySteps(int steps) {
