@@ -1,8 +1,11 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -11,13 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.ColoredPanel;
+import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.AbstractDrawer;
-import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 
@@ -75,9 +79,12 @@ public class GameScreen extends AbstractScreen {
     }
 
     void initBacklight() {
-        Texture.setEnforcePotImages(false); // Удалить!
-        Texture texture = new Texture("backlight.png");
-        backlight = new Image(texture);
+        atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
+        for (Texture tex : atlas.getTextures()) {
+            tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+        TextureRegion textureRegion = atlas.findRegion("backlight");
+        backlight =  new Image(new TextureRegionDrawable(textureRegion));
         backlight.setScaling(Scaling.fit);
         backlight.setAlign(Align.center);
         backlight.getColor().a = 0f;
@@ -252,6 +259,7 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void pause() {
         super.pause();
+        pausePanel.dispose();
         Drawer.dispose();
         FXPlayer.dispose();
         pauseMatch();

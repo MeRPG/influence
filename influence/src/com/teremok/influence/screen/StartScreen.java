@@ -21,12 +21,10 @@ import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.Button;
-import com.teremok.influence.ui.ButtonColored;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.view.Animation;
-import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 20.12.13
@@ -37,6 +35,8 @@ public class StartScreen extends AbstractScreen {
     private static final String SINGLEPLAYER = "singleplayer";
     private static final String MULTIPLAYER = "multiplayer";
     private static final String SETTINGS = "settings";
+    private static final String VK_COM = "vk";
+    private static final String GOOGLE_PLAY = "google_play";
 
     private Image background;
     private ColoredPanel overlap;
@@ -51,7 +51,7 @@ public class StartScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
 
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("startScreen.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("startScreen.pack"));
         for (Texture tex : atlas.getTextures()) {
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
@@ -60,11 +60,11 @@ public class StartScreen extends AbstractScreen {
         background.setScaling(Scaling.fit);
         background.setAlign(Align.center);
         background.setTouchable(Touchable.disabled);
-
+        /*
         ButtonColored quick = new ButtonColored(QUICK, getFont(),
                 Drawer.getTextColor(), Drawer.getCellColorByNumber(0),
                 115f, 400f, 256f, 64f);
-
+        */
         ButtonTexture singleplayer = new ButtonTexture(SINGLEPLAYER,
                 atlas.findRegion(SINGLEPLAYER + "_" + Localizator.getLanguage()),
                         115f, 296f);
@@ -74,24 +74,30 @@ public class StartScreen extends AbstractScreen {
                 atlas.findRegion(MULTIPLAYER + "_" + Localizator.getLanguage()),
                 115f, 192f);
 
-        ButtonColored settings = new ButtonColored(SETTINGS, getFont(),
-                Drawer.getTextColor(), Drawer.getCellColorByNumber(5),
-                400f, 64f, 64f, 64f);
+        ButtonTexture settings = new ButtonTexture(SETTINGS,
+                atlas.findRegion(SETTINGS),
+                401f, 68f);
+
+        ButtonTexture vkcom = new ButtonTexture(VK_COM,
+                atlas.findRegion(VK_COM),
+                17f, 69f);
+
+        ButtonTexture googleplay = new ButtonTexture(GOOGLE_PLAY,
+                atlas.findRegion(GOOGLE_PLAY),
+                84f, 69f);
 
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.setTouchable(Touchable.disabled);
         overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
 
         stage.addActor(background);
-        stage.addActor(quick);
+        //stage.addActor(quick);
         stage.addActor(singleplayer);
         stage.addActor(multiplayer);
         stage.addActor(settings);
+        stage.addActor(vkcom);
+        stage.addActor(googleplay);
         stage.addActor(overlap);
-    }
-
-    private float getCenterX(float width) {
-        return (WIDTH - width) / 2;
     }
 
     @Override
@@ -124,6 +130,10 @@ public class StartScreen extends AbstractScreen {
                         startMultiplayerGame();
                     } else if (code.equals(SETTINGS)){
                         openSettingsScreen();
+                    } else if (code.equals(VK_COM)){
+                        goToVkCom();
+                    } else if (code.equals(GOOGLE_PLAY)){
+                        goToGooglePlay();
                     }
                 }
             }
@@ -148,7 +158,8 @@ public class StartScreen extends AbstractScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (!event.isHandled()) {
-                    openCreditsScreen();
+                    FXPlayer.playClick();
+                    openAboutScreen();
                 }
             }
         });
@@ -168,6 +179,19 @@ public class StartScreen extends AbstractScreen {
             createStartGameAction(GameType.SINGLEPLAYER)
         );
         overlap.addAction(sequenceAction);
+    }
+
+    public void goToVkCom()
+    {
+        Gdx.net.openURI("https:/vk.com/teremokgames");
+    }
+
+    public void goToGooglePlay()
+    {
+        if(Localizator.getLanguage().equals("ru"))
+            Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.teremok.influence&hl=ru");
+        else
+            Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.teremok.influence&hl=en");
     }
 
     private Action createStartGameAction(GameType gameType) {
@@ -206,19 +230,19 @@ public class StartScreen extends AbstractScreen {
         };
     }
 
-    public void openCreditsScreen () {
+    public void openAboutScreen() {
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
-                createCreditsAction()
+                createAboutAction()
         );
         overlap.addAction(sequenceAction);
     }
 
-    public Action createCreditsAction() {
+    public Action createAboutAction() {
         return new Action() {
             @Override
             public boolean act(float delta) {
-                game.setScreen(new CreditsScreen(game));
+                game.setScreen(new AboutScreen(game));
                 return false;
             }
         };

@@ -2,8 +2,6 @@ package com.teremok.influence.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import java.util.HashSet;
-
 /**
  * Created by Alexx on 08.02.14
  */

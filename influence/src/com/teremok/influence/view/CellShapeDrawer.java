@@ -24,7 +24,7 @@ public class CellShapeDrawer extends AbstractDrawer<Cell> {
         drawCell(batch);
         if (bitmapFont != null && GestureController.getZoom()*Drawer.UNIT_SIZE > MIN_SIZE_FOR_TEXT) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(current.getPower()+"");
-            if (current.getType() == -1) {
+            if (current.isFree()) {
                 bitmapFont.setColor(Drawer.getEmptyCellTextColor());
             } else {
                 bitmapFont.setColor(Drawer.getCellTextColor());
@@ -59,5 +59,10 @@ public class CellShapeDrawer extends AbstractDrawer<Cell> {
         renderer.end();
 
         batch.begin();
+    }
+
+    private void drawNumber(SpriteBatch batch) {
+        bitmapFont.setColor(Color.WHITE.cpy());
+        bitmapFont.draw(batch, current.getNumber()+"", current.getX()+Drawer.UNIT_SIZE/4, current.getY()+Drawer.UNIT_SIZE/4);
     }
 }

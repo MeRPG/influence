@@ -3,10 +3,10 @@ package com.teremok.influence.model.player;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.player.strategy.attack.BeefyAttackStrategy;
 import com.teremok.influence.model.player.strategy.attack.RandomAttackStrategy;
+import com.teremok.influence.model.player.strategy.enemy.LazyEnemyStrategy;
 import com.teremok.influence.model.player.strategy.enemy.RandomEnemyStrategy;
 import com.teremok.influence.model.player.strategy.power.RandomPowerStrategy;
 import com.teremok.influence.model.player.strategy.power.SmartyPowerStrategy;
-import com.teremok.influence.model.player.strategy.enemy.LazyEnemyStrategy;
 
 /**
  * Created by Alexx on 06.02.14

@@ -14,24 +14,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.Animation;
-import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 08.02.14
  */
 public class SettingsScreen extends AbstractScreen {
 
-    private static final String CHOOSE_LANGUAGE = "chooseLanguage";
     private static final String SOUNDS = "sounds";
     private static final String VIBRATE = "vibrate";
-    private static final String SPEED = "computerPlayerSpeed";
     private static final String SPEED_SLOW = "slow";
     private static final String SPEED_NORMAL = "normal";
     private static final String SPEED_FAST = "fast";
@@ -42,6 +38,8 @@ public class SettingsScreen extends AbstractScreen {
     private Image background;
     private ColoredPanel overlap;
 
+    int width, height;
+
     public SettingsScreen(Game game) {
         super(game);
         Settings.init();
@@ -50,8 +48,14 @@ public class SettingsScreen extends AbstractScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        /*
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("settingsScreen.pack"));
+
+        this.width = width;
+        this.height = height;
+
+        if (atlas != null) {
+            atlas.dispose();
+        }
+        atlas = new TextureAtlas(Gdx.files.internal("settingsScreen_" + Localizator.getLanguage() +".pack"));
         for (Texture tex : atlas.getTextures()) {
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
@@ -60,36 +64,81 @@ public class SettingsScreen extends AbstractScreen {
         background.setScaling(Scaling.fit);
         background.setAlign(Align.center);
         background.setTouchable(Touchable.disabled);
-        */
 
-        Label soundsLabel = new Label(SOUNDS, getFont(),Drawer.getTextColor(), 120f, 584f);
+        TextureRegion soundOn = atlas.findRegion("soundOn");
+        TextureRegion soundOff = atlas.findRegion("soundOff");
 
-        Checkbox sounds = new CheckboxColored(SOUNDS,
-                Drawer.getBacklightWinColor(),
-                Drawer.getBacklightLoseColor(),
-                150f, 510f, 50f, 50f);
+        TextureRegion vibrationOn = atlas.findRegion("vibrationOn");
+        TextureRegion vibrationOff = atlas.findRegion("vibrationOff");
+
+        TextureRegion languageEnglishOn = atlas.findRegion("languageEnglishOn");
+        TextureRegion languageEnglishOff = atlas.findRegion("languageEnglishOff");
+        TextureRegion languageRussianOn = atlas.findRegion("languageRussianOn");
+        TextureRegion languageRussianOff = atlas.findRegion("languageRussianOff");
+
+        TextureRegion speedSlowOn = atlas.findRegion("speedSlowOn");
+        TextureRegion speedSlowOff = atlas.findRegion("speedSlowOff");
+        TextureRegion speedNormalOn = atlas.findRegion("speedNormalOn");
+        TextureRegion speedNormalOff = atlas.findRegion("speedNormalOff");
+        TextureRegion speedFastOn = atlas.findRegion("speedFastOn");
+        TextureRegion speedFastOff = atlas.findRegion("speedFastOff");
+
+        float[][] coords = new float[2][7];
+
+        if (Localizator.getLanguage().equals(Localizator.LANGUAGE_RUSSIAN)) {
+            coords[0][0] = 79f;
+            coords[1][0] = 720f-347f;
+            coords[0][1] = 265f;
+            coords[1][1] = 720f-352f;
+            coords[0][2] = 42f;
+            coords[1][2] = 720f-490f;
+            coords[0][3] = 231f;
+            coords[1][3] = 720f-489f;
+            coords[0][4] = 0f;
+            coords[1][4] = 720f-629f;
+            coords[0][5] = 146f;
+            coords[1][5] = 720f-629f;
+            coords[0][6] = 312f;
+            coords[1][6] = 720f-629f;
+        } else {
+            coords[0][0] = 79f;
+            coords[1][0] = 720f-347f;
+            coords[0][1] = 265f;
+            coords[1][1] = 720f-352f;
+            coords[0][2] = 42f;
+            coords[1][2] = 720f-490f;
+            coords[0][3] = 231f;
+            coords[1][3] = 720f-489f;
+            coords[0][4] = 18f;
+            coords[1][4] = 720f-635f;
+            coords[0][5] = 140f;
+            coords[1][5] = 720f-635f;
+            coords[0][6] = 314f;
+            coords[1][6] = 720f-635f;
+        }
+
+        Checkbox sounds = new CheckboxTexture(SOUNDS,
+                soundOn,
+                soundOff,
+                coords[0][0], coords[1][0]);
         sounds.setChecked(Settings.sound);
 
-        Label vibrateLabel = new Label(VIBRATE, getFont(),Drawer.getTextColor(), 120f, 484f);
-
-        Checkbox vibrate = new CheckboxColored(VIBRATE,
-                Drawer.getBacklightWinColor(),
-                Drawer.getBacklightLoseColor(),
-                150f, 410f, 50f, 50f);
+        Checkbox vibrate = new CheckboxTexture(VIBRATE,
+                vibrationOn,
+                vibrationOff,
+                coords[0][1], coords[1][1]);
         vibrate.setChecked(Settings.vibrate);
 
-        Label language = new Label(CHOOSE_LANGUAGE, getFont(),Drawer.getTextColor(), 120f, 384f);
-
         RadioGroup languageGroup = new RadioGroup(LANGUAGE_GROUP);
-        Checkbox russian = new CheckboxColored(Localizator.LANGUAGE_RUSSIAN,
-                Drawer.getBacklightWinColor(),
-                Drawer.getBacklightLoseColor(),
-                150f, 310f, 50f, 50f);
+        Checkbox russian = new RadioTexture(Localizator.LANGUAGE_RUSSIAN,
+                languageRussianOn,
+                languageRussianOff,
+                coords[0][2], coords[1][2]);
 
-        Checkbox english = new CheckboxColored(Localizator.LANGUAGE_ENGLISH,
-                Drawer.getBacklightWinColor(),
-                Drawer.getBacklightLoseColor(),
-                280f, 310f, 50f, 50f);
+        Checkbox english = new RadioTexture(Localizator.LANGUAGE_ENGLISH,
+                languageEnglishOn,
+                languageEnglishOff,
+                coords[0][3], coords[1][3]);
 
         russian.addToGroup(languageGroup);
         english.addToGroup(languageGroup);
@@ -100,23 +149,21 @@ public class SettingsScreen extends AbstractScreen {
             english.check();
         }
 
-        Label speed = new Label(SPEED, getFont(),Drawer.getTextColor(), 120f, 284f);
-
         RadioGroup speedGroup = new RadioGroup(SPEED_GROUP);
-        Checkbox slow = new CheckboxColored(SPEED_SLOW,
-                Drawer.getBacklightWinColor(),
-                Drawer.getBacklightLoseColor(),
-                150f, 210f, 50f, 50f);
+        Checkbox slow = new RadioTexture(SPEED_SLOW,
+                speedSlowOn,
+                speedSlowOff,
+                coords[0][4], coords[1][4]);
 
-        Checkbox normal = new CheckboxColored(SPEED_NORMAL,
-                Drawer.getBacklightWinColor(),
-                Drawer.getBacklightLoseColor(),
-                280f, 210f, 50f, 50f);
+        Checkbox normal = new RadioTexture(SPEED_NORMAL,
+                speedNormalOn,
+                speedNormalOff,
+                coords[0][5], coords[1][5]);
 
-        Checkbox fast = new CheckboxColored(SPEED_FAST,
-                Drawer.getBacklightWinColor(),
-                Drawer.getBacklightLoseColor(),
-                215f, 210f, 50f, 50f);
+        Checkbox fast = new RadioTexture(SPEED_FAST,
+                speedFastOn,
+                speedFastOff,
+                coords[0][6], coords[1][6]);
 
         slow.addToGroup(speedGroup);
         normal.addToGroup(speedGroup);
@@ -134,26 +181,18 @@ public class SettingsScreen extends AbstractScreen {
         overlap.setTouchable(Touchable.disabled);
         overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
 
-        //stage.addActor(background);
-        stage.addActor(soundsLabel);
+        stage.addActor(background);
         stage.addActor(sounds);
 
-        stage.addActor(vibrateLabel);
         stage.addActor(vibrate);
 
-        stage.addActor(language);
         stage.addActor(russian);
         stage.addActor(english);
 
-        stage.addActor(speed);
         stage.addActor(slow);
         stage.addActor(normal);
         stage.addActor(fast);
         stage.addActor(overlap);
-    }
-
-    private float getCenterX(float width) {
-        return (WIDTH - width) / 2;
     }
 
     @Override
@@ -172,7 +211,9 @@ public class SettingsScreen extends AbstractScreen {
                 if (! event.isHandled()) {
                     if (event.getTarget() instanceof Checkbox) {
                         Checkbox checkbox = (Checkbox)event.getTarget();
-                        if (checkbox.isChecked()) {
+                        if (checkbox instanceof RadioColored || checkbox instanceof RadioTexture) {
+                            checkbox.check();
+                        } else if (checkbox.isChecked()) {
                             checkbox.unCheck();
                         } else {
                             checkbox.check();
@@ -193,6 +234,7 @@ public class SettingsScreen extends AbstractScreen {
                                 } else {
                                     Localizator.setEnglishLanguage();
                                 }
+                                resize(width, height);
                             } else {
                                 if (code.equals(SPEED_NORMAL)) {
                                     Settings.speed = Settings.NORMAL;

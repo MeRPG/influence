@@ -4,7 +4,8 @@ import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Settings;
 
-import java.util.*;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Alexx on 29.12.13
@@ -56,7 +57,7 @@ public class ComputerPlayer extends Player {
     protected void prepareActions() {
         for (Cell cell : field.getCells()) {
             if (cell.isValid() && cell.getType() == number && cell.getPower() > 1) {
-                List<Cell> enemies = field.getConnectedEnemies(cell);
+                List<Cell> enemies = cell.getEnemiesList();
                 if (! enemies.isEmpty()) {
                     int cellNumberToAttack = rnd.nextInt(enemies.size());
                     Cell enemy = enemies.get(cellNumberToAttack);

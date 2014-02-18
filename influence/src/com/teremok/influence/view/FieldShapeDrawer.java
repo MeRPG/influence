@@ -1,10 +1,12 @@
 package com.teremok.influence.view;
 
+import android.util.Log;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
+import com.teremok.influence.util.Logger;
 
 /**
  * Created by Alexx on 23.12.13
@@ -37,26 +39,23 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawCellRoutesShape(SpriteBatch batch, Cell cell) {
-        for (Cell toCell : current.getConnectedCells(cell)) {
-            if (toCell.isValid()) {
-
-                float centerX = cell.getX() + cell.getWidth()/2;
-                float centerY = cell.getY() + cell.getHeight()/2;
+        for (Cell toCell : cell.getNeighborsList()) {
+            float centerX = cell.getX() + cell.getWidth()/2;
+            float centerY = cell.getY() + cell.getHeight()/2;
 
 
-                float centerXto = toCell.getX() + toCell.getWidth()/2;
-                float centerYto = toCell.getY() + toCell.getHeight()/2;
+            float centerXto = toCell.getX() + toCell.getWidth()/2;
+            float centerYto = toCell.getY() + toCell.getHeight()/2;
 
-                batch.end();
-                renderer.begin(ShapeRenderer.ShapeType.Line);
-                renderer.line(centerX, centerY, centerXto, centerYto,
-                        Drawer.getCellColorByNumber(cell.getType()),
-                        Drawer.getCellColorByNumber(toCell.getType())
-                );
-                renderer.end();
-                batch.begin();
-            }
+            batch.end();
+            renderer.begin(ShapeRenderer.ShapeType.Line);
+            renderer.line(centerX, centerY, centerXto, centerYto,
+                    Drawer.getCellColorByNumber(cell.getType()),
+                    Drawer.getCellColorByNumber(toCell.getType()));
+            renderer.end();
+            batch.begin();
         }
+        Logger.log("routes : " + cell.getNeighborsList().size());
     }
 
     @Override

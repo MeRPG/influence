@@ -17,27 +17,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Localizator;
-import com.teremok.influence.model.Settings;
-import com.teremok.influence.ui.Button;
-import com.teremok.influence.ui.ButtonColored;
-import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.view.Animation;
-import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 20.12.13
  */
-public class CreditsScreen extends AbstractScreen {
+public class AboutScreen extends AbstractScreen {
 
     private Image background;
     private ColoredPanel overlap;
     private ColoredPanel credits;
 
-    public CreditsScreen(Game game) {
+    public AboutScreen(Game game) {
         super(game);
     }
 
@@ -45,11 +39,11 @@ public class CreditsScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
 
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("creditsScreen.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("aboutScreen.pack"));
         for (Texture tex : atlas.getTextures()) {
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-        TextureRegion textureRegion = atlas.findRegion("background");
+        TextureRegion textureRegion = atlas.findRegion("background_" + Localizator.getLanguage());
         background = new Image(new TextureRegionDrawable(textureRegion));
         background.setScaling(Scaling.fit);
         background.setAlign(Align.center);
@@ -95,6 +89,7 @@ public class CreditsScreen extends AbstractScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (!event.isHandled()) {
+                    FXPlayer.playClick();
                     openStartScreen();
                 }
             }

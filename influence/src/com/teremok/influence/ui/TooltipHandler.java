@@ -1,12 +1,6 @@
 package com.teremok.influence.ui;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.*;
-import com.teremok.influence.view.Animation;
-import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 27.12.13

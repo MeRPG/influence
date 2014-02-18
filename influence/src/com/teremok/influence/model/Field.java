@@ -9,18 +9,16 @@ import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
-import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.Logger;
-import com.teremok.influence.util.Vibrator;
-import com.teremok.influence.view.Drawer;
-import com.teremok.influence.util.GraphGenerator;
-import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.ui.Tooltip;
 import com.teremok.influence.ui.TooltipHandler;
+import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.GraphGenerator;
+import com.teremok.influence.util.Logger;
+import com.teremok.influence.util.Vibrator;
+import com.teremok.influence.view.AbstractDrawer;
+import com.teremok.influence.view.Drawer;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Alexx on 11.12.13
@@ -59,15 +57,20 @@ public class Field extends Group {
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 
-        regenerate();
+        generate();
     }
 
-    public void regenerate() {
-        generator = new GraphGenerator(CELLS_COUNT);
+    private void generate() {
+        GraphGenerator generator = new GraphGenerator(CELLS_COUNT);
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
         graphMatrix = generator.getMatrix();
+    }
+
+    public void regenerate() {
+        generate();
+        updateLists();
     }
 
     public void placeStartPosition(int type) {
@@ -90,13 +93,12 @@ public class Field extends Group {
     }
 
     public void placeStartPositionFromRange(int type, int startNumber, int endNumber) {
-
-        if (startNumber < 0 || startNumber >= cells.size()) {
+        if (startNumber < 0 || startNumber >= MAX_CELLS_Y*MAX_CELLS_X-1) {
             startNumber = 0;
         }
 
-        if (endNumber <= 0 || endNumber >= cells.size()) {
-            endNumber = cells.size() - 1;
+        if (endNumber <= 0 || endNumber >= MAX_CELLS_Y*MAX_CELLS_X-1) {
+            endNumber = MAX_CELLS_Y*MAX_CELLS_X-1;
         }
 
         if (endNumber < startNumber) {
@@ -105,15 +107,31 @@ public class Field extends Group {
             endNumber = tmp;
         }
 
+        int firstInRange = 0;
+        int range = 0;
+        for (Cell cell : cells) {
+            if (cell.getNumber() >= endNumber)
+                break;
+            if (cell.getNumber() < startNumber) {
+                firstInRange++;
+            } else {
+                range++;
+            }
+        }
+
+        Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
+
         Random rnd = new Random();
         int number;
         Cell target;
 
         do {
-            number = rnd.nextInt(cells.size());
+            number = firstInRange + rnd.nextInt(range);
             target = cells.get(number);
 
-            if (isValidForStartPosition(target) && isBetween(number, startNumber, endNumber)) {
+            Logger.log("Trying number " + number);
+
+            if (isValidForStartPosition(target)) {
                 break;
             }
 
@@ -123,12 +141,8 @@ public class Field extends Group {
         target.setType(type);
     }
 
-    private boolean isBetween (int number, int start, int end) {
-        return number >= start && number <= end;
-    }
-
     private boolean isValidForStartPosition(Cell target) {
-        if (target.isValid() && target.getType() == -1) {
+        if (target.isValid() && target.isFree()) {
             for (Cell enemy : getConnectedEnemies(target)) {
                 if (enemy.getType() != -1){
                     return false;
@@ -168,6 +182,7 @@ public class Field extends Group {
                         }
                     }
                 });
+
                 this.setTouchable(Touchable.enabled);
                 this.addActor(cell);
             }
@@ -197,6 +212,7 @@ public class Field extends Group {
                 if (delta > 0) {
                     cell.setType(selectedCell.getType());
                     reallySetSelected(cell);
+                    updateLists();
                 } else if (pm.isHumanActing()) {
                     match.score.setStatus(Localizator.getString("selectMoreThanOne"));
                 }
@@ -350,7 +366,7 @@ public class Field extends Group {
 
     public void riseDiceTooltips(Cell attack, Cell defense) {
 
-        if (defense.getType() == -1) {
+        if (defense.isFree()) {
             return;
         }
 
@@ -466,14 +482,37 @@ public class Field extends Group {
 
     }
 
+    public void updateLists() {
+
+        Logger.log("update lists called.");
+
+        Player[] players = pm.getPlayers();
+        if (players != null) {
+            for (Player player : players) {
+                player.clearCells();
+            }
+        }
+
+        for (Cell cell : cells) {
+            cell.clearEnemies();
+            cell.clearNeighbors();
+            for (Cell cell2 : cells) {
+                if (isCellsConnected(cell, cell2) && ( cell.getType() != cell2.getType() || cell.isFree() )) {
+                    cell.addNeighbor(cell2);
+                    cell.addEnemy(cell2);
+                }
+            }
+            if (cell.getType() != -1) {
+                pm.getPlayers()[cell.getType()].addCell(cell);
+            }
+        }
+
+    }
+
     // Auto-generated
 
     public Cell getSelectedCell() {
         return selectedCell;
-    }
-
-    public int[][] getGraphMatrix() {
-        return graphMatrix;
     }
 
     public List<Cell> getCells() {return cells; }

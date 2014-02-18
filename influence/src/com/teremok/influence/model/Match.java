@@ -1,8 +1,8 @@
 package com.teremok.influence.model;
 
 import com.teremok.influence.model.player.HumanPlayer;
-import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.Player;
+import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
 
@@ -41,6 +41,7 @@ public class Match {
         }
 
         score.initColoredPanels();
+        field.updateLists();
         pm.update();
         field.resize();
 
@@ -51,13 +52,13 @@ public class Match {
         if (! paused) {
             Player currentPlayer = pm.current();
 
-            if (phase == Phase.DISTRIBUTE && currentPlayer.getPowerToDistribute() == 0) {
+            if (phase == Phase.DISTRIBUTE && ! currentPlayer.hasPowerToDistribute()) {
                 currentPlayer = pm.next();
                 phase = Phase.ATTACK;
             }
 
             if (field.getSelectedCell() == null && pm.isHumanActing()) {
-                if (isInDistributePhase()) {
+                if (isInDistributePhase() && currentPlayer.hasPowerToDistribute()) {
                     score.setStatus(Localizator.getString("touchToDistribute"));
                 } else {
                     score.setStatus(Localizator.getString("selectYourCell"));

@@ -30,6 +30,8 @@ public class PausePanel extends Group {
     private static final String F5_CODE = "f5";
     private static final String EXIT_CODE = "exit";
 
+    TextureAtlas atlas;
+
     ButtonTexture resume;
     ButtonTexture menu;
     ButtonTexture f5;
@@ -53,13 +55,11 @@ public class PausePanel extends Group {
     }
 
     private void loadAndMakeButtons() {
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("pausePanel.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("pausePanel.pack"));
 
         for (Texture texture : atlas.getTextures()) {
             texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
-
-
 
         background = atlas.findRegion("background");
         Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );
@@ -132,6 +132,10 @@ public class PausePanel extends Group {
         clearActions();
         addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
         setTouchable(Touchable.disabled);
+    }
+
+    public void dispose() {
+        atlas.dispose();
     }
 
     private void  resume() {

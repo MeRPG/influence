@@ -65,7 +65,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawCellRoutesShape(SpriteBatch batch, Cell cell) {
-        for (Cell toCell : current.getConnectedCells(cell)) {
+        for (Cell toCell : cell.getNeighborsList()) {
             if (toCell.isValid()) {
 
                 float centerX = cell.getX() + cell.getWidth()/2;
@@ -120,7 +120,7 @@ public class FieldDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawCellRoutesTexture(Cell cell, SpriteBatch batch) {
-        for (Cell toCell : current.getConnectedCells(cell)) {
+        for (Cell toCell : cell.getNeighborsList()) {
             if (toCell.isValid()) {
                 if (cell.getType() == toCell.getType()) {
                     batch.setColor(Drawer.getCellColorByNumber(cell.getType()));
