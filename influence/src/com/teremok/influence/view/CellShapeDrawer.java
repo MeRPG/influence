@@ -44,12 +44,10 @@ public class CellShapeDrawer extends AbstractDrawer<Cell> {
 
         renderer.setColor(color);
 
-        renderer.setColor(color);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * (0.4f + current.getMaxPower()*0.03f), 6);
         renderer.end();
 
-        renderer.setColor(color);
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * (0.4f + current.getPower()*0.03f), 6);
         renderer.end();
