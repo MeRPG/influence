@@ -87,8 +87,8 @@ public class PlayerManager {
     }
 
     private void placeStartPositionsMultiplayer() {
-        field.placeStartPositionFromRange(players[0].number, 0, 9);
-        field.placeStartPositionFromRange(players[1].number, 26, 35);
+        field.placeStartPositionFromRange(players[0].number, 0, 70);
+        field.placeStartPositionFromRange(players[1].number, 300, 350);
     }
 
     public boolean isHumanActing() {

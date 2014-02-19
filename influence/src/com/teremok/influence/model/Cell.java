@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * Created by Alexx on 12.12.13
  */
-public class Cell extends Actor {
+public class Cell {
 
     static private final int POWER_BIG = 12;
     static private final int POWER_STANDARD = 8;
@@ -30,6 +30,8 @@ public class Cell extends Actor {
     int power;
     // максимальное количество секторов
     int maxPower;
+
+    float x, y;
 
     Set<Cell> neighbors;
     Set<Cell> enemies;
@@ -61,8 +63,6 @@ public class Cell extends Actor {
         cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
         cell.setPower(1 + rnd.nextInt(cell.maxPower-1));
 
-        cell.setWidth(Drawer.UNIT_SIZE*2);
-        cell.setHeight(Drawer.UNIT_SIZE*2);
         return cell;
     }
 
@@ -75,10 +75,6 @@ public class Cell extends Actor {
         Random rnd = new Random();
         cell.setType(-1);
         cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
-
-        cell.setWidth(Drawer.UNIT_SIZE*2);
-        cell.setHeight(Drawer.UNIT_SIZE*2);
-
         return cell;
     }
 
@@ -97,11 +93,6 @@ public class Cell extends Actor {
 
     public boolean isBig() {
         return maxPower == POWER_BIG;
-    }
-
-    @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        com.teremok.influence.view.Drawer.draw(this, batch, parentAlpha);
     }
 
     public void addNeighbor(Cell cell) {
@@ -150,18 +141,8 @@ public class Cell extends Actor {
     }
 
     public void updateBounds() {
-        float actorWidth = Field.getZoomedWidth() / MAX_CELLS_X;
-        float actorHeight = Field.getZoomedHeight() / MAX_CELLS_Y;
 
-        float actorX;
-        if (unitsX%2 == 1) {
-            actorX = unitsY * actorWidth + actorWidth / 2;
-        } else {
-            actorX = unitsY* actorWidth;
-        }
-        float actorY = unitsX * actorHeight-8f;
 
-        setBounds(actorX, actorY, actorWidth, actorHeight);
     }
     // Auto-generated
 
@@ -203,6 +184,22 @@ public class Cell extends Actor {
 
     public int getUnitsY() {
         return unitsY;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     public int getNumber() {

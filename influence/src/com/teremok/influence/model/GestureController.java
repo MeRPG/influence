@@ -31,11 +31,12 @@ public class GestureController extends ActorGestureListener{
     @Override
     public boolean longPress(Actor actor, float x, float y) {
         Actor hit =  getField().hit(x - getField().getX(),y - getField().getY(),true);
-        if ( hit instanceof Cell) {
+        /*if ( hit instanceof Cell) {
             Cell cell = (Cell)hit;
             getField().addPowerFull(cell);
             Vibrator.bzz();
         }
+        */
         return super.longPress(actor, x, y);
     }
 
@@ -43,7 +44,7 @@ public class GestureController extends ActorGestureListener{
     @Override
     public void zoom(InputEvent event, float initialDistance, float distance) {
         float delta = (distance - initialDistance) /  getField().WIDTH;
-        zoom += delta;
+        changeZoom(delta);
         getField().resize();
         Logger.log("Zooom! delta: " + delta);
         Logger.log("Zooom! zoom: " + zoom);

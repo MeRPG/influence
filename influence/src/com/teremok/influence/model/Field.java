@@ -16,9 +16,9 @@ import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
-import com.teremok.influence.view.Drawer;
-
 import java.util.*;
+
+import static com.teremok.influence.view.Drawer.*;
 
 /**
  * Created by Alexx on 11.12.13
@@ -27,13 +27,13 @@ public class Field extends Group {
 
     private static final String ADD_POWER_TOOLTIP = "+1";
 
-    public static final int MAX_CELLS_Y = 7*5;
-    public static final int MAX_CELLS_X = 5*5;
+    public static final int MAX_CELLS_Y = 7*2;
+    public static final int MAX_CELLS_X = 5*2;
 
-    public static float WIDTH = Drawer.UNIT_SIZE*10f*5;
-    public static float HEIGHT = Drawer.UNIT_SIZE*13f*5;
+    public static float WIDTH = UNIT_SIZE*10f*2;
+    public static float HEIGHT = UNIT_SIZE*13f*2;
 
-    private static final int CELLS_COUNT = 350;
+    private static final int CELLS_COUNT = 110;
 
     private static final int INITIAL_CELL_POWER = 2;
 
@@ -45,6 +45,9 @@ public class Field extends Group {
     private PlayerManager pm;
     private Cell selectedCell;
 
+    public static float cellWidth = UNIT_SIZE*2;
+    public static float cellHeight = UNIT_SIZE*2;
+
     public Field(Match match) {
         this.match = match;
         this.pm = match.getPm();
@@ -52,8 +55,8 @@ public class Field extends Group {
         float actorX = 0f;
         float actorY = AbstractScreen.HEIGHT - HEIGHT-1f;
 
-        float actorWidth = MAX_CELLS_X *Drawer.UNIT_SIZE;
-        float actorHeight = MAX_CELLS_Y * Drawer.UNIT_SIZE;
+        float actorWidth = MAX_CELLS_X *UNIT_SIZE;
+        float actorHeight = MAX_CELLS_Y * UNIT_SIZE;
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 
@@ -154,38 +157,72 @@ public class Field extends Group {
     }
 
     private void registerCellsForDrawing(List<Cell> cells) {
-        this.clear();
+        this.addListener(new InputListener() {
 
-        for (final Cell cell : cells) {
-            if (cell.isValid()) {
-                cell. addListener(new InputListener() {
-
-                    @Override
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        return event.getType().equals(InputEvent.Type.touchDown);
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    Cell target = hit(x,y);
+                    if (target != null) {
+                        return true;
                     }
+                    return event.getType().equals(InputEvent.Type.touchDown);
+                }
 
-                    @Override
-                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        if (!event.isHandled() && match.canHumanActing()) {
-                            if (cell.getType() == pm.current().getNumber() || connectedToSelected(cell) && selectedCell.getPower() > 1)
-                                FXPlayer.playClick();
-                            Cell target = (Cell) event.getTarget();
-                            if (match.isInAttackPhase()) {
-                                setSelectedCell(target);
-                            } else {
-                                HumanPlayer player = (HumanPlayer) pm.current();
-                                player.addPowered(target.getNumber());
-                                addPower(target);
-                            }
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    if (!event.isHandled() && match.canHumanActing()) {
+                        Cell target = hit(x, y);
+                        Logger.log("actual target: " + target);
+                        if (target == null)
+                            return;
+
+                        if (target.getType() == pm.current().getNumber() || connectedToSelected(target) && selectedCell.getPower() > 1)
+                            FXPlayer.playClick();
+                        if (match.isInAttackPhase()) {
+                            setSelectedCell(target);
+                        } else {
+                            HumanPlayer player = (HumanPlayer) pm.current();
+                            player.addPowered(target.getNumber());
+                            addPower(target);
                         }
                     }
-                });
+                }
+        });
 
-                this.setTouchable(Touchable.enabled);
-                this.addActor(cell);
+        this.setTouchable(Touchable.enabled);
+    }
+
+    private Cell hit(float x, float y) {
+
+        int unitsY = (int)(y/cellHeight);
+
+        if (unitsY%2 == 1) {
+            x -= cellWidth/2;
+        }
+
+        int unitsX = (int)(x/cellWidth);
+
+        Logger.log("hit: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
+
+        if (unitsX < 0 || unitsX > MAX_CELLS_X-1 || unitsY < 0 || unitsY > MAX_CELLS_Y-1) {
+            cells.get(0);
+        }
+
+        return getByNumber(getNum(unitsX,unitsY));
+    }
+
+    private Cell getByNumber(int number) {
+        for (Cell cell : cells) {
+            if (cell.getNumber() == number){
+                Logger.log("found by number");
+                return  cell;
             }
         }
+        return cells.get(0);
+    }
+
+    private int getNum( int i, int j) {
+        return i + j*MAX_CELLS_X;
     }
 
     private boolean connectedToSelected(Cell cell) {
@@ -330,11 +367,11 @@ public class Field extends Group {
 
             if (Calculator.getDelta() > 0) {
                 if (defence.getType() != -1) {
-                    GameScreen.colorForBorder = Drawer.getBacklightWinColor();
+                    GameScreen.colorForBorder = getBacklightWinColor();
                     FXPlayer.playWin();
                 }
             } else {
-                GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
+                GameScreen.colorForBorder = getBacklightLoseColor();
                 FXPlayer.playLose();
             }
             if (defence.getPower() != 0) {
@@ -344,10 +381,10 @@ public class Field extends Group {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getNumber()) {
                     if (Calculator.getDelta() > 0) {
-                        GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
+                        GameScreen.colorForBorder = getBacklightLoseColor();
                         FXPlayer.playWin();
                     } else {
-                        GameScreen.colorForBorder = Drawer.getBacklightWinColor();
+                        GameScreen.colorForBorder = getBacklightWinColor();
                         FXPlayer.playLose();
                     }
                     Vibrator.bzz();
@@ -405,11 +442,11 @@ public class Field extends Group {
     }
 
     private float calculateTooltipX(float cellX) {
-        return getX() + cellX + Drawer.UNIT_SIZE/2;
+        return getX() + cellX + UNIT_SIZE/2;
     }
 
     private float calculateTooltipY(float cellY) {
-        return getY() + cellY + Drawer.UNIT_SIZE/2;
+        return getY() + cellY + UNIT_SIZE/2;
     }
 
     @Override
@@ -466,8 +503,20 @@ public class Field extends Group {
         this.setWidth(getZoomedWidth());
         this.setHeight(getZoomedHeight());
 
+        cellWidth = Field.getZoomedWidth() / MAX_CELLS_X;
+        cellHeight = Field.getZoomedHeight() / MAX_CELLS_Y;
+
+        float cellX;
+        float cellY;
+
         for (Cell c : cells) {
-            c.updateBounds();
+            cellX = c.getUnitsY()*cellWidth;
+            if (c.getUnitsX()%2 == 1) {
+                cellX += cellHeight/2;
+            }
+            cellY = c.getUnitsX()*cellHeight - 8f;
+            c.setX(cellX);
+            c.setY(cellY);
         }
 
     }

@@ -10,11 +10,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.Field;
 
 /**
  * Created by Alexx on 23.12.13
  */
-public class CellDrawer extends AbstractDrawer<Cell> {
+public class CellDrawer { /*extends AbstractDrawer<Cell> {
 
     private TextureAtlas atlas;
     Array<TextureAtlas.AtlasRegion> cellSmall;
@@ -61,8 +62,8 @@ public class CellDrawer extends AbstractDrawer<Cell> {
             } else {
                 bitmapFont.setColor(Drawer.getCellTextColor());
             }
-            bitmapFont.draw(batch, current.getPower()+"", current.getX()+current.getWidth()/2 - textBounds.width/2,
-                                                            current.getY()+current.getHeight()/2 + textBounds.height/2);
+            bitmapFont.draw(batch, current.getPower()+"", current.getX()+ Field.cellWidth/2 - textBounds.width/2,
+                                                            current.getY()+Field.cellHeight/2 + textBounds.height/2);
         }
     }
 
@@ -119,5 +120,5 @@ public class CellDrawer extends AbstractDrawer<Cell> {
         renderer.end();
 
         batch.begin();
-    }
+    }*/
 }

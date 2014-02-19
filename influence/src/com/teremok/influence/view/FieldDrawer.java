@@ -68,12 +68,12 @@ public class FieldDrawer extends AbstractDrawer<Field> {
         for (Cell toCell : cell.getNeighborsList()) {
             if (toCell.isValid()) {
 
-                float centerX = cell.getX() + cell.getWidth()/2;
-                float centerY = cell.getY() + cell.getHeight()/2;
+                float centerX = cell.getX() + Field.cellWidth/2;
+                float centerY = cell.getY() + Field.cellHeight/2;
 
 
-                float centerXto = toCell.getX() + toCell.getWidth()/2;
-                float centerYto = toCell.getY() + toCell.getHeight()/2;
+                float centerXto = toCell.getX() + Field.cellWidth/2;
+                float centerYto = toCell.getY() + Field.cellHeight/2;
 
                 batch.end();
                 renderer.begin(ShapeRenderer.ShapeType.Line);
@@ -127,8 +127,8 @@ public class FieldDrawer extends AbstractDrawer<Field> {
                 } else {
                     batch.setColor(Drawer.getCellColorByNumber(-1));
                 }
-                float centerX = current.getX() + cell.getX() + cell.getWidth()/2 - 8;
-                float centerY = current.getY() + cell.getY() + cell.getHeight()/2 + 6;
+                float centerX = current.getX() + cell.getX() + Field.cellWidth/2 - 8;
+                float centerY = current.getY() + cell.getY() + Field.cellHeight/2 + 6;
 
                 float rotation;
 

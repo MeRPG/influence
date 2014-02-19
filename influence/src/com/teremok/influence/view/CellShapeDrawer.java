@@ -10,7 +10,7 @@ import com.teremok.influence.model.GestureController;
 /**
  * Created by Alexx on 23.12.13
  */
-public class CellShapeDrawer extends AbstractDrawer<Cell> {
+public class CellShapeDrawer { /*extends AbstractDrawer<Cell> {
 
     private static final float  MIN_SIZE_FOR_TEXT = 24f;
 
@@ -65,4 +65,5 @@ public class CellShapeDrawer extends AbstractDrawer<Cell> {
         bitmapFont.setColor(Color.WHITE.cpy());
         bitmapFont.draw(batch, current.getNumber()+"", current.getX()+Drawer.UNIT_SIZE/4, current.getY()+Drawer.UNIT_SIZE/4);
     }
+    */
 }

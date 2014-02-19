@@ -70,21 +70,21 @@ public class Drawer {
         return colors.get("BACKLIGHT_LOSE");
     }
 
-    public static float UNIT_SIZE = AbstractScreen.WIDTH/(10f * 5f);
+    public static float UNIT_SIZE = AbstractScreen.WIDTH/(10f * 2f);
 
-    private static AbstractDrawer<Cell> cellDrawer;
+    // private static AbstractDrawer<Cell> cellDrawer;
     private static AbstractDrawer<Field> fieldDrawer;
     private static ScoreDrawer scoreDrawer;
 
     public static void draw(Actor actor, SpriteBatch batch, float parentAlpha) {
-
+         /*
         if (actor instanceof Cell) {
             if (cellDrawer == null)
                 cellDrawer = new CellShapeDrawer();
             cellDrawer.draw((Cell)actor, batch, parentAlpha);
             return;
         }
-
+        */
         if (actor instanceof Field) {
             if (fieldDrawer == null)
                 fieldDrawer = new FieldShapeDrawer();
@@ -102,7 +102,7 @@ public class Drawer {
     public static void dispose() {
         scoreDrawer = null;
         fieldDrawer = null;
-        cellDrawer = null;
+        //cellDrawer = null;
     }
 
     public static Color getPlayerColor(Player player) {
