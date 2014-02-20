@@ -20,18 +20,20 @@ import java.util.TreeSet;
  */
 public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
-    private static final float  MIN_SIZE_FOR_TEXT = 24f;
+    private static final float  MIN_SIZE_FOR_TEXT = 30f;
 
     Set<Integer> routerDraw;
     int counter = 0;
     int allCounter = 0;
+    float zoomedUnitSize;
 
     @Override
     public void draw (Field field, SpriteBatch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
-        batch.setColor(Color.WHITE);
+        batch.end();
+        zoomedUnitSize = Drawer.UNIT_SIZE * GestureController.getZoom();
 
-        drawShapeBackground(batch);
+        drawShapeBackground();
 
         counter = 0;
         allCounter = 0;
@@ -41,28 +43,33 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
             routerDraw.clear();
         }
 
-        // draw Routes
         renderer.begin(ShapeRenderer.ShapeType.Line);
+        // draw Routes
         for (Cell c : current.getCells()) {
-            drawCellRoutesShape(batch, c);
+            drawCellRoutesShape(c);
         }
-    }
 
-    private void drawShapeBackground(SpriteBatch batch) {
-        batch.end();
+        // draw Empty
+        for (Cell c : current.getCells()) {
+            drawEmpty(c);
+        }
+        renderer.end();
+
+        // draw Solids
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         for (Cell c : current.getCells()) {
             drawSolid(c);
         }
         renderer.end();
 
-        Logger.log("routes: " + counter + "(" + allCounter + ")");
+        //Logger.log("routes: " + counter + "(" + allCounter + ")");
 
         batch.begin();
-        for (Cell c : current.getCells()) {
-            drawText(batch, c);
+        if (zoomedUnitSize > MIN_SIZE_FOR_TEXT) {
+            for (Cell c : current.getCells()) {
+                drawText(batch, c);
+            }
         }
-
     }
 
     private void drawShapeBackground() {
@@ -74,12 +81,12 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
     private void drawSolid(Cell cell) {
         renderer.setColor(getColor(cell));
-        renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, Drawer.UNIT_SIZE * (0.4f + cell.getPower()*0.03f), 6);
+        renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getPower()*0.03f), 6);
     }
 
     private void drawEmpty(Cell cell) {
         renderer.setColor(getColor(cell));
-        renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, Drawer.UNIT_SIZE * (0.4f + cell.getMaxPower()*0.03f), 6);
+        renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getMaxPower()*0.03f), 6);
     }
 
     private void drawText(SpriteBatch batch, Cell cell) {
@@ -117,10 +124,8 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
             if (! routerDraw.contains(code)) {
                 routerDraw.add(code);
-                Logger.log("add code" + code);
                 code = toCell.getNumber() * 1000 + cell.getNumber();
                 routerDraw.add(code);
-                Logger.log("add code" + code);
 
                 renderer.line(centerX, centerY, centerXto, centerYto,
                         Drawer.getCellColorByNumber(cell.getType()),
