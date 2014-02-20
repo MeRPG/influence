@@ -16,7 +16,7 @@ public class GestureController extends ActorGestureListener{
 
     private static final float ZOOM_DEFAULT = 1.0f;
     private static final float ZOOM_STEP = 0.1f;
-    private static final float ZOOM_MIN = 0.2f;
+    private static final float ZOOM_MIN = 1.0f;
     private static final float ZOOM_MAX = 5.0f;
 
     private GameScreen screen;
@@ -30,13 +30,12 @@ public class GestureController extends ActorGestureListener{
 
     @Override
     public boolean longPress(Actor actor, float x, float y) {
-        Actor hit =  getField().hit(x - getField().getX(),y - getField().getY(),true);
-        /*if ( hit instanceof Cell) {
-            Cell cell = (Cell)hit;
-            getField().addPowerFull(cell);
+        Cell hit =  getField().hit(x - getField().getX(),y - getField().getY());
+        if (hit != null) {
+            getField().addPowerFull(hit);
             Vibrator.bzz();
         }
-        */
+
         return super.longPress(actor, x, y);
     }
 
@@ -53,9 +52,8 @@ public class GestureController extends ActorGestureListener{
       
     @Override
     public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-        getField().setX( getField().getX() + deltaX);
-        getField().setY( getField().getY() + deltaY);
-        Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
+        getField().moveBy(deltaX, deltaY);
+        //Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
     }
 
     public static void changeZoomBySteps(int steps) {
@@ -72,19 +70,19 @@ public class GestureController extends ActorGestureListener{
     }
 
     public static void changeZoom(float delta) {
-       if (delta > 0) {
+        if (delta > 0) {
            if (zoom + delta > ZOOM_MAX) {
                zoom = ZOOM_MAX;
            } else {
                zoom += delta;
            }
-       } else {
+        } else {
            if (zoom + delta < ZOOM_MIN) {
                zoom = ZOOM_MIN;
            } else {
                zoom += delta;
            }
-       }
+        }
         Logger.log("change zoom: " + zoom);
     }
 

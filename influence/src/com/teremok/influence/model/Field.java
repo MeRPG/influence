@@ -50,17 +50,22 @@ public class Field extends Group {
     public static float cellWidth = UNIT_SIZE*2;
     public static float cellHeight = UNIT_SIZE*2;
 
+    private float initialX;
+    private float initialY;
+    private float initialWidth;
+    private float initialHeight;
+
     public Field(Match match) {
         this.match = match;
         this.pm = match.getPm();
 
-        float actorX = 0f;
-        float actorY = AbstractScreen.HEIGHT - HEIGHT-1f;
+        initialX = 0f;
+        initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
 
-        float actorWidth = MAX_CELLS_X *UNIT_SIZE;
-        float actorHeight = MAX_CELLS_Y * UNIT_SIZE;
+        initialWidth = WIDTH;
+        initialHeight = HEIGHT;
 
-        setBounds(actorX, actorY, actorWidth, actorHeight);
+        setBounds(initialX, initialY, initialWidth, initialHeight);
 
         generate();
     }
@@ -194,7 +199,7 @@ public class Field extends Group {
         this.setTouchable(Touchable.enabled);
     }
 
-    private Cell hit(float x, float y) {
+    public Cell hit(float x, float y) {
 
         int unitsY = (int)(y/cellHeight);
 
@@ -501,6 +506,34 @@ public class Field extends Group {
         return list;
     }
 
+    public void moveBy(float deltaX, float deltaY) {
+        float newX = getX() + deltaX;
+        float newY = getY() + deltaY;
+
+        Logger.log("move: " + newX + "; " + newY);
+
+        if (newX > initialX)
+            newX = initialX;
+        if (newY > initialY)
+            newY = initialY;
+
+        float minX = initialX - (getZoomedWidth() - initialWidth);
+        float minY = initialY - (getZoomedHeight() - initialHeight);
+
+        Logger.log("zoomed: " + getZoomedWidth() + "; " + getZoomedHeight());
+        Logger.log("minimal: " + minX + "; " + minY);
+
+        if (newX < minX)
+            newX = minX;
+        if (newY < minY)
+            newY = minY;
+
+        this.setX(newX);
+        this.setY(newY);
+
+        Logger.log("actual move: " + newX + "; " + newY);
+    }
+
     public void resize() {
         this.setWidth(getZoomedWidth());
         this.setHeight(getZoomedHeight());
@@ -520,6 +553,8 @@ public class Field extends Group {
             c.setX(cellX);
             c.setY(cellY);
         }
+
+        moveBy(0,0);
 
     }
 
