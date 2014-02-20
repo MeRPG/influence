@@ -137,6 +137,7 @@ public class PausePanel extends Group {
     public void dispose() {
         if (atlas != null)
             atlas.dispose();
+        loaded = false;
     }
 
     private void  resume() {

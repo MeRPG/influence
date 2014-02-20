@@ -21,6 +21,7 @@ public class CellShapeDrawer { /*extends AbstractDrawer<Cell> {
     @Override
     public void draw(Cell cell, SpriteBatch batch, float parentAlpha) {
         super.draw(cell, batch, parentAlpha);
+        /*
         drawCell(batch);
         if (bitmapFont != null && GestureController.getZoom()*Drawer.UNIT_SIZE > MIN_SIZE_FOR_TEXT) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(current.getPower()+"");
@@ -32,6 +33,7 @@ public class CellShapeDrawer { /*extends AbstractDrawer<Cell> {
             bitmapFont.draw(batch, current.getPower()+"", current.getX()+current.getWidth()/2 - textBounds.width/2,
                     current.getY()+current.getHeight()/2 + textBounds.height/2);
         }
+        */
     }
 
     private void drawCell(SpriteBatch batch) {
@@ -48,12 +50,10 @@ public class CellShapeDrawer { /*extends AbstractDrawer<Cell> {
 
         renderer.setColor(color);
 
-        renderer.setColor(color);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         renderer.circle(centerX, centerY, Drawer.UNIT_SIZE* GestureController.getZoom() * (0.4f + current.getMaxPower()*0.03f), 6);
         renderer.end();
 
-        renderer.setColor(color);
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.circle(centerX, centerY, Drawer.UNIT_SIZE * GestureController.getZoom() * (0.4f + current.getPower()*0.03f), 6);
         renderer.end();

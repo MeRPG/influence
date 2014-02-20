@@ -32,6 +32,14 @@ public class Drawer {
         colors.put("YELLOW", new Color(0xFFFF00FF));
         colors.put("AFJIK", new Color(0x00FFFFFF));
         colors.put("GREY", new Color(0x2E2E2EFF));
+
+        colors.put("CYAN_SELECTED", new Color(0x35B7DEFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("GREEN_SELECTED", new Color(0x02D47EFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("ORANGE_SELECTED", new Color(0xFFD95DFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("PINK_SELECTED", new Color(0xED6D5AFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("MAGENTA_SELECTED", new Color(0x9968FDFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("GREY_SELECTED", new Color(0x2E2E2EFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+
         colors.put("TEXT_COLOR", Color.WHITE.cpy());
         colors.put("DIMMED_TEXT_COLOR", new Color(0x545454FF));
         colors.put("CELL_TEXT_COLOR", Color.BLACK.cpy());
@@ -141,6 +149,31 @@ public class Drawer {
                 break;
             default:
                 color = colors.get("GREY");
+                break;
+        }
+        return color;
+    }
+
+    public static Color getCellSelectedColorByNumber(int number) {
+        Color color;
+        switch (number) {
+            case 0:
+                color = colors.get("CYAN_SELECTED");
+                break;
+            case 1:
+                color = colors.get("GREEN_SELECTED");
+                break;
+            case 2:
+                color = colors.get("ORANGE_SELECTED");
+                break;
+            case 3:
+                color = colors.get("PINK_SELECTED");
+                break;
+            case 4:
+                color = colors.get("MAGENTA_SELECTED");
+                break;
+            default:
+                color = colors.get("GREY_SELECTED");
                 break;
         }
         return color;
