@@ -33,14 +33,14 @@ public class Cell {
 
     float x, y;
 
-    Set<Cell> neighbors;
-    Set<Cell> enemies;
+    List<Cell> neighbors;
+    List<Cell> enemies;
 
     boolean selected;
 
     private Cell() {
-        enemies = new HashSet<Cell>();
-        neighbors = new HashSet<Cell>();
+        enemies = new LinkedList<Cell>();
+        neighbors = new LinkedList<Cell>();
     }
 
     private Cell(int number) {
@@ -96,9 +96,6 @@ public class Cell {
     }
 
     public void addNeighbor(Cell cell) {
-        if (neighbors == null) {
-            neighbors = new HashSet<Cell>();
-        }
         neighbors.add(cell);
     }
 
@@ -112,14 +109,6 @@ public class Cell {
         enemies.clear();
     }
 
-    public List<Cell> getNeighborsList() {
-        if (neighbors != null) {
-            return new LinkedList<Cell>(neighbors);
-        } else {
-            return null;
-        }
-    }
-
     public void addEnemy(Cell cell) {
         enemies.add(cell);
     }
@@ -130,10 +119,6 @@ public class Cell {
 
     public void clearEnemies() {
         enemies.clear();
-    }
-
-    public List<Cell> getEnemiesList() {
-        return new LinkedList<Cell>(enemies);
     }
 
     public boolean isFree() {
@@ -206,11 +191,11 @@ public class Cell {
         return number;
     }
 
-    public Set<Cell> getNeighbors() {
+    public List<Cell> getNeighbors() {
         return neighbors;
     }
 
-    public Set<Cell> getEnemies() {
+    public List<Cell> getEnemies() {
         return enemies;
     }
 

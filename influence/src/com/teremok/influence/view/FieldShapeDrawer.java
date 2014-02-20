@@ -113,19 +113,20 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawCellRoutesShape(Cell cell) {
-        for (Cell toCell : cell.getNeighborsList()) {
-            float centerX = cell.getX() + Field.cellWidth/2;
-            float centerY = cell.getY() + Field.cellHeight/2;
-
-            float centerXto = toCell.getX() + Field.cellWidth/2;
-            float centerYto = toCell.getY() + Field.cellHeight/2;
-
+        for (Cell toCell : cell.getNeighbors()) {
             Integer code = cell.getNumber() * 1000 + toCell.getNumber();
 
             if (! routerDraw.contains(code)) {
+
                 routerDraw.add(code);
                 code = toCell.getNumber() * 1000 + cell.getNumber();
                 routerDraw.add(code);
+
+                float centerX = cell.getX() + Field.cellWidth/2;
+                float centerY = cell.getY() + Field.cellHeight/2;
+
+                float centerXto = toCell.getX() + Field.cellWidth/2;
+                float centerYto = toCell.getY() + Field.cellHeight/2;
 
                 renderer.line(centerX, centerY, centerXto, centerYto,
                         Drawer.getCellColorByNumber(cell.getType()),

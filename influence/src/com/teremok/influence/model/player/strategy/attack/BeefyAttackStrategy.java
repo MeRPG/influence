@@ -28,9 +28,9 @@ public class BeefyAttackStrategy implements AttackStrategy {
                 end = false;
             if (cell.getType()!= type)
                 end = false;
-            if (cell.getEnemiesList().isEmpty())
+            if (cell.getEnemies().isEmpty())
                 end = false;
-            if (field.getCellsByType(type).size() == 25)
+            if (player.getCells().size() == Field.CELLS_COUNT)
                 end = true;
         }
 
@@ -38,7 +38,7 @@ public class BeefyAttackStrategy implements AttackStrategy {
 
         for (Cell cell2 : cells) {
             if (cell2.isValid() && cell2.getType() == type) {
-                if (cell2.getPower() > maxPower && ! cell2.getEnemiesList().isEmpty()) {
+                if (cell2.getPower() > maxPower && ! cell2.getEnemies().isEmpty()) {
                     cell = cell2;
                     maxPower = cell2.getPower();
                 }

@@ -20,13 +20,13 @@ public abstract class Player {
     protected Match match;
     protected Field field;
     protected PlayerType type;
-    protected Set<Cell> cells;
+    protected List<Cell> cells;
 
     protected Player(int number, Match match) {
         this.number = number;
         this.match = match;
         this.field = match.getField();
-        cells = new HashSet<Cell>();
+        cells = new LinkedList<Cell>();
     }
 
     public void subtractPowerToDistribute() {
@@ -58,14 +58,6 @@ public abstract class Player {
         cells.clear();
     }
 
-    public List<Cell> getCellsList() {
-        if (cells != null) {
-            return new LinkedList<Cell>(cells);
-        } else {
-            return null;
-        }
-    }
-
     // Auto-generated
 
     public void setPowerToDistribute(int power) {
@@ -88,6 +80,10 @@ public abstract class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public List<Cell> getCells() {
+        return cells;
     }
 
     public void setField(Field field) {

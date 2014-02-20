@@ -35,7 +35,7 @@ public class Field extends Group {
     public static float WIDTH = UNIT_SIZE*10f*SIZE_MULTIPLIER;
     public static float HEIGHT = UNIT_SIZE*13f*SIZE_MULTIPLIER;
 
-    private static final int CELLS_COUNT = 350;
+    public static final int CELLS_COUNT = 350;
 
     private static final int INITIAL_CELL_POWER = 2;
 
@@ -347,9 +347,6 @@ public class Field extends Group {
         if (from.getNumber() == to.getNumber())
             return false;
 
-        if (! (from.isValid() && to.isValid()))
-            return false;
-
         return matrix[from.getNumber()][to.getNumber()] == 1 || matrix[to.getNumber()][from.getNumber()] == 1;
 
     }
@@ -496,7 +493,7 @@ public class Field extends Group {
         }
         return score;
     }
-
+    /*
     public List<Cell> getCellsByType(int type) {
         List<Cell> list = new LinkedList<Cell>();
         for (Cell cell : cells) {
@@ -506,6 +503,7 @@ public class Field extends Group {
         }
         return list;
     }
+    */
 
     public void moveBy(float deltaX, float deltaY) {
         float newX = getX() + deltaX;

@@ -23,7 +23,7 @@ public class DummyAttackStrategy implements AttackStrategy {
         }
         int last = i;
         Cell cell = cells.get(i);
-        if (cell.getPower() == 1 || cell.getEnemiesList().isEmpty()){
+        if (cell.getPower() == 1 || cell.getEnemies().isEmpty()){
             do {
                 i++;
                 if (i >= size)
@@ -31,7 +31,7 @@ public class DummyAttackStrategy implements AttackStrategy {
                 if (i == last)
                     break;
                 cell = cells.get(i);
-            } while (cell.getPower()==1 || cell.getEnemiesList().isEmpty());
+            } while (cell.getPower()==1 || cell.getEnemies().isEmpty());
         }
         //Logger.log("attacker: " + i);
         return cell;
