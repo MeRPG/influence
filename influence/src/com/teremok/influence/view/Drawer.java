@@ -17,6 +17,7 @@ import java.util.Map;
  */
 
 public class Drawer {
+    public static final float  MIN_SIZE_FOR_TEXT = 30f;
 
     private static Map<String, Color> colors;
 

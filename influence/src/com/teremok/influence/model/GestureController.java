@@ -19,6 +19,8 @@ public class GestureController extends ActorGestureListener{
     private static final float ZOOM_MIN = 1.0f;
     private static final float ZOOM_MAX = 5.0f;
 
+    private static boolean acting;
+
     private GameScreen screen;
     private static float zoom;
 
@@ -42,9 +44,10 @@ public class GestureController extends ActorGestureListener{
 
     @Override
     public void zoom(InputEvent event, float initialDistance, float distance) {
-        float delta = (distance - initialDistance) /  getField().WIDTH;
+        float delta = (distance - initialDistance) /  (getField().WIDTH * 4);
         changeZoom(delta);
         getField().resize();
+        acting = true;
         //Logger.log("Zooom! delta: " + delta);
         //Logger.log("Zooom! zoom: " + zoom);
         //Logger.log("Zoomed unit size: " + Drawer.UNIT_SIZE*zoom);
@@ -53,7 +56,21 @@ public class GestureController extends ActorGestureListener{
     @Override
     public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
         getField().moveBy(deltaX, deltaY);
+        acting = true;
         ////Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
+    }
+
+    @Override
+    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+        super.touchUp(event, x, y, pointer, button);
+        acting = false;
+        Logger.log("GestureController - touchUp ");
+    }
+
+    @Override
+    public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        super.touchDown(event, x, y, pointer, button);
+        Logger.log("GestureController - touchDown ");
     }
 
     public static void changeZoomBySteps(int steps) {
@@ -92,6 +109,9 @@ public class GestureController extends ActorGestureListener{
 
     // Auto-generated
 
+    public static boolean isActing() {
+        return acting;
+    }
 
     public static float getZoom() {
         return zoom;

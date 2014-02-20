@@ -11,16 +11,14 @@ import com.teremok.influence.model.GestureController;
 import com.teremok.influence.util.Logger;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
+
+import static com.teremok.influence.view.Drawer.*;
 
 /**
  * Created by Alexx on 23.12.13
  */
 public class FieldShapeDrawer extends AbstractDrawer<Field> {
-
-    private static final float  MIN_SIZE_FOR_TEXT = 30f;
 
     Set<Integer> routerDraw;
     int counter = 0;

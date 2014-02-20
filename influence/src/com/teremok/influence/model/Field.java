@@ -1,5 +1,6 @@
 package com.teremok.influence.model;
 
+import android.view.GestureDetector;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,8 @@ import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
+import com.teremok.influence.view.Drawer;
+
 import java.util.*;
 
 import static com.teremok.influence.view.Drawer.*;
@@ -27,7 +30,7 @@ public class Field extends Group {
 
     private static final String ADD_POWER_TOOLTIP = "+1";
 
-    public static final int SIZE_MULTIPLIER = 5;
+    public static final int SIZE_MULTIPLIER = 2;
 
     public static final int MAX_CELLS_Y = 7*SIZE_MULTIPLIER;
     public static final int MAX_CELLS_X = 5*SIZE_MULTIPLIER;
@@ -35,7 +38,7 @@ public class Field extends Group {
     public static float WIDTH = UNIT_SIZE*10f*SIZE_MULTIPLIER;
     public static float HEIGHT = UNIT_SIZE*13f*SIZE_MULTIPLIER;
 
-    public static final int CELLS_COUNT = 350;
+    public static final int CELLS_COUNT = 80;
 
     private static final int INITIAL_CELL_POWER = 2;
 
@@ -172,12 +175,13 @@ public class Field extends Group {
                     if (target != null) {
                         return true;
                     }
+                    Logger.log("Field - touchDown");
                     return event.getType().equals(InputEvent.Type.touchDown);
                 }
 
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    if (!event.isHandled() && match.canHumanActing()) {
+                    if (!event.isHandled() && ! GestureController.isActing() && match.canHumanActing()) {
                         Cell target = hit(x, y);
                         //Logger.log("actual target: " + target);
                         if (target == null)
@@ -192,6 +196,7 @@ public class Field extends Group {
                             player.addPowered(target.getNumber());
                             addPower(target);
                         }
+                        Logger.log("Field - touchUp ");
                     }
                 }
         });
@@ -273,7 +278,7 @@ public class Field extends Group {
             int maxPower = cell.getMaxPower();
             if (newPower <= maxPower && pm.current().getPowerToDistribute() > 0) {
 
-                // riseAddPowerTooltip(cell);
+                riseAddPowerTooltip(cell);
 
                 cell.setPower(cell.getPower() + 1);
                 pm.current().subtractPowerToDistribute();
@@ -322,7 +327,7 @@ public class Field extends Group {
 
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
-        // riseDiceTooltips(attack, defense);
+        riseDiceTooltips(attack, defense);
         fastShowBacklight(attack, defense);
         setResultPower(attack, defense);
 
@@ -407,7 +412,7 @@ public class Field extends Group {
 
     public void riseDiceTooltips(Cell attack, Cell defense) {
 
-        if (defense.isFree()) {
+        if (defense.isFree() || UNIT_SIZE * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
             return;
         }
 
@@ -436,13 +441,14 @@ public class Field extends Group {
     }
 
     public void riseAddPowerTooltip(Cell cell) {
+        if (UNIT_SIZE * GestureController.getZoom() > MIN_SIZE_FOR_TEXT) {
+            BitmapFont font = AbstractDrawer.getBitmapFont();
+            Color color = Color.GREEN;
 
-        BitmapFont font = AbstractDrawer.getBitmapFont();
-        Color color = Color.GREEN;
-
-        float tooltipX = calculateTooltipX(cell.getX());
-        float tooltipY = calculateTooltipY(cell.getY());
-        TooltipHandler.addTooltip(new Tooltip(ADD_POWER_TOOLTIP, font, color, tooltipX, tooltipY));
+            float tooltipX = calculateTooltipX(cell.getX());
+            float tooltipY = calculateTooltipY(cell.getY());
+            TooltipHandler.addTooltip(new Tooltip(ADD_POWER_TOOLTIP, font, color, tooltipX, tooltipY));
+        }
 
     }
 
