@@ -2,6 +2,7 @@ package com.teremok.influence.view;
 
 import android.util.Log;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
@@ -37,12 +38,33 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         } else {
             routerDraw.clear();
         }
+
+        // draw Routes
+        renderer.begin(ShapeRenderer.ShapeType.Line);
         for (Cell c : current.getCells()) {
             drawCellRoutesShape(c);
         }
+
+        // draw Empties
+        for (Cell c : current.getCells()) {
+            drawEmpty(c);
+        }
+        renderer.end();
+
+        // draw Solids
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (Cell c : current.getCells()) {
+            drawSolid(c);
+        }
+        renderer.end();
+
         Logger.log("routes: " + counter + "(" + allCounter + ")");
 
         batch.begin();
+        for (Cell c : current.getCells()) {
+            drawText(batch, c);
+        }
+
     }
 
     private void drawShapeBackground() {
@@ -50,6 +72,39 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         renderer.setColor(Drawer.getBackgroundColor());
         renderer.rect(0, 0, current.getWidth(), current.getHeight());
         renderer.end();
+    }
+
+    private void drawSolid(Cell cell) {
+        renderer.setColor(getColor(cell));
+        renderer.circle(cell.getX() + cell.getWidth()/2, cell.getY() + cell.getHeight()/2, Drawer.UNIT_SIZE * (0.4f + cell.getPower()*0.03f), 6);
+    }
+
+    private void drawEmpty(Cell cell) {
+        renderer.setColor(getColor(cell));
+        renderer.circle(cell.getX() + cell.getWidth()/2, cell.getY() + cell.getHeight()/2, Drawer.UNIT_SIZE * (0.4f + cell.getMaxPower()*0.03f), 6);
+    }
+
+    private void drawText(SpriteBatch batch, Cell cell) {
+        if (bitmapFont != null) {
+            BitmapFont.TextBounds textBounds = bitmapFont.getBounds(cell.getPower()+"");
+            if (cell.isFree()) {
+                bitmapFont.setColor(Drawer.getEmptyCellTextColor());
+            } else {
+                bitmapFont.setColor(Drawer.getCellTextColor());
+            }
+            bitmapFont.draw(batch, cell.getPower()+"", current.getX() + cell.getX() + cell.getWidth()/2 - textBounds.width/2,
+                    current.getY() + cell.getY() + cell.getHeight()/2 + textBounds.height/2);
+        }
+    }
+
+    private Color getColor(Cell cell) {
+        Color color;
+        if (cell.isSelected()) {
+            color = Drawer.getCellSelectedColorByNumber(cell.getType());
+        } else {
+            color = Drawer.getCellColorByNumber(cell.getType());
+        }
+        return color;
     }
 
     private void drawCellRoutesShape(Cell cell) {
@@ -69,11 +124,9 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
                 routerDraw.add(code);
                 Logger.log("add code" + code);
 
-                renderer.begin(ShapeRenderer.ShapeType.Line);
                 renderer.line(centerX, centerY, centerXto, centerYto,
                         Drawer.getCellColorByNumber(cell.getType()),
                         Drawer.getCellColorByNumber(toCell.getType()));
-                renderer.end();
 
                 counter++;
             }
@@ -93,29 +146,5 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         }
 
         super.drawBoundingBox();
-    }
-
-    private static class MyInt {
-        int i;
-        private MyInt(int i) {
-            this.i = i;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof MyInt)) return false;
-
-            MyInt myInt = (MyInt) o;
-
-            if (i != myInt.i) return false;
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            return i;
-        }
     }
 }
