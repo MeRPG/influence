@@ -60,8 +60,8 @@ public class Cell {
         Cell cell = new Cell(number, x, y);
         Random rnd = new Random();
         cell.setType(rnd.nextInt(MAX_TYPE + 1));
-        cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
-        cell.setPower(1 + rnd.nextInt(cell.maxPower-1));
+        cell.setMaxPower(rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
+        cell.setPower(1 + rnd.nextInt(cell.maxPower - 1));
 
         return cell;
     }
@@ -204,6 +204,14 @@ public class Cell {
 
     public int getNumber() {
         return number;
+    }
+
+    public Set<Cell> getNeighbors() {
+        return neighbors;
+    }
+
+    public Set<Cell> getEnemies() {
+        return enemies;
     }
 
     @Override

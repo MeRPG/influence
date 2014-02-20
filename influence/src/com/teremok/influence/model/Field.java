@@ -39,13 +39,13 @@ public class Field extends Group {
 
     private static final int INITIAL_CELL_POWER = 2;
 
-    private int[][] graphMatrix;
     private List<Cell> cells;
-    private GraphGenerator generator;
 
     private Match match;
     private PlayerManager pm;
     private Cell selectedCell;
+
+    byte[][] matrix;
 
     public static float cellWidth = UNIT_SIZE*2;
     public static float cellHeight = UNIT_SIZE*2;
@@ -75,7 +75,7 @@ public class Field extends Group {
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
-        graphMatrix = generator.getMatrix();
+        matrix = generator.getMatrix();
     }
 
     public void regenerate() {
@@ -350,7 +350,8 @@ public class Field extends Group {
         if (! (from.isValid() && to.isValid()))
             return false;
 
-        return graphMatrix[from.getNumber()][to.getNumber()] == 1 || graphMatrix[to.getNumber()][from.getNumber()] == 1;
+        return matrix[from.getNumber()][to.getNumber()] == 1 || matrix[to.getNumber()][from.getNumber()] == 1;
+
     }
 
     public int getPowerToDistribute(int type){

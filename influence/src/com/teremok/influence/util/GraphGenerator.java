@@ -19,9 +19,9 @@ public class GraphGenerator {
 
     private int count;
     private Random rnd;
-    private int[][] mask;
+    private byte[][] mask;
 
-    private int[][] matrix;
+    private byte[][] matrix;
 
     int cycles;
 
@@ -30,15 +30,15 @@ public class GraphGenerator {
     public GraphGenerator(int i) {
         count = i;
         rnd = new Random();
-        matrix = new int[i][i];
+        matrix = new byte[i][i];
         cells = new LinkedList<Cell>();
     }
 
     public void generate() {
-        mask = new int[MAX_CELLS_Y][MAX_CELLS_X];
-        mask[1][4] = Integer.MAX_VALUE;
-        mask[3][4] = Integer.MAX_VALUE;
-        mask[5][4] = Integer.MAX_VALUE;
+        mask = new byte[MAX_CELLS_Y][MAX_CELLS_X];
+        mask[1][4] = Byte.MAX_VALUE;
+        mask[3][4] = Byte.MAX_VALUE;
+        mask[5][4] = Byte.MAX_VALUE;
         cycles = 0;
         int x, y;
         for (int i = 0; i < count; i ++) {
@@ -91,7 +91,7 @@ public class GraphGenerator {
     }
 
     public void constructMatrix() {
-        matrix = new int[MATRIX_SIZE][MATRIX_SIZE];
+        matrix = new byte[MATRIX_SIZE][MATRIX_SIZE];
         cells = new LinkedList<Cell>();
 
         for (int i = 0; i < MAX_CELLS_Y; i++) {
@@ -256,7 +256,7 @@ public class GraphGenerator {
 
     // Auto-generated
 
-    public int[][] getMatrix() {
+    public byte[][] getMatrix() {
         return matrix;
     }
 }
