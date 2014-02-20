@@ -44,7 +44,7 @@ public class GestureController extends ActorGestureListener{
 
     @Override
     public void zoom(InputEvent event, float initialDistance, float distance) {
-        float delta = (distance - initialDistance) /  (getField().WIDTH * 4);
+        float delta = (distance - initialDistance) /  (getField().WIDTH * 8);
         changeZoom(delta);
         getField().resize();
         acting = true;
