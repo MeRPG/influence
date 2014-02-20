@@ -36,7 +36,7 @@ public class PlayerManager {
                 currentNum = 0;
             }
         } while (players[currentNum].getScore() == 0 );
-        Logger.log("Turn ended. Next player : " + currentNum);
+        //Logger.log("Turn ended. Next player : " + currentNum);
         return players[currentNum];
     }
 

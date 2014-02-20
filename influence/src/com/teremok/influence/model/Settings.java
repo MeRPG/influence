@@ -32,7 +32,7 @@ public class Settings {
         FileHandle handle = Gdx.files.external(FILENAME);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
-            Logger.log(handle.file().getAbsolutePath());
+            //Logger.log(handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             xml.element("settings")
                     .element("sound", sound)

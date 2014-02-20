@@ -97,7 +97,7 @@ public class Field extends Group {
             }
 
         } while (true);
-        Logger.log("Placing player: " + target);
+        //Logger.log("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
@@ -129,7 +129,7 @@ public class Field extends Group {
             }
         }
 
-        Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
+        //Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
 
         Random rnd = new Random();
         int number;
@@ -139,14 +139,14 @@ public class Field extends Group {
             number = firstInRange + rnd.nextInt(range);
             target = cells.get(number);
 
-            Logger.log("Trying number " + number);
+            //Logger.log("Trying number " + number);
 
             if (isValidForStartPosition(target)) {
                 break;
             }
 
         } while (true);
-        Logger.log("Placing player: " + target);
+        //Logger.log("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
@@ -179,7 +179,7 @@ public class Field extends Group {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     if (!event.isHandled() && match.canHumanActing()) {
                         Cell target = hit(x, y);
-                        Logger.log("actual target: " + target);
+                        //Logger.log("actual target: " + target);
                         if (target == null)
                             return;
 
@@ -209,7 +209,7 @@ public class Field extends Group {
 
         int unitsX = (int)(x/cellWidth);
 
-        Logger.log("hit: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
+        //Logger.log("hit: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
 
         if (unitsX < 0 || unitsX > MAX_CELLS_X-1 || unitsY < 0 || unitsY > MAX_CELLS_Y-1) {
             cells.get(0);
@@ -221,7 +221,7 @@ public class Field extends Group {
     private Cell getByNumber(int number) {
         for (Cell cell : cells) {
             if (cell.getNumber() == number){
-                Logger.log("found by number");
+                //Logger.log("found by number");
                 return  cell;
             }
         }
@@ -278,7 +278,7 @@ public class Field extends Group {
                 cell.setPower(cell.getPower() + 1);
                 pm.current().subtractPowerToDistribute();
             }  else {
-                Logger.log("Wrong add power " + cell);
+                //Logger.log("Wrong add power " + cell);
             }
         }
     }
@@ -317,8 +317,8 @@ public class Field extends Group {
 
     private int fight(Cell attack, Cell defense) {
 
-        Logger.log("Attack!");
-        Logger.log(attack.getPower() + " \t->\t " + defense.getPower());
+        //Logger.log("Attack!");
+        //Logger.log(attack.getPower() + " \t->\t " + defense.getPower());
 
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
@@ -510,7 +510,7 @@ public class Field extends Group {
         float newX = getX() + deltaX;
         float newY = getY() + deltaY;
 
-        Logger.log("move: " + newX + "; " + newY);
+        //Logger.log("move: " + newX + "; " + newY);
 
         if (newX > initialX)
             newX = initialX;
@@ -520,8 +520,8 @@ public class Field extends Group {
         float minX = initialX - (getZoomedWidth() - initialWidth);
         float minY = initialY - (getZoomedHeight() - initialHeight);
 
-        Logger.log("zoomed: " + getZoomedWidth() + "; " + getZoomedHeight());
-        Logger.log("minimal: " + minX + "; " + minY);
+        //Logger.log("zoomed: " + getZoomedWidth() + "; " + getZoomedHeight());
+        //Logger.log("minimal: " + minX + "; " + minY);
 
         if (newX < minX)
             newX = minX;
@@ -531,7 +531,7 @@ public class Field extends Group {
         this.setX(newX);
         this.setY(newY);
 
-        Logger.log("actual move: " + newX + "; " + newY);
+        //Logger.log("actual move: " + newX + "; " + newY);
     }
 
     public void resize() {
@@ -569,7 +569,7 @@ public class Field extends Group {
 
     public void updateLists() {
 
-        Logger.log("update lists called.");
+        //Logger.log("update lists called.");
 
         Player[] players = pm.getPlayers();
         if (players != null) {

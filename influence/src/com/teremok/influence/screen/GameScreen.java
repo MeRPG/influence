@@ -171,7 +171,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     void  startNewMatch() {
-        Logger.log("Starting new match");
+        //Logger.log("Starting new match");
         match = new Match(match.getGameType());
         updateMatchDependentActors();
     }

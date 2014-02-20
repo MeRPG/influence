@@ -34,7 +34,7 @@ public class CheckboxColored extends Checkbox {
         super.check();
         color = colorOn;
         setColor(color);
-        Logger.log(code + " checked!");
+        //Logger.log(code + " checked!");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CheckboxColored extends Checkbox {
         super.unCheck();
         color = colorOff;
         setColor(color);
-        Logger.log(code + " unchecked!");
+        //Logger.log(code + " unchecked!");
     }
 
     @Override

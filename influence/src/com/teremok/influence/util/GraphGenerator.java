@@ -138,29 +138,29 @@ public class GraphGenerator {
     }
 
     private void printMatrix() {
-        Logger.log("Matrix for graph: ");
+        //Logger.log("Matrix for graph: ");
         int ones = 0;
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < count; j++) {
-                Logger.append(matrix[i][j] + "\t");
+                //Logger.append(matrix[i][j] + "\t");
                 if (matrix[i][j] == 1) ones++;
             }
-            Logger.log("");
+            //Logger.log("");
         }
-        Logger.log("Percents: " + ((float)ones * 100 )/(count*count) + "%");
-        Logger.log(" - - - ");
+        //Logger.log("Percents: " + ((float)ones * 100 )/(count*count) + "%");
+        //Logger.log(" - - - ");
 
     }
 
     private void printMatrix(String desc, int[][] matrix, int sizeX, int sizeY) {
-        Logger.log(desc);
+        //Logger.log(desc);
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-                Logger.append(matrix[i][j] + "\t");
+                //Logger.append(matrix[i][j] + "\t");
             }
-            Logger.log("");
+            //Logger.log("");
         }
-        Logger.log(" - - - ");
+        //Logger.log(" - - - ");
 
     }
 
@@ -213,17 +213,18 @@ public class GraphGenerator {
     }
 
     private void printMask() {
-        Logger.log(" - - - - - - - - ");
+        //Logger.log(" - - - - - - - - ");
         for (int i = 0; i < MAX_CELLS_Y; i++) {
             for (int j = 0; j < MAX_CELLS_X; j++) {
-                if (mask[i][j] == Integer.MAX_VALUE)
-                    Logger.append("-\t");
-                else
-                    Logger.append(mask[i][j] + "\t");
+                if (mask[i][j] == Integer.MAX_VALUE) {
+                    //Logger.append("-\t");
+                } else {
+                    //Logger.append(mask[i][j] + "\t");
+                }
             }
-            Logger.log("");
+            //Logger.log("");
         }
-        Logger.log(" - - - Cycles: " + cycles);
+        //Logger.log(" - - - Cycles: " + cycles);
     }
 
     private boolean[] markedVertexes = new boolean[MATRIX_SIZE];

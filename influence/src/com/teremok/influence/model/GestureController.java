@@ -45,15 +45,15 @@ public class GestureController extends ActorGestureListener{
         float delta = (distance - initialDistance) /  getField().WIDTH;
         changeZoom(delta);
         getField().resize();
-        Logger.log("Zooom! delta: " + delta);
-        Logger.log("Zooom! zoom: " + zoom);
-        Logger.log("Zoomed unit size: " + Drawer.UNIT_SIZE*zoom);
+        //Logger.log("Zooom! delta: " + delta);
+        //Logger.log("Zooom! zoom: " + zoom);
+        //Logger.log("Zoomed unit size: " + Drawer.UNIT_SIZE*zoom);
     }
       
     @Override
     public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
         getField().moveBy(deltaX, deltaY);
-        //Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
+        ////Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
     }
 
     public static void changeZoomBySteps(int steps) {
@@ -83,7 +83,7 @@ public class GestureController extends ActorGestureListener{
                zoom += delta;
            }
         }
-        Logger.log("change zoom: " + zoom);
+        //Logger.log("change zoom: " + zoom);
     }
 
     private Field getField() {

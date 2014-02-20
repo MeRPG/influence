@@ -62,7 +62,7 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         }
         renderer.end();
 
-        //Logger.log("routes: " + counter + "(" + allCounter + ")");
+        ////Logger.log("routes: " + counter + "(" + allCounter + ")");
 
         batch.begin();
         if (zoomedUnitSize > MIN_SIZE_FOR_TEXT) {

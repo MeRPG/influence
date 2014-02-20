@@ -33,7 +33,7 @@ public class DummyAttackStrategy implements AttackStrategy {
                 cell = cells.get(i);
             } while (cell.getPower()==1 || cell.getEnemiesList().isEmpty());
         }
-        Logger.log("attacker: " + i);
+        //Logger.log("attacker: " + i);
         return cell;
     }
 
