@@ -8,52 +8,77 @@ import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.util.Logger;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * Created by Alexx on 23.12.13
  */
 public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
+    Set<Integer> routerDraw;
+    int counter = 0;
+    int allCounter = 0;
+
     @Override
     public void draw (Field field, SpriteBatch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
         batch.setColor(Color.WHITE);
-
-        drawShapeBackground(batch);
-
-        for (Cell c : current.getCells()) {
-            drawCellRoutesShape(batch, c);
-        }
-    }
-
-    private void drawShapeBackground(SpriteBatch batch) {
         batch.end();
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        renderer.setColor(Drawer.getBackgroundColor());
-        renderer.rect(0,0, current.getWidth(), current.getHeight());
+        drawShapeBackground();
 
-        renderer.end();
+        counter = 0;
+        allCounter = 0;
+        if (routerDraw == null){
+            routerDraw = new HashSet<Integer>();
+        } else {
+            routerDraw.clear();
+        }
+        for (Cell c : current.getCells()) {
+            drawCellRoutesShape(c);
+        }
+        Logger.log("routes: " + counter + "(" + allCounter + ")");
+
         batch.begin();
     }
 
-    private void drawCellRoutesShape(SpriteBatch batch, Cell cell) {
+    private void drawShapeBackground() {
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.setColor(Drawer.getBackgroundColor());
+        renderer.rect(0, 0, current.getWidth(), current.getHeight());
+        renderer.end();
+    }
+
+    private void drawCellRoutesShape(Cell cell) {
         for (Cell toCell : cell.getNeighborsList()) {
             float centerX = cell.getX() + cell.getWidth()/2;
             float centerY = cell.getY() + cell.getHeight()/2;
 
-
             float centerXto = toCell.getX() + toCell.getWidth()/2;
             float centerYto = toCell.getY() + toCell.getHeight()/2;
 
-            batch.end();
-            renderer.begin(ShapeRenderer.ShapeType.Line);
-            renderer.line(centerX, centerY, centerXto, centerYto,
-                    Drawer.getCellColorByNumber(cell.getType()),
-                    Drawer.getCellColorByNumber(toCell.getType()));
-            renderer.end();
-            batch.begin();
+            Integer code = cell.getNumber() * 1000 + toCell.getNumber();
+
+            if (! routerDraw.contains(code)) {
+                routerDraw.add(code);
+                Logger.log("add code" + code);
+                code = toCell.getNumber() * 1000 + cell.getNumber();
+                routerDraw.add(code);
+                Logger.log("add code" + code);
+
+                renderer.begin(ShapeRenderer.ShapeType.Line);
+                renderer.line(centerX, centerY, centerXto, centerYto,
+                        Drawer.getCellColorByNumber(cell.getType()),
+                        Drawer.getCellColorByNumber(toCell.getType()));
+                renderer.end();
+
+                counter++;
+            }
+            allCounter++;
         }
-        Logger.log("routes : " + cell.getNeighborsList().size());
     }
 
     @Override
@@ -68,5 +93,29 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         }
 
         super.drawBoundingBox();
+    }
+
+    private static class MyInt {
+        int i;
+        private MyInt(int i) {
+            this.i = i;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof MyInt)) return false;
+
+            MyInt myInt = (MyInt) o;
+
+            if (i != myInt.i) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return i;
+        }
     }
 }
