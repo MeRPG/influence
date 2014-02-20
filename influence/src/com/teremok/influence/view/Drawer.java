@@ -70,7 +70,7 @@ public class Drawer {
         return colors.get("BACKLIGHT_LOSE");
     }
 
-    public static float UNIT_SIZE = AbstractScreen.WIDTH/(10f * 2f);
+    public static float UNIT_SIZE = AbstractScreen.WIDTH/(10f * Field.SIZE_MULTIPLIER);
 
     // private static AbstractDrawer<Cell> cellDrawer;
     private static AbstractDrawer<Field> fieldDrawer;
