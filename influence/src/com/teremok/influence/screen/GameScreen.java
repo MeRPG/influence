@@ -125,6 +125,9 @@ public class GameScreen extends AbstractScreen {
                     if (keycode == Keys.O) {
                         Settings.save();
                     }
+                    if (keycode == Keys.S) {
+                        MatchSaver.save(match);
+                    }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
 
                         if (keycode != Keys.MENU) {
