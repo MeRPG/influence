@@ -22,7 +22,7 @@ public class SmartyPowerStrategy implements PowerStrategy {
         if (cells.size() == 25)
             toBePowered.clear();
         for (Cell cell : cells) {
-            if (field.getConnectedEnemies(cell).isEmpty()) {
+            if (cell.getEnemies().isEmpty()) {
                 if (toBePowered.isEmpty()) {
                     field.addPower(cell);
                 }
@@ -32,11 +32,11 @@ public class SmartyPowerStrategy implements PowerStrategy {
                 if (cell.getPower() < cell.getMaxPower()) {
                     toBePowered.add(cell.getNumber());
                 }
-                Logger.log("--- add power to cell " + cell + ", number" + cell.getType() + ", enemies: ");
-                for (Cell en : field.getConnectedEnemies(cell)) {
-                    Logger.log(en + ", number: " + en.getType());
+                //Logger.log("--- add power to cell " + cell + ", number" + cell.getType() + ", enemies: ");
+                for (Cell en : cell.getEnemies()) {
+                    //Logger.log(en + ", number: " + en.getType());
                 }
-                Logger.log("--- end of the enemy list");
+                //Logger.log("--- end of the enemy list");
                 field.addPower(cell);
 
             }

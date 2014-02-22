@@ -19,9 +19,9 @@ public class GraphGenerator {
 
     private int count;
     private Random rnd;
-    private int[][] mask;
+    private byte[][] mask;
 
-    private int[][] matrix;
+    private byte[][] matrix;
 
     int cycles;
 
@@ -30,15 +30,15 @@ public class GraphGenerator {
     public GraphGenerator(int i) {
         count = i;
         rnd = new Random();
-        matrix = new int[i][i];
+        matrix = new byte[i][i];
         cells = new LinkedList<Cell>();
     }
 
     public void generate() {
-        mask = new int[MAX_CELLS_Y][MAX_CELLS_X];
-        mask[1][4] = Integer.MAX_VALUE;
-        mask[3][4] = Integer.MAX_VALUE;
-        mask[5][4] = Integer.MAX_VALUE;
+        mask = new byte[MAX_CELLS_Y][MAX_CELLS_X];
+        mask[1][4] = Byte.MAX_VALUE;
+        mask[3][4] = Byte.MAX_VALUE;
+        mask[5][4] = Byte.MAX_VALUE;
         cycles = 0;
         int x, y;
         for (int i = 0; i < count; i ++) {
@@ -91,7 +91,7 @@ public class GraphGenerator {
     }
 
     public void constructMatrix() {
-        matrix = new int[MATRIX_SIZE][MATRIX_SIZE];
+        matrix = new byte[MATRIX_SIZE][MATRIX_SIZE];
         cells = new LinkedList<Cell>();
 
         for (int i = 0; i < MAX_CELLS_Y; i++) {
@@ -138,29 +138,29 @@ public class GraphGenerator {
     }
 
     private void printMatrix() {
-        Logger.log("Matrix for graph: ");
+        //Logger.log("Matrix for graph: ");
         int ones = 0;
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < count; j++) {
-                Logger.append(matrix[i][j] + "\t");
+                //Logger.append(matrix[i][j] + "\t");
                 if (matrix[i][j] == 1) ones++;
             }
-            Logger.log("");
+            //Logger.log("");
         }
-        Logger.log("Percents: " + ((float)ones * 100 )/(count*count) + "%");
-        Logger.log(" - - - ");
+        //Logger.log("Percents: " + ((float)ones * 100 )/(count*count) + "%");
+        //Logger.log(" - - - ");
 
     }
 
     private void printMatrix(String desc, int[][] matrix, int sizeX, int sizeY) {
-        Logger.log(desc);
+        //Logger.log(desc);
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-                Logger.append(matrix[i][j] + "\t");
+                //Logger.append(matrix[i][j] + "\t");
             }
-            Logger.log("");
+            //Logger.log("");
         }
-        Logger.log(" - - - ");
+        //Logger.log(" - - - ");
 
     }
 
@@ -213,17 +213,18 @@ public class GraphGenerator {
     }
 
     private void printMask() {
-        Logger.log(" - - - - - - - - ");
+        //Logger.log(" - - - - - - - - ");
         for (int i = 0; i < MAX_CELLS_Y; i++) {
             for (int j = 0; j < MAX_CELLS_X; j++) {
-                if (mask[i][j] == Integer.MAX_VALUE)
-                    Logger.append("-\t");
-                else
-                    Logger.append(mask[i][j] + "\t");
+                if (mask[i][j] == Integer.MAX_VALUE) {
+                    //Logger.append("-\t");
+                } else {
+                    //Logger.append(mask[i][j] + "\t");
+                }
             }
-            Logger.log("");
+            //Logger.log("");
         }
-        Logger.log(" - - - Cycles: " + cycles);
+        //Logger.log(" - - - Cycles: " + cycles);
     }
 
     private boolean[] markedVertexes = new boolean[MATRIX_SIZE];
@@ -255,7 +256,7 @@ public class GraphGenerator {
 
     // Auto-generated
 
-    public int[][] getMatrix() {
+    public byte[][] getMatrix() {
         return matrix;
     }
 }

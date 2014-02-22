@@ -39,7 +39,7 @@ public class AboutScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
 
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("aboutScreen.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("aboutScreen.pack"));
         for (Texture tex : atlas.getTextures()) {
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }

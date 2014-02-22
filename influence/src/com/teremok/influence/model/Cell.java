@@ -4,15 +4,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.view.Drawer;
 
-import java.util.Random;
+import static com.teremok.influence.model.Field.*;
 
-import static com.teremok.influence.model.Field.MAX_CELLS_X;
-import static com.teremok.influence.model.Field.MAX_CELLS_Y;
+import java.util.*;
 
 /**
  * Created by Alexx on 12.12.13
  */
-public class Cell extends Actor {
+public class Cell {
 
     static private final int POWER_BIG = 12;
     static private final int POWER_STANDARD = 8;
@@ -32,9 +31,16 @@ public class Cell extends Actor {
     // максимальное количество секторов
     int maxPower;
 
+    float x, y;
+
+    List<Cell> neighbors;
+    List<Cell> enemies;
+
     boolean selected;
 
     private Cell() {
+        enemies = new LinkedList<Cell>();
+        neighbors = new LinkedList<Cell>();
     }
 
     private Cell(int number) {
@@ -47,29 +53,16 @@ public class Cell extends Actor {
         this.unitsX = unitsX;
         this.unitsY = unitsY;
 
-        float actorWidth = Field.WIDTH / MAX_CELLS_X;
-        float actorHeight = Field.HEIGHT / MAX_CELLS_Y;
-
-        float actorX;
-        if (unitsX%2 == 1) {
-            actorX = unitsY * actorWidth + actorWidth / 2;
-        } else {
-            actorX = unitsY* actorWidth;
-        }
-        float actorY = unitsX * actorHeight-8f;
-
-        setBounds(actorX, actorY, actorWidth, actorHeight);
+        updateBounds();
     }
 
     public static Cell makeRandomCell(int number, int x, int y) {
         Cell cell = new Cell(number, x, y);
         Random rnd = new Random();
         cell.setType(rnd.nextInt(MAX_TYPE + 1));
-        cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
-        cell.setPower(1 + rnd.nextInt(cell.maxPower-1));
+        cell.setMaxPower(rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
+        cell.setPower(1 + rnd.nextInt(cell.maxPower - 1));
 
-        cell.setWidth(Drawer.UNIT_SIZE*2);
-        cell.setHeight(Drawer.UNIT_SIZE*2);
         return cell;
     }
 
@@ -82,10 +75,6 @@ public class Cell extends Actor {
         Random rnd = new Random();
         cell.setType(-1);
         cell.setMaxPower( rnd.nextFloat() > BIG_POSSIBILITY ? POWER_STANDARD : POWER_BIG);
-
-        cell.setWidth(Drawer.UNIT_SIZE*2);
-        cell.setHeight(Drawer.UNIT_SIZE*2);
-
         return cell;
     }
 
@@ -106,11 +95,40 @@ public class Cell extends Actor {
         return maxPower == POWER_BIG;
     }
 
-    @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        com.teremok.influence.view.Drawer.draw(this, batch, parentAlpha);
+    public void addNeighbor(Cell cell) {
+        neighbors.add(cell);
     }
 
+    public void removeNeighbor(Cell cell) {
+        if (neighbors != null) {
+            neighbors.remove(cell);
+        }
+    }
+
+    public void clearNeighbors() {
+        enemies.clear();
+    }
+
+    public void addEnemy(Cell cell) {
+        enemies.add(cell);
+    }
+
+    public void removeEnemy(Cell cell) {
+        enemies.remove(cell);
+    }
+
+    public void clearEnemies() {
+        enemies.clear();
+    }
+
+    public boolean isFree() {
+        return type == -1;
+    }
+
+    public void updateBounds() {
+
+
+    }
     // Auto-generated
 
     public int getType() {
@@ -153,8 +171,32 @@ public class Cell extends Actor {
         return unitsY;
     }
 
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
     public int getNumber() {
         return number;
+    }
+
+    public List<Cell> getNeighbors() {
+        return neighbors;
+    }
+
+    public List<Cell> getEnemies() {
+        return enemies;
     }
 
     @Override

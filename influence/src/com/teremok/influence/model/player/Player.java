@@ -1,7 +1,13 @@
 package com.teremok.influence.model.player;
 
+import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Match;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Alexx on 26.12.13
@@ -14,11 +20,13 @@ public abstract class Player {
     protected Match match;
     protected Field field;
     protected PlayerType type;
+    protected List<Cell> cells;
 
     protected Player(int number, Match match) {
         this.number = number;
         this.match = match;
         this.field = match.getField();
+        cells = new LinkedList<Cell>();
     }
 
     public void subtractPowerToDistribute() {
@@ -36,6 +44,18 @@ public abstract class Player {
 
     public boolean hasPowerToDistribute() {
         return powerToDistribute > 0;
+    }
+
+    public void addCell(Cell cell) {
+        cells.add(cell);
+    }
+
+    public void removeCell(Cell cell) {
+        cells.remove(cell);
+    }
+
+    public void clearCells() {
+        cells.clear();
     }
 
     // Auto-generated
@@ -60,6 +80,10 @@ public abstract class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public List<Cell> getCells() {
+        return cells;
     }
 
     public void setField(Field field) {

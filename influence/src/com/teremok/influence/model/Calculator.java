@@ -27,8 +27,8 @@ public class Calculator {
 
         calculateResults();
 
-        Logger.log(inA + "\t|\t" + inB + "\t|\t" + inN + "\t|\t" + inM + "\t|\t" + a + "\t|\t" + b);
-        Logger.log(" - - - ");
+        //Logger.log(inA + "\t|\t" + inB + "\t|\t" + inN + "\t|\t" + inM + "\t|\t" + a + "\t|\t" + b);
+        //Logger.log(" - - - ");
     }
 
     public static int rollNDices(int number) {
@@ -48,19 +48,19 @@ public class Calculator {
         a = powerA;
         b = powerB;
 
-        Logger.log("Attack:\t" + powerA + " \t->\t " + powerB);
+        //Logger.log("Attack:\t" + powerA + " \t->\t " + powerB);
 
         n = rollNDices(powerA);
         m = rollNDices(powerB);
 
-        Logger.log("Delta:\t" + n + " \t->\t " + m);
+        //Logger.log("Delta:\t" + n + " \t->\t " + m);
 
         delta = n - m;
 
         calculateResults();
 
-        Logger.log("Result:\t" + a + " \t->\t " + b);
-        Logger.log("-\t-\t-\t-\t-");
+        //Logger.log("Result:\t" + a + " \t->\t " + b);
+        //Logger.log("-\t-\t-\t-\t-");
         return delta;
     }
 
@@ -73,7 +73,7 @@ public class Calculator {
             defenseDices++;
         }
 
-        Logger.log("Dices: " + attackDices + "\t->\t" + defenseDices);
+        //Logger.log("Dices: " + attackDices + "\t->\t" + defenseDices);
 
         if (delta > 0) {
             b = a;

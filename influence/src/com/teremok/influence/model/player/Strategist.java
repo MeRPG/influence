@@ -51,9 +51,9 @@ public class Strategist extends ComputerPlayer {
     @Override
     protected void prepareActions() {
         initDummyStrategies();
-        Cell cell = attackStrategy.execute(field.getCellsByType(number), field, this);
+        Cell cell = attackStrategy.execute(cells, field, this);
         if (cell.getPower() > 1) {
-            List<Cell> enemies = field.getConnectedEnemies(cell);
+            List<Cell> enemies = cell.getEnemies();
             if (! enemies.isEmpty()) {
                 Cell enemy = enemyStrategy.execute(enemies, field, this);
                 nextMove = new Move(cell, enemy);
@@ -63,7 +63,7 @@ public class Strategist extends ComputerPlayer {
 
     @Override
     protected void actDistributeLogic(float delta) {
-        Cell cell = powerStrategy.execute(field.getCellsByType(number), field, this);
+        Cell cell = powerStrategy.execute(cells, field, this);
         if (cell != null)
             field.addPower(cell);
     }

@@ -17,6 +17,7 @@ import java.util.Map;
  */
 
 public class Drawer {
+    public static final float  MIN_SIZE_FOR_TEXT = 30f;
 
     private static Map<String, Color> colors;
 
@@ -27,7 +28,19 @@ public class Drawer {
         colors.put("ORANGE", new Color(0xFFD95DFF));
         colors.put("PINK", new Color(0xED6D5AFF));
         colors.put("MAGENTA", new Color(0x9968FDFF));
+        colors.put("RED", new Color(0xFF0000FF));
+        colors.put("BLUE", new Color(0x0000FFFF));
+        colors.put("YELLOW", new Color(0xFFFF00FF));
+        colors.put("AFJIK", new Color(0x00FFFFFF));
         colors.put("GREY", new Color(0x2E2E2EFF));
+
+        colors.put("CYAN_SELECTED", new Color(0x35B7DEFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("GREEN_SELECTED", new Color(0x02D47EFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("ORANGE_SELECTED", new Color(0xFFD95DFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("PINK_SELECTED", new Color(0xED6D5AFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("MAGENTA_SELECTED", new Color(0x9968FDFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+        colors.put("GREY_SELECTED", new Color(0x2E2E2EFF).add(0.2f, 0.2f, 0.2f, 0.0f));
+
         colors.put("TEXT_COLOR", Color.WHITE.cpy());
         colors.put("DIMMED_TEXT_COLOR", new Color(0x545454FF));
         colors.put("CELL_TEXT_COLOR", Color.BLACK.cpy());
@@ -66,21 +79,21 @@ public class Drawer {
         return colors.get("BACKLIGHT_LOSE");
     }
 
-    public static final float UNIT_SIZE = AbstractScreen.WIDTH/10f;
+    public static float UNIT_SIZE = AbstractScreen.WIDTH/(10f * Field.SIZE_MULTIPLIER);
 
-    private static AbstractDrawer<Cell> cellDrawer;
+    // private static AbstractDrawer<Cell> cellDrawer;
     private static AbstractDrawer<Field> fieldDrawer;
     private static ScoreDrawer scoreDrawer;
 
     public static void draw(Actor actor, SpriteBatch batch, float parentAlpha) {
-
+         /*
         if (actor instanceof Cell) {
             if (cellDrawer == null)
                 cellDrawer = new CellShapeDrawer();
             cellDrawer.draw((Cell)actor, batch, parentAlpha);
             return;
         }
-
+        */
         if (actor instanceof Field) {
             if (fieldDrawer == null)
                 fieldDrawer = new FieldShapeDrawer();
@@ -98,7 +111,7 @@ public class Drawer {
     public static void dispose() {
         scoreDrawer = null;
         fieldDrawer = null;
-        cellDrawer = null;
+        //cellDrawer = null;
     }
 
     public static Color getPlayerColor(Player player) {
@@ -123,8 +136,45 @@ public class Drawer {
             case 4:
                 color = colors.get("MAGENTA");
                 break;
+            case 5:
+                color = colors.get("RED");
+                break;
+            case 6:
+                color = colors.get("BLUE");
+                break;
+            case 7:
+                color = colors.get("YELLOW");
+                break;
+            case 8:
+                color = colors.get("AFJIK");
+                break;
             default:
                 color = colors.get("GREY");
+                break;
+        }
+        return color;
+    }
+
+    public static Color getCellSelectedColorByNumber(int number) {
+        Color color;
+        switch (number) {
+            case 0:
+                color = colors.get("CYAN_SELECTED");
+                break;
+            case 1:
+                color = colors.get("GREEN_SELECTED");
+                break;
+            case 2:
+                color = colors.get("ORANGE_SELECTED");
+                break;
+            case 3:
+                color = colors.get("PINK_SELECTED");
+                break;
+            case 4:
+                color = colors.get("MAGENTA_SELECTED");
+                break;
+            default:
+                color = colors.get("GREY_SELECTED");
                 break;
         }
         return color;

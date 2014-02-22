@@ -36,7 +36,7 @@ public class PlayerManager {
                 currentNum = 0;
             }
         } while (players[currentNum].getScore() == 0 );
-        Logger.log("Turn ended. Next player : " + currentNum);
+        //Logger.log("Turn ended. Next player : " + currentNum);
         return players[currentNum];
     }
 
@@ -57,17 +57,18 @@ public class PlayerManager {
         this.field = field;
         resetPlayersArray(5);
         addPlayer(new HumanPlayer(0, match), 0);
-        for (int i = 1; i < numberOfPlayers; i ++) {
-            addPlayer(new ComputerPlayer(i, match), i);
-        }
+        addPlayer(PlayerFactory.getRandomizer(1, match), 1);
+        addPlayer(PlayerFactory.getDummy(2, match), 2);
+        addPlayer(new ComputerPlayer(3, match), 3);
+        addPlayer(PlayerFactory.getHunter(4, match), 4);
         placeStartPositions();
     }
 
     public  void addPlayersForMultiplayer(Field field) {
         this.field = field;
         resetPlayersArray(2);
-        addPlayer(new HumanPlayer(0, match), 0);
-        addPlayer(new HumanPlayer(1, match), 1);
+        addPlayer(PlayerFactory.getHunter(0, match), 0);
+        addPlayer(PlayerFactory.getHunter(1, match), 1);
         placeStartPositionsMultiplayer();
     }
 
@@ -83,8 +84,8 @@ public class PlayerManager {
     }
 
     private void placeStartPositionsMultiplayer() {
-        field.placeStartPositionFromRange(players[0].number, 0, 9);
-        field.placeStartPositionFromRange(players[1].number, 26, 35);
+        field.placeStartPositionFromRange(players[0].number, 0, 70);
+        field.placeStartPositionFromRange(players[1].number, 300, 350);
     }
 
     public boolean isHumanActing() {

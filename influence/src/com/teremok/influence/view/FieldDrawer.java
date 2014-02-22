@@ -65,15 +65,15 @@ public class FieldDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawCellRoutesShape(SpriteBatch batch, Cell cell) {
-        for (Cell toCell : current.getConnectedCells(cell)) {
+        for (Cell toCell : cell.getNeighbors()) {
             if (toCell.isValid()) {
 
-                float centerX = cell.getX() + cell.getWidth()/2;
-                float centerY = cell.getY() + cell.getHeight()/2;
+                float centerX = cell.getX() + Field.cellWidth/2;
+                float centerY = cell.getY() + Field.cellHeight/2;
 
 
-                float centerXto = toCell.getX() + toCell.getWidth()/2;
-                float centerYto = toCell.getY() + toCell.getHeight()/2;
+                float centerXto = toCell.getX() + Field.cellWidth/2;
+                float centerYto = toCell.getY() + Field.cellHeight/2;
 
                 batch.end();
                 renderer.begin(ShapeRenderer.ShapeType.Line);
@@ -120,15 +120,15 @@ public class FieldDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawCellRoutesTexture(Cell cell, SpriteBatch batch) {
-        for (Cell toCell : current.getConnectedCells(cell)) {
+        for (Cell toCell : cell.getNeighbors()) {
             if (toCell.isValid()) {
                 if (cell.getType() == toCell.getType()) {
                     batch.setColor(Drawer.getCellColorByNumber(cell.getType()));
                 } else {
                     batch.setColor(Drawer.getCellColorByNumber(-1));
                 }
-                float centerX = current.getX() + cell.getX() + cell.getWidth()/2 - 8;
-                float centerY = current.getY() + cell.getY() + cell.getHeight()/2 + 6;
+                float centerX = current.getX() + cell.getX() + Field.cellWidth/2 - 8;
+                float centerY = current.getY() + cell.getY() + Field.cellHeight/2 + 6;
 
                 float rotation;
 

@@ -79,7 +79,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     void initBacklight() {
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
         for (Texture tex : atlas.getTextures()) {
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
@@ -93,6 +93,15 @@ public class GameScreen extends AbstractScreen {
 
     void addInputListenerToStage() {
         stage.addListener(new ClickListener() {
+
+            @Override
+            public boolean scrolled(InputEvent event, float x, float y, int amount) {
+                if (! event.isHandled()) {
+                    GestureController.changeZoomBySteps(-amount);
+                    match.getField().resize();
+                }
+                return true;
+            }
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -125,6 +134,14 @@ public class GameScreen extends AbstractScreen {
                     if (keycode == Keys.O) {
                         Settings.save();
                     }
+                    if (keycode == Keys.PLUS) {
+                        GestureController.addZoom();
+                        match.getField().resize();
+                    }
+                    if (keycode == Keys.MINUS) {
+                        GestureController.subZoom();
+                        match.getField().resize();
+                    }
                     if (keycode == Keys.S) {
                         MatchSaver.save(match);
                     }
@@ -152,10 +169,12 @@ public class GameScreen extends AbstractScreen {
             }
 
         });
+
+        stage.addListener(new GestureController(this));
     }
 
     void  startNewMatch() {
-        Logger.log("Starting new match");
+        //Logger.log("Starting new match");
         match = new Match(match.getGameType());
         updateMatchDependentActors();
     }
@@ -243,6 +262,7 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void pause() {
         super.pause();
+        pausePanel.dispose();
         Drawer.dispose();
         FXPlayer.dispose();
         pauseMatch();
@@ -254,5 +274,12 @@ public class GameScreen extends AbstractScreen {
         FXPlayer.load();
         if (match.isPaused())
             pausePanel.show();
+    }
+
+    // Auto-generated
+
+
+    public Match getMatch() {
+        return match;
     }
 }

@@ -2,12 +2,14 @@ package com.teremok.influence.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
 import com.teremok.influence.util.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Created by Alexx on 07.02.14
@@ -30,7 +32,7 @@ public class Settings {
         FileHandle handle = Gdx.files.external(FILENAME);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
-            Logger.log(handle.file().getAbsolutePath());
+            //Logger.log(handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             xml.element("settings")
                     .element("sound", sound)

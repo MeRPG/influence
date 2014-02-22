@@ -1,10 +1,10 @@
 package com.teremok.influence.model;
 
+import android.view.GestureDetector;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -19,9 +19,9 @@ import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Drawer;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+
+import static com.teremok.influence.view.Drawer.*;
 
 /**
  * Created by Alexx on 11.12.13
@@ -30,44 +30,60 @@ public class Field extends Group {
 
     private static final String ADD_POWER_TOOLTIP = "+1";
 
-    public static final int MAX_CELLS_Y = 7;
-    public static final int MAX_CELLS_X = 5;
+    public static final int SIZE_MULTIPLIER = 2;
 
-    public static final float WIDTH = Drawer.UNIT_SIZE*10f;
-    public static final float HEIGHT = Drawer.UNIT_SIZE*13f;
+    public static final int MAX_CELLS_Y = 7*SIZE_MULTIPLIER;
+    public static final int MAX_CELLS_X = 5*SIZE_MULTIPLIER;
 
-    private static final int CELLS_COUNT = 25;
+    public static float WIDTH = UNIT_SIZE*10f*SIZE_MULTIPLIER;
+    public static float HEIGHT = UNIT_SIZE*13f*SIZE_MULTIPLIER;
+
+    public static final int CELLS_COUNT = 80;
 
     private static final int INITIAL_CELL_POWER = 2;
 
-    private int[][] graphMatrix;
     private List<Cell> cells;
 
     private Match match;
     private PlayerManager pm;
     private Cell selectedCell;
 
+    byte[][] matrix;
+
+    public static float cellWidth = UNIT_SIZE*2;
+    public static float cellHeight = UNIT_SIZE*2;
+
+    private float initialX;
+    private float initialY;
+    private float initialWidth;
+    private float initialHeight;
+
     public Field(Match match) {
         this.match = match;
         this.pm = match.getPm();
 
-        float actorX = 0f;
-        float actorY = AbstractScreen.HEIGHT - HEIGHT-1f;
+        initialX = 0f;
+        initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
 
-        float actorWidth = WIDTH-1f;
-        float actorHeight = HEIGHT;
+        initialWidth = WIDTH;
+        initialHeight = HEIGHT;
 
-        setBounds(actorX, actorY, actorWidth, actorHeight);
+        setBounds(initialX, initialY, initialWidth, initialHeight);
 
-        regenerate();
+        generate();
     }
 
-    public void regenerate() {
+    private void generate() {
         GraphGenerator generator = new GraphGenerator(CELLS_COUNT);
         generator.generate();
         cells = generator.getCells();
         registerCellsForDrawing(cells);
-        graphMatrix = generator.getMatrix();
+        matrix = generator.getMatrix();
+    }
+
+    public void regenerate() {
+        generate();
+        updateLists();
     }
 
     public void placeStartPosition(int type) {
@@ -84,7 +100,7 @@ public class Field extends Group {
             }
 
         } while (true);
-        Logger.log("Placing player: " + target);
+        //Logger.log("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
@@ -116,7 +132,7 @@ public class Field extends Group {
             }
         }
 
-        Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
+        //Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
 
         Random rnd = new Random();
         int number;
@@ -126,20 +142,20 @@ public class Field extends Group {
             number = firstInRange + rnd.nextInt(range);
             target = cells.get(number);
 
-            Logger.log("Trying number " + number);
+            //Logger.log("Trying number " + number);
 
             if (isValidForStartPosition(target)) {
                 break;
             }
 
         } while (true);
-        Logger.log("Placing player: " + target);
+        //Logger.log("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
 
     private boolean isValidForStartPosition(Cell target) {
-        if (target.isValid() && target.getType() == -1) {
+        if (target.isValid() && target.isFree()) {
             for (Cell enemy : getConnectedEnemies(target)) {
                 if (enemy.getType() != -1){
                     return false;
@@ -151,57 +167,74 @@ public class Field extends Group {
     }
 
     private void registerCellsForDrawing(List<Cell> cells) {
-        this.clear();
+        this.addListener(new InputListener() {
 
-        for (final Cell cell : cells) {
-            if (cell.isValid()) {
-                cell. addListener(new InputListener() {
-                    @Override
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        super.touchDown(event,x,y,pointer,button);
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    Cell target = hit(x,y);
+                    if (target != null) {
                         return true;
                     }
+                    Logger.log("Field - touchDown");
+                    return event.getType().equals(InputEvent.Type.touchDown);
+                }
 
-                    @Override
-                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        if (! event.isHandled() && match.canHumanActing()) {
-                            if (cell.getType() == pm.current().getNumber() || connectedToSelected(cell) && selectedCell.getPower() > 1)
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    if (!event.isHandled() && ! GestureController.isActing() && match.canHumanActing()) {
+                        Cell target = hit(x, y);
+                        //Logger.log("actual target: " + target);
+                        if (target == null)
+                            return;
+
+                        if (target.getType() == pm.current().getNumber() || connectedToSelected(target) && selectedCell.getPower() > 1)
                             FXPlayer.playClick();
-                            Cell target = (Cell)event.getTarget();
-                            if (match.isInAttackPhase()) {
-                                setSelectedCell(target);
-                            } else {
-                                HumanPlayer player = (HumanPlayer)pm.current();
-                                player.addPowered(target.getNumber());
-                                addPower(target);
-                            }
+                        if (match.isInAttackPhase()) {
+                            setSelectedCell(target);
+                        } else {
+                            HumanPlayer player = (HumanPlayer) pm.current();
+                            player.addPowered(target.getNumber());
+                            addPower(target);
                         }
+                        Logger.log("Field - touchUp ");
                     }
-                });
+                }
+        });
 
-                cell.addListener( new ActorGestureListener() {
+        this.setTouchable(Touchable.enabled);
+    }
 
-                    @Override
-                    public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        super.touchDown(event, x, y, pointer, button);
-                        getGestureDetector().setLongPressSeconds(0.4f);
-                    }
+    public Cell hit(float x, float y) {
 
-                    @Override
-                    public boolean longPress(Actor actor, float x, float y) {
-                        if (actor instanceof Cell) {
-                            Cell cell = (Cell)actor;
-                            addPowerFull(cell);
-                            Vibrator.bzz();
-                        }
-                        return super.longPress(actor, x, y);
-                    }
-                });
-                cell.setTouchable(Touchable.enabled);
+        int unitsY = (int)(y/cellHeight);
 
-                this.addActor(cell);
+        if (unitsY%2 == 1) {
+            x -= cellWidth/2;
+        }
+
+        int unitsX = (int)(x/cellWidth);
+
+        //Logger.log("hit: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
+
+        if (unitsX < 0 || unitsX > MAX_CELLS_X-1 || unitsY < 0 || unitsY > MAX_CELLS_Y-1) {
+            cells.get(0);
+        }
+
+        return getByNumber(getNum(unitsX,unitsY));
+    }
+
+    private Cell getByNumber(int number) {
+        for (Cell cell : cells) {
+            if (cell.getNumber() == number){
+                //Logger.log("found by number");
+                return  cell;
             }
         }
+        return cells.get(0);
+    }
+
+    private int getNum( int i, int j) {
+        return i + j*MAX_CELLS_X;
     }
 
     private boolean connectedToSelected(Cell cell) {
@@ -227,6 +260,7 @@ public class Field extends Group {
                 if (delta > 0) {
                     cell.setType(selectedCell.getType());
                     reallySetSelected(cell);
+                    updateLists();
                 } else if (pm.isHumanActing()) {
                     match.score.setStatus(Localizator.getString("selectMoreThanOne"));
                 }
@@ -244,12 +278,12 @@ public class Field extends Group {
             int maxPower = cell.getMaxPower();
             if (newPower <= maxPower && pm.current().getPowerToDistribute() > 0) {
 
-                riseAddPowerTooltip(cell);
+                //riseAddPowerTooltip(cell);
 
                 cell.setPower(cell.getPower() + 1);
                 pm.current().subtractPowerToDistribute();
             }  else {
-                Logger.log("Wrong add power " + cell);
+                //Logger.log("Wrong add power " + cell);
             }
         }
     }
@@ -288,12 +322,12 @@ public class Field extends Group {
 
     private int fight(Cell attack, Cell defense) {
 
-        Logger.log("Attack!");
-        Logger.log(attack.getPower() + " \t->\t " + defense.getPower());
+        //Logger.log("Attack!");
+        //Logger.log(attack.getPower() + " \t->\t " + defense.getPower());
 
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
-        riseDiceTooltips(attack, defense);
+        //riseDiceTooltips(attack, defense);
         fastShowBacklight(attack, defense);
         setResultPower(attack, defense);
 
@@ -318,10 +352,8 @@ public class Field extends Group {
         if (from.getNumber() == to.getNumber())
             return false;
 
-        if (! (from.isValid() && to.isValid()))
-            return false;
+        return matrix[from.getNumber()][to.getNumber()] == 1 || matrix[to.getNumber()][from.getNumber()] == 1;
 
-        return graphMatrix[from.getNumber()][to.getNumber()] == 1 || graphMatrix[to.getNumber()][from.getNumber()] == 1;
     }
 
     public int getPowerToDistribute(int type){
@@ -345,11 +377,11 @@ public class Field extends Group {
 
             if (Calculator.getDelta() > 0) {
                 if (defence.getType() != -1) {
-                    GameScreen.colorForBorder = Drawer.getBacklightWinColor();
+                    GameScreen.colorForBorder = getBacklightWinColor();
                     FXPlayer.playWin();
                 }
             } else {
-                GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
+                GameScreen.colorForBorder = getBacklightLoseColor();
                 FXPlayer.playLose();
             }
             if (defence.getPower() != 0) {
@@ -359,10 +391,10 @@ public class Field extends Group {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getNumber()) {
                     if (Calculator.getDelta() > 0) {
-                        GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
+                        GameScreen.colorForBorder = getBacklightLoseColor();
                         FXPlayer.playWin();
                     } else {
-                        GameScreen.colorForBorder = Drawer.getBacklightWinColor();
+                        GameScreen.colorForBorder = getBacklightWinColor();
                         FXPlayer.playLose();
                     }
                     Vibrator.bzz();
@@ -380,7 +412,7 @@ public class Field extends Group {
 
     public void riseDiceTooltips(Cell attack, Cell defense) {
 
-        if (defense.getType() == -1) {
+        if (defense.isFree() || UNIT_SIZE * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
             return;
         }
 
@@ -409,22 +441,23 @@ public class Field extends Group {
     }
 
     public void riseAddPowerTooltip(Cell cell) {
+        if (UNIT_SIZE * GestureController.getZoom() > MIN_SIZE_FOR_TEXT) {
+            BitmapFont font = AbstractDrawer.getBitmapFont();
+            Color color = Color.GREEN;
 
-        BitmapFont font = AbstractDrawer.getBitmapFont();
-        Color color = Color.GREEN;
-
-        float tooltipX = calculateTooltipX(cell.getX());
-        float tooltipY = calculateTooltipY(cell.getY());
-        TooltipHandler.addTooltip(new Tooltip(ADD_POWER_TOOLTIP, font, color, tooltipX, tooltipY));
+            float tooltipX = calculateTooltipX(cell.getX());
+            float tooltipY = calculateTooltipY(cell.getY());
+            TooltipHandler.addTooltip(new Tooltip(ADD_POWER_TOOLTIP, font, color, tooltipX, tooltipY));
+        }
 
     }
 
     private float calculateTooltipX(float cellX) {
-        return getX() + cellX + Drawer.UNIT_SIZE/2;
+        return getX() + cellX + UNIT_SIZE/2;
     }
 
     private float calculateTooltipY(float cellY) {
-        return getY() + cellY + Drawer.UNIT_SIZE/2;
+        return getY() + cellY + UNIT_SIZE/2;
     }
 
     @Override
@@ -466,7 +499,7 @@ public class Field extends Group {
         }
         return score;
     }
-
+    /*
     public List<Cell> getCellsByType(int type) {
         List<Cell> list = new LinkedList<Cell>();
         for (Cell cell : cells) {
@@ -475,6 +508,95 @@ public class Field extends Group {
             }
         }
         return list;
+    }
+    */
+
+    public void moveBy(float deltaX, float deltaY) {
+        float newX = getX() + deltaX;
+        float newY = getY() + deltaY;
+
+        //Logger.log("move: " + newX + "; " + newY);
+
+        if (newX > initialX)
+            newX = initialX;
+        if (newY > initialY)
+            newY = initialY;
+
+        float minX = initialX - (getZoomedWidth() - initialWidth);
+        float minY = initialY - (getZoomedHeight() - initialHeight);
+
+        //Logger.log("zoomed: " + getZoomedWidth() + "; " + getZoomedHeight());
+        //Logger.log("minimal: " + minX + "; " + minY);
+
+        if (newX < minX)
+            newX = minX;
+        if (newY < minY)
+            newY = minY;
+
+        this.setX(newX);
+        this.setY(newY);
+
+        //Logger.log("actual move: " + newX + "; " + newY);
+    }
+
+    public void resize() {
+        this.setWidth(getZoomedWidth());
+        this.setHeight(getZoomedHeight());
+
+        cellWidth = Field.getZoomedWidth() / MAX_CELLS_X;
+        cellHeight = Field.getZoomedHeight() / MAX_CELLS_Y;
+
+        float cellX;
+        float cellY;
+
+        for (Cell c : cells) {
+            cellX = c.getUnitsY()*cellWidth;
+            if (c.getUnitsX()%2 == 1) {
+                cellX += cellHeight/2;
+            }
+            cellY = c.getUnitsX()*cellHeight - 8f;
+            c.setX(cellX);
+            c.setY(cellY);
+        }
+
+        moveBy(0,0);
+
+    }
+
+    public static float getZoomedWidth() {
+        return WIDTH * GestureController.getZoom();
+    }
+
+    public static float getZoomedHeight() {
+        return HEIGHT * GestureController.getZoom();
+
+    }
+
+    public void updateLists() {
+
+        //Logger.log("update lists called.");
+
+        Player[] players = pm.getPlayers();
+        if (players != null) {
+            for (Player player : players) {
+                player.clearCells();
+            }
+        }
+
+        for (Cell cell : cells) {
+            cell.clearEnemies();
+            cell.clearNeighbors();
+            for (Cell cell2 : cells) {
+                if (isCellsConnected(cell, cell2) && ( cell.getType() != cell2.getType() || cell.isFree() )) {
+                    cell.addNeighbor(cell2);
+                    cell.addEnemy(cell2);
+                }
+            }
+            if (cell.getType() != -1) {
+                pm.getPlayers()[cell.getType()].addCell(cell);
+            }
+        }
+
     }
 
     // Auto-generated

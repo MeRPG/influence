@@ -1,91 +1,138 @@
 package com.teremok.influence.view;
 
+import android.util.Log;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
+import com.teremok.influence.model.GestureController;
+import com.teremok.influence.util.Logger;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.teremok.influence.view.Drawer.*;
 
 /**
  * Created by Alexx on 23.12.13
  */
 public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
+    Set<Integer> routerDraw;
+    int counter = 0;
+    int allCounter = 0;
+    float zoomedUnitSize;
+
     @Override
     public void draw (Field field, SpriteBatch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
-        batch.setColor(Color.WHITE);
+        batch.end();
+        zoomedUnitSize = Drawer.UNIT_SIZE * GestureController.getZoom();
 
-        drawShapeBackground(batch);
+        drawShapeBackground();
 
+        counter = 0;
+        allCounter = 0;
+        if (routerDraw == null){
+            routerDraw = new HashSet<Integer>();
+        } else {
+            routerDraw.clear();
+        }
+
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        // draw Routes
         for (Cell c : current.getCells()) {
-            drawCellRoutesShape(batch, c);
+            drawCellRoutesShape(c);
+        }
+
+        // draw Empty
+        for (Cell c : current.getCells()) {
+            drawEmpty(c);
+        }
+        renderer.end();
+
+        // draw Solids
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (Cell c : current.getCells()) {
+            drawSolid(c);
+        }
+        renderer.end();
+
+        ////Logger.log("routes: " + counter + "(" + allCounter + ")");
+
+        batch.begin();
+        if (zoomedUnitSize > MIN_SIZE_FOR_TEXT) {
+            for (Cell c : current.getCells()) {
+                drawText(batch, c);
+            }
         }
     }
 
-    private void drawShapeBackground(SpriteBatch batch) {
-        batch.end();
+    private void drawShapeBackground() {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-
         renderer.setColor(Drawer.getBackgroundColor());
-        renderer.rect(0,0, current.getWidth(), current.getHeight());
-
+        renderer.rect(0, 0, current.getWidth(), current.getHeight());
         renderer.end();
-        batch.begin();
     }
 
-    private void drawCellRoutesShape(SpriteBatch batch, Cell cell) {
-        for (Cell toCell : current.getConnectedCells(cell)) {
-            if (toCell.isValid()) {
+    private void drawSolid(Cell cell) {
+        renderer.setColor(getColor(cell));
+        renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getPower()*0.03f), 6);
+    }
 
-                float centerX = cell.getX() + cell.getWidth()/2;
-                float centerY = cell.getY() + cell.getHeight()/2;
+    private void drawEmpty(Cell cell) {
+        renderer.setColor(getColor(cell));
+        renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getMaxPower()*0.03f), 6);
+    }
 
-
-                float centerXto = toCell.getX() + toCell.getWidth()/2;
-                float centerYto = toCell.getY() + toCell.getHeight()/2;
-
-                batch.end();
-                renderer.begin(ShapeRenderer.ShapeType.Line);
-                switch (cell.getNumber() - toCell.getNumber()) {
-                    case 0:
-                        break;
-                    case -5:
-                        break;
-                    case -4:
-                        break;
-                    case -1:
-                        break;
-                    case 1:
-                        renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByNumber(cell.getType()),
-                                Drawer.getCellColorByNumber(toCell.getType())
-                        );
-                        break;
-                    case 4:
-                        renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByNumber(cell.getType()),
-                                Drawer.getCellColorByNumber(toCell.getType())
-                        );
-                        break;
-                    case 5:
-                        renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByNumber(cell.getType()),
-                                Drawer.getCellColorByNumber(toCell.getType())
-                        );
-                        break;
-                    case 6:
-                        renderer.line(centerX, centerY, centerXto, centerYto,
-                                Drawer.getCellColorByNumber(cell.getType()),
-                                Drawer.getCellColorByNumber(toCell.getType())
-                        );
-                        break;
-                    default:
-                        break;
-                }
-                renderer.end();
-                batch.begin();
+    private void drawText(SpriteBatch batch, Cell cell) {
+        if (bitmapFont != null) {
+            BitmapFont.TextBounds textBounds = bitmapFont.getBounds(cell.getPower()+"");
+            if (cell.isFree()) {
+                bitmapFont.setColor(Drawer.getEmptyCellTextColor());
+            } else {
+                bitmapFont.setColor(Drawer.getCellTextColor());
             }
+            bitmapFont.draw(batch, cell.getPower()+"", current.getX() + cell.getX() + Field.cellWidth/2 - textBounds.width/2,
+                    current.getY() + cell.getY() + Field.cellHeight/2 + textBounds.height/2);
+        }
+    }
+
+    private Color getColor(Cell cell) {
+        Color color;
+        if (cell.isSelected()) {
+            color = Drawer.getCellSelectedColorByNumber(cell.getType());
+        } else {
+            color = Drawer.getCellColorByNumber(cell.getType());
+        }
+        return color;
+    }
+
+    private void drawCellRoutesShape(Cell cell) {
+        for (Cell toCell : cell.getNeighbors()) {
+            Integer code = cell.getNumber() * 1000 + toCell.getNumber();
+
+            if (! routerDraw.contains(code)) {
+
+                routerDraw.add(code);
+                code = toCell.getNumber() * 1000 + cell.getNumber();
+                routerDraw.add(code);
+
+                float centerX = cell.getX() + Field.cellWidth/2;
+                float centerY = cell.getY() + Field.cellHeight/2;
+
+                float centerXto = toCell.getX() + Field.cellWidth/2;
+                float centerYto = toCell.getY() + Field.cellHeight/2;
+
+                renderer.line(centerX, centerY, centerXto, centerYto,
+                        Drawer.getCellColorByNumber(cell.getType()),
+                        Drawer.getCellColorByNumber(toCell.getType()));
+
+                counter++;
+            }
+            allCounter++;
         }
     }
 
