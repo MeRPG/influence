@@ -29,7 +29,7 @@ import com.teremok.influence.view.Animation;
 /**
  * Created by Alexx on 20.12.13
  */
-public class StartScreen extends AbstractScreen {
+public class StartScreenAlt extends StaticScreen {
 
     private static final String QUICK = "quickGame";
     private static final String SINGLEPLAYER = "singleplayer";
@@ -38,60 +38,39 @@ public class StartScreen extends AbstractScreen {
     private static final String VK_COM = "vk";
     private static final String GOOGLE_PLAY = "google_play";
 
-    private Image background;
     private ColoredPanel overlap;
     private ColoredPanel credits;
 
-    public StartScreen(Game game) {
-        super(game);
+    public StartScreenAlt(Game game, String filename) {
+        super(game, filename);
         Settings.init();
     }
 
     @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
+    public void show() {
+        super.show();
+        FXPlayer.load();
 
-        atlas = new TextureAtlas(Gdx.files.internal("startScreen.pack"));
-        for (Texture tex : atlas.getTextures()) {
-            tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        addActors();
+
+        addListeners();
+    }
+
+    private void addActors() {
+
+        ButtonTexture singleplayer = new ButtonTexture(uiElements.get(SINGLEPLAYER));
+        ButtonTexture multiplayer = new ButtonTexture(uiElements.get(MULTIPLAYER));
+        ButtonTexture settings = new ButtonTexture(uiElements.get(SETTINGS));
+        ButtonTexture vk = new ButtonTexture(uiElements.get(VK_COM));
+        ButtonTexture googleplay = new ButtonTexture(uiElements.get(GOOGLE_PLAY));
+
+        initOverlap();
+
+        if (credits == null) {
+            credits = new ColoredPanel(new Color(0x000000FF), 0f, 0f, WIDTH, 54f);
+            stage.addActor(credits);
         }
-        TextureRegion textureRegion = atlas.findRegion("background");
-        background = new Image(new TextureRegionDrawable(textureRegion));
-        background.setScaling(Scaling.fit);
-        background.setAlign(Align.center);
-        background.setTouchable(Touchable.disabled);
-        /*
-        ButtonColored quick = new ButtonColored(QUICK, getFont(),
-                Drawer.getTextColor(), Drawer.getCellColorByNumber(0),
-                115f, 400f, 256f, 64f);
-        */
-        ButtonTexture singleplayer = new ButtonTexture(SINGLEPLAYER,
-                atlas.findRegion(SINGLEPLAYER + "_" + Localizator.getLanguage()),
-                        115f, 296f);
 
-
-        ButtonTexture multiplayer = new ButtonTexture(MULTIPLAYER,
-                atlas.findRegion(MULTIPLAYER + "_" + Localizator.getLanguage()),
-                115f, 192f);
-
-        ButtonTexture settings = new ButtonTexture(SETTINGS,
-                atlas.findRegion(SETTINGS),
-                401f, 68f);
-
-        ButtonTexture vk = new ButtonTexture(VK_COM,
-                atlas.findRegion(VK_COM),
-                17f, 69f);
-
-        ButtonTexture googleplay = new ButtonTexture(GOOGLE_PLAY,
-                atlas.findRegion(GOOGLE_PLAY),
-                84f, 69f);
-
-        overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
-        overlap.setTouchable(Touchable.disabled);
-        overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
-
-        stage.addActor(background);
-        //stage.addActor(quick);
         stage.addActor(singleplayer);
         stage.addActor(multiplayer);
         stage.addActor(settings);
@@ -100,16 +79,14 @@ public class StartScreen extends AbstractScreen {
         stage.addActor(overlap);
     }
 
-    @Override
-    public void show() {
-        super.show();
-        FXPlayer.load();
+    private void initOverlap() {
+        overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
+        overlap.setTouchable(Touchable.disabled);
+        overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
 
-        if (credits == null) {
-            credits = new ColoredPanel(new Color(0x000000FF), 0f, 0f, WIDTH, 54f);
-            stage.addActor(credits);
-        }
+    }
 
+    private void addListeners() {
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -175,8 +152,8 @@ public class StartScreen extends AbstractScreen {
 
     public void startSingleplayerGame () {
         SequenceAction sequenceAction = Actions.sequence(
-            Actions.fadeIn(Animation.DURATION_NORMAL),
-            createStartGameAction(GameType.SINGLEPLAYER)
+                Actions.fadeIn(Animation.DURATION_NORMAL),
+                createStartGameAction(GameType.SINGLEPLAYER)
         );
         overlap.addAction(sequenceAction);
     }

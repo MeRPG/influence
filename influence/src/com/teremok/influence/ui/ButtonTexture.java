@@ -19,7 +19,16 @@ public class ButtonTexture extends Actor implements Button {
         float actorHeight = region.getRegionHeight();
 
         setBounds(x, y, actorWidth, actorHeight);
+    }
 
+    public ButtonTexture(UIElementParams params) {
+        this.code = params.name;
+        this.region = params.region;
+
+        float actorWidth = region.getRegionWidth();
+        float actorHeight = region.getRegionHeight();
+
+        setBounds(params.x, params.y, actorWidth, actorHeight);
     }
 
     @Override

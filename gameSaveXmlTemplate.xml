@@ -1,0 +1,11 @@
+<match>
+	<gameType>SINGLEPLAYER</gameType>
+	<players>
+		<player number="0">HUMAN</player>
+		<player number="1">DUMMY</player>
+	</players>
+	<field maxX="2" maxY="2">
+		<cell isBig="false" ></cell>
+	</field>
+
+</match>

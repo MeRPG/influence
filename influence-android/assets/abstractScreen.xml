@@ -1,0 +1,12 @@
+<screen atlas="startScreen" localized="false">
+    <element name="singleplayer" localized="true"
+            x="115" y="296"/>
+    <element name="multiplayer" localized="true"
+             x="115" y="192"/>
+    <element name="settings" localized="false"
+             x="401" y="68"/>
+    <element name="vk" localized="false"
+             x="17" y="69f"/>
+    <element name="google_play" localized="false"
+             x="84" y="69"/>
+</screen>
