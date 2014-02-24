@@ -18,6 +18,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.Animation;
 
@@ -46,8 +47,70 @@ public class SettingsScreen extends AbstractScreen {
     }
 
     @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
+    public void show() {
+        super.show();
+        FXPlayer.load();
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Actor hit = stage.hit(x,y,true);
+                return hit != null;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if (! event.isHandled()) {
+                    if (event.getTarget() instanceof Checkbox) {
+                        Checkbox checkbox = (Checkbox)event.getTarget();
+                        if (checkbox instanceof RadioColored || checkbox instanceof RadioTexture) {
+                            checkbox.check();
+                        } else if (checkbox.isChecked()) {
+                            checkbox.unCheck();
+                        } else {
+                            checkbox.check();
+                        }
+                        String code = checkbox.getCode();
+                        RadioGroup group = (RadioGroup)checkbox.getGroup();
+                        if (group == null) {
+                            if (code.equals(VIBRATE)) {
+                                Settings.vibrate = checkbox.isChecked();
+                                Vibrator.bzz();
+                            } else if (code.equals(SOUNDS)) {
+                                Settings.sound = checkbox.isChecked();
+                            }
+                        } else {
+                            if (group.getCode() == LANGUAGE_GROUP) {
+                                if (code.equals(Localizator.LANGUAGE_RUSSIAN)) {
+                                    Localizator.setRussianLanguage();
+                                } else {
+                                    Localizator.setEnglishLanguage();
+                                }
+                                resize(width, height);
+                            } else {
+                                if (code.equals(SPEED_NORMAL)) {
+                                    Settings.speed = Settings.NORMAL;
+                                } else if (code.equals(SPEED_FAST)) {
+                                    Settings.speed = Settings.FAST;
+                                } else if (code.equals(SPEED_SLOW)) {
+                                    Settings.speed = Settings.SLOW;
+                                }
+                            }
+                        }
+                    }
+                    FXPlayer.playClick();
+                }
+            }
+
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
+                    Settings.save();
+                    openSettingsScreen();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         this.width = width;
         this.height = height;
@@ -193,73 +256,8 @@ public class SettingsScreen extends AbstractScreen {
         stage.addActor(normal);
         stage.addActor(fast);
         stage.addActor(overlap);
-    }
 
-    @Override
-    public void show() {
-        super.show();
-        FXPlayer.load();
-        stage.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Actor hit = stage.hit(x,y,true);
-                return hit != null;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (! event.isHandled()) {
-                    if (event.getTarget() instanceof Checkbox) {
-                        Checkbox checkbox = (Checkbox)event.getTarget();
-                        if (checkbox instanceof RadioColored || checkbox instanceof RadioTexture) {
-                            checkbox.check();
-                        } else if (checkbox.isChecked()) {
-                            checkbox.unCheck();
-                        } else {
-                            checkbox.check();
-                        }
-                        String code = checkbox.getCode();
-                        RadioGroup group = (RadioGroup)checkbox.getGroup();
-                        if (group == null) {
-                            if (code.equals(VIBRATE)) {
-                                Settings.vibrate = checkbox.isChecked();
-                                Vibrator.bzz();
-                            } else if (code.equals(SOUNDS)) {
-                                Settings.sound = checkbox.isChecked();
-                            }
-                        } else {
-                            if (group.getCode() == LANGUAGE_GROUP) {
-                                if (code.equals(Localizator.LANGUAGE_RUSSIAN)) {
-                                    Localizator.setRussianLanguage();
-                                } else {
-                                    Localizator.setEnglishLanguage();
-                                }
-                                resize(width, height);
-                            } else {
-                                if (code.equals(SPEED_NORMAL)) {
-                                    Settings.speed = Settings.NORMAL;
-                                } else if (code.equals(SPEED_FAST)) {
-                                    Settings.speed = Settings.FAST;
-                                } else if (code.equals(SPEED_SLOW)) {
-                                    Settings.speed = Settings.SLOW;
-                                }
-                            }
-                        }
-                    }
-                    FXPlayer.playClick();
-                }
-            }
-
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    Settings.save();
-                    openSettingsScreen();
-                    return true;
-                }
-                return false;
-            }
-        });
+        Logger.log("SettingsScreen: show;");
     }
 
     public void openSettingsScreen () {
@@ -278,5 +276,35 @@ public class SettingsScreen extends AbstractScreen {
                 return false;
             }
         };
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+        Logger.log("SettingsScreen: hide;");
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        Logger.log("SettingsScreen: resize;");
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        Logger.log("SettingsScreen: pause;");
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+        Logger.log("SettingsScreen: resume;");
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        Logger.log("SettingsScreen: dispose;");
     }
 }

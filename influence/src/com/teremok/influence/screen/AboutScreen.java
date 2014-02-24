@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -38,23 +39,25 @@ public class AboutScreen extends AbstractScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        Logger.log("AboutScreen: resize;");
+    }
 
-        atlas = new TextureAtlas(Gdx.files.internal("aboutScreen.pack"));
-        for (Texture tex : atlas.getTextures()) {
-            tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
-        TextureRegion textureRegion = atlas.findRegion("background_" + Localizator.getLanguage());
-        background = new Image(new TextureRegionDrawable(textureRegion));
-        background.setScaling(Scaling.fit);
-        background.setAlign(Align.center);
-        background.setTouchable(Touchable.disabled);
+    @Override
+    public void hide() {
+        super.hide();
+        Logger.log("AboutScreen: hide;");
+    }
 
-        overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
-        overlap.setTouchable(Touchable.disabled);
-        overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
+    @Override
+    public void pause() {
+        super.pause();
+        Logger.log("AboutScreen: pause;");
+    }
 
-        stage.addActor(background);
-        stage.addActor(overlap);
+    @Override
+    public void dispose() {
+        super.dispose();
+        Logger.log("AboutScreen: dispose;");
     }
 
     @Override
@@ -94,6 +97,25 @@ public class AboutScreen extends AbstractScreen {
                 }
             }
         });
+
+        atlas = new TextureAtlas(Gdx.files.internal("aboutScreen.pack"));
+        for (Texture tex : atlas.getTextures()) {
+            tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+        TextureRegion textureRegion = atlas.findRegion("background_" + Localizator.getLanguage());
+        background = new Image(new TextureRegionDrawable(textureRegion));
+        background.setScaling(Scaling.fit);
+        background.setAlign(Align.center);
+        background.setTouchable(Touchable.disabled);
+
+        overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
+        overlap.setTouchable(Touchable.disabled);
+        overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
+
+        stage.addActor(background);
+        stage.addActor(overlap);
+
+        Logger.log("AboutScreen: show;");
     }
 
     public void openStartScreen () {

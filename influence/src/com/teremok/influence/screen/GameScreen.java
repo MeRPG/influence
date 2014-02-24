@@ -59,8 +59,8 @@ public class GameScreen extends AbstractScreen {
     }
 
     @Override
-    public void resize(int width, int height) {
-        super.resize(width,height);
+    public void show() {
+        super.show();
 
         AbstractDrawer.setBitmapFont(getFont());
         initOverlap();
@@ -70,6 +70,8 @@ public class GameScreen extends AbstractScreen {
         updateMatchDependentActors();
 
         addInputListenerToStage();
+
+        Logger.log("GameScreen: show;");
     }
 
     void initOverlap() {
@@ -266,6 +268,7 @@ public class GameScreen extends AbstractScreen {
         Drawer.dispose();
         FXPlayer.dispose();
         pauseMatch();
+        Logger.log("GameScreen: show;");
     }
 
     @Override
@@ -274,7 +277,27 @@ public class GameScreen extends AbstractScreen {
         FXPlayer.load();
         if (match.isPaused())
             pausePanel.show();
+        Logger.log("GameScreen: show;");
     }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        Logger.log("GameScreen: resize;");
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+        Logger.log("GameScreen: hide;");
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        Logger.log("GameScreen: dispose;");
+    }
+
 
     // Auto-generated
 
