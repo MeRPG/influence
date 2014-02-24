@@ -2,6 +2,7 @@ package com.teremok.influence;
 
 import com.badlogic.gdx.Game;
 import com.teremok.influence.model.Localizator;
+import com.teremok.influence.screen.ScreenController;
 import com.teremok.influence.screen.StartScreen;
 import com.teremok.influence.screen.StartScreenAlt;
 import com.teremok.influence.screen.StaticScreen;
@@ -21,6 +22,7 @@ public class Influence extends Game {
 
     @Override
 	public void create() {
-    	setScreen(new StartScreenAlt(this, "abstractScreen.xml"));
+        ScreenController.init(this);
+        ScreenController.showStartScreen();
 	}
 }

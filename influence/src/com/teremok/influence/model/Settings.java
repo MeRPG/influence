@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
 import com.teremok.influence.util.Logger;
+import org.xml.sax.XMLReader;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class Settings {
     public static boolean vibrate;
     public static float speed;
 
-    public static boolean debug = true;
+    public static boolean debug;
 
     private static final String FILENAME = ".influence-settings";
 
@@ -39,6 +40,7 @@ public class Settings {
                     .element("vibrate", vibrate)
                     .element("speed", speed)
                     .element("language", Localizator.getLanguage())
+                    .element("debug", debug)
                     .pop();
             xml.flush();
             fileWriter.flush();
@@ -67,6 +69,11 @@ public class Settings {
                 myString = root.getChildByName("language").getText();
                 Localizator.setLanguage(myString);
 
+                myString = getElementText(root, "debug");
+                if (! myString.isEmpty()) {
+                    debug = Boolean.parseBoolean(myString);
+                }
+
                 return true;
             } catch (IOException exception) {
                 exception.printStackTrace();
@@ -80,15 +87,24 @@ public class Settings {
         }
     }
 
+    private static String getElementText(XmlReader.Element root, String elementName) {
+        XmlReader.Element element = root.getChildByName(elementName);
+        if (element != null) {
+            return element.getText();
+        }
+        return "";
+    }
+
     public static void reset() {
         sound = true;
         vibrate = true;
         speed = NORMAL;
+        debug = false;
         Localizator.setDefaultLanguage();
-        save();
     }
 
     public static void init() {
+        reset();
         if (! load())
             reset();
     }

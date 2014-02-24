@@ -33,8 +33,8 @@ public abstract class AbstractScreen implements Screen {
     public BitmapFont getFont() {
         if (font == null)  {
             font = new BitmapFont(
-                    Gdx.files.internal("mainFont.fnt"),
-                    Gdx.files.internal("mainFont.png"), false
+                    Gdx.files.internal("font/mainFont.fnt"),
+                    Gdx.files.internal("font/mainFont.png"), false
             );
         }
         return font;

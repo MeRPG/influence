@@ -24,6 +24,7 @@ import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.ResourseManager;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -51,10 +52,8 @@ public class StartScreen extends AbstractScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
 
-        atlas = new TextureAtlas(Gdx.files.internal("startScreen.pack"));
-        for (Texture tex : atlas.getTextures()) {
-            tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
+        atlas = ResourseManager.getAtlas("startScreen");
+
         TextureRegion textureRegion = atlas.findRegion("background");
         background = new Image(new TextureRegionDrawable(textureRegion));
         background.setScaling(Scaling.fit);

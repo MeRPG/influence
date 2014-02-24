@@ -18,6 +18,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.ResourseManager;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -55,11 +56,7 @@ public class PausePanel extends Group {
     }
 
     private void loadAndMakeButtons() {
-        atlas = new TextureAtlas(Gdx.files.internal("pausePanel.pack"));
-
-        for (Texture texture : atlas.getTextures()) {
-            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
+        atlas = ResourseManager.getAtlas("pausePanel");
 
         background = atlas.findRegion("background");
         Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );

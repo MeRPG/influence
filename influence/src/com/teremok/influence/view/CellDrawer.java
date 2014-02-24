@@ -15,6 +15,7 @@ import com.teremok.influence.model.Field;
 /**
  * Created by Alexx on 23.12.13
  */
+@Deprecated
 public class CellDrawer { /*extends AbstractDrawer<Cell> {
 
     private TextureAtlas atlas;

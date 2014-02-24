@@ -71,7 +71,7 @@ public class FXPlayer {
         Sound sound = sounds.get(name);
         if (sound != null)
             sound.dispose();
-        sounds.put(name, Gdx.audio.newSound(Gdx.files.internal(name+".mp3")));
+        sounds.put(name, Gdx.audio.newSound(Gdx.files.internal("sound/" + name+".mp3")));
     }
 
 

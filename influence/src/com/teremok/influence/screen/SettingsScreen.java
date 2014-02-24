@@ -19,6 +19,7 @@ import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
+import com.teremok.influence.util.ResourseManager;
 import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.Animation;
 
@@ -118,10 +119,7 @@ public class SettingsScreen extends AbstractScreen {
         if (atlas != null) {
             atlas.dispose();
         }
-        atlas = new TextureAtlas(Gdx.files.internal("settingsScreen_" + Localizator.getLanguage() +".pack"));
-        for (Texture tex : atlas.getTextures()) {
-            tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
+        atlas = ResourseManager.getAtlas("settingsScreen_" + Localizator.getLanguage());
         TextureRegion textureRegion = atlas.findRegion("background");
         background = new Image(new TextureRegionDrawable(textureRegion));
         background.setScaling(Scaling.fit);

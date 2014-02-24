@@ -21,6 +21,7 @@ import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
+import com.teremok.influence.util.ResourseManager;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
@@ -81,10 +82,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     void initBacklight() {
-        atlas = new TextureAtlas(Gdx.files.internal("gameScreen.pack"));
-        for (Texture tex : atlas.getTextures()) {
-            tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
+        atlas = ResourseManager.getAtlas("gameScreen");
         TextureRegion textureRegion = atlas.findRegion("backlight");
         backlight =  new Image(new TextureRegionDrawable(textureRegion));
         backlight.setScaling(Scaling.fit);

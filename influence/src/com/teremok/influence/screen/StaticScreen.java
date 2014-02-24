@@ -17,6 +17,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.UIElement;
 import com.teremok.influence.ui.UIElementParams;
 import com.teremok.influence.util.Logger;
+import com.teremok.influence.util.ResourseManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class StaticScreen extends AbstractScreen {
     }
 
     private void loadScreen() throws IOException {
-        FileHandle handle = Gdx.files.internal(filename);
+        FileHandle handle = ResourseManager.getScreenUi(filename);
         XmlReader reader = new XmlReader();
         XmlReader.Element root = reader.parse(handle.reader());
 
@@ -75,13 +76,9 @@ public class StaticScreen extends AbstractScreen {
 
         atlasName = root.getAttribute(ATLAS_ATTR);
         if (localizedAtlas) {
-            atlas = new TextureAtlas(Gdx.files.internal(atlasName + "_" + Localizator.getLanguage() +".pack"));
+            atlas = ResourseManager.getAtlas(atlasName + "_" + Localizator.getLanguage());
         } else {
-            atlas = new TextureAtlas(Gdx.files.internal(atlasName + ".pack"));
-        }
-
-        for (Texture texture : atlas.getTextures()) {
-            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            atlas = ResourseManager.getAtlas(atlasName);
         }
     }
 

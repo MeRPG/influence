@@ -21,6 +21,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
+import com.teremok.influence.util.ResourseManager;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -98,10 +99,7 @@ public class AboutScreen extends AbstractScreen {
             }
         });
 
-        atlas = new TextureAtlas(Gdx.files.internal("aboutScreen.pack"));
-        for (Texture tex : atlas.getTextures()) {
-            tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
+        atlas = ResourseManager.getAtlas("aboutScreen");
         TextureRegion textureRegion = atlas.findRegion("background_" + Localizator.getLanguage());
         background = new Image(new TextureRegionDrawable(textureRegion));
         background.setScaling(Scaling.fit);
