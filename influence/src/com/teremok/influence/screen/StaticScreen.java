@@ -38,6 +38,7 @@ public class StaticScreen extends AbstractScreen {
     private static final String REGION_ATTR = "region";
     private static final String SECOND_REGION_ATTR = "secondRegion";
     private static final String LOCALE_ATTR = "localized";
+    private static final String LOCALE_BACK_ATTR = "localizedBackground";
     private static final String X_ATTR = "x";
     private static final String Y_ATTR = "y";
 
@@ -68,7 +69,7 @@ public class StaticScreen extends AbstractScreen {
         XmlReader.Element root = reader.parse(handle.reader());
 
         loadAtlas(root);
-        loadBackground();
+        loadBackground(root);
         loadElements(root);
     }
 
@@ -85,8 +86,14 @@ public class StaticScreen extends AbstractScreen {
         }
     }
 
-    private void loadBackground() {
-        TextureRegion textureRegion = atlas.findRegion("background");
+    private void loadBackground(XmlReader.Element root) {
+        boolean localized = root.getBoolean(LOCALE_BACK_ATTR, false);
+        TextureRegion textureRegion;
+        if (localized) {
+            textureRegion = atlas.findRegion("background_" + Localizator.getLanguage());
+        } else {
+            textureRegion = atlas.findRegion("background");
+        }
         background = new Image(new TextureRegionDrawable(textureRegion));
         background.setScaling(Scaling.fit);
         background.setAlign(Align.center);
@@ -139,6 +146,7 @@ public class StaticScreen extends AbstractScreen {
         overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
         overlap.setTouchable(Touchable.disabled);
         overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
+        stage.addActor(overlap);
     }
 
     @Override

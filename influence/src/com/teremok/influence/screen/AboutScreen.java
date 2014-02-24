@@ -27,6 +27,7 @@ import com.teremok.influence.view.Animation;
 /**
  * Created by Alexx on 20.12.13
  */
+@Deprecated
 public class AboutScreen extends AbstractScreen {
 
     private Image background;

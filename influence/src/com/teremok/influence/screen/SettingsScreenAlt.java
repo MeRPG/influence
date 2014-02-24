@@ -134,8 +134,6 @@ public class SettingsScreenAlt extends StaticScreen {
             fast.check();
         }
 
-        initOverlap();
-
         stage.addActor(background);
         stage.addActor(sounds);
 
@@ -147,7 +145,8 @@ public class SettingsScreenAlt extends StaticScreen {
         stage.addActor(slow);
         stage.addActor(normal);
         stage.addActor(fast);
-        stage.addActor(overlap);
+
+        initOverlap();
 
         Logger.log("SettingsScreen: show;");
     }

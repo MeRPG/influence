@@ -30,6 +30,7 @@ import com.teremok.influence.view.Animation;
 /**
  * Created by Alexx on 20.12.13
  */
+@Deprecated
 public class StartScreen extends AbstractScreen {
 
     private static final String QUICK = "quickGame";

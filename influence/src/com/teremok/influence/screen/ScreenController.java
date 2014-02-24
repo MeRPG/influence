@@ -13,6 +13,7 @@ public class ScreenController {
 
     private static Influence game;
 
+    private static AboutScreenAlt aboutScreen;
     private static StartScreenAlt startScreen;
     private static SettingsScreenAlt settingsScreen;
     private static StaticScreen currentScreen;
@@ -40,11 +41,20 @@ public class ScreenController {
         gracefullyShowScreen(settingsScreen);
     }
 
+    public static void showAboutScreen() {
+        if (aboutScreen == null) {
+            aboutScreen = new AboutScreenAlt(game, "aboutScreen");
+        }
+        gracefullyShowScreen(aboutScreen);
+    }
+
     private static void gracefullyShowScreen(StaticScreen screen) {
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
                 createScreenAction(screen)
         );
+        if (currentScreen.overlap == null)
+            currentScreen.initOverlap();
         currentScreen.overlap.addAction(sequenceAction);
     }
 

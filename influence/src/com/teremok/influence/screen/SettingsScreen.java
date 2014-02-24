@@ -26,6 +26,7 @@ import com.teremok.influence.view.Animation;
 /**
  * Created by Alexx on 08.02.14
  */
+@Deprecated
 public class SettingsScreen extends AbstractScreen {
 
     private static final String SOUNDS = "sounds";

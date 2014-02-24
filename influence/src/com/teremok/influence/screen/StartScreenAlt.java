@@ -57,8 +57,6 @@ public class StartScreenAlt extends StaticScreen {
         ButtonTexture vk = new ButtonTexture(uiElements.get(VK_COM));
         ButtonTexture googleplay = new ButtonTexture(uiElements.get(GOOGLE_PLAY));
 
-        initOverlap();
-
         if (credits == null) {
             credits = new ColoredPanel(new Color(0x000000FF), 0f, 0f, WIDTH, 54f);
             stage.addActor(credits);
@@ -69,7 +67,8 @@ public class StartScreenAlt extends StaticScreen {
         stage.addActor(settings);
         stage.addActor(vk);
         stage.addActor(googleplay);
-        stage.addActor(overlap);
+
+        initOverlap();
     }
 
     private void addListeners() {
@@ -123,7 +122,7 @@ public class StartScreenAlt extends StaticScreen {
                 super.touchUp(event, x, y, pointer, button);
                 if (!event.isHandled()) {
                     FXPlayer.playClick();
-                    openAboutScreen();
+                    ScreenController.showAboutScreen();
                 }
             }
         });
@@ -174,24 +173,6 @@ public class StartScreenAlt extends StaticScreen {
             game.setScreen(new GameScreen(game, gameType));
             return true;
         }
-    }
-
-    public void openAboutScreen() {
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.fadeIn(Animation.DURATION_NORMAL),
-                createAboutAction()
-        );
-        overlap.addAction(sequenceAction);
-    }
-
-    public Action createAboutAction() {
-        return new Action() {
-            @Override
-            public boolean act(float delta) {
-                game.setScreen(new AboutScreen(game));
-                return false;
-            }
-        };
     }
 
     @Override
