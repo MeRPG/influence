@@ -92,7 +92,8 @@ public class StartScreenAlt extends StaticScreen {
                     } else if (code.equals(MULTIPLAYER)){
                         startMultiplayerGame();
                     } else if (code.equals(SETTINGS)){
-                        openSettingsScreen();
+                        //openSettingsScreen();
+                        ScreenController.showSettingsScreen();
                     } else if (code.equals(VK_COM)){
                         goToVkCom();
                     } else if (code.equals(GOOGLE_PLAY)){
@@ -173,24 +174,6 @@ public class StartScreenAlt extends StaticScreen {
             game.setScreen(new GameScreen(game, gameType));
             return true;
         }
-    }
-
-    public void openSettingsScreen () {
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.fadeIn(Animation.DURATION_NORMAL),
-                createSettingsAction()
-        );
-        overlap.addAction(sequenceAction);
-    }
-
-    public Action createSettingsAction() {
-        return new Action() {
-            @Override
-            public boolean act(float delta) {
-                ScreenController.showSettingsScreen();
-                return true;
-            }
-        };
     }
 
     public void openAboutScreen() {

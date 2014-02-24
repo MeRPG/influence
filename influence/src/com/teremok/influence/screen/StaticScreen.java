@@ -31,7 +31,7 @@ public class StaticScreen extends AbstractScreen {
     private String filename;
     protected Map<String, UIElementParams> uiElements;
     protected Image background;
-    protected ColoredPanel overlap;
+    public ColoredPanel overlap;
 
     private static final String ATLAS_ATTR = "atlas";
     private static final String NAME_ATTR = "name";

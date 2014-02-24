@@ -89,7 +89,7 @@ public class SettingsScreenAlt extends StaticScreen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
                     Settings.save();
-                    openSettingsScreen();
+                    ScreenController.showStartScreen();
                     return true;
                 }
                 return false;
@@ -150,23 +150,5 @@ public class SettingsScreenAlt extends StaticScreen {
         stage.addActor(overlap);
 
         Logger.log("SettingsScreen: show;");
-    }
-
-    public void openSettingsScreen () {
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.fadeIn(Animation.DURATION_NORMAL),
-                createStartScreenAction()
-        );
-        overlap.addAction(sequenceAction);
-    }
-
-    public Action createStartScreenAction() {
-        return new Action() {
-            @Override
-            public boolean act(float delta) {
-                ScreenController.showStartScreen();
-                return true;
-            }
-        };
     }
 }
