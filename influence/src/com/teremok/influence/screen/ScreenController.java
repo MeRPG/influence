@@ -10,6 +10,7 @@ public class ScreenController {
     private static Influence game;
 
     private static StartScreenAlt startScreen;
+    private static SettingsScreenAlt settingsScreen;
 
     public static void init(Influence game) {
         ScreenController.game = game;
@@ -20,6 +21,13 @@ public class ScreenController {
             startScreen = new StartScreenAlt(game, "abstractScreen");
         }
         game.setScreen(startScreen);
+    }
+
+    public static void showSettingsScreen() {
+        if (settingsScreen == null) {
+            settingsScreen = new SettingsScreenAlt(game, "settingsScreen");
+        }
+        game.setScreen(settingsScreen);
     }
 
 }

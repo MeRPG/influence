@@ -32,7 +32,6 @@ public class StartScreenAlt extends StaticScreen {
     private static final String VK_COM = "vk";
     private static final String GOOGLE_PLAY = "google_play";
 
-    private ColoredPanel overlap;
     private ColoredPanel credits;
 
     public StartScreenAlt(Game game, String filename) {
@@ -71,13 +70,6 @@ public class StartScreenAlt extends StaticScreen {
         stage.addActor(vk);
         stage.addActor(googleplay);
         stage.addActor(overlap);
-    }
-
-    private void initOverlap() {
-        overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
-        overlap.setTouchable(Touchable.disabled);
-        overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
-
     }
 
     private void addListeners() {
@@ -195,8 +187,8 @@ public class StartScreenAlt extends StaticScreen {
         return new Action() {
             @Override
             public boolean act(float delta) {
-                game.setScreen(new SettingsScreen(game));
-                return false;
+                ScreenController.showSettingsScreen();
+                return true;
             }
         };
     }

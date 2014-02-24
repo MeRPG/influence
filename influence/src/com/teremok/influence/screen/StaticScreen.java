@@ -1,12 +1,11 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -14,10 +13,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.XmlReader;
 import com.teremok.influence.model.Localizator;
-import com.teremok.influence.ui.UIElement;
+import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.ui.UIElementParams;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.ResourseManager;
+import com.teremok.influence.view.Animation;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,9 +31,12 @@ public class StaticScreen extends AbstractScreen {
     private String filename;
     protected Map<String, UIElementParams> uiElements;
     protected Image background;
+    protected ColoredPanel overlap;
 
     private static final String ATLAS_ATTR = "atlas";
     private static final String NAME_ATTR = "name";
+    private static final String REGION_ATTR = "region";
+    private static final String SECOND_REGION_ATTR = "secondRegion";
     private static final String LOCALE_ATTR = "localized";
     private static final String X_ATTR = "x";
     private static final String Y_ATTR = "y";
@@ -105,19 +108,37 @@ public class StaticScreen extends AbstractScreen {
     private void loadElement(XmlReader.Element element) {
         UIElementParams params = new UIElementParams();
         params.name = element.getAttribute(NAME_ATTR);
+
+        String region = element.getAttribute(REGION_ATTR);
+        String secondRegion = element.getAttribute(SECOND_REGION_ATTR, "");
+
         params.localized = Boolean.parseBoolean(element.getAttribute(LOCALE_ATTR));
 
         if (params.localized) {
-            params.region = atlas.findRegion(params.name + "_" + Localizator.getLanguage());
-            Logger.log("finding localized region: " + params.name + "_" + Localizator.getLanguage());
+            params.region = atlas.findRegion(region + "_" + Localizator.getLanguage());
+            Logger.log("finding localized region: " + region + "_" + Localizator.getLanguage() + " : " + params.region);
+            if (! secondRegion.isEmpty()) {
+                params.region2 = atlas.findRegion(secondRegion + "_" + Localizator.getLanguage());
+                Logger.log("finding localized region: " + secondRegion + "_" + Localizator.getLanguage() + " : " + params.region2);
+            }
         } else {
-            params.region = atlas.findRegion(params.name);
-            Logger.log("finding region: " + params.name);
+            params.region = atlas.findRegion(region);
+            Logger.log("finding region: " + region + " : " + params.region);
+            if (! secondRegion.isEmpty()) {
+                params.region2 = atlas.findRegion(secondRegion);
+                Logger.log("finding region: " + secondRegion + " : " + params.region2);
+            }
         }
 
         params.x = Float.parseFloat(element.getAttribute(X_ATTR));
         params.y = Float.parseFloat(element.getAttribute(Y_ATTR));
         uiElements.put(params.name, params);
+    }
+
+    protected void initOverlap() {
+        overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
+        overlap.setTouchable(Touchable.disabled);
+        overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
     }
 
     @Override
@@ -131,6 +152,11 @@ public class StaticScreen extends AbstractScreen {
         super.show();
         Logger.log("show - loading textures from " + filename);
         loadScreenCatchEx();
+    }
+
+    @Override
+    public void hide() {
+        //super.hide();
     }
 }
 

@@ -1,5 +1,6 @@
 package com.teremok.influence.ui;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -9,6 +10,7 @@ public class UIElementParams {
     public String name;
     public boolean localized;
     public TextureRegion region;
+    public TextureRegion region2;
     public float x;
     public float y;
 

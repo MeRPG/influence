@@ -10,6 +10,7 @@ import com.teremok.influence.model.GestureController;
 /**
  * Created by Alexx on 23.12.13
  */
+@Deprecated
 public class CellShapeDrawer { /*extends AbstractDrawer<Cell> {
 
     private static final float  MIN_SIZE_FOR_TEXT = 24f;
