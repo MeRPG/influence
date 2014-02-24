@@ -28,6 +28,8 @@ public class ButtonTexture extends Actor implements Button {
         float actorWidth = region.getRegionWidth();
         float actorHeight = region.getRegionHeight();
 
+        params.parsed = true;
+
         setBounds(params.x, params.y, actorWidth, actorHeight);
     }
 

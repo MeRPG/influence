@@ -13,6 +13,7 @@ public class UIElementParams {
     public TextureRegion region2;
     public float x;
     public float y;
+    public boolean parsed;
 
     @Override
     public boolean equals(Object o) {

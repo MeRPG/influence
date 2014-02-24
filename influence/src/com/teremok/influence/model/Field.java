@@ -1,6 +1,5 @@
 package com.teremok.influence.model;
 
-import android.view.GestureDetector;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,7 +8,7 @@ import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
-import com.teremok.influence.screen.GameScreen;
+import com.teremok.influence.screen.GameScreenAlt;
 import com.teremok.influence.ui.Tooltip;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FXPlayer;
@@ -17,7 +16,6 @@ import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
-import com.teremok.influence.view.Drawer;
 
 import java.util.*;
 
@@ -377,11 +375,11 @@ public class Field extends Group {
 
             if (Calculator.getDelta() > 0) {
                 if (defence.getType() != -1) {
-                    GameScreen.colorForBorder = getBacklightWinColor();
+                    GameScreenAlt.colorForBorder = getBacklightWinColor();
                     FXPlayer.playWin();
                 }
             } else {
-                GameScreen.colorForBorder = getBacklightLoseColor();
+                GameScreenAlt.colorForBorder = getBacklightLoseColor();
                 FXPlayer.playLose();
             }
             if (defence.getPower() != 0) {
@@ -391,10 +389,10 @@ public class Field extends Group {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getNumber()) {
                     if (Calculator.getDelta() > 0) {
-                        GameScreen.colorForBorder = getBacklightLoseColor();
+                        GameScreenAlt.colorForBorder = getBacklightLoseColor();
                         FXPlayer.playWin();
                     } else {
-                        GameScreen.colorForBorder = getBacklightWinColor();
+                        GameScreenAlt.colorForBorder = getBacklightWinColor();
                         FXPlayer.playLose();
                     }
                     Vibrator.bzz();

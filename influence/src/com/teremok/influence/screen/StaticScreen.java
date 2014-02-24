@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.XmlReader;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.ColoredPanel;
+import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.UIElementParams;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.ResourseManager;
@@ -112,6 +113,15 @@ public class StaticScreen extends AbstractScreen {
         }
     }
 
+    protected void addNonparsed() {
+        for (UIElementParams params : uiElements.values()) {
+            if (! params.parsed) {
+                stage.addActor(new TexturePanel(params));
+                Logger.log("add non parsed element as TexturePanel: " + params.name);
+            }
+        }
+    }
+
     private void loadElement(XmlReader.Element element) {
         UIElementParams params = new UIElementParams();
         params.name = element.getAttribute(NAME_ATTR);
@@ -152,6 +162,7 @@ public class StaticScreen extends AbstractScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        addNonparsed();
         Logger.log("resize");
     }
 

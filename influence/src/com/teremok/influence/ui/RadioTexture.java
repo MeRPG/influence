@@ -9,10 +9,12 @@ public class RadioTexture extends CheckboxTexture {
 
     public RadioTexture(String code, UIElementParams params) {
         this(code, params.region, params.region2, params.x, params.y);
+        params.parsed = true;
     }
 
     public RadioTexture(UIElementParams params) {
         this(params.name, params.region, params.region2, params.x, params.y);
+        params.parsed = true;
     }
 
     public RadioTexture(String code, TextureRegion regionOn, TextureRegion regionOff, float x, float y) {

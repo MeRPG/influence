@@ -4,9 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.teremok.influence.screen.GameScreen;
+import com.teremok.influence.screen.GameScreenAlt;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
-import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 15.02.14

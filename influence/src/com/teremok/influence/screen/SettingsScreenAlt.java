@@ -148,6 +148,8 @@ public class SettingsScreenAlt extends StaticScreen {
 
         initOverlap();
 
+        addNonparsed();
+
         Logger.log("SettingsScreen: show;");
     }
 }

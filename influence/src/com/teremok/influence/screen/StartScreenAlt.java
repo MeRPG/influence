@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.model.GameType;
@@ -170,7 +169,7 @@ public class StartScreenAlt extends StaticScreen {
         }
         @Override
         public boolean act(float delta) {
-            game.setScreen(new GameScreen(game, gameType));
+            game.setScreen(new GameScreenAlt(game, gameType));
             return true;
         }
     }

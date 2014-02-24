@@ -14,10 +14,14 @@ public class CheckboxTexture extends Checkbox {
 
     public CheckboxTexture(String code, UIElementParams params) {
         this(code, params.region, params.region2, params.x, params.y);
+
+        params.parsed = true;
     }
 
     public CheckboxTexture(UIElementParams params) {
         this(params.name, params.region, params.region2, params.x, params.y);
+
+        params.parsed = true;
     }
 
     public CheckboxTexture(String code, TextureRegion regionOn, TextureRegion regionOff, float x, float y) {
