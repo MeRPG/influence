@@ -1,0 +1,20 @@
+<screen atlas="settingsScreen" localized="true">
+    <element name="sounds" region="soundOn" secondRegion="soundOff" localized="false"
+            x="15" y="296"/>
+    <element name="vibrate" region="vibrationOn" secondRegion="vibrationOff" localized="false"
+            x="15" y="296"/>
+    <element name="ru" region="languageRussianOn" secondRegion="languageRussianOff" localized="false"
+            x="15" y="296"/>
+    <element name="en" region="languageEnglishOn" secondRegion="languageEnglishOff" localized="false"
+            x="15" y="296"/>
+    <element name="slow" region="speedSlowOn" secondRegion="speedSlowOff" localized="false"
+            x="15" y="296"/>
+    <element name="normal" region="speedNormalOn" secondRegion="speedNormalOff" localized="false"
+            x="15" y="296"/>
+    <element name="fast" region="speedFastOn" secondRegion="speedFastOff" localized="false"
+            x="15" y="296"/>    
+	<element name="fast2" region="speedFastOn" localized="false"
+            x="50" y="50"/>
+	<element name="fast3" region="speedFastOff" localized="false"
+            x="50" y="50"/>
+</screen>
