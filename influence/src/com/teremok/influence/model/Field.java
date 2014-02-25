@@ -16,6 +16,7 @@ import com.teremok.influence.util.GraphGenerator;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
+import com.teremok.influence.view.FieldShapeDrawer;
 
 import java.util.*;
 
@@ -45,6 +46,7 @@ public class Field extends Group {
     private Match match;
     private PlayerManager pm;
     private Cell selectedCell;
+    private FieldShapeDrawer drawer;
 
     byte[][] matrix;
 
@@ -59,6 +61,7 @@ public class Field extends Group {
     public Field(Match match) {
         this.match = match;
         this.pm = match.getPm();
+        drawer = new FieldShapeDrawer();
 
         initialX = 0f;
         initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
@@ -460,7 +463,7 @@ public class Field extends Group {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        com.teremok.influence.view.Drawer.draw(this, batch, parentAlpha);
+        drawer.draw(this, batch, parentAlpha);
         super.draw(batch, parentAlpha);
     }
 

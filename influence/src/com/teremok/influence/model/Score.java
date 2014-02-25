@@ -10,6 +10,7 @@ import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
+import com.teremok.influence.view.ScoreDrawer;
 
 /**
  * Created by Alexx on 24.12.13
@@ -20,6 +21,7 @@ public class Score extends Group {
     PlayerManager pm;
     String status;
     String subStatus;
+    ScoreDrawer drawer;
 
     int lastTotalScore = 0;
 
@@ -30,6 +32,7 @@ public class Score extends Group {
     public Score(Match match) {
         this.match = match;
         this.pm = match.getPm();
+        drawer = new ScoreDrawer();
         status = "---emptyStatus---";
 
         float actorX = 0;
@@ -67,7 +70,7 @@ public class Score extends Group {
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        Drawer.draw(this, batch, parentAlpha);
+        drawer.draw(this, batch, parentAlpha);
     }
 
     @Override

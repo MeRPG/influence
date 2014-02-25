@@ -1,11 +1,7 @@
 package com.teremok.influence.view;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
-import com.teremok.influence.model.Score;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.screen.AbstractScreen;
 
@@ -80,39 +76,6 @@ public class Drawer {
     }
 
     public static float UNIT_SIZE = AbstractScreen.WIDTH/(10f * Field.SIZE_MULTIPLIER);
-
-    // private static AbstractDrawer<Cell> cellDrawer;
-    private static AbstractDrawer<Field> fieldDrawer;
-    private static ScoreDrawer scoreDrawer;
-
-    public static void draw(Actor actor, SpriteBatch batch, float parentAlpha) {
-         /*
-        if (actor instanceof Cell) {
-            if (cellDrawer == null)
-                cellDrawer = new CellShapeDrawer();
-            cellDrawer.draw((Cell)actor, batch, parentAlpha);
-            return;
-        }
-        */
-        if (actor instanceof Field) {
-            if (fieldDrawer == null)
-                fieldDrawer = new FieldShapeDrawer();
-            fieldDrawer.draw((Field)actor, batch, parentAlpha);
-        }
-
-        if (actor instanceof Score) {
-            if (scoreDrawer == null)
-                scoreDrawer = new ScoreDrawer();
-            scoreDrawer.draw((Score)actor, batch, parentAlpha);
-        }
-
-    }
-
-    public static void dispose() {
-        scoreDrawer = null;
-        fieldDrawer = null;
-        //cellDrawer = null;
-    }
 
     public static Color getPlayerColor(Player player) {
         return getCellColorByNumber(player.getNumber());

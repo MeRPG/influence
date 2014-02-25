@@ -164,7 +164,6 @@ public class GameScreen extends StaticScreen {
     public void pause() {
         super.pause();
         pausePanel.dispose();
-        Drawer.dispose();
         FXPlayer.dispose();
         pauseMatch();
         Logger.log("GameScreen: show;");
