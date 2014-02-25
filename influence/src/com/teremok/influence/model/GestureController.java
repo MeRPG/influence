@@ -3,7 +3,6 @@ package com.teremok.influence.model;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.screen.GameScreenAlt;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
