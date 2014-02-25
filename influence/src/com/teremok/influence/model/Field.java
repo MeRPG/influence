@@ -48,7 +48,7 @@ public class Field extends Group {
     private Cell selectedCell;
     private FieldShapeDrawer drawer;
 
-    byte[][] matrix;
+    short[][] matrix;
 
     public static float cellWidth = UNIT_SIZE*2;
     public static float cellHeight = UNIT_SIZE*2;
