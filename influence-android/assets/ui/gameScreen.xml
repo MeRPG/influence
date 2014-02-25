@@ -1,0 +1,4 @@
+<screen atlas="gameScreen" localized="false" localizedBackground="true">
+		<element name="backlight" region="backlight" localized="false"
+            x="0" y="0"/>
+</screen>
