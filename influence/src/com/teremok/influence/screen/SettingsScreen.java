@@ -13,7 +13,7 @@ import com.teremok.influence.util.Vibrator;
 /**
  * Created by Alexx on 24.02.14
  */
-public class SettingsScreenAlt extends StaticScreen {
+public class SettingsScreen extends StaticScreen {
 
     private static final String SOUNDS = "sounds";
     private static final String VIBRATE = "vibrate";
@@ -25,7 +25,7 @@ public class SettingsScreenAlt extends StaticScreen {
     private static final int SPEED_GROUP = 2;
 
 
-    public SettingsScreenAlt(Game game, String filename) {
+    public SettingsScreen(Game game, String filename) {
         super(game, filename);
     }
 

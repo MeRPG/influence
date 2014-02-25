@@ -17,7 +17,7 @@ import com.teremok.influence.util.Logger;
 /**
  * Created by Alexx on 20.12.13
  */
-public class StartScreenAlt extends StaticScreen {
+public class StartScreen extends StaticScreen {
 
     private static final String SINGLEPLAYER = "singleplayer";
     private static final String MULTIPLAYER = "multiplayer";
@@ -27,7 +27,7 @@ public class StartScreenAlt extends StaticScreen {
 
     private ColoredPanel credits;
 
-    public StartScreenAlt(Game game, String filename) {
+    public StartScreen(Game game, String filename) {
         super(game, filename);
         Settings.init();
     }
@@ -132,6 +132,6 @@ public class StartScreenAlt extends StaticScreen {
     public void resume() {
         super.resume();
         FXPlayer.load();
-        Logger.log("StartScreenAlt: resume;");
+        Logger.log("StartScreen: resume;");
     }
 }

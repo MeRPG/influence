@@ -41,9 +41,9 @@ public class PausePanel extends Group {
 
     TextureRegion background;
 
-    GameScreenAlt gameScreen;
+    GameScreen gameScreen;
 
-    PausePanel(GameScreenAlt gameScreen) {
+    PausePanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
 
         getColor().a = 0f;

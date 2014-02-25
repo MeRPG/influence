@@ -32,7 +32,7 @@ import static com.badlogic.gdx.Input.Keys;
 /**
  * Created by Alexx on 11.12.13
  */
-public class GameScreenAlt extends StaticScreen {
+public class GameScreen extends StaticScreen {
 
     Match match;
     PausePanel pausePanel;
@@ -42,7 +42,7 @@ public class GameScreenAlt extends StaticScreen {
 
     public static Color colorForBorder;
 
-    public GameScreenAlt(Game game, GameType gameType) {
+    public GameScreen(Game game, GameType gameType) {
         super(game, "gameScreen");
         match = new Match(gameType);
     }

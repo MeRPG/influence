@@ -3,9 +3,6 @@ package com.teremok.influence;
 import com.badlogic.gdx.Game;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.screen.ScreenController;
-import com.teremok.influence.screen.StartScreen;
-import com.teremok.influence.screen.StartScreenAlt;
-import com.teremok.influence.screen.StaticScreen;
 
 import java.util.Locale;
 

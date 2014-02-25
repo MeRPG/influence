@@ -8,7 +8,7 @@ import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
-import com.teremok.influence.screen.GameScreenAlt;
+import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.ui.Tooltip;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FXPlayer;
@@ -375,11 +375,11 @@ public class Field extends Group {
 
             if (Calculator.getDelta() > 0) {
                 if (defence.getType() != -1) {
-                    GameScreenAlt.colorForBorder = getBacklightWinColor();
+                    GameScreen.colorForBorder = getBacklightWinColor();
                     FXPlayer.playWin();
                 }
             } else {
-                GameScreenAlt.colorForBorder = getBacklightLoseColor();
+                GameScreen.colorForBorder = getBacklightLoseColor();
                 FXPlayer.playLose();
             }
             if (defence.getPower() != 0) {
@@ -389,10 +389,10 @@ public class Field extends Group {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getNumber()) {
                     if (Calculator.getDelta() > 0) {
-                        GameScreenAlt.colorForBorder = getBacklightLoseColor();
+                        GameScreen.colorForBorder = getBacklightLoseColor();
                         FXPlayer.playWin();
                     } else {
-                        GameScreenAlt.colorForBorder = getBacklightWinColor();
+                        GameScreen.colorForBorder = getBacklightWinColor();
                         FXPlayer.playLose();
                     }
                     Vibrator.bzz();

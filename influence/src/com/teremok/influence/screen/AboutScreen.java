@@ -11,12 +11,12 @@ import com.teremok.influence.util.FXPlayer;
 /**
  * Created by Alexx on 25.02.14
  */
-public class AboutScreenAlt extends StaticScreen {
+public class AboutScreen extends StaticScreen {
 
 
     private ColoredPanel credits;
 
-    public AboutScreenAlt(Game game, String filename) {
+    public AboutScreen(Game game, String filename) {
         super(game, filename);
     }
 

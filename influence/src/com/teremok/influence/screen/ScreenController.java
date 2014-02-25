@@ -15,9 +15,9 @@ public class ScreenController {
 
     private static Influence game;
 
-    private static AboutScreenAlt aboutScreen;
-    private static StartScreenAlt startScreen;
-    private static SettingsScreenAlt settingsScreen;
+    private static AboutScreen aboutScreen;
+    private static StartScreen startScreen;
+    private static SettingsScreen settingsScreen;
     private static StaticScreen currentScreen;
 
     public static void init(Influence game) {
@@ -26,7 +26,7 @@ public class ScreenController {
 
     public static void showStartScreen() {
         if (startScreen == null) {
-            startScreen = new StartScreenAlt(game, "startScreen");
+            startScreen = new StartScreen(game, "startScreen");
         }
         if (currentScreen == null) {
             currentScreen = startScreen;
@@ -38,14 +38,14 @@ public class ScreenController {
 
     public static void showSettingsScreen() {
         if (settingsScreen == null) {
-            settingsScreen = new SettingsScreenAlt(game, "settingsScreen");
+            settingsScreen = new SettingsScreen(game, "settingsScreen");
         }
         gracefullyShowScreen(settingsScreen);
     }
 
     public static void showAboutScreen() {
         if (aboutScreen == null) {
-            aboutScreen = new AboutScreenAlt(game, "aboutScreen");
+            aboutScreen = new AboutScreen(game, "aboutScreen");
         }
         gracefullyShowScreen(aboutScreen);
     }
@@ -101,7 +101,7 @@ public class ScreenController {
         }
         @Override
         public boolean act(float delta) {
-            game.setScreen(new GameScreenAlt(game, gameType));
+            game.setScreen(new GameScreen(game, gameType));
             return true;
         }
     }
