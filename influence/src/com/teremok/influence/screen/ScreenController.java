@@ -1,9 +1,11 @@
 package com.teremok.influence.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
+import com.teremok.influence.model.GameType;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -24,7 +26,7 @@ public class ScreenController {
 
     public static void showStartScreen() {
         if (startScreen == null) {
-            startScreen = new StartScreenAlt(game, "abstractScreen");
+            startScreen = new StartScreenAlt(game, "startScreen");
         }
         if (currentScreen == null) {
             currentScreen = startScreen;
@@ -49,12 +51,12 @@ public class ScreenController {
     }
 
     private static void gracefullyShowScreen(StaticScreen screen) {
+        currentScreen.initOverlap(true);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
                 createScreenAction(screen)
         );
-        if (currentScreen.overlap == null)
-            currentScreen.initOverlap();
+
         currentScreen.overlap.addAction(sequenceAction);
     }
 
@@ -68,6 +70,40 @@ public class ScreenController {
                 return true;
             }
         };
+    }
+
+    public static void startMultiplayerGame () {
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.fadeIn(Animation.DURATION_NORMAL),
+                createStartGameAction(GameType.MULTIPLAYER)
+        );
+        currentScreen.overlap.addAction(sequenceAction);
+    }
+
+    public static void startSingleplayerGame () {
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.fadeIn(Animation.DURATION_NORMAL),
+                createStartGameAction(GameType.SINGLEPLAYER)
+        );
+        currentScreen.overlap.addAction(sequenceAction);
+    }
+
+    private static Action createStartGameAction(GameType gameType) {
+        return new StartGameAction(game, gameType);
+    }
+
+    public static class StartGameAction extends Action {
+        Game game;
+        GameType gameType;
+        private StartGameAction(Game game, GameType gameType) {
+            this.gameType = gameType;
+            this.game = game;
+        }
+        @Override
+        public boolean act(float delta) {
+            game.setScreen(new GameScreenAlt(game, gameType));
+            return true;
+        }
     }
 
 }

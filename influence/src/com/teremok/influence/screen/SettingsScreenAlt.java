@@ -3,23 +3,17 @@ package com.teremok.influence.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
-import com.teremok.influence.view.Animation;
 
 /**
  * Created by Alexx on 24.02.14
  */
 public class SettingsScreenAlt extends StaticScreen {
-    public SettingsScreenAlt(Game game, String filename) {
-        super(game, filename);
-    }
 
     private static final String SOUNDS = "sounds";
     private static final String VIBRATE = "vibrate";
@@ -30,10 +24,66 @@ public class SettingsScreenAlt extends StaticScreen {
     private static final int LANGUAGE_GROUP = 1;
     private static final int SPEED_GROUP = 2;
 
+
+    public SettingsScreenAlt(Game game, String filename) {
+        super(game, filename);
+    }
+
     @Override
-    public void show() {
-        super.show();
-        FXPlayer.load();
+    protected void addActors() {
+        Checkbox sounds = new CheckboxTexture(uiElements.get(SOUNDS));
+        sounds.setChecked(Settings.sound);
+
+        Checkbox vibrate = new CheckboxTexture(uiElements.get(VIBRATE));
+        vibrate.setChecked(Settings.vibrate);
+
+        RadioGroup languageGroup = new RadioGroup(LANGUAGE_GROUP);
+        Checkbox russian = new RadioTexture(uiElements.get(Localizator.LANGUAGE_RUSSIAN));
+        Checkbox english = new RadioTexture(uiElements.get(Localizator.LANGUAGE_ENGLISH));
+
+        russian.addToGroup(languageGroup);
+        english.addToGroup(languageGroup);
+
+        if (Localizator.getLanguage().equals(Localizator.LANGUAGE_RUSSIAN)) {
+            russian.check();
+        } else {
+            english.check();
+        }
+
+        RadioGroup speedGroup = new RadioGroup(SPEED_GROUP);
+        Checkbox slow = new RadioTexture(uiElements.get(SPEED_SLOW));
+
+        Checkbox normal = new RadioTexture(uiElements.get(SPEED_NORMAL));
+
+        Checkbox fast = new RadioTexture(uiElements.get(SPEED_FAST));
+
+        slow.addToGroup(speedGroup);
+        normal.addToGroup(speedGroup);
+        fast.addToGroup(speedGroup);
+
+        if (Settings.speed == Settings.NORMAL) {
+            normal.check();
+        } else if (Settings.speed == Settings.SLOW) {
+            slow.check();
+        } else if (Settings.speed == Settings.FAST) {
+            fast.check();
+        }
+
+        stage.addActor(background);
+        stage.addActor(sounds);
+
+        stage.addActor(vibrate);
+
+        stage.addActor(russian);
+        stage.addActor(english);
+
+        stage.addActor(slow);
+        stage.addActor(normal);
+        stage.addActor(fast);
+    }
+
+    @Override
+    protected void addListeners() {
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -95,61 +145,12 @@ public class SettingsScreenAlt extends StaticScreen {
                 return false;
             }
         });
+    }
 
-        Checkbox sounds = new CheckboxTexture(uiElements.get(SOUNDS));
-        sounds.setChecked(Settings.sound);
-
-        Checkbox vibrate = new CheckboxTexture(uiElements.get(VIBRATE));
-        vibrate.setChecked(Settings.vibrate);
-
-        RadioGroup languageGroup = new RadioGroup(LANGUAGE_GROUP);
-        Checkbox russian = new RadioTexture(uiElements.get(Localizator.LANGUAGE_RUSSIAN));
-        Checkbox english = new RadioTexture(uiElements.get(Localizator.LANGUAGE_ENGLISH));
-
-        russian.addToGroup(languageGroup);
-        english.addToGroup(languageGroup);
-
-        if (Localizator.getLanguage().equals(Localizator.LANGUAGE_RUSSIAN)) {
-            russian.check();
-        } else {
-            english.check();
-        }
-
-        RadioGroup speedGroup = new RadioGroup(SPEED_GROUP);
-        Checkbox slow = new RadioTexture(uiElements.get(SPEED_SLOW));
-
-        Checkbox normal = new RadioTexture(uiElements.get(SPEED_NORMAL));
-
-        Checkbox fast = new RadioTexture(uiElements.get(SPEED_FAST));
-
-        slow.addToGroup(speedGroup);
-        normal.addToGroup(speedGroup);
-        fast.addToGroup(speedGroup);
-
-        if (Settings.speed == Settings.NORMAL) {
-            normal.check();
-        } else if (Settings.speed == Settings.SLOW) {
-            slow.check();
-        } else if (Settings.speed == Settings.FAST) {
-            fast.check();
-        }
-
-        stage.addActor(background);
-        stage.addActor(sounds);
-
-        stage.addActor(vibrate);
-
-        stage.addActor(russian);
-        stage.addActor(english);
-
-        stage.addActor(slow);
-        stage.addActor(normal);
-        stage.addActor(fast);
-
-        initOverlap();
-
-        addNonparsed();
-
+    @Override
+    public void show() {
+        super.show();
+        FXPlayer.load();
         Logger.log("SettingsScreen: show;");
     }
 }

@@ -21,15 +21,15 @@ public class AboutScreenAlt extends StaticScreen {
     }
 
     @Override
-    public void show() {
-        super.show();
-
-
+    protected void addActors() {
         if (credits == null) {
             credits = new ColoredPanel(new Color(0x000000FF), 0f, 0f, WIDTH, 54f);
             stage.addActor(credits);
         }
+    }
 
+    @Override
+    protected void addListeners() {
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -57,7 +57,5 @@ public class AboutScreenAlt extends StaticScreen {
                 }
             }
         });
-
-        initOverlap();
     }
 }

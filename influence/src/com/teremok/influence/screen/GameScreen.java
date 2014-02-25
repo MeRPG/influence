@@ -31,6 +31,7 @@ import static com.badlogic.gdx.Input.Keys;
 /**
  * Created by Alexx on 11.12.13
  */
+@Deprecated
 public class GameScreen extends AbstractScreen {
 
     Match match;
@@ -66,7 +67,7 @@ public class GameScreen extends AbstractScreen {
         AbstractDrawer.setBitmapFont(getFont());
         initOverlap();
         initBacklight();
-        pausePanel = new PausePanel(this);
+        //pausePanel = new PausePanel(this);
 
         updateMatchDependentActors();
 
@@ -170,7 +171,7 @@ public class GameScreen extends AbstractScreen {
 
         });
 
-        stage.addListener(new GestureController(this));
+        //stage.addListener(new GestureController(this));
     }
 
     void  startNewMatch() {

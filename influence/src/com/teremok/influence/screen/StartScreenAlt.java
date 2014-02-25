@@ -4,12 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.Button;
@@ -17,14 +13,12 @@ import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
-import com.teremok.influence.view.Animation;
 
 /**
  * Created by Alexx on 20.12.13
  */
 public class StartScreenAlt extends StaticScreen {
 
-    private static final String QUICK = "quickGame";
     private static final String SINGLEPLAYER = "singleplayer";
     private static final String MULTIPLAYER = "multiplayer";
     private static final String SETTINGS = "settings";
@@ -42,13 +36,10 @@ public class StartScreenAlt extends StaticScreen {
     public void show() {
         super.show();
         FXPlayer.load();
-
-        addActors();
-
-        addListeners();
     }
 
-    private void addActors() {
+    @Override
+    protected void addActors() {
 
         ButtonTexture singleplayer = new ButtonTexture(uiElements.get(SINGLEPLAYER));
         ButtonTexture multiplayer = new ButtonTexture(uiElements.get(MULTIPLAYER));
@@ -57,7 +48,7 @@ public class StartScreenAlt extends StaticScreen {
         ButtonTexture googleplay = new ButtonTexture(uiElements.get(GOOGLE_PLAY));
 
         if (credits == null) {
-            credits = new ColoredPanel(new Color(0x000000FF), 0f, 0f, WIDTH, 54f);
+            credits = new ColoredPanel(new Color(0x00000000), 0f, 0f, WIDTH, 54f);
             stage.addActor(credits);
         }
 
@@ -66,11 +57,10 @@ public class StartScreenAlt extends StaticScreen {
         stage.addActor(settings);
         stage.addActor(vk);
         stage.addActor(googleplay);
-
-        initOverlap();
     }
 
-    private void addListeners() {
+    @Override
+    protected void addListeners() {
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -83,12 +73,10 @@ public class StartScreenAlt extends StaticScreen {
                     FXPlayer.playClick();
                     Button target = (Button)event.getTarget();
                     String code = target.getCode();
-                    if (code.equals(QUICK)) {
-                        startSingleplayerGame();
-                    } else if (code.equals(SINGLEPLAYER)) {
-                        startSingleplayerGame();
+                    if (code.equals(SINGLEPLAYER)) {
+                        ScreenController.startSingleplayerGame();
                     } else if (code.equals(MULTIPLAYER)){
-                        startMultiplayerGame();
+                        ScreenController.startMultiplayerGame();
                     } else if (code.equals(SETTINGS)){
                         //openSettingsScreen();
                         ScreenController.showSettingsScreen();
@@ -127,22 +115,6 @@ public class StartScreenAlt extends StaticScreen {
         });
     }
 
-    public void startMultiplayerGame () {
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.fadeIn(Animation.DURATION_NORMAL),
-                createStartGameAction(GameType.MULTIPLAYER)
-        );
-        overlap.addAction(sequenceAction);
-    }
-
-    public void startSingleplayerGame () {
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.fadeIn(Animation.DURATION_NORMAL),
-                createStartGameAction(GameType.SINGLEPLAYER)
-        );
-        overlap.addAction(sequenceAction);
-    }
-
     public void goToVkCom()
     {
         Gdx.net.openURI("https:/vk.com/teremokgames");
@@ -154,24 +126,6 @@ public class StartScreenAlt extends StaticScreen {
             Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.teremok.influence&hl=ru");
         else
             Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.teremok.influence&hl=en");
-    }
-
-    private Action createStartGameAction(GameType gameType) {
-        return new StartGameAction(game, gameType);
-    }
-
-    public static class StartGameAction extends Action {
-        Game game;
-        GameType gameType;
-        private StartGameAction(Game game, GameType gameType) {
-            this.gameType = gameType;
-            this.game = game;
-        }
-        @Override
-        public boolean act(float delta) {
-            game.setScreen(new GameScreenAlt(game, gameType));
-            return true;
-        }
     }
 
     @Override

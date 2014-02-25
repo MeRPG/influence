@@ -36,7 +36,6 @@ public class GameScreenAlt extends StaticScreen {
 
     Match match;
     PausePanel pausePanel;
-    ColoredPanel overlap;
     TexturePanel backlight;
 
     long lastBackPress = 0;
@@ -44,7 +43,7 @@ public class GameScreenAlt extends StaticScreen {
     public static Color colorForBorder;
 
     public GameScreenAlt(Game game, GameType gameType) {
-        super(game, "");
+        super(game, "gameScreen");
         match = new Match(gameType);
     }
 
@@ -64,15 +63,8 @@ public class GameScreenAlt extends StaticScreen {
     public void show() {
         super.show();
 
-        AbstractDrawer.setBitmapFont(getFont());
-        initBacklight();
-        pausePanel = new PausePanel(new GameScreen(game,GameType.MULTIPLAYER));
+        //updateMatchDependentActors();
 
-        updateMatchDependentActors();
-
-        addInputListenerToStage();
-
-        initOverlap();
         Logger.log("GameScreen: show;");
     }
 
@@ -81,7 +73,122 @@ public class GameScreenAlt extends StaticScreen {
         backlight.setColor(1f,1f,1f,0f);
     }
 
-    void addInputListenerToStage() {
+    void  startNewMatch() {
+        //Logger.log("Starting new match");
+        match = new Match(match.getGameType());
+        updateMatchDependentActors();
+    }
+
+    private void updateMatchDependentActors() {
+        stage.getRoot().clearChildren();
+        stage.addActor(backlight);
+        stage.addActor(match.getField());
+        stage.addActor(match.getScore());
+        stage.addActor(TooltipHandler.getInstance());
+        stage.addActor(pausePanel);
+//        stage.addActor(overlap);
+    }
+
+    void pauseMatch() {
+        pausePanel.show();
+        match.setPaused(true);
+    }
+
+    void resumeMatch() {
+        match.setPaused(false);
+        pausePanel.hide();
+    }
+
+    void backToStartScreen() {
+        pausePanel.hide();
+        ScreenController.showStartScreen();
+                                                 /*
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.alpha(1f, Animation.DURATION_NORMAL),
+                new Action() {
+                    @Override
+                    public boolean act(float delta) {
+                        game.setScreen(new StartScreen(game));
+                        return true;
+                    }
+                });
+        overlap.addAction(sequenceAction);     */
+    }
+
+    void gracefullyStartNewMatch() {
+        pausePanel.hide();
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.alpha(1f, Animation.DURATION_NORMAL),
+                new Action() {
+                    @Override
+                    public boolean act(float delta) {
+                        startNewMatch();
+                        return true;
+                    }
+                },
+                Actions.alpha(0f, Animation.DURATION_NORMAL)
+        );
+
+        overlap.addAction(sequenceAction);
+    }
+
+    public void flashBacklight(Color color) {
+        backlight.setColor(color);
+        backlight.getColor().a = 1f;
+
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.delay(Animation.DURATION_SHORT),
+                Actions.alpha(0f, Animation.DURATION_NORMAL)
+        );
+
+        backlight.addAction(sequenceAction);
+    }
+
+    void gracefullyExitGame() {
+        pausePanel.hide();
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.alpha(1f, Animation.DURATION_NORMAL),
+                new Action() {
+                    @Override
+                    public boolean act(float delta) {
+                        exitGame();
+                        return true;
+                    }
+                }
+        );
+
+        overlap.addAction(sequenceAction);
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        pausePanel.dispose();
+        Drawer.dispose();
+        FXPlayer.dispose();
+        pauseMatch();
+        Logger.log("GameScreen: show;");
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+        FXPlayer.load();
+        if (match.isPaused())
+            pausePanel.show();
+        Logger.log("GameScreen: show;");
+    }
+
+    @Override
+    protected void addActors() {
+        AbstractDrawer.setBitmapFont(getFont());
+        initBacklight();
+        pausePanel = new PausePanel(this);
+        updateMatchDependentActors();
+    }
+
+    @Override
+    protected void addListeners() {
         stage.addListener(new ClickListener() {
 
             @Override
@@ -160,112 +267,7 @@ public class GameScreenAlt extends StaticScreen {
 
         });
 
-        stage.addListener(new GestureController(new GameScreen(game,GameType.MULTIPLAYER)));
-    }
-
-    void  startNewMatch() {
-        //Logger.log("Starting new match");
-        match = new Match(match.getGameType());
-        updateMatchDependentActors();
-    }
-
-    private void updateMatchDependentActors() {
-        stage.getRoot().clearChildren();
-        stage.addActor(match.getField());
-        stage.addActor(match.getScore());
-        stage.addActor(backlight);
-        stage.addActor(TooltipHandler.getInstance());
-        stage.addActor(pausePanel);
-        stage.addActor(overlap);
-    }
-
-    void pauseMatch() {
-        pausePanel.show();
-        match.setPaused(true);
-    }
-
-    void resumeMatch() {
-        match.setPaused(false);
-        pausePanel.hide();
-    }
-
-    void backToStartScreen() {
-        pausePanel.hide();
-
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.alpha(1f, Animation.DURATION_NORMAL),
-                new Action() {
-                    @Override
-                    public boolean act(float delta) {
-                        game.setScreen(new StartScreen(game));
-                        return true;
-                    }
-                });
-        overlap.addAction(sequenceAction);
-    }
-
-    void gracefullyStartNewMatch() {
-        pausePanel.hide();
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.alpha(1f, Animation.DURATION_NORMAL),
-                new Action() {
-                    @Override
-                    public boolean act(float delta) {
-                        startNewMatch();
-                        return true;
-                    }
-                },
-                Actions.alpha(0f, Animation.DURATION_NORMAL)
-        );
-
-        overlap.addAction(sequenceAction);
-    }
-
-    public void flashBacklight(Color color) {
-        backlight.setColor(color);
-        backlight.getColor().a = 1f;
-
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.delay(Animation.DURATION_SHORT),
-                Actions.alpha(0f, Animation.DURATION_NORMAL)
-        );
-
-        backlight.addAction(sequenceAction);
-    }
-
-    void gracefullyExitGame() {
-        pausePanel.hide();
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.alpha(1f, Animation.DURATION_NORMAL),
-                new Action() {
-                    @Override
-                    public boolean act(float delta) {
-                        exitGame();
-                        return true;
-                    }
-                }
-        );
-
-        overlap.addAction(sequenceAction);
-    }
-
-    @Override
-    public void pause() {
-        super.pause();
-        pausePanel.dispose();
-        Drawer.dispose();
-        FXPlayer.dispose();
-        pauseMatch();
-        Logger.log("GameScreen: show;");
-    }
-
-    @Override
-    public void resume() {
-        super.resume();
-        FXPlayer.load();
-        if (match.isPaused())
-            pausePanel.show();
-        Logger.log("GameScreen: show;");
+        stage.addListener(new GestureController(this));
     }
 
     @Override

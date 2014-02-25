@@ -21,10 +21,10 @@ public class GestureController extends ActorGestureListener{
 
     private static boolean acting;
 
-    private GameScreen screen;
+    private GameScreenAlt screen;
     private static float zoom;
 
-    public GestureController(GameScreen screen) {
+    public GestureController(GameScreenAlt screen) {
         this.screen = screen;
         zoom = 1.0f;
         getGestureDetector().setLongPressSeconds(0.5f);
@@ -32,10 +32,12 @@ public class GestureController extends ActorGestureListener{
 
     @Override
     public boolean longPress(Actor actor, float x, float y) {
-        Cell hit =  getField().hit(x - getField().getX(),y - getField().getY());
-        if (hit != null) {
-            getField().addPowerFull(hit);
-            Vibrator.bzz();
+        if (! screen.getMatch().isPaused()) {
+            Cell hit =  getField().hit(x - getField().getX(),y - getField().getY());
+            if (hit != null) {
+                getField().addPowerFull(hit);
+                Vibrator.bzz();
+            }
         }
 
         return super.longPress(actor, x, y);
@@ -44,33 +46,41 @@ public class GestureController extends ActorGestureListener{
 
     @Override
     public void zoom(InputEvent event, float initialDistance, float distance) {
-        float delta = (distance - initialDistance) /  (getField().WIDTH * 8);
-        changeZoom(delta);
-        getField().resize();
-        acting = true;
-        //Logger.log("Zooom! delta: " + delta);
-        //Logger.log("Zooom! zoom: " + zoom);
-        //Logger.log("Zoomed unit size: " + Drawer.UNIT_SIZE*zoom);
+        if (! screen.getMatch().isPaused()) {
+            float delta = (distance - initialDistance) /  (getField().WIDTH * 10);
+            changeZoom(delta);
+            getField().resize();
+            acting = true;
+            //Logger.log("Zooom! delta: " + delta);
+            //Logger.log("Zooom! zoom: " + zoom);
+            //Logger.log("Zoomed unit size: " + Drawer.UNIT_SIZE*zoom);
+        }
     }
       
     @Override
     public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-        getField().moveBy(deltaX, deltaY);
-        acting = true;
-        ////Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
+        if (! screen.getMatch().isPaused()) {
+            getField().moveBy(deltaX, deltaY);
+            acting = true;
+            ////Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
+        }
     }
 
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-        super.touchUp(event, x, y, pointer, button);
-        acting = false;
-        Logger.log("GestureController - touchUp ");
+        if (! screen.getMatch().isPaused()) {
+            super.touchUp(event, x, y, pointer, button);
+            acting = false;
+            Logger.log("GestureController - touchUp ");
+        }
     }
 
     @Override
     public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        super.touchDown(event, x, y, pointer, button);
-        Logger.log("GestureController - touchDown ");
+        if (! screen.getMatch().isPaused()) {
+            super.touchDown(event, x, y, pointer, button);
+            Logger.log("GestureController - touchDown ");
+        }
     }
 
     public static void changeZoomBySteps(int steps) {

@@ -27,9 +27,12 @@ import java.util.Map;
 /**
  * Created by Alexx on 23.02.14
  */
-public class StaticScreen extends AbstractScreen {
+public abstract class StaticScreen extends AbstractScreen {
 
     private String filename;
+    private String atlasName;
+    private boolean loaded;
+
     protected Map<String, UIElementParams> uiElements;
     protected Image background;
     public ColoredPanel overlap;
@@ -57,10 +60,15 @@ public class StaticScreen extends AbstractScreen {
     }
 
     private void loadScreenCatchEx() {
-        try {
-            loadScreen();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        if (! loaded) {
+            try {
+                loadScreen();
+                addActors();
+                addListeners();
+                addNonparsed();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -72,12 +80,12 @@ public class StaticScreen extends AbstractScreen {
         loadAtlas(root);
         loadBackground(root);
         loadElements(root);
+
+        loaded = true;
     }
 
     private void loadAtlas(XmlReader.Element root) {
-        String atlasName;
-
-        boolean localizedAtlas = Boolean.parseBoolean(root.getAttribute(LOCALE_ATTR));
+       boolean localizedAtlas = Boolean.parseBoolean(root.getAttribute(LOCALE_ATTR));
 
         atlasName = root.getAttribute(ATLAS_ATTR);
         if (localizedAtlas) {
@@ -95,12 +103,14 @@ public class StaticScreen extends AbstractScreen {
         } else {
             textureRegion = atlas.findRegion("background");
         }
-        background = new Image(new TextureRegionDrawable(textureRegion));
-        background.setScaling(Scaling.fit);
-        background.setAlign(Align.center);
-        background.setTouchable(Touchable.disabled);
+        if (textureRegion != null) {
+            background = new Image(new TextureRegionDrawable(textureRegion));
+            background.setScaling(Scaling.fit);
+            background.setAlign(Align.center);
+            background.setTouchable(Touchable.disabled);
 
-        stage.addActor(background);
+            stage.addActor(background);
+        }
     }
 
     private void loadElements(XmlReader.Element root) {
@@ -152,17 +162,33 @@ public class StaticScreen extends AbstractScreen {
         uiElements.put(params.name, params);
     }
 
-    protected void initOverlap() {
-        overlap = new ColoredPanel(Color.BLACK, 0, 0, WIDTH, HEIGHT);
+    protected void initOverlap(boolean transparent) {
+        if (transparent) {
+            overlap = new ColoredPanel(new Color(0x00000000), 0, 0, WIDTH, HEIGHT);
+        } else {
+            overlap = new ColoredPanel(new Color(0x000000FF), 0, 0, WIDTH, HEIGHT);
+        }
         overlap.setTouchable(Touchable.disabled);
-        overlap.addAction(Actions.alpha(0f, Animation.DURATION_NORMAL));
         stage.addActor(overlap);
     }
+
+    protected void fadeOutOverlap() {
+        if (overlap == null) {
+            initOverlap(false);
+        }
+        overlap.addAction(
+            Actions.fadeOut(Animation.DURATION_NORMAL)
+        );
+    }
+
+    protected abstract void addActors();
+    protected abstract void addListeners();
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
         addNonparsed();
+        fadeOutOverlap();
         Logger.log("resize");
     }
 
@@ -176,6 +202,14 @@ public class StaticScreen extends AbstractScreen {
     @Override
     public void hide() {
         //super.hide();
+        Logger.log("hide");
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        loaded = false;
+        //ResourseManager.disposeAtlas(atlasName);
     }
 }
 

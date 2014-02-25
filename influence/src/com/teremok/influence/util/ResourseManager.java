@@ -58,6 +58,15 @@ public class ResourseManager {
         return atlases.get(atlasName);
     }
 
+    public static void disposeAtlas(String atlasName) {
+        if (atlases != null) {
+            if (atlases.containsKey(atlasName)) {
+                atlases.get(atlasName).dispose();
+                atlases.remove(atlasName);
+            }
+        }
+    }
+
     public static FileHandle getScreenUi(String screenName) {
         String internalPath = UI_PATH_INTERNAL + screenName + UI_EXT;
         String externalPath = UI_PATH_EXTERNAL + screenName + UI_EXT;
