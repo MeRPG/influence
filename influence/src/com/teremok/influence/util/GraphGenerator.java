@@ -36,9 +36,9 @@ public class GraphGenerator {
 
     public void generate() {
         mask = new byte[MAX_CELLS_Y][MAX_CELLS_X];
-        mask[1][4] = Byte.MAX_VALUE;
-        mask[3][4] = Byte.MAX_VALUE;
-        mask[5][4] = Byte.MAX_VALUE;
+
+        insertUnreachable();
+
         cycles = 0;
         int x, y;
         for (int i = 0; i < count; i ++) {
@@ -59,9 +59,9 @@ public class GraphGenerator {
 
     public void parse(List<Cell> cells) {
         mask = new byte[MAX_CELLS_Y][MAX_CELLS_X];
-        mask[1][4] = Byte.MAX_VALUE;
-        mask[3][4] = Byte.MAX_VALUE;
-        mask[5][4] = Byte.MAX_VALUE;
+
+        insertUnreachable();
+
         cycles = 0;
         for (int i = 0; i < cells.size(); i++) {
             Cell cell = cells.get(i);
@@ -70,6 +70,17 @@ public class GraphGenerator {
         constructMatrix();
         minimizeMatrix();
         this.cells = cells;
+    }
+
+    private void insertUnreachable() {
+        if (mask != null) {
+
+            for (int i = 1; i < MAX_CELLS_Y; i += 2) {
+                mask[i][MAX_CELLS_X-1] = Byte.MAX_VALUE;
+
+                Logger.log("add forbidden " + i + " : "+ (MAX_CELLS_X-1));
+            }
+        }
     }
 
     public void minimizeMatrix() {
@@ -111,7 +122,7 @@ public class GraphGenerator {
 
         for (int i = 0; i < MAX_CELLS_Y; i++) {
             for (int j = 0; j < MAX_CELLS_X; j++) {
-                if (mask[i][j] > 0 && mask[i][j] < Integer.MAX_VALUE) {
+                if (mask[i][j] > 0 && mask[i][j] < Byte.MAX_VALUE) {
                     int curNum = getNum(i, j);
                     checkAround(curNum, i, j);
                     cells.add(Cell.makeEmptyCell(curNum, i, j));

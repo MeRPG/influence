@@ -37,7 +37,7 @@ public class Field extends Group {
     public static float WIDTH = UNIT_SIZE*10f*SIZE_MULTIPLIER;
     public static float HEIGHT = UNIT_SIZE*13f*SIZE_MULTIPLIER;
 
-    public static final int CELLS_COUNT = 25;
+    public static final int CELLS_COUNT = 75;
 
     private static final int INITIAL_CELL_POWER = 2;
 
@@ -72,6 +72,7 @@ public class Field extends Group {
         setBounds(initialX, initialY, initialWidth, initialHeight);
 
         generate();
+        addListener();
     }
 
     public Field(Match match, List<Cell> cells) {
@@ -90,6 +91,8 @@ public class Field extends Group {
         generator.parse(cells);
         this.cells = generator.getCells();
         this.matrix = generator.getMatrix();
+
+        addListener();
     }
 
     private void generate() {
@@ -184,7 +187,7 @@ public class Field extends Group {
         return false;
     }
 
-    private void registerCellsForDrawing() {
+    private void addListener() {
         this.addListener(new InputListener() {
 
                 @Override
