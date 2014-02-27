@@ -241,6 +241,10 @@ public class GameScreen extends StaticScreen {
                     if (keycode == Keys.S) {
                         MatchSaver.save(match);
                     }
+                    if (keycode == Keys.D) {
+                        match = MatchSaver.load();
+                        updateMatchDependentActors();
+                    }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
 
                         if (keycode != Keys.MENU) {

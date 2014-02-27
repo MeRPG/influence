@@ -57,6 +57,21 @@ public class GraphGenerator {
         minimizeMatrix();
     }
 
+    public void parse(List<Cell> cells) {
+        mask = new byte[MAX_CELLS_Y][MAX_CELLS_X];
+        mask[1][4] = Byte.MAX_VALUE;
+        mask[3][4] = Byte.MAX_VALUE;
+        mask[5][4] = Byte.MAX_VALUE;
+        cycles = 0;
+        for (int i = 0; i < cells.size(); i++) {
+            Cell cell = cells.get(i);
+            mask[cell.getUnitsX()][cell.getUnitsY()] = 1;
+        }
+        constructMatrix();
+        minimizeMatrix();
+        this.cells = cells;
+    }
+
     public void minimizeMatrix() {
         int startNumber = getFirstValidVertexNumber();
 

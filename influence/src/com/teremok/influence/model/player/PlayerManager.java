@@ -4,6 +4,8 @@ import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.util.Logger;
 
+import java.util.Map;
+
 /**
  * Created by Alexx on 07.01.14
  */
@@ -44,6 +46,7 @@ public class PlayerManager {
         return players[currentNum];
     }
 
+    // TODO переписать, чтобы Player сам проходил по своему массиву клеток
     public void update() {
         Player player;
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -70,6 +73,15 @@ public class PlayerManager {
         addPlayer(PlayerFactory.getHunter(0, match), 0);
         addPlayer(PlayerFactory.getHunter(1, match), 1);
         placeStartPositionsMultiplayer();
+    }
+
+    public void addPlayersFromMap(Map<Integer, PlayerType> map, Field field) {
+        this.field = field;
+        resetPlayersArray(map.size());
+        for (Integer i = 0; i < map.size(); i++) {
+            addPlayer(PlayerFactory.getByType(map.get(i), i, match), i);
+            Logger.log("PM adding player in match");
+        }
     }
 
     private void resetPlayersArray(int number) {

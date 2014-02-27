@@ -29,7 +29,7 @@ public class Field extends Group {
 
     private static final String ADD_POWER_TOOLTIP = "+1";
 
-    public static final int SIZE_MULTIPLIER = 2;
+    public static final int SIZE_MULTIPLIER = 1;
 
     public static final int MAX_CELLS_Y = 7*SIZE_MULTIPLIER;
     public static final int MAX_CELLS_X = 5*SIZE_MULTIPLIER;
@@ -37,7 +37,7 @@ public class Field extends Group {
     public static float WIDTH = UNIT_SIZE*10f*SIZE_MULTIPLIER;
     public static float HEIGHT = UNIT_SIZE*13f*SIZE_MULTIPLIER;
 
-    public static final int CELLS_COUNT = 80;
+    public static final int CELLS_COUNT = 25;
 
     private static final int INITIAL_CELL_POWER = 2;
 
@@ -74,11 +74,28 @@ public class Field extends Group {
         generate();
     }
 
+    public Field(Match match, List<Cell> cells) {
+        this.match = match;
+        this.pm = match.getPm();
+        drawer = new FieldShapeDrawer();
+
+        initialX = 0f;
+        initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
+
+        initialWidth = WIDTH;
+        initialHeight = HEIGHT;
+
+        setBounds(initialX, initialY, initialWidth, initialHeight);
+        GraphGenerator generator = new GraphGenerator(CELLS_COUNT);
+        generator.parse(cells);
+        this.cells = generator.getCells();
+        this.matrix = generator.getMatrix();
+    }
+
     private void generate() {
         GraphGenerator generator = new GraphGenerator(CELLS_COUNT);
         generator.generate();
         cells = generator.getCells();
-        registerCellsForDrawing(cells);
         matrix = generator.getMatrix();
     }
 
@@ -167,7 +184,7 @@ public class Field extends Group {
         return false;
     }
 
-    private void registerCellsForDrawing(List<Cell> cells) {
+    private void registerCellsForDrawing() {
         this.addListener(new InputListener() {
 
                 @Override

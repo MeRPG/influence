@@ -6,6 +6,8 @@ import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
 
+import java.util.List;
+
 /**
  * Created by Alexx on 07.01.14
  */
@@ -24,6 +26,23 @@ public class Match {
     boolean paused;
     boolean endSoundPlayed;
     boolean firstTurn = true;
+
+    public Match(GameSettings settings, List<Cell> cells) {
+        pm = new PlayerManager(this);
+        field = new Field(this, cells);
+        score = new Score(this);
+
+        score.setStatus(Localizator.getString("selectYourCell"));
+
+        pm.addPlayersFromMap(settings.players, field);
+
+        score.initColoredPanels();
+        field.updateLists();
+        pm.update();
+        field.resize();
+
+        phase = Phase.ATTACK;
+    }
 
     public Match(GameType gameType) {
         pm = new PlayerManager(this);

@@ -43,6 +43,16 @@ public class Cell {
         neighbors = new LinkedList<Cell>();
     }
 
+    public Cell(int number, int unitsX, int unitsY, int power, int maxPower, int type) {
+        this();
+        this.unitsX = unitsX;
+        this.unitsY = unitsY;
+        this.number = number;
+        this.type = type;
+        this.power = power;
+        this.maxPower = maxPower;
+    }
+
     private Cell(int number) {
         this();
         this.number = number;
