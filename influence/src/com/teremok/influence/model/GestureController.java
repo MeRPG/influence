@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
+import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 15.02.14
@@ -16,7 +17,7 @@ public class GestureController extends ActorGestureListener{
     private static final float ZOOM_DEFAULT = 1.0f;
     private static final float ZOOM_STEP = 0.1f;
     private static final float ZOOM_MIN = 1.0f;
-    private static final float ZOOM_MAX = 5.0f;
+    private static final float ZOOM_MAX = 48f / Drawer.UNIT_SIZE;
 
     private static boolean acting;
 
@@ -45,7 +46,7 @@ public class GestureController extends ActorGestureListener{
 
     @Override
     public void zoom(InputEvent event, float initialDistance, float distance) {
-        if (! screen.getMatch().isPaused()) {
+        if (Field.SIZE_MULTIPLIER != 1 && ! screen.getMatch().isPaused()) {
             float delta = (distance - initialDistance) /  (getField().WIDTH * 10);
             changeZoom(delta);
             getField().resize();
@@ -58,7 +59,7 @@ public class GestureController extends ActorGestureListener{
       
     @Override
     public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-        if (! screen.getMatch().isPaused()) {
+        if (Field.SIZE_MULTIPLIER != 1 && ! screen.getMatch().isPaused()) {
             getField().moveBy(deltaX, deltaY);
             acting = true;
             ////Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);

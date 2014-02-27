@@ -37,7 +37,7 @@ public class Field extends Group {
     public static float WIDTH = UNIT_SIZE*10f*SIZE_MULTIPLIER;
     public static float HEIGHT = UNIT_SIZE*13f*SIZE_MULTIPLIER;
 
-    public static final int CELLS_COUNT = 75;
+    public static final int CELLS_COUNT = 25;
 
     private static final int INITIAL_CELL_POWER = 2;
 
