@@ -309,7 +309,7 @@ public class Field extends Group {
             int maxPower = cell.getMaxPower();
             if (newPower <= maxPower && pm.current().getPowerToDistribute() > 0) {
 
-                //riseAddPowerTooltip(cell);
+                riseAddPowerTooltip(cell);
 
                 cell.setPower(cell.getPower() + 1);
                 pm.current().subtractPowerToDistribute();
@@ -358,7 +358,7 @@ public class Field extends Group {
 
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
-        //riseDiceTooltips(attack, defense);
+        riseDiceTooltips(attack, defense);
         fastShowBacklight(attack, defense);
         setResultPower(attack, defense);
 
@@ -530,17 +530,6 @@ public class Field extends Group {
         }
         return score;
     }
-    /*
-    public List<Cell> getCellsByType(int type) {
-        List<Cell> list = new LinkedList<Cell>();
-        for (Cell cell : cells) {
-            if (cell.getType() == type) {
-                list.add(cell);
-            }
-        }
-        return list;
-    }
-    */
 
     public void moveBy(float deltaX, float deltaY) {
         float newX = getX() + deltaX;
