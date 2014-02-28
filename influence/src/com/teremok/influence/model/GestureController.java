@@ -21,7 +21,7 @@ public class GestureController extends ActorGestureListener{
     private static boolean acting;
 
     private GameScreen screen;
-    private static float zoom;
+    private static float zoom = ZOOM_MIN;
 
     public GestureController(GameScreen screen) {
         this.screen = screen;
