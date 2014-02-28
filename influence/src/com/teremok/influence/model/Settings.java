@@ -2,15 +2,11 @@ package com.teremok.influence.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
-import com.teremok.influence.util.Logger;
-import org.xml.sax.XMLReader;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Locale;
 
 /**
  * Created by Alexx on 07.02.14
@@ -27,6 +23,8 @@ public class Settings {
 
     public static boolean debug;
 
+    public static GameSettings gameSettings;
+
     private static final String FILENAME = ".influence-settings";
 
     public static void save() {
@@ -35,18 +33,32 @@ public class Settings {
             FileWriter fileWriter = new FileWriter(handle.file());
             //Logger.log(handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
-            xml.element("settings")
-                    .element("sound", sound)
+            XmlWriter root = xml.element("settings");
+            root.element("sound", sound)
                     .element("vibrate", vibrate)
                     .element("speed", speed)
                     .element("language", Localizator.getLanguage())
-                    .element("debug", debug)
-                    .pop();
+                    .element("debug", debug);
+
+
+            saveGameSettings(root);
+
+            root.pop();
+
             xml.flush();
             fileWriter.flush();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public static void saveGameSettings(XmlWriter root) throws IOException{
+        root.element("game")
+                .element("players", gameSettings.getNumberOfPlayers())
+                .element("difficulty", gameSettings.difficulty)
+                .element("fieldSize", gameSettings.fieldSize)
+                .pop();
+
     }
 
     public static boolean load() {
@@ -74,6 +86,8 @@ public class Settings {
                     debug = Boolean.parseBoolean(myString);
                 }
 
+                loadGameSettings(root);
+
                 return true;
             } catch (IOException exception) {
                 exception.printStackTrace();
@@ -85,6 +99,25 @@ public class Settings {
         } else {
             return false;
         }
+    }
+
+    public static void loadGameSettings(XmlReader.Element root) {
+        try {
+            XmlReader.Element settingsXml = root.getChildByName("game");
+            gameSettings = new GameSettings();
+            FieldSize size =  FieldSize.valueOf(settingsXml.getChildByName("fieldSize").getText());
+            gameSettings.setSize(size);
+            gameSettings.difficulty =  GameDifficulty.valueOf(settingsXml.getChildByName("difficulty").getText());
+            int playersNumber = settingsXml.getInt("players",5);
+            gameSettings.players = GameSettings.createSingleplayerFromDifficulty(gameSettings.difficulty, playersNumber);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        if (gameSettings == null || gameSettings.players == null || gameSettings.difficulty == null || gameSettings.fieldSize == null) {
+            gameSettings = GameSettings.getDefault();
+        }
+
     }
 
     private static String getElementText(XmlReader.Element root, String elementName) {
@@ -100,6 +133,7 @@ public class Settings {
         vibrate = true;
         speed = NORMAL;
         debug = false;
+        gameSettings = GameSettings.getDefault();
         Localizator.setDefaultLanguage();
     }
 

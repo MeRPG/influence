@@ -34,7 +34,7 @@ public class Tooltip extends Actor {
     public void addActions() {
         ParallelAction parallelAction = Actions.parallel(
             fadeOutAfterDelay(),
-            Actions.moveBy(0, Drawer.UNIT_SIZE, Animation.DURATION_LONG)
+            Actions.moveBy(0, Drawer.getUnitSize(), Animation.DURATION_LONG)
         );
         addAction(parallelAction);
     }

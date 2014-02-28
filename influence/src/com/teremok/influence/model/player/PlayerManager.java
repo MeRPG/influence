@@ -56,25 +56,6 @@ public class PlayerManager {
         }
     }
 
-    public void addPlayersForSingleplayer(Field field) {
-        this.field = field;
-        resetPlayersArray(5);
-        addPlayer(new HumanPlayer(0, match), 0);
-        addPlayer(PlayerFactory.getRandomizer(1, match), 1);
-        addPlayer(PlayerFactory.getDummy(2, match), 2);
-        addPlayer(new ComputerPlayer(3, match), 3);
-        addPlayer(PlayerFactory.getHunter(4, match), 4);
-        placeStartPositions();
-    }
-
-    public  void addPlayersForMultiplayer(Field field) {
-        this.field = field;
-        resetPlayersArray(2);
-        addPlayer(PlayerFactory.getHunter(0, match), 0);
-        addPlayer(PlayerFactory.getHunter(1, match), 1);
-        placeStartPositionsMultiplayer();
-    }
-
     public void addPlayersFromMap(Map<Integer, PlayerType> map, Field field) {
         this.field = field;
         resetPlayersArray(map.size());
@@ -89,13 +70,21 @@ public class PlayerManager {
         players = new Player[number];
     }
 
-    private void placeStartPositions() {
+    public void placeStartPositions() {
+        if (players.length == 2) {
+            placeStartPositionsTwo();
+        } else {
+            placeStartPositionsMany();
+        }
+    }
+
+    private void placeStartPositionsMany() {
         for (Player player : players) {
             field.placeStartPosition(player.getNumber());
         }
     }
 
-    private void placeStartPositionsMultiplayer() {
+    private void placeStartPositionsTwo() {
         field.placeStartPositionFromRange(players[0].number, 0, 70);
         field.placeStartPositionFromRange(players[1].number, 300, 350);
     }

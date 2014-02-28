@@ -1,6 +1,5 @@
 package com.teremok.influence.view;
 
-import android.util.Log;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.GestureController;
-import com.teremok.influence.util.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,7 +27,7 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
     public void draw (Field field, SpriteBatch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
         batch.end();
-        zoomedUnitSize = Drawer.UNIT_SIZE * GestureController.getZoom();
+        zoomedUnitSize = Drawer.getUnitSize()* GestureController.getZoom();
 
         drawShapeBackground();
 

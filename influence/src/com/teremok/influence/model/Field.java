@@ -31,13 +31,8 @@ public class Field extends Group {
 
     public static final int SIZE_MULTIPLIER = 1;
 
-    public static final int MAX_CELLS_Y = 7*SIZE_MULTIPLIER;
-    public static final int MAX_CELLS_X = 5*SIZE_MULTIPLIER;
-
-    public static float WIDTH = UNIT_SIZE*10f*SIZE_MULTIPLIER;
-    public static float HEIGHT = UNIT_SIZE*13f*SIZE_MULTIPLIER;
-
-    public static final int CELLS_COUNT = 25;
+    public static float WIDTH =  480f;
+    public static float HEIGHT = 624f;
 
     private static final int INITIAL_CELL_POWER = 2;
 
@@ -50,21 +45,32 @@ public class Field extends Group {
 
     short[][] matrix;
 
-    public static float cellWidth = UNIT_SIZE*2;
-    public static float cellHeight = UNIT_SIZE*2;
+    public static float cellWidth;
+    public static float cellHeight;
 
     private float initialX;
     private float initialY;
     private float initialWidth;
     private float initialHeight;
 
-    public Field(Match match) {
+    private int maxCellsY;
+    private int maxCellsX;
+    private int cellsCount;
+
+    public Field(Match match, GameSettings settings) {
         this.match = match;
         this.pm = match.getPm();
         drawer = new FieldShapeDrawer();
 
+        maxCellsX = settings.maxCellsX;
+        maxCellsY = settings.maxCellsY;
+        cellsCount = settings.cellsCount;
+
         initialX = 0f;
         initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
+
+        cellWidth = getUnitSize() *2;
+        cellHeight = getUnitSize() *2;
 
         initialWidth = WIDTH;
         initialHeight = HEIGHT;
@@ -75,10 +81,14 @@ public class Field extends Group {
         addListener();
     }
 
-    public Field(Match match, List<Cell> cells) {
+    public Field(Match match, List<Cell> cells, GameSettings settings) {
         this.match = match;
         this.pm = match.getPm();
         drawer = new FieldShapeDrawer();
+
+        maxCellsX = settings.maxCellsX;
+        maxCellsY = settings.maxCellsY;
+        cellsCount = settings.cellsCount;
 
         initialX = 0f;
         initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
@@ -87,7 +97,7 @@ public class Field extends Group {
         initialHeight = HEIGHT;
 
         setBounds(initialX, initialY, initialWidth, initialHeight);
-        GraphGenerator generator = new GraphGenerator(CELLS_COUNT);
+        GraphGenerator generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
         generator.parse(cells);
         this.cells = generator.getCells();
         this.matrix = generator.getMatrix();
@@ -96,7 +106,7 @@ public class Field extends Group {
     }
 
     private void generate() {
-        GraphGenerator generator = new GraphGenerator(CELLS_COUNT);
+        GraphGenerator generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
         generator.generate();
         cells = generator.getCells();
         matrix = generator.getMatrix();
@@ -127,12 +137,12 @@ public class Field extends Group {
     }
 
     public void placeStartPositionFromRange(int type, int startNumber, int endNumber) {
-        if (startNumber < 0 || startNumber >= MAX_CELLS_Y*MAX_CELLS_X-1) {
+        if (startNumber < 0 || startNumber >= maxCellsY * maxCellsX -1) {
             startNumber = 0;
         }
 
-        if (endNumber <= 0 || endNumber >= MAX_CELLS_Y*MAX_CELLS_X-1) {
-            endNumber = MAX_CELLS_Y*MAX_CELLS_X-1;
+        if (endNumber <= 0 || endNumber >= maxCellsY * maxCellsX -1) {
+            endNumber = maxCellsY * maxCellsX -1;
         }
 
         if (endNumber < startNumber) {
@@ -237,7 +247,7 @@ public class Field extends Group {
 
         //Logger.log("hit: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
 
-        if (unitsX < 0 || unitsX > MAX_CELLS_X-1 || unitsY < 0 || unitsY > MAX_CELLS_Y-1) {
+        if (unitsX < 0 || unitsX > maxCellsX -1 || unitsY < 0 || unitsY > maxCellsY -1) {
             cells.get(0);
         }
 
@@ -255,7 +265,7 @@ public class Field extends Group {
     }
 
     private int getNum( int i, int j) {
-        return i + j*MAX_CELLS_X;
+        return i + j* maxCellsX;
     }
 
     private boolean connectedToSelected(Cell cell) {
@@ -433,7 +443,7 @@ public class Field extends Group {
 
     public void riseDiceTooltips(Cell attack, Cell defense) {
 
-        if (defense.isFree() || UNIT_SIZE * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
+        if (defense.isFree() || getUnitSize() * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
             return;
         }
 
@@ -462,7 +472,7 @@ public class Field extends Group {
     }
 
     public void riseAddPowerTooltip(Cell cell) {
-        if (UNIT_SIZE * GestureController.getZoom() > MIN_SIZE_FOR_TEXT) {
+        if (getUnitSize() * GestureController.getZoom() > MIN_SIZE_FOR_TEXT) {
             BitmapFont font = AbstractDrawer.getBitmapFont();
             Color color = Color.GREEN;
 
@@ -474,11 +484,11 @@ public class Field extends Group {
     }
 
     private float calculateTooltipX(float cellX) {
-        return getX() + cellX + UNIT_SIZE/2;
+        return getX() + cellX + getUnitSize() /2;
     }
 
     private float calculateTooltipY(float cellY) {
-        return getY() + cellY + UNIT_SIZE/2;
+        return getY() + cellY + getUnitSize() /2;
     }
 
     @Override
@@ -490,7 +500,7 @@ public class Field extends Group {
     public List<Cell> getConnectedCells(Cell cell) {
         List<Cell> list = new LinkedList<Cell>();
 
-        for (int i = 0; i < CELLS_COUNT; i++) {
+        for (int i = 0; i < cellsCount; i++) {
             Cell cellToAdd = cells.get(i);
             if (isCellsConnected(cell, cellToAdd)) {
                 if (cellToAdd.isValid())
@@ -564,8 +574,8 @@ public class Field extends Group {
         this.setWidth(getZoomedWidth());
         this.setHeight(getZoomedHeight());
 
-        cellWidth = Field.getZoomedWidth() / MAX_CELLS_X;
-        cellHeight = Field.getZoomedHeight() / MAX_CELLS_Y;
+        cellWidth = Field.getZoomedWidth() / maxCellsX;
+        cellHeight = Field.getZoomedHeight() / maxCellsY;
 
         float cellX;
         float cellY;
@@ -627,4 +637,16 @@ public class Field extends Group {
     }
 
     public List<Cell> getCells() {return cells; }
+
+    public int getMaxCellsX() {
+        return maxCellsX;
+    }
+
+    public int getMaxCellsY() {
+        return maxCellsY;
+    }
+
+    public int getCellsCount() {
+        return cellsCount;
+    }
 }

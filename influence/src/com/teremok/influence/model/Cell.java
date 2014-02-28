@@ -95,9 +95,6 @@ public class Cell {
         if (unitsX < 0 || unitsY < 0) {
             return false;
         }
-        if (unitsX >= Field.MAX_CELLS_Y || unitsY >= Field.MAX_CELLS_X) {
-            return false;
-        }
         return true;
     }
 

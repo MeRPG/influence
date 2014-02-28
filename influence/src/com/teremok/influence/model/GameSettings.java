@@ -3,8 +3,6 @@ package com.teremok.influence.model;
 import com.teremok.influence.model.player.PlayerType;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,56 +10,66 @@ import java.util.Map;
  */
 public class GameSettings {
     public Map<Integer, PlayerType> players;
-    GameDifficulty difficulty;
+    public GameDifficulty difficulty;
+    public FieldSize fieldSize;
 
-    public static GameSettings createSingleplayerFromDifficulty(GameDifficulty difficulty, int playersNumber) {
-        GameSettings settings;
-        switch (difficulty){
-            case EASY:
-                settings = singlePlayerEasy(playersNumber);
-                break;
-            case NORMAL:
-                settings = singlePlayerNormal(playersNumber);
-                break;
-            case HARD:
-                settings = singlePlayerHard(playersNumber);
-                break;
-            case INSANE:
-                settings = singlePlayerInsane(playersNumber);
-                break;
-            default:
-                settings = singlePlayerNormal(playersNumber);
-        }
-        settings.difficulty = difficulty;
+    public int maxCellsX;
+    public int maxCellsY;
+    public int cellsCount;
+
+    public static GameSettings getDefault() {
+        GameSettings settings = new GameSettings();
+        settings.players = createSingleplayerFromDifficulty(GameDifficulty.NORMAL, 5);
+        settings.setSize(FieldSize.NORMAL);
+        settings.difficulty = GameDifficulty.NORMAL;
         return settings;
     }
 
-    public static GameSettings singlePlayerEasy(int playersNumber) {
-        GameSettings gameSettings = new GameSettings();
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+    public static Map<Integer, PlayerType> createSingleplayerFromDifficulty(GameDifficulty difficulty, int playersNumber) {
+        Map<Integer, PlayerType> players;
+        switch (difficulty){
+            case EASY:
+                players = singlePlayerEasy(playersNumber);
+                break;
+            case NORMAL:
+                players = singlePlayerNormal(playersNumber);
+                break;
+            case HARD:
+                players = singlePlayerHard(playersNumber);
+                break;
+            case INSANE:
+                players = singlePlayerInsane(playersNumber);
+                break;
+            default:
+                players = singlePlayerNormal(playersNumber);
+        }
+        return players;
+    }
 
+    public static Map<Integer, PlayerType> singlePlayerEasy(int playersNumber) {
+        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
         switch (playersNumber) {
             case 2:
                 players.put(0, PlayerType.Human);
-                players.put(1, PlayerType.Dummy);
+                players.put(1, PlayerType.Random);
                 break;
             case 3:
                 players.put(0, PlayerType.Human);
-                players.put(1, PlayerType.Dummy);
+                players.put(1, PlayerType.Random);
                 players.put(2, PlayerType.Lazy);
                 break;
             case 4:
                 players.put(0, PlayerType.Human);
-                players.put(1, PlayerType.Dummy);
+                players.put(1, PlayerType.Random);
                 players.put(2, PlayerType.Lazy);
                 players.put(3, PlayerType.Beefy);
                 break;
             case 5:
                 players.put(0, PlayerType.Human);
-                players.put(1, PlayerType.Dummy);
+                players.put(1, PlayerType.Random);
                 players.put(2, PlayerType.Dummy);
                 players.put(3, PlayerType.Lazy);
-                players.put(4, PlayerType.Beefy);
+                players.put(4, PlayerType.Lazy);
                 break;
             default:
                 players.put(0, PlayerType.Human);
@@ -69,85 +77,98 @@ public class GameSettings {
                 break;
 
         }
-        gameSettings.players = players;
-        return gameSettings;
+        return players;
     }
 
-    public static GameSettings singlePlayerNormal(int playersNumber) {
-        GameSettings gameSettings = new GameSettings();
+    public static Map<Integer, PlayerType>   singlePlayerNormal(int playersNumber) {
         Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
 
         switch (playersNumber) {
             case 5:
                 players.put(4, PlayerType.Beefy);
-                break;
             case 4:
                 players.put(3, PlayerType.Lazy);
-                break;
             case 3:
                 players.put(2, PlayerType.Dummy);
-                break;
             case 2:
                 players.put(1, PlayerType.Dummy);
-                break;
             default:
                 players.put(0, PlayerType.Human);
-                break;
-
         }
-        gameSettings.players = players;
-        return gameSettings;
+        return players;
     }
 
-    public static GameSettings singlePlayerHard(int playersNumber) {
-        GameSettings gameSettings = new GameSettings();
+    public static Map<Integer, PlayerType> singlePlayerHard(int playersNumber) {
         Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
 
         switch (playersNumber) {
             case 5:
                 players.put(4, PlayerType.Hunter);
-                break;
             case 4:
                 players.put(3, PlayerType.Hunter);
-                break;
             case 3:
                 players.put(2, PlayerType.Smarty);
-                break;
             case 2:
                 players.put(1, PlayerType.Smarty);
-                break;
             default:
                 players.put(0, PlayerType.Human);
-                break;
-
         }
-        gameSettings.players = players;
-        return gameSettings;
+        return players;
     }
 
-    public static GameSettings singlePlayerInsane(int playersNumber) {
-        GameSettings gameSettings = new GameSettings();
+    public static Map<Integer, PlayerType> singlePlayerInsane(int playersNumber) {
         Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
 
         switch (playersNumber) {
             case 5:
                 players.put(4, PlayerType.Beefy);
-                break;
             case 4:
                 players.put(3, PlayerType.Lazy);
-                break;
             case 3:
                 players.put(2, PlayerType.Dummy);
-                break;
             case 2:
                 players.put(1, PlayerType.Dummy);
-                break;
             default:
                 players.put(0, PlayerType.Human);
                 break;
-
         }
-        gameSettings.players = players;
-        return gameSettings;
+        return players;
+    }
+
+    public void setSize(FieldSize size) {
+
+        this.fieldSize = size;
+
+        switch (size) {
+            case SMALL:
+                cellsCount = 15;
+                maxCellsX = 4;
+                maxCellsY = 5;
+                break;
+            case NORMAL:
+                cellsCount = 25;
+                maxCellsX = 5;
+                maxCellsY = 7;
+                break;
+            case LARGE:
+                cellsCount = 50;
+                maxCellsX = 7;
+                maxCellsY = 10;
+                break;
+            case XLARGE:
+                cellsCount = 80;
+                maxCellsX = 10;
+                maxCellsY = 14;
+                break;
+        }
+
+    }
+
+    public int getNumberOfPlayers() {
+        if (players != null){
+            return players.size();
+        } else {
+            return 0;
+        }
     }
 }

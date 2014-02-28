@@ -20,7 +20,7 @@ import java.util.Map;
  * Created by Alexx on 21.02.14
  */
 public class MatchSaver {
-    private static final String ROOT="MATCH";
+    private static final String ROOT="match";
     private static final String FIELD="field";
     private static final String PLAYER="player";
     private static final String PLAYERS="players";
@@ -60,6 +60,7 @@ public class MatchSaver {
         }
         playersXml.pop();
 
+        Settings.saveGameSettings(xmlMatch);
 
         XmlWriter fieldXml = xml.element(FIELD);
         Field field = match.getField();
@@ -93,14 +94,18 @@ public class MatchSaver {
         Logger.log("loading match from file" + handle);
         if (handle.exists()) {
             XmlReader reader = new XmlReader();
-            GameSettings settings = new GameSettings();
+
             XmlReader.Element root = reader.parse(handle.reader());
 
+            Settings.loadGameSettings(root);
+
+            GameSettings gameSettings = Settings.gameSettings;
+
             Logger.log("loading players");
-            loadPlayers(root, settings);
+            loadPlayers(root, gameSettings);
             List<Cell> cells = loadCells(root);
 
-            match = new Match(settings, cells);
+            match = new Match(gameSettings, cells);
 
 
         } else {

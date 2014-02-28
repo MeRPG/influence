@@ -2,6 +2,7 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.teremok.influence.model.Field;
+import com.teremok.influence.model.Settings;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.screen.AbstractScreen;
 
@@ -75,7 +76,9 @@ public class Drawer {
         return colors.get("BACKLIGHT_LOSE");
     }
 
-    public static float UNIT_SIZE = AbstractScreen.WIDTH/(10f * Field.SIZE_MULTIPLIER);
+    public static float getUnitSize() {
+        return AbstractScreen.WIDTH/(10f * Settings.gameSettings.maxCellsY/7);
+    }
 
     public static Color getPlayerColor(Player player) {
         return getCellColorByNumber(player.getNumber());

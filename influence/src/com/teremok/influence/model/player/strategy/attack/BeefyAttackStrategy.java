@@ -30,7 +30,7 @@ public class BeefyAttackStrategy implements AttackStrategy {
                 end = false;
             if (cell.getEnemies().isEmpty())
                 end = false;
-            if (player.getCells().size() == Field.CELLS_COUNT)
+            if (player.getCells().size() == field.getCellsCount())
                 end = true;
         }
 

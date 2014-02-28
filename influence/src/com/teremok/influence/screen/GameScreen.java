@@ -44,7 +44,7 @@ public class GameScreen extends StaticScreen {
 
     public GameScreen(Game game, GameType gameType) {
         super(game, "gameScreen");
-        match = new Match(gameType);
+        match = new Match(Settings.gameSettings);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class GameScreen extends StaticScreen {
 
     void  startNewMatch() {
         //Logger.log("Starting new match");
-        match = new Match(match.getGameType());
+        match = new Match(Settings.gameSettings);
         updateMatchDependentActors();
     }
 
@@ -188,11 +188,14 @@ public class GameScreen extends StaticScreen {
 
     @Override
     protected void addListeners() {
+
+        final GestureController gestureController = new GestureController(this);
+
         stage.addListener(new ClickListener() {
 
             @Override
             public boolean scrolled(InputEvent event, float x, float y, int amount) {
-                if (! event.isHandled()) {
+                if (! event.isHandled() && gestureController.bigField() && !match.isPaused()) {
                     GestureController.changeZoomBySteps(-amount);
                     match.getField().resize();
                 }
@@ -230,11 +233,11 @@ public class GameScreen extends StaticScreen {
                     if (keycode == Keys.O) {
                         Settings.save();
                     }
-                    if (keycode == Keys.PLUS) {
+                    if (keycode == Keys.PLUS && gestureController.bigField() && !match.isPaused()) {
                         GestureController.addZoom();
                         match.getField().resize();
                     }
-                    if (keycode == Keys.MINUS) {
+                    if (keycode == Keys.MINUS && gestureController.bigField() && !match.isPaused()) {
                         GestureController.subZoom();
                         match.getField().resize();
                     }
@@ -270,7 +273,7 @@ public class GameScreen extends StaticScreen {
 
         });
 
-        stage.addListener(new GestureController(this));
+        stage.addListener(gestureController);
     }
 
     @Override

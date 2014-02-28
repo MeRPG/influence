@@ -29,7 +29,7 @@ public class Match {
 
     public Match(GameSettings settings, List<Cell> cells) {
         pm = new PlayerManager(this);
-        field = new Field(this, cells);
+        field = new Field(this, cells, settings);
         score = new Score(this);
 
         score.setStatus(Localizator.getString("selectYourCell"));
@@ -44,20 +44,15 @@ public class Match {
         phase = Phase.ATTACK;
     }
 
-    public Match(GameType gameType) {
+    public Match(GameSettings settings) {
         pm = new PlayerManager(this);
-        field = new Field(this);
+        field = new Field(this, settings);
         score = new Score(this);
 
         score.setStatus(Localizator.getString("selectYourCell"));
 
-        this.gameType = gameType;
-
-        if (gameType.equals(GameType.MULTIPLAYER)) {
-            pm.addPlayersForMultiplayer(field);
-        } else {
-            pm.addPlayersForSingleplayer(field);
-        }
+        pm.addPlayersFromMap(settings.players, field);
+        pm.placeStartPositions();
 
         score.initColoredPanels();
         field.updateLists();
