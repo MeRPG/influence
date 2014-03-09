@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:complexType name="element">
+
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="region" type="xs:string" use="required"/>
+        <xs:attribute name="secondRegion" type="xs:string" use="optional"/>
+        <xs:attribute name="localized" type="xs:boolean" use="required"/>
+        <xs:attribute name="x" type="xs:int" use="required"/>
+        <xs:attribute name="y" type="xs:int" use="required"/>
+
+    </xs:complexType>
+
+    <xs:complexType name="screen">
+        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="element" type="element" />
+        </xs:sequence>
+        <xs:attribute name="atlas" type="xs:string" use="required"/>
+        <xs:attribute name="localized" type="xs:boolean" use="required"/>
+        <xs:attribute name="localizedBackground" type="xs:boolean" use="optional" default="false"/>
+    </xs:complexType>
+
+
+    <xs:element name="screen" type="screen"/>
+
+</xs:schema>

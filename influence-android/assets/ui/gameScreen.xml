@@ -1,4 +1,6 @@
-<screen atlas="gameScreen" localized="false" localizedBackground="true">
+<?xml version="1.0"  standalone="no"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
+        atlas="gameScreen" localized="false" localizedBackground="true">
 		<element name="backlight" region="backlight" localized="false"
             x="0" y="0"/>
 </screen>

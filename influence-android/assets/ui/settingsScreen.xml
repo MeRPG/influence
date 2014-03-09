@@ -1,4 +1,6 @@
-<screen atlas="settingsScreen" localized="true">
+<?xml version="1.0"  standalone="no"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
+        atlas="settingsScreen" localized="true">
     <element name="sounds" region="soundOn" secondRegion="soundOff" localized="false"
             x="15" y="296"/>
     <element name="vibrate" region="vibrationOn" secondRegion="vibrationOff" localized="false"
