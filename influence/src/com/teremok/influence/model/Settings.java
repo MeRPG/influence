@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
+import com.teremok.influence.util.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,9 +32,10 @@ public class Settings {
         FileHandle handle = Gdx.files.external(FILENAME);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
-            //Logger.log(handle.file().getAbsolutePath());
+            Logger.log(handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter root = xml.element("settings");
+
             root.element("sound", sound)
                     .element("vibrate", vibrate)
                     .element("speed", speed)

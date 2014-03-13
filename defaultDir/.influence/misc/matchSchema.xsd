@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:simpleType name="language" xml:base="xs:string">
+        <xs:restriction>
+            <xs:enumeration value="en" />
+            <xs:enumeration value="ru" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="players">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="2"/>
+            <xs:maxInclusive value="8"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="playerTypes">
+        <xs:restriction base="xs:string" >
+            <xs:enumeration value="Dummy" />
+            <xs:enumeration value="Beefy" />
+            <xs:enumeration value="Lazy" />
+            <xs:enumeration value="Smarty" />
+            <xs:enumeration value="Random" />
+            <xs:enumeration value="Hunter" />
+            <xs:enumeration value="Human" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="player">
+        <xs:simpleContent>
+            <xs:extension base="playerTypes">
+                <xs:attribute name="number" type="xs:int" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="playersTop">
+         <xs:sequence>
+             <xs:element name="player" type="player" minOccurs="2" maxOccurs="8" />
+         </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="difficulty" xml:base="xs:string">
+        <xs:restriction>
+            <xs:enumeration value="EASY" />
+            <xs:enumeration value="NORMAL" />
+            <xs:enumeration value="HARD" />
+            <xs:enumeration value="INSANE" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="fieldSize" xml:base="xs:string">
+        <xs:restriction>
+            <xs:enumeration value="SMALL" />
+            <xs:enumeration value="NORMAL" />
+            <xs:enumeration value="LARGE" />
+            <xs:enumeration value="XLARGE" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="game">
+        <xs:sequence>
+            <xs:element name="players" type="players" />
+            <xs:element name="difficulty" type="difficulty" />
+            <xs:element name="fieldSize" type="fieldSize" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="cellPower">
+        <xs:restriction>
+            <xs:minInclusive value="0" />
+            <xs:maxInclusive value="12" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="cell">
+        <xs:simpleContent>
+            <xs:extension base="cellPower">
+                <xs:attribute name="number" type="xs:int" />
+                <xs:attribute name="unitsX" type="xs:int" />
+                <xs:attribute name="unitsY" type="xs:int" />
+                <xs:attribute name="maxPower" type="xs:int" />
+                <xs:attribute name="type" type="xs:int" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="field">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element name="cell" type="cell" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="match">
+        <xs:sequence>
+            <xs:element name="players" type="playersTop" />
+            <xs:element name="game" type="game" />
+            <xs:element name="field" type="field" />
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:element name="match" type="match" />
+
+</xs:schema>

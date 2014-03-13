@@ -1,0 +1,13 @@
+<?xml version="1.0"  standalone="no"?>
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="misc/settingsSchema.xsd">
+	<sound>true</sound>
+	<vibrate>false</vibrate>
+	<speed>0.25</speed>
+	<language>en</language>
+	<debug>true</debug>
+	<game>
+		<players>5</players>
+		<difficulty>NORMAL</difficulty>
+		<fieldSize>NORMAL</fieldSize>
+	</game>
+</settings>

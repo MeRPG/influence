@@ -44,7 +44,7 @@ public class MatchSaver {
 
     private static void saveInFile(Match match) throws IOException {
         FileHandle handle = Gdx.files.external(FILENAME);
-        FileWriter fileWriter = new FileWriter(handle.file());
+        FileWriter fileWriter = new FileWriter(handle.path());
         Logger.log(handle.file().getAbsolutePath());
         XmlWriter xml = new XmlWriter(fileWriter);
         XmlWriter xmlMatch = xml.element(ROOT);

@@ -1,0 +1,42 @@
+<?xml version="1.0"  standalone="no"?>
+<match xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="misc/matchSchema.xsd">
+	<players>
+		<player number="0">Human</player>
+		<player number="1">Dummy</player>
+		<player number="2">Dummy</player>
+		<player number="3">Dummy</player>
+		<player number="4">Dummy</player>
+	</players>
+	<game>
+		<players>5</players>
+		<difficulty>NORMAL</difficulty>
+		<fieldSize>NORMAL</fieldSize>
+	</game>
+	<field>
+		<cell number="1" unitsX="0" unitsY="1" maxPower="8" type="0">2</cell>
+		<cell number="2" unitsX="0" unitsY="2" maxPower="8" type="-1">0</cell>
+		<cell number="3" unitsX="0" unitsY="3" maxPower="8" type="-1">0</cell>
+		<cell number="4" unitsX="0" unitsY="4" maxPower="12" type="-1">0</cell>
+		<cell number="5" unitsX="1" unitsY="0" maxPower="12" type="-1">0</cell>
+		<cell number="6" unitsX="1" unitsY="1" maxPower="12" type="-1">0</cell>
+		<cell number="7" unitsX="1" unitsY="2" maxPower="8" type="3">2</cell>
+		<cell number="8" unitsX="1" unitsY="3" maxPower="12" type="-1">0</cell>
+		<cell number="10" unitsX="2" unitsY="0" maxPower="12" type="1">2</cell>
+		<cell number="11" unitsX="2" unitsY="1" maxPower="8" type="-1">0</cell>
+		<cell number="12" unitsX="2" unitsY="2" maxPower="8" type="-1">0</cell>
+		<cell number="13" unitsX="2" unitsY="3" maxPower="8" type="-1">0</cell>
+		<cell number="15" unitsX="3" unitsY="0" maxPower="8" type="-1">0</cell>
+		<cell number="16" unitsX="3" unitsY="1" maxPower="12" type="4">2</cell>
+		<cell number="17" unitsX="3" unitsY="2" maxPower="12" type="-1">0</cell>
+		<cell number="20" unitsX="4" unitsY="0" maxPower="8" type="-1">0</cell>
+		<cell number="23" unitsX="4" unitsY="3" maxPower="12" type="-1">0</cell>
+		<cell number="24" unitsX="4" unitsY="4" maxPower="12" type="-1">0</cell>
+		<cell number="26" unitsX="5" unitsY="1" maxPower="8" type="-1">0</cell>
+		<cell number="27" unitsX="5" unitsY="2" maxPower="8" type="2">2</cell>
+		<cell number="28" unitsX="5" unitsY="3" maxPower="12" type="-1">0</cell>
+		<cell number="31" unitsX="6" unitsY="1" maxPower="8" type="-1">0</cell>
+		<cell number="32" unitsX="6" unitsY="2" maxPower="8" type="-1">0</cell>
+		<cell number="33" unitsX="6" unitsY="3" maxPower="8" type="-1">0</cell>
+		<cell number="34" unitsX="6" unitsY="4" maxPower="8" type="-1">0</cell>
+	</field>
+</match>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:simpleType name="language" xml:base="xs:string">
+        <xs:restriction>
+            <xs:enumeration value="en" />
+            <xs:enumeration value="ru" />
+
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="players">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="2"/>
+            <xs:maxInclusive value="8"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="difficulty" xml:base="xs:string">
+        <xs:restriction>
+            <xs:enumeration value="EASY" />
+            <xs:enumeration value="NORMAL" />
+            <xs:enumeration value="HARD" />
+            <xs:enumeration value="INSANE" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="fieldSize" xml:base="xs:string">
+        <xs:restriction>
+            <xs:enumeration value="SMALL" />
+            <xs:enumeration value="NORMAL" />
+            <xs:enumeration value="LARGE" />
+            <xs:enumeration value="XLARGE" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="game">
+        <xs:sequence>
+            <xs:element name="players" type="players" />
+            <xs:element name="difficulty" type="difficulty" />
+            <xs:element name="fieldSize" type="fieldSize" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="settings">
+        <xs:sequence>
+            <xs:element name="sound" xml:base="xs:boolean" />
+            <xs:element name="vibrate" xml:base="xs:boolean" />
+            <xs:element name="speed" xml:base="xs:float" />
+
+            <xs:element name="language" type="language" />
+
+            <xs:element name="debug" xml:base="xs:boolean" />
+
+            <xs:element name="game" type="game" />
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:element name="settings" type="settings" />
+
+</xs:schema>
