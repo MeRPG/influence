@@ -21,7 +21,7 @@ public class Settings {
     public static boolean vibrate;
     public static float speed;
 
-    public static boolean debug;
+    public static boolean debug = true;
 
     public static GameSettings gameSettings;
 
