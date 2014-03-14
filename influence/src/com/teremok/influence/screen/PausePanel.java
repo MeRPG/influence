@@ -148,7 +148,8 @@ public class PausePanel extends Group {
     }
 
     private void  exitGame() {
-        gameScreen.gracefullyExitGame();
+        hide();
+        ScreenController.gracefullyExitGame();
     }
 
     @Override

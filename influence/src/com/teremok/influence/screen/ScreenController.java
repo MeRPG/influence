@@ -1,11 +1,14 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.GameType;
+import com.teremok.influence.model.Settings;
+import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -60,6 +63,24 @@ public class ScreenController {
         currentScreen.overlap.addAction(sequenceAction);
     }
 
+    public static void  gracefullyExitGame() {
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.alpha(1f, Animation.DURATION_NORMAL),
+                new Action() {
+                    @Override
+                    public boolean act(float delta) {
+                        exitGame();
+                        return true;
+                    }
+                }
+        );
+        currentScreen.overlap.addAction(sequenceAction);
+    }
+
+    public static void exitGame() {
+        Settings.save();
+        Gdx.app.exit();
+    }
 
     public static Action createScreenAction(final StaticScreen screen) {
         return new Action() {
@@ -101,7 +122,8 @@ public class ScreenController {
         }
         @Override
         public boolean act(float delta) {
-            game.setScreen(new GameScreen(game, gameType));
+            currentScreen  =  new GameScreen(game, gameType);
+            game.setScreen(currentScreen);
             return true;
         }
     }

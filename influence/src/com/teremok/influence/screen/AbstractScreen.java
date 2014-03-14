@@ -46,11 +46,6 @@ public abstract class AbstractScreen implements Screen {
         return batch;
     }
 
-    void exitGame() {
-        Settings.save();
-        Gdx.app.exit();
-    }
-
     @Override
     public void show() {
         Gdx.input.setInputProcessor( stage );

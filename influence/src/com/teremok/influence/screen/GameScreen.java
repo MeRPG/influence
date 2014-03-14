@@ -86,7 +86,9 @@ public class GameScreen extends StaticScreen {
         stage.addActor(match.getScore());
         stage.addActor(TooltipHandler.getInstance());
         stage.addActor(pausePanel);
-//        stage.addActor(overlap);
+        if (overlap != null) {
+            stage.addActor(overlap);
+        }
     }
 
     void pauseMatch() {
@@ -102,21 +104,11 @@ public class GameScreen extends StaticScreen {
     void backToStartScreen() {
         pausePanel.hide();
         ScreenController.showStartScreen();
-                                                 /*
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.alpha(1f, Animation.DURATION_NORMAL),
-                new Action() {
-                    @Override
-                    public boolean act(float delta) {
-                        game.setScreen(new StartScreen(game));
-                        return true;
-                    }
-                });
-        overlap.addAction(sequenceAction);     */
     }
 
     void gracefullyStartNewMatch() {
         pausePanel.hide();
+        initOverlap(true);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.alpha(1f, Animation.DURATION_NORMAL),
                 new Action() {
@@ -142,22 +134,6 @@ public class GameScreen extends StaticScreen {
         );
 
         backlight.addAction(sequenceAction);
-    }
-
-    void gracefullyExitGame() {
-        pausePanel.hide();
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.alpha(1f, Animation.DURATION_NORMAL),
-                new Action() {
-                    @Override
-                    public boolean act(float delta) {
-                        exitGame();
-                        return true;
-                    }
-                }
-        );
-
-        overlap.addAction(sequenceAction);
     }
 
     @Override

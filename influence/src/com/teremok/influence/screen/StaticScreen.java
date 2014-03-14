@@ -163,13 +163,24 @@ public abstract class StaticScreen extends AbstractScreen {
     }
 
     protected void initOverlap(boolean transparent) {
+
+        Color color;
+
         if (transparent) {
-            overlap = new ColoredPanel(new Color(0x00000000), 0, 0, WIDTH, HEIGHT);
+            color = new Color(0x00000000);
         } else {
-            overlap = new ColoredPanel(new Color(0x000000FF), 0, 0, WIDTH, HEIGHT);
+            color = new Color(0x000000FF);
         }
-        overlap.setTouchable(Touchable.disabled);
-        stage.addActor(overlap);
+
+        if (overlap == null) {
+            overlap = new ColoredPanel(color, 0, 0, WIDTH, HEIGHT);
+            overlap.setTouchable(Touchable.disabled);
+            stage.addActor(overlap);
+        } else {
+            overlap.setColor(color);
+            stage.getRoot().removeActor(overlap);
+            stage.addActor(overlap);
+        }
     }
 
     protected void fadeOutOverlap() {

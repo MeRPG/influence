@@ -78,7 +78,6 @@ public class StartScreen extends StaticScreen {
                     } else if (code.equals(MULTIPLAYER)){
                         ScreenController.startMultiplayerGame();
                     } else if (code.equals(SETTINGS)){
-                        //openSettingsScreen();
                         ScreenController.showSettingsScreen();
                     } else if (code.equals(VK_COM)){
                         goToVkCom();
@@ -91,7 +90,7 @@ public class StartScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    exitGame();
+                    ScreenController.gracefullyExitGame();
                     return true;
                 }
                 return false;
