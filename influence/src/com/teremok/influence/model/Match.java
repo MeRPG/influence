@@ -22,7 +22,6 @@ public class Match {
     Phase phase;
     PlayerManager pm;
     Score score;
-    GameType gameType;
     boolean paused;
     boolean endSoundPlayed;
     boolean firstTurn = true;
@@ -119,7 +118,7 @@ public class Match {
             ((HumanPlayer) player).clearPowered();
         }
         int power = field.getPowerToDistribute(player.getNumber());
-        if (firstTurn && gameType == GameType.MULTIPLAYER && pm.getNumberOfPlayers() == 2){
+        if (firstTurn && pm.getNumberOfPlayers() == 2){
             player.setPowerToDistribute(power-1);
             firstTurn = false;
         } else {
@@ -174,10 +173,6 @@ public class Match {
 
     public Score getScore() {
         return score;
-    }
-
-    public GameType getGameType() {
-        return gameType;
     }
 
     public boolean isPaused() {

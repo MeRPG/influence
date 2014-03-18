@@ -42,7 +42,7 @@ public class GameScreen extends StaticScreen {
 
     public static Color colorForBorder;
 
-    public GameScreen(Game game, GameType gameType) {
+    public GameScreen(Game game) {
         super(game, "gameScreen");
         match = new Match(Settings.gameSettings);
     }

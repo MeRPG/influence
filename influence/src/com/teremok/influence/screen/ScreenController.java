@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
-import com.teremok.influence.model.GameType;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Animation;
@@ -96,7 +95,7 @@ public class ScreenController {
     public static void startMultiplayerGame () {
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
-                createStartGameAction(GameType.MULTIPLAYER)
+                createStartGameAction()
         );
         currentScreen.overlap.addAction(sequenceAction);
     }
@@ -104,25 +103,23 @@ public class ScreenController {
     public static void startSingleplayerGame () {
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
-                createStartGameAction(GameType.SINGLEPLAYER)
+                createStartGameAction()
         );
         currentScreen.overlap.addAction(sequenceAction);
     }
 
-    private static Action createStartGameAction(GameType gameType) {
-        return new StartGameAction(game, gameType);
+    private static Action createStartGameAction() {
+        return new StartGameAction(game);
     }
 
     public static class StartGameAction extends Action {
         Game game;
-        GameType gameType;
-        private StartGameAction(Game game, GameType gameType) {
-            this.gameType = gameType;
+        private StartGameAction(Game game) {
             this.game = game;
         }
         @Override
         public boolean act(float delta) {
-            currentScreen  =  new GameScreen(game, gameType);
+            currentScreen  =  new GameScreen(game);
             game.setScreen(currentScreen);
             return true;
         }
