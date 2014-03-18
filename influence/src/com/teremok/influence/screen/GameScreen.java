@@ -45,6 +45,13 @@ public class GameScreen extends StaticScreen {
     public GameScreen(Game game) {
         super(game, "gameScreen");
         match = new Match(Settings.gameSettings);
+        MatchSaver.save(match);
+    }
+
+    public GameScreen(Game game, Match match) {
+        super(game, "gameScreen");
+        this.match = match;
+        resumeMatch();
     }
 
     @Override
@@ -92,13 +99,15 @@ public class GameScreen extends StaticScreen {
     }
 
     void pauseMatch() {
-        pausePanel.show();
+        if(pausePanel != null)
+            pausePanel.show();
         match.setPaused(true);
     }
 
     void resumeMatch() {
         match.setPaused(false);
-        pausePanel.hide();
+        if(pausePanel != null)
+            pausePanel.hide();
     }
 
     void backToStartScreen() {

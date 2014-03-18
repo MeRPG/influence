@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.model.Localizator;
+import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
@@ -19,6 +20,7 @@ import com.teremok.influence.util.Logger;
  */
 public class StartScreen extends StaticScreen {
 
+    private static final String QUICK = "quick";
     private static final String SINGLEPLAYER = "singleplayer";
     private static final String MULTIPLAYER = "multiplayer";
     private static final String SETTINGS = "settings";
@@ -40,7 +42,11 @@ public class StartScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
-
+        MatchSaver.load();
+        if (MatchSaver.hasNotEnded()) {
+            ButtonTexture quick = new ButtonTexture(QUICK, uiElements.get(SINGLEPLAYER).region, 200f, 200f);
+            stage.addActor(quick);
+        }
         ButtonTexture singleplayer = new ButtonTexture(uiElements.get(SINGLEPLAYER));
         ButtonTexture multiplayer = new ButtonTexture(uiElements.get(MULTIPLAYER));
         ButtonTexture settings = new ButtonTexture(uiElements.get(SETTINGS));
@@ -73,7 +79,9 @@ public class StartScreen extends StaticScreen {
                     FXPlayer.playClick();
                     Button target = (Button)event.getTarget();
                     String code = target.getCode();
-                    if (code.equals(SINGLEPLAYER)) {
+                    if (code.equals(QUICK)) {
+                        ScreenController.startQuickGame();
+                    } else if (code.equals(SINGLEPLAYER)) {
                         ScreenController.startSingleplayerGame();
                     } else if (code.equals(MULTIPLAYER)){
                         ScreenController.startMultiplayerGame();

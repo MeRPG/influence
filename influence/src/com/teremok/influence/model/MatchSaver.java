@@ -34,9 +34,12 @@ public class MatchSaver {
 
     private static String FILENAME =".influence-match";
 
+    private static Match notEnded;
+
     public static void save(Match match) {
         try {
             saveInFile(match);
+            notEnded = match;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,7 +47,7 @@ public class MatchSaver {
 
     private static void saveInFile(Match match) throws IOException {
         FileHandle handle = Gdx.files.external(FILENAME);
-        FileWriter fileWriter = new FileWriter(handle.path());
+        FileWriter fileWriter = new FileWriter(handle.file());
         Logger.log(handle.file().getAbsolutePath());
         XmlWriter xml = new XmlWriter(fileWriter);
         XmlWriter xmlMatch = xml.element(ROOT);
@@ -74,6 +77,9 @@ public class MatchSaver {
                     .text(cell.getPower())
                     .pop();
         }
+
+        fieldXml.element("routes", field.getMatrix()).pop();
+
         fieldXml.pop();
         xml.close();
     }
@@ -82,6 +88,7 @@ public class MatchSaver {
         Match match = null;
         try {
             match = loadFromFile();
+            notEnded = match;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,7 +98,7 @@ public class MatchSaver {
     private static Match loadFromFile() throws IOException{
         Match match = null;
         FileHandle handle = Gdx.files.external(FILENAME);
-        Logger.log("loading match from file" + handle);
+        Logger.log("loading match from file " + handle.path());
         if (handle.exists()) {
             XmlReader reader = new XmlReader();
 
@@ -104,9 +111,9 @@ public class MatchSaver {
             Logger.log("loading players");
             loadPlayers(root, gameSettings);
             List<Cell> cells = loadCells(root);
+            String matrixString = root.getChildByName(FIELD).getChildByName("routes").getText();
 
-            match = new Match(gameSettings, cells);
-
+            match = new Match(gameSettings, cells, matrixString);
 
         } else {
             throw new IOException("File with saved match not found " + FILENAME);
@@ -156,5 +163,15 @@ public class MatchSaver {
             Logger.log("adding cell " + cell);
         }
         return cells;
+    }
+
+    public static boolean hasNotEnded() {
+        return (notEnded != null && !notEnded.isEnded());
+    }
+
+    // Auto-generated
+
+    public static Match getNotEnded() {
+        return notEnded;
     }
 }

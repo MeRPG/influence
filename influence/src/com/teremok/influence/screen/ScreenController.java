@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
+import com.teremok.influence.model.Match;
+import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Animation;
@@ -92,6 +94,14 @@ public class ScreenController {
         };
     }
 
+    public static void startQuickGame () {
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.fadeIn(Animation.DURATION_NORMAL),
+                createResumeGameAction()
+        );
+        currentScreen.overlap.addAction(sequenceAction);
+    }
+
     public static void startMultiplayerGame () {
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
@@ -112,14 +122,30 @@ public class ScreenController {
         return new StartGameAction(game);
     }
 
+    private static Action createResumeGameAction() {
+        return new StartGameAction(game, MatchSaver.getNotEnded());
+    }
+
     public static class StartGameAction extends Action {
         Game game;
+        Match match;
+
         private StartGameAction(Game game) {
             this.game = game;
         }
+
+        private StartGameAction(Game game, Match match) {
+            this(game);
+            this.match = match;
+        }
+
         @Override
         public boolean act(float delta) {
-            currentScreen  =  new GameScreen(game);
+            if (match == null){
+                currentScreen  =  new GameScreen(game);
+            } else {
+                currentScreen  =  new GameScreen(game, match);
+            }
             game.setScreen(currentScreen);
             return true;
         }

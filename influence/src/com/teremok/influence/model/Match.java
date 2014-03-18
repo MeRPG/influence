@@ -3,6 +3,7 @@ package com.teremok.influence.model;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
+import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
 
@@ -26,9 +27,9 @@ public class Match {
     boolean endSoundPlayed;
     boolean firstTurn = true;
 
-    public Match(GameSettings settings, List<Cell> cells) {
+    public Match(GameSettings settings, List<Cell> cells, String matrixString) {
         pm = new PlayerManager(this);
-        field = new Field(this, cells, settings);
+        field = new Field(this, settings, cells, matrixString);
         score = new Score(this);
 
         score.setStatus(Localizator.getString("selectYourCell"));
@@ -68,6 +69,9 @@ public class Match {
             if (phase == Phase.DISTRIBUTE && ! currentPlayer.hasPowerToDistribute()) {
                 currentPlayer = pm.next();
                 phase = Phase.ATTACK;
+                if (currentPlayer.getType() == PlayerType.Human) {
+                    MatchSaver.save(this);
+                }
             }
 
             if (field.getSelectedCell() == null && pm.isHumanActing()) {

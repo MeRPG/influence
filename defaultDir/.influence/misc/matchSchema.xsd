@@ -87,8 +87,9 @@
     </xs:complexType>
 
     <xs:complexType name="field">
-        <xs:sequence maxOccurs="unbounded">
-            <xs:element name="cell" type="cell" />
+        <xs:sequence>
+            <xs:element name="cell" type="cell" maxOccurs="unbounded"/>
+            <xs:element name="routes" type="xs:string" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 

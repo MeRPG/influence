@@ -29,8 +29,6 @@ public class Field extends Group {
 
     private static final String ADD_POWER_TOOLTIP = "+1";
 
-    public static final int SIZE_MULTIPLIER = 1;
-
     public static float WIDTH =  480f;
     public static float HEIGHT = 624f;
 
@@ -81,7 +79,7 @@ public class Field extends Group {
         addListener();
     }
 
-    public Field(Match match, List<Cell> cells, GameSettings settings) {
+    public Field(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
         this.match = match;
         this.pm = match.getPm();
         drawer = new FieldShapeDrawer();
@@ -97,10 +95,12 @@ public class Field extends Group {
         initialHeight = HEIGHT;
 
         setBounds(initialX, initialY, initialWidth, initialHeight);
-        GraphGenerator generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
+        /*GraphGenerator generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
         generator.parse(cells);
-        this.cells = generator.getCells();
-        this.matrix = generator.getMatrix();
+        */
+
+        this.cells = cells;
+        setMatrix(matrixString);
 
         addListener();
     }
@@ -607,9 +607,11 @@ public class Field extends Group {
             cell.clearEnemies();
             cell.clearNeighbors();
             for (Cell cell2 : cells) {
-                if (isCellsConnected(cell, cell2) && ( cell.getType() != cell2.getType() || cell.isFree() )) {
+                if (isCellsConnected(cell, cell2)) {
                     cell.addNeighbor(cell2);
-                    cell.addEnemy(cell2);
+                    if (( cell.getType() != cell2.getType() || cell.isFree() )) {
+                        cell.addEnemy(cell2);
+                    }
                 }
             }
             if (cell.getType() != -1) {
@@ -618,6 +620,66 @@ public class Field extends Group {
         }
 
     }
+
+    public String getMatrix() {
+        int hit = 0;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < maxCellsX*maxCellsY; i++) {
+            for (int j = 0; j < maxCellsX*maxCellsY; j++) {
+                sb.append(matrix[i][j]);
+                hit++;
+            }
+            sb.append(';');
+        }
+
+        Logger.log("hits: " + hit);
+
+        return sb.toString();
+    }
+
+    public void setMatrix(String matrixString) {
+
+        if (matrix == null) {
+            matrix = new short[maxCellsX*maxCellsY][maxCellsX*maxCellsY];
+        }
+
+        Logger.log(getMatrix());
+
+        Logger.log("loading routes");
+
+        int x = 0;
+        int y = 0;
+        int hit = 0;
+        char[] chars = matrixString.toCharArray();
+        for (int i = 0; i < chars.length; i++ ) {
+            char ch = chars[i];
+            switch (ch) {
+                case '0':
+                    //Logger.log("x = " + x + "; y = " + y);
+                    matrix[x++][y] = 0;
+                    hit++;
+                    break;
+                case '1':
+                    //Logger.log("x = " + x + "; y = " + y);
+                    matrix[x++][y] = 1;
+                    hit++;
+                    break;
+                case ';':
+                    y++;
+            }
+
+            if (x == maxCellsX*maxCellsY) {
+                x = 0;
+            }
+
+            if (y == maxCellsX*maxCellsY) {
+                break;
+            }
+        }
+
+        Logger.log("hits: " + hit);
+    }
+
 
     // Auto-generated
 
