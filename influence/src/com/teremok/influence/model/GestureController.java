@@ -33,7 +33,7 @@ public class GestureController extends ActorGestureListener{
     public boolean longPress(Actor actor, float x, float y) {
         if (! screen.getMatch().isPaused() && screen.getMatch().isInDistributePhase() && screen.getMatch().getPm().isHumanActing()) {
             Cell hit =  getField().hit(x - getField().getX(),y - getField().getY());
-            if (hit != null && hit.getType() == screen.getMatch().getPm().current().getNumber()) {
+            if (hit != null && screen.getMatch().getPm().isHumanActing() && hit.getType() == screen.getMatch().getPm().current().getNumber()) {
                 getField().addPowerFull(hit);
                 Vibrator.bzz();
             }
