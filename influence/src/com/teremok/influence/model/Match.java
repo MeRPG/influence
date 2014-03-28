@@ -60,6 +60,8 @@ public class Match {
         field.resize();
 
         phase = Phase.ATTACK;
+
+        MatchSaver.save(this);
     }
 
     public void act(float delta) {
@@ -69,7 +71,7 @@ public class Match {
             if (phase == Phase.DISTRIBUTE && ! currentPlayer.hasPowerToDistribute()) {
                 currentPlayer = pm.next();
                 phase = Phase.ATTACK;
-                if (currentPlayer.getType() == PlayerType.Human) {
+                if ( pm.isHumanActing() && pm.current().getScore() > 0) {
                     MatchSaver.save(this);
                 }
             }
