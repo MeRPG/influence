@@ -95,9 +95,6 @@ public class Field extends Group {
         initialHeight = HEIGHT;
 
         setBounds(initialX, initialY, initialWidth, initialHeight);
-        /*GraphGenerator generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
-        generator.parse(cells);
-        */
 
         this.cells = cells;
         setMatrix(matrixString);
@@ -309,7 +306,7 @@ public class Field extends Group {
             int maxPower = cell.getMaxPower();
             if (newPower <= maxPower && pm.current().getPowerToDistribute() > 0) {
 
-                riseAddPowerTooltip(cell);
+                riseAddPowerTooltip(cell, ADD_POWER_TOOLTIP);
 
                 cell.setPower(cell.getPower() + 1);
                 pm.current().subtractPowerToDistribute();
@@ -320,8 +317,20 @@ public class Field extends Group {
     }
 
     public void addPowerFull(Cell cell) {
-        while (pm.current().getPowerToDistribute() > 0 && cell.getPower() < cell.getMaxPower()) {
-            addPower(cell);
+
+        int powerToDistribute = pm.current().getPowerToDistribute();
+        int delta = cell.getMaxPower() - cell.getPower();
+
+        if (powerToDistribute > 0 && delta > 0) {
+
+            int toAdd = delta < powerToDistribute ? delta : powerToDistribute;
+
+            cell.setPower(cell.getPower() + toAdd);
+
+            pm.current().setPowerToDistribute(powerToDistribute - toAdd);
+
+            riseAddPowerTooltip(cell, "+" + toAdd);
+
         }
     }
 
@@ -471,14 +480,14 @@ public class Field extends Group {
 
     }
 
-    public void riseAddPowerTooltip(Cell cell) {
+    public void riseAddPowerTooltip(Cell cell, String tooltip) {
         if (getUnitSize() * GestureController.getZoom() > MIN_SIZE_FOR_TEXT) {
             BitmapFont font = AbstractDrawer.getBitmapFont();
             Color color = Color.GREEN;
 
             float tooltipX = calculateTooltipX(cell.getX());
             float tooltipY = calculateTooltipY(cell.getY());
-            TooltipHandler.addTooltip(new Tooltip(ADD_POWER_TOOLTIP, font, color, tooltipX, tooltipY));
+            TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY));
         }
 
     }
