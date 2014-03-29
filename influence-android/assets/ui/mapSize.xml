@@ -1,0 +1,14 @@
+<?xml version="1.0"  standalone="no"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
+        atlas="mapSize" localized="false" localizedBackground="true">	
+	<element name="s" region="sizeS_Active" secondRegion="sizeS_noActive" localized="false"
+				x="121" y="358"/>	
+	<element name="m" region="sizeM_Active" secondRegion="sizeM_noActive" localized="false"
+				x="247" y="358"/>	
+	<element name="l" region="sizeL_Active" secondRegion="sizeL_noActive" localized="false"
+				x="121" y="232"/>	
+	<element name="xl" region="sizeXL_Active" secondRegion="sizeXL_noActive" localized="false"
+				x="247" y="232"/>	
+	<element name="next" region="buttonNext_en" secondRegion="buttonNext_en" localized="false"
+				x="150" y="119"/>				
+</screen>

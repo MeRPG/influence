@@ -82,7 +82,7 @@ public class StartScreen extends StaticScreen {
                     if (code.equals(QUICK)) {
                         ScreenController.startQuickGame();
                     } else if (code.equals(SINGLEPLAYER)) {
-                        ScreenController.startSingleplayerGame();
+                        ScreenController.showMapSizeScreen();
                     } else if (code.equals(MULTIPLAYER)){
                         ScreenController.startMultiplayerGame();
                     } else if (code.equals(SETTINGS)){
