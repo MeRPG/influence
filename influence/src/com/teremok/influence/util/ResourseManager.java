@@ -36,7 +36,7 @@ public class ResourseManager {
             Logger.log("use external path: " + externalPath);
         } else {
             atlas= new TextureAtlas(Gdx.files.internal(internalPath));
-            Logger.log("use internal path: " + externalPath);
+            Logger.log("use internal path: " + internalPath);
         }
         for (Texture texture : atlas.getTextures()) {
             texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

@@ -20,9 +20,8 @@ import com.teremok.influence.util.Logger;
  */
 public class StartScreen extends StaticScreen {
 
-    private static final String QUICK = "quick";
-    private static final String SINGLEPLAYER = "singleplayer";
-    private static final String MULTIPLAYER = "multiplayer";
+    private static final String CONTINUE = "continue";
+    private static final String NEWGAME = "newgame";
     private static final String SETTINGS = "settings";
     private static final String VK_COM = "vk";
     private static final String GOOGLE_PLAY = "google_play";
@@ -43,23 +42,29 @@ public class StartScreen extends StaticScreen {
     @Override
     protected void addActors() {
         MatchSaver.load();
-        if (MatchSaver.hasNotEnded()) {
-            ButtonTexture quick = new ButtonTexture(QUICK, uiElements.get(SINGLEPLAYER).region, 200f, 200f);
-            stage.addActor(quick);
-        }
-        ButtonTexture singleplayer = new ButtonTexture(uiElements.get(SINGLEPLAYER));
-        ButtonTexture multiplayer = new ButtonTexture(uiElements.get(MULTIPLAYER));
+
+        ButtonTexture newGame = new ButtonTexture(uiElements.get(NEWGAME));
         ButtonTexture settings = new ButtonTexture(uiElements.get(SETTINGS));
         ButtonTexture vk = new ButtonTexture(uiElements.get(VK_COM));
         ButtonTexture googleplay = new ButtonTexture(uiElements.get(GOOGLE_PLAY));
+        ButtonTexture resume = new ButtonTexture(uiElements.get(CONTINUE));
+
+        if (MatchSaver.hasNotEnded()) {
+            newGame.setY(uiElements.get(NEWGAME).y);
+            resume.setVisible(true);
+        } else {
+            newGame.setY(277f);
+            resume.setVisible(false);
+
+        }
 
         if (credits == null) {
             credits = new ColoredPanel(new Color(0x00000000), 0f, 0f, WIDTH, 54f);
             stage.addActor(credits);
         }
 
-        stage.addActor(singleplayer);
-        stage.addActor(multiplayer);
+        stage.addActor(newGame);
+        stage.addActor(resume);
         stage.addActor(settings);
         stage.addActor(vk);
         stage.addActor(googleplay);
@@ -79,18 +84,22 @@ public class StartScreen extends StaticScreen {
                     FXPlayer.playClick();
                     Button target = (Button)event.getTarget();
                     String code = target.getCode();
-                    if (code.equals(QUICK)) {
-                        ScreenController.startQuickGame();
-                    } else if (code.equals(SINGLEPLAYER)) {
-                        ScreenController.showMapSizeScreen();
-                    } else if (code.equals(MULTIPLAYER)){
-                        ScreenController.startMultiplayerGame();
-                    } else if (code.equals(SETTINGS)){
-                        ScreenController.showSettingsScreen();
-                    } else if (code.equals(VK_COM)){
-                        goToVkCom();
-                    } else if (code.equals(GOOGLE_PLAY)){
-                        goToGooglePlay();
+                    switch (code) {
+                        case CONTINUE:
+                            ScreenController.startQuickGame();
+                            break;
+                        case NEWGAME:
+                            ScreenController.showMapSizeScreen();
+                            break;
+                        case SETTINGS:
+                            ScreenController.showSettingsScreen();
+                            break;
+                        case VK_COM:
+                            goToVkCom();
+                            break;
+                        case GOOGLE_PLAY:
+                            goToGooglePlay();
+                            break;
                     }
                 }
             }

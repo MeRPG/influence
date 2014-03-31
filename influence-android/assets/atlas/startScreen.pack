@@ -10,28 +10,28 @@ background
   orig: 480, 720
   offset: 0, 0
   index: -1
-multiplayer_en
+continue_en
   rotate: false
   xy: 1, 165
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
-multiplayer_ru
+continue_ru
   rotate: false
   xy: 257, 165
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
-singleplayer_en
+newgame_en
   rotate: false
   xy: 1, 101
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
-singleplayer_ru
+newgame_ru
   rotate: false
   xy: 257, 101
   size: 254, 62
