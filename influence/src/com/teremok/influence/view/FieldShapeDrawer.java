@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.GestureController;
+import com.teremok.influence.model.Match;
+import com.teremok.influence.util.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -77,12 +79,17 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
     private void drawSolid(Cell cell) {
         renderer.setColor(getColor(cell));
+        if (cell.getUnitsX() == cell.getUnitsY() && cell.getUnitsX() == 0)
+            Logger.log("draw solid w/color = " + renderer.getColor().r + "; " +  renderer.getColor().g + "; " +  renderer.getColor().b + "; " +  renderer.getColor().a);
+
         renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getPower()*0.03f), 6);
     }
 
     private void drawEmpty(Cell cell) {
-        renderer.setColor(getColor(cell));
-        renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getMaxPower()*0.03f), 6);
+        if (isNeedToDraw(cell)) {
+            renderer.setColor(getColor(cell));
+            renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getMaxPower()*0.03f), 6);
+        }
     }
 
     private void drawText(SpriteBatch batch, Cell cell) {
@@ -105,6 +112,31 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         } else {
             color = Drawer.getCellColorByNumber(cell.getType());
         }
+
+        float absoluteCellX = cell.getX() + current.getX();
+        float absoluteCellY = cell.getY() + current.getY();
+
+        if (cell.getUnitsX() == cell.getUnitsY() && cell.getUnitsX() == 0)
+            Logger.log("cell abs coords: " + absoluteCellX + "; " + absoluteCellY);
+
+        if (absoluteCellX < 0f) {
+            float deltaX = Math.abs(current.getX());
+            float deltaY = Math.abs(95f - cell.getY());
+
+            float maxDelta = deltaX > deltaY ? deltaX : deltaY;
+
+            Color newColor = color.cpy();
+
+            //newColor.a = maxDelta / (Field.cellWidth*GestureController.getZoom());
+
+            newColor.a = 0f;
+
+            if (cell.getUnitsX() == cell.getUnitsY() && cell.getUnitsX() == 0)
+              Logger.log("new    color = " + newColor.r + "; " +  newColor.g + "; " +  newColor.b + "; " +  newColor.a);
+
+            return newColor;
+        }
+
         return color;
     }
 
@@ -125,13 +157,19 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
                 float centerYto = toCell.getY() + Field.cellHeight/2;
 
                 renderer.line(centerX, centerY, centerXto, centerYto,
-                        Drawer.getCellColorByNumber(cell.getType()),
-                        Drawer.getCellColorByNumber(toCell.getType()));
+                        getColor(cell),
+                        getColor(toCell));
 
                 counter++;
             }
             allCounter++;
         }
+    }
+
+    private boolean isNeedToDraw(Cell cell) {
+        float absoluteCellX = cell.getX() + current.getX();
+        float absoluteCellY = cell.getY() + current.getY();
+        return absoluteCellX > (-Field.cellWidth*GestureController.getZoom());
     }
 
     @Override

@@ -1,0 +1,40 @@
+<?xml version="1.0"  standalone="no"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
+        atlas="screenPlayers" localized="false" localizedBackground="true">	
+	<element name="easy" region="easy_Active" secondRegion="easy_noActive" localized="true"
+				x="111" y="465"/>	
+	<element name="normal" region="normal_Active" secondRegion="normal_noActive" localized="true"
+				x="24" y="421"/>	
+	<element name="hard" region="hard_Active" secondRegion="hard_noActive" localized="true"
+				x="242" y="465"/>	
+	<element name="custom" region="custom_Active" secondRegion="custom_noActive" localized="true"
+				x="242" y="421"/>	
+	<element name="green" region="enemiesGreen" localized="false"
+				x="92" y="322"/>	
+	<element name="yellow" region="enemiesYellow" localized="false"
+				x="92" y="272"/>	
+	<element name="red" region="enemiesRed" localized="false"
+				x="92" y="222"/>	
+	<element name="purple" region="enemiesPurpure" localized="false"
+				x="92" y="172"/>
+	<element name="delete" region="buttonDelete" localized="false"
+				x="402" y="177"/>		
+	<element name="start" region="buttonStart" localized="true"
+				x="143" y="85"/>
+    <element name="Human" region="human" localized="true"
+             x="191" y="-100"/>
+    <element name="Smarty" region="smarty" localized="true"
+				x="191" y="-100"/>
+	<element name="Dummy" region="dummy" localized="true"
+				x="191" y="-100"/>
+	<element name="Hunter" region="hunter" localized="true"
+				x="191" y="-100"/>
+	<element name="Lazy" region="lazy" localized="true"
+				x="191" y="-100"/>
+    <element name="Beefy" region="beefy" localized="true"
+             x="191" y="-100"/>
+    <element name="Random" region="freak" localized="true"
+             x="191" y="-100"/>
+    <element name="add" region="enemiesAdd" localized="true"
+             x="92" y="222"/>
+</screen>

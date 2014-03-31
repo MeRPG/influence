@@ -1,6 +1,7 @@
 package com.teremok.influence.model;
 
 import com.teremok.influence.model.player.PlayerType;
+import com.teremok.influence.screen.GameScreen;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,13 +20,22 @@ public class GameSettings {
 
     public static GameSettings getDefault() {
         GameSettings settings = new GameSettings();
-        settings.players = createSingleplayerFromDifficulty(GameDifficulty.NORMAL, 5);
+        settings.players = getPlayersByDifficulty(GameDifficulty.NORMAL, 5);
         settings.setSize(FieldSize.NORMAL);
         settings.difficulty = GameDifficulty.NORMAL;
         return settings;
     }
 
-    public static Map<Integer, PlayerType> createSingleplayerFromDifficulty(GameDifficulty difficulty, int playersNumber) {
+    public Map<Integer, PlayerType> getPlayers(GameDifficulty difficulty, int playersNumber) {
+        if (difficulty == GameDifficulty.CUSTOM && players != null)
+        {
+            return players;
+        }else {
+            return getPlayersByDifficulty(difficulty, playersNumber);
+        }
+    }
+
+    public static Map<Integer, PlayerType> getPlayersByDifficulty(GameDifficulty difficulty, int playersNumber) {
         Map<Integer, PlayerType> players;
         switch (difficulty){
             case EASY:

@@ -111,7 +111,9 @@ public class Settings {
             gameSettings.setSize(size);
             gameSettings.difficulty =  GameDifficulty.valueOf(settingsXml.getChildByName("difficulty").getText());
             int playersNumber = settingsXml.getInt("players",5);
-            gameSettings.players = GameSettings.createSingleplayerFromDifficulty(gameSettings.difficulty, playersNumber);
+            if (playersNumber < 2 || playersNumber > 5)
+                playersNumber = 5;
+            gameSettings.players = GameSettings.getPlayersByDifficulty(gameSettings.difficulty, playersNumber);
 
         } catch (Exception ex) {
             ex.printStackTrace();

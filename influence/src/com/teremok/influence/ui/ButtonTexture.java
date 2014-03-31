@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * Created by Alexx on 03.01.14
  */
 public class ButtonTexture extends Actor implements Button {
-    String code;
-    private TextureRegion region;
+    protected String code;
+    protected TextureRegion region;
 
     public ButtonTexture(String code, TextureRegion region, float x, float y) {
         this.code = code;

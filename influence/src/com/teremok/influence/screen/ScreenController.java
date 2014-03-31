@@ -24,6 +24,7 @@ public class ScreenController {
     private static SettingsScreen settingsScreen;
     private static StaticScreen currentScreen;
     private static MapSizeScreen mapSizeScreen;
+    private static PlayersScreen playersScreen;
 
     public static void init(Influence game) {
         ScreenController.game = game;
@@ -53,6 +54,13 @@ public class ScreenController {
             mapSizeScreen = new MapSizeScreen(game, "mapSize");
         }
         gracefullyShowScreen(mapSizeScreen);
+    }
+
+    public static void showPlayersScreen() {
+        if (playersScreen == null) {
+            playersScreen = new PlayersScreen(game, "players");
+        }
+        gracefullyShowScreen(playersScreen);
     }
 
     public static void showAboutScreen() {

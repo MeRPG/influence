@@ -88,7 +88,7 @@ public class MapSizeScreen extends StaticScreen {
                 if (! event.isHandled()) {
                     Actor target = stage.hit(x, y, true);
                     if (target instanceof ButtonTexture) {
-                        ScreenController.startSingleplayerGame();
+                        ScreenController.showPlayersScreen();
                     } else {
                         Checkbox selectedSize = (Checkbox) target;
                         switch (selectedSize.getCode()) {

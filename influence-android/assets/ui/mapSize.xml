@@ -9,6 +9,6 @@
 				x="121" y="232"/>	
 	<element name="xl" region="sizeXL_Active" secondRegion="sizeXL_noActive" localized="false"
 				x="247" y="232"/>	
-	<element name="next" region="buttonNext_en" secondRegion="buttonNext_en" localized="false"
+	<element name="next" region="buttonNext" localized="true"
 				x="150" y="119"/>				
 </screen>

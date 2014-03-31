@@ -1,6 +1,8 @@
 package com.teremok.influence.ui;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,11 +16,14 @@ public class TexturePanel extends Actor implements UIElement {
 
     Image image;
 
+    public TexturePanel(TextureRegion region, float x, float y) {
+        setRegion(region);
+        setX(x);
+        setY(y);
+    }
+
     public TexturePanel(UIElementParams params) {
-        image =  new Image(new TextureRegionDrawable(params.region));
-        image.setScaling(Scaling.fit);
-        image.setAlign(Align.center);
-        image.setTouchable(Touchable.disabled);
+        setRegion(params.region);
         params.parsed = true;
         setX(params.x);
         setY(params.y);
@@ -54,5 +59,12 @@ public class TexturePanel extends Actor implements UIElement {
     @Override
     public void setColor(float r, float g, float b, float a) {
         image.setColor(r, g, b, a);
+    }
+
+    public void setRegion(TextureRegion region) {
+        image =  new Image(new TextureRegionDrawable(region));
+        image.setScaling(Scaling.fit);
+        image.setAlign(Align.center);
+        image.setTouchable(Touchable.disabled);
     }
 }

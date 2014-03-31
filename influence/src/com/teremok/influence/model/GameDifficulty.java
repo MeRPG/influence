@@ -9,7 +9,8 @@ public enum GameDifficulty {
     EASY ("EASY"),
     NORMAL ("NORMAL"),
     HARD ("HARD"),
-    INSANE ("INSANE");
+    INSANE ("INSANE"),
+    CUSTOM ("CUSTOM");
 
     GameDifficulty(String string) {
         Logger.log("game difficulty " + string + " created.");
