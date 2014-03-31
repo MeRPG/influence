@@ -9,7 +9,6 @@ import com.teremok.influence.Influence;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Animation;
 
 /**

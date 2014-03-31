@@ -1,12 +1,8 @@
 package com.teremok.influence.model;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.teremok.influence.view.Drawer;
-
-import static com.teremok.influence.model.Field.*;
-
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Alexx on 12.12.13

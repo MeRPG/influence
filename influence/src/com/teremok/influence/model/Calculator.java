@@ -1,7 +1,5 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.util.Logger;
-
 import java.util.Random;
 
 /**

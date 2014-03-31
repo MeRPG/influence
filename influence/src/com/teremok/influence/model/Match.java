@@ -3,9 +3,7 @@ package com.teremok.influence.model;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
-import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.Logger;
 
 import java.util.List;
 

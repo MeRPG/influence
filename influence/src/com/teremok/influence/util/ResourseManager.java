@@ -8,7 +8,6 @@ import com.teremok.influence.model.Settings;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.FileHandler;
 
 /**
  * Created by Alexx on 24.02.14

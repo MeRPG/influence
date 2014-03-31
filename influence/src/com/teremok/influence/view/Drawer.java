@@ -1,7 +1,6 @@
 package com.teremok.influence.view;
 
 import com.badlogic.gdx.graphics.Color;
-import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.screen.AbstractScreen;
