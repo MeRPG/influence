@@ -23,7 +23,7 @@ public class AboutScreen extends StaticScreen {
     @Override
     protected void addActors() {
         if (credits == null) {
-            credits = new ColoredPanel(new Color(0x000000FF), 0f, 0f, WIDTH, 54f);
+            credits = new ColoredPanel(new Color(0x00000000), 0f, 0f, WIDTH, 54f);
             stage.addActor(credits);
         }
     }
