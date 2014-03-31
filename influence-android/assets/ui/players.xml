@@ -24,17 +24,17 @@
     <element name="Human" region="human" localized="true"
              x="191" y="-100"/>
     <element name="Smarty" region="smarty" localized="true"
-				x="191" y="-100"/>
+				x="92" y="-100"/>
 	<element name="Dummy" region="dummy" localized="true"
-				x="191" y="-100"/>
+				x="92" y="-100"/>
 	<element name="Hunter" region="hunter" localized="true"
-				x="191" y="-100"/>
+				x="92" y="-100"/>
 	<element name="Lazy" region="lazy" localized="true"
-				x="191" y="-100"/>
+				x="92" y="-100"/>
     <element name="Beefy" region="beefy" localized="true"
-             x="191" y="-100"/>
+             x="92" y="-100"/>
     <element name="Random" region="freak" localized="true"
-             x="191" y="-100"/>
+             x="92" y="-100"/>
     <element name="add" region="enemiesAdd" localized="true"
              x="92" y="222"/>
 </screen>

@@ -79,10 +79,10 @@ public class PlayersScreen extends StaticScreen {
         stage.addActor(playerPurple);
 
         players = new PlayerTypeUI[4];
-        players[0] = new PlayerTypeUI(uiElements.get("Dummy").region, playerGreen.getX() + 99, playerGreen.getY()+12, GREEN);
-        players[1] = new PlayerTypeUI(uiElements.get("Dummy").region, playerYellow.getX() + 99, playerYellow.getY()+12, YELLOW);
-        players[2] = new PlayerTypeUI(uiElements.get("Dummy").region, playerRed.getX() + 99, playerRed.getY()+12, RED);
-        players[3] = new PlayerTypeUI(uiElements.get("Dummy").region, playerPurple.getX() + 99, playerPurple.getY()+12, PURPLE);
+        players[0] = new PlayerTypeUI(uiElements.get("Dummy").region, playerGreen.getX(), playerGreen.getY(), GREEN);
+        players[1] = new PlayerTypeUI(uiElements.get("Dummy").region, playerYellow.getX(), playerYellow.getY(), YELLOW);
+        players[2] = new PlayerTypeUI(uiElements.get("Dummy").region, playerRed.getX(), playerRed.getY(), RED);
+        players[3] = new PlayerTypeUI(uiElements.get("Dummy").region, playerPurple.getX(), playerPurple.getY(), PURPLE);
 
         Map<PlayerType, TextureRegion> regions = new HashMap<PlayerType, TextureRegion>();
         regions.put(PlayerType.Human, uiElements.get(PlayerType.Human.toString()).region);
@@ -98,7 +98,6 @@ public class PlayersScreen extends StaticScreen {
             players[i].setVisible(false);
             stage.addActor(players[i]);
         }
-
 
         RadioGroup sizeGroup = new RadioGroup(DIFFICULTY_GROUP);
         easy = new RadioTexture(uiElements.get(EASY));
