@@ -31,7 +31,7 @@ public abstract class StaticScreen extends AbstractScreen {
 
     private String filename;
     private String atlasName;
-    private boolean loaded;
+    protected boolean loaded;
 
     protected Map<String, UIElementParams> uiElements;
     protected Image background;
