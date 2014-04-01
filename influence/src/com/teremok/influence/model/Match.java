@@ -69,7 +69,7 @@ public class Match {
             if (phase == Phase.DISTRIBUTE && ! currentPlayer.hasPowerToDistribute()) {
                 currentPlayer = pm.next();
                 phase = Phase.ATTACK;
-                if ( pm.isHumanActing() && pm.current().getScore() > 0) {
+                if ( pm.isHumanActing() && pm.current().getNumber() == 0) {
                     MatchSaver.save(this);
                 }
             }
