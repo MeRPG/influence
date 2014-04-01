@@ -31,6 +31,7 @@ public class StartScreen extends StaticScreen {
     public StartScreen(Game game, String filename) {
         super(game, filename);
         Settings.init();
+        Logger.init();
     }
 
     @Override
