@@ -11,6 +11,7 @@ import com.teremok.influence.model.GameDifficulty;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.ui.*;
+import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.Logger;
 
 import java.util.HashMap;
@@ -146,6 +147,9 @@ public class PlayersScreen extends StaticScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
                     Actor target = stage.hit(x, y, true);
+                    if (target == null)
+                        return;
+                    FXPlayer.playClick();
                     if (target instanceof PlayerTypeUI) {
                         Settings.gameSettings.difficulty = GameDifficulty.CUSTOM;
                         PlayerTypeUI type = (PlayerTypeUI)target;

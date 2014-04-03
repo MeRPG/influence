@@ -11,6 +11,7 @@ import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.Checkbox;
 import com.teremok.influence.ui.RadioGroup;
 import com.teremok.influence.ui.RadioTexture;
+import com.teremok.influence.util.FXPlayer;
 
 /**
  * Created by Алексей on 29.03.14
@@ -89,6 +90,7 @@ public class MapSizeScreen extends StaticScreen {
                     Actor target = stage.hit(x, y, true);
                     if (target == null)
                         return;
+                    FXPlayer.playClick();
                     if (target instanceof ButtonTexture) {
                         ScreenController.showPlayersScreen();
                     } else {
