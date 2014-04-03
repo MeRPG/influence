@@ -58,31 +58,16 @@ public class GameSettings {
     public static Map<Integer, PlayerType> singlePlayerEasy(int playersNumber) {
         Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
         switch (playersNumber) {
-            case 2:
-                players.put(0, PlayerType.Human);
-                players.put(1, PlayerType.Random);
-                break;
-            case 3:
-                players.put(0, PlayerType.Human);
-                players.put(1, PlayerType.Random);
-                players.put(2, PlayerType.Lazy);
-                break;
-            case 4:
-                players.put(0, PlayerType.Human);
-                players.put(1, PlayerType.Random);
-                players.put(2, PlayerType.Lazy);
-                players.put(3, PlayerType.Beefy);
-                break;
             case 5:
-                players.put(0, PlayerType.Human);
-                players.put(1, PlayerType.Random);
-                players.put(2, PlayerType.Dummy);
-                players.put(3, PlayerType.Lazy);
                 players.put(4, PlayerType.Lazy);
-                break;
+            case 4:
+                players.put(3, PlayerType.Lazy);
+            case 3:
+                players.put(2, PlayerType.Dummy);
+            case 2:
+                players.put(1, PlayerType.Random);
             default:
                 players.put(0, PlayerType.Human);
-                players.put(1, PlayerType.Human);
                 break;
 
         }
