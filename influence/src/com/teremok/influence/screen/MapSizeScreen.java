@@ -87,6 +87,8 @@ public class MapSizeScreen extends StaticScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
                     Actor target = stage.hit(x, y, true);
+                    if (target == null)
+                        return;
                     if (target instanceof ButtonTexture) {
                         ScreenController.showPlayersScreen();
                     } else {
