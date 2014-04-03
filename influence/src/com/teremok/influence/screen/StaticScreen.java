@@ -222,5 +222,12 @@ public abstract class StaticScreen extends AbstractScreen {
         loaded = false;
         //ResourseManager.disposeAtlas(atlasName);
     }
+
+    // Auto-generated
+
+
+    public String getAtlasName() {
+        return atlasName;
+    }
 }
 

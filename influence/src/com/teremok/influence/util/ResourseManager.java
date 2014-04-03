@@ -66,6 +66,14 @@ public class ResourseManager {
         }
     }
 
+    public static void disposeAll() {
+        if (atlases != null) {
+            for (TextureAtlas atlas : atlases.values()) {
+                atlas.dispose();
+            }
+        }
+    }
+
     public static FileHandle getScreenUi(String screenName) {
         String internalPath = UI_PATH_INTERNAL + screenName + UI_EXT;
         String externalPath = UI_PATH_EXTERNAL + screenName + UI_EXT;

@@ -9,6 +9,7 @@ import com.teremok.influence.Influence;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
+import com.teremok.influence.util.ResourseManager;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -27,6 +28,15 @@ public class ScreenController {
 
     public static void init(Influence game) {
         ScreenController.game = game;
+    }
+
+    public static void forceShowStartScreen() {
+        if (startScreen != null) {
+            ResourseManager.disposeAtlas(startScreen.getAtlasName());
+        }
+        startScreen = new StartScreen(game, "startScreen");
+        currentScreen = startScreen;
+        game.setScreen(startScreen);
     }
 
     public static void showStartScreen() {

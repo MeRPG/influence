@@ -20,6 +20,6 @@ public class Influence extends Game {
     @Override
 	public void create() {
         ScreenController.init(this);
-        ScreenController.showStartScreen();
+        ScreenController.forceShowStartScreen();
 	}
 }
