@@ -132,7 +132,6 @@ public class GameScreen extends StaticScreen {
     @Override
     public void pause() {
         super.pause();
-        pausePanel.dispose();
         FXPlayer.dispose();
         pauseMatch();
         Logger.log("GameScreen: show;");
