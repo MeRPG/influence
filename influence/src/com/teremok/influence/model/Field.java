@@ -190,7 +190,7 @@ public class Field extends Group {
     private boolean isValidForStartPosition(Cell target) {
 
         if (Settings.gameSettings.fieldSize == FieldSize.SMALL)
-            return true;
+            return target.isFree();
 
         if (target.isValid() && target.isFree()) {
             for (Cell enemy : getConnectedEnemies(target)) {
