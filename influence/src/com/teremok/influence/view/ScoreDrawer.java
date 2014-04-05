@@ -1,12 +1,14 @@
 package com.teremok.influence.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Score;
+import com.teremok.influence.screen.AbstractScreen;
 
 import static com.teremok.influence.view.Drawer.getCellColorByNumber;
 
@@ -15,6 +17,8 @@ import static com.teremok.influence.view.Drawer.getCellColorByNumber;
  */
 public class ScoreDrawer extends AbstractDrawer<Score> {
 
+    private static final float COVER_SIZE = 160;
+
     @Override
     public void draw(Score score, SpriteBatch batch, float parentAlpha) {
         super.draw(score, batch, parentAlpha);
@@ -22,6 +26,8 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
         batch.end();
 
         //drawBoundingBox();
+
+        drawCovers();
 
         batch.begin();
 
@@ -88,5 +94,21 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
             x = current.getX() + (current.getWidth() - subStatusBounds.width)/2;
             bitmapFont.draw(batch, current.getSubStatus(), x, y - subStatusBounds.height * 1.5f);
         }
+    }
+
+
+
+    protected void drawCovers() {
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.setColor(Color.BLACK);
+        //left
+        renderer.rect(-COVER_SIZE, current.getHeight()- COVER_SIZE, COVER_SIZE, AbstractScreen.HEIGHT+ COVER_SIZE *2);
+        //bottom
+        renderer.rect(-COVER_SIZE, current.getHeight()- COVER_SIZE, AbstractScreen.WIDTH+COVER_SIZE *2, COVER_SIZE-8f);
+        //top
+        renderer.rect(-COVER_SIZE, AbstractScreen.HEIGHT, AbstractScreen.WIDTH+ COVER_SIZE *2, COVER_SIZE);
+        //right
+        renderer.rect(AbstractScreen.WIDTH-1, current.getHeight()- COVER_SIZE, COVER_SIZE, AbstractScreen.HEIGHT+ COVER_SIZE *2);
+        renderer.end();
     }
 }

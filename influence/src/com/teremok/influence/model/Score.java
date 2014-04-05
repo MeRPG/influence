@@ -69,8 +69,8 @@ public class Score extends Group {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
         drawer.draw(this, batch, parentAlpha);
+        super.draw(batch, parentAlpha);
     }
 
     @Override
