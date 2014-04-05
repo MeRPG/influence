@@ -88,7 +88,10 @@ public class Match {
                 if (! endSoundPlayed) {
                     FXPlayer.playWinMatch();
                     endSoundPlayed = true;
-                    GameScreen.colorForBorder = Drawer.getBacklightWinColor();
+                    if (pm.isHumanInGame())
+                        GameScreen.colorForBorder = Drawer.getPlayerColor(pm.current());
+                    else
+                        GameScreen.colorForBorder = Drawer.getBacklightWinColor();
                 }
             } else if (isLost()) {
                 if (! endSoundPlayed) {
