@@ -30,8 +30,6 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         batch.end();
         zoomedUnitSize = Drawer.getUnitSize()* GestureController.getZoom();
 
-        drawShapeBackground();
-
         counter = 0;
         allCounter = 0;
         if (routerDraw == null){
@@ -78,9 +76,10 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
     private void drawSolid(Cell cell) {
         renderer.setColor(getColor(cell));
+        /*
         if (cell.getUnitsX() == cell.getUnitsY() && cell.getUnitsX() == 0)
             Logger.log("draw solid w/color = " + renderer.getColor().r + "; " +  renderer.getColor().g + "; " +  renderer.getColor().b + "; " +  renderer.getColor().a);
-
+        */
         renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getPower()*0.03f), 6);
     }
 
@@ -114,10 +113,10 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
         float absoluteCellX = cell.getX() + current.getX();
         float absoluteCellY = cell.getY() + current.getY();
-
+        /*
         if (cell.getUnitsX() == cell.getUnitsY() && cell.getUnitsX() == 0)
             Logger.log("cell abs coords: " + absoluteCellX + "; " + absoluteCellY);
-
+        */
         if (absoluteCellX < 0f) {
             float deltaX = Math.abs(current.getX());
             float deltaY = Math.abs(95f - cell.getY());
@@ -129,10 +128,10 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
             //newColor.a = maxDelta / (Field.cellWidth*GestureController.getZoom());
 
             newColor.a = 0f;
-
+            /*
             if (cell.getUnitsX() == cell.getUnitsY() && cell.getUnitsX() == 0)
               Logger.log("new    color = " + newColor.r + "; " +  newColor.g + "; " +  newColor.b + "; " +  newColor.a);
-
+            */
             return newColor;
         }
 

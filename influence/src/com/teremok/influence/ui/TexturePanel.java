@@ -1,5 +1,6 @@
 package com.teremok.influence.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -30,7 +31,10 @@ public class TexturePanel extends Actor implements UIElement {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        image.draw(batch, parentAlpha);
+        float resultAlpha = parentAlpha < getColor().a ? parentAlpha : getColor().a;
+        batch.setColor(getColor());
+        image.setColor(getColor());
+        image.draw(batch, resultAlpha);
     }
 
     @Override
@@ -58,6 +62,7 @@ public class TexturePanel extends Actor implements UIElement {
     @Override
     public void setColor(float r, float g, float b, float a) {
         image.setColor(r, g, b, a);
+        setColor(new Color(r, g, b, a));
     }
 
     public void setRegion(TextureRegion region) {
@@ -65,5 +70,11 @@ public class TexturePanel extends Actor implements UIElement {
         image.setScaling(Scaling.fit);
         image.setAlign(Align.center);
         image.setTouchable(Touchable.disabled);
+    }
+
+    @Override
+    public void setColor(Color color) {
+        super.setColor(color);
+        image.setColor(color);
     }
 }

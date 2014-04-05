@@ -120,7 +120,7 @@ public class GameScreen extends StaticScreen {
     public void flashBacklight(Color color) {
         backlight.setColor(color);
         backlight.getColor().a = 1f;
-
+        Logger.log("backlight : flash! " + backlight.getColor().a);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.delay(Animation.DURATION_SHORT),
                 Actions.alpha(0f, Animation.DURATION_NORMAL)

@@ -65,6 +65,7 @@ public abstract class AbstractScreen implements Screen {
 
         Gdx.gl.glClearColor( 0f, 0f, 0f, 1f );
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
+        Gdx.gl.glEnable(GL20.GL_BLEND);
         stage.draw();
     }
 
