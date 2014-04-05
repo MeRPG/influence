@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.influence.model.GestureController;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
@@ -88,6 +89,7 @@ public class StartScreen extends StaticScreen {
                     switch (code) {
                         case CONTINUE:
                             ScreenController.startQuickGame();
+                            GestureController.resetZoom();
                             break;
                         case NEWGAME:
                             ScreenController.showMapSizeScreen();

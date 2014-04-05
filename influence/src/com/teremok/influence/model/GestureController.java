@@ -125,6 +125,8 @@ public class GestureController extends ActorGestureListener{
         return screen.getMatch().getField();
     }
 
+    public static void resetZoom() { changeZoom(ZOOM_DEFAULT); }
+
     // Auto-generated
 
     public static boolean isActing() {
