@@ -32,6 +32,12 @@ public class ScreenController {
 
     public static void forceShowStartScreen() {
         if (startScreen != null) {
+            aboutScreen = null;
+            startScreen = null;
+            settingsScreen = null;
+            currentScreen = null;
+            mapSizeScreen = null;
+            playersScreen = null;
             ResourseManager.disposeAll();
         }
         startScreen = new StartScreen(game, "startScreen");
