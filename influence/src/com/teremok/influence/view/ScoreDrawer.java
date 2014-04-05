@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Score;
+import com.teremok.influence.model.Settings;
 import com.teremok.influence.screen.AbstractScreen;
 
 import static com.teremok.influence.view.Drawer.getCellColorByNumber;
@@ -26,8 +28,11 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
         batch.end();
 
         //drawBoundingBox();
+        if (! (Settings.gameSettings.fieldSize == FieldSize.SMALL
+                || Settings.gameSettings.fieldSize == FieldSize.NORMAL)) {
 
-        drawCovers();
+            drawCovers();
+        }
 
         batch.begin();
 
