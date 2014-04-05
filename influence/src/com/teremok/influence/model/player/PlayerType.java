@@ -6,13 +6,14 @@ import com.teremok.influence.util.Logger;
  * Created by Alexx on 07.02.14
  */
 public enum PlayerType {
-        Dummy ("Dummy"),
-        Beefy ("Beefy"),
-        Lazy ("Lazy"),
-        Smarty ("Smarty"),
+        Human ("Human"),
         Random ("Random"),
-        Hunter ("Hunter"),
-        Human ("Human");
+        Dummy ("Dummy"),
+        Lazy ("Lazy"),
+        Beefy ("Beefy"),
+        Smarty ("Smarty"),
+        Hunter ("Hunter");
+
 
     PlayerType(String s) {
         Logger.log("player type " + s + " created.");

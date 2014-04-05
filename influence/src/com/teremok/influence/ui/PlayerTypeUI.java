@@ -19,13 +19,13 @@ public class PlayerTypeUI extends ButtonTexture {
 
     static {
         map = new HashMap<Integer, PlayerType>();
-        map.put(0, PlayerType.Dummy);
-        map.put(1, PlayerType.Beefy);
-        map.put(2, PlayerType.Lazy);
-        map.put(3, PlayerType.Smarty);
-        map.put(4, PlayerType.Random);
-        map.put(5, PlayerType.Hunter);
-        map.put(6, PlayerType.Human);
+        map.put(0, PlayerType.Human);
+        map.put(1, PlayerType.Random);
+        map.put(2, PlayerType.Dummy);
+        map.put(3, PlayerType.Lazy);
+        map.put(4, PlayerType.Beefy);
+        map.put(5, PlayerType.Smarty);
+        map.put(6, PlayerType.Hunter);
     }
 
 
