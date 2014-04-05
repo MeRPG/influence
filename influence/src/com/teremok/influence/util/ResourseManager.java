@@ -71,6 +71,7 @@ public class ResourseManager {
             for (TextureAtlas atlas : atlases.values()) {
                 atlas.dispose();
             }
+            atlases.clear();
         }
     }
 

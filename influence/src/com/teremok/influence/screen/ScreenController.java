@@ -32,7 +32,7 @@ public class ScreenController {
 
     public static void forceShowStartScreen() {
         if (startScreen != null) {
-            ResourseManager.disposeAtlas(startScreen.getAtlasName());
+            ResourseManager.disposeAll();
         }
         startScreen = new StartScreen(game, "startScreen");
         currentScreen = startScreen;
