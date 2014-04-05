@@ -3,7 +3,9 @@ package com.teremok.influence.model;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
+import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.view.Drawer;
 
 import java.util.List;
 
@@ -86,12 +88,13 @@ public class Match {
                 if (! endSoundPlayed) {
                     FXPlayer.playWinMatch();
                     endSoundPlayed = true;
+                    GameScreen.colorForBorder = Drawer.getBacklightWinColor();
                 }
             } else if (isLost()) {
                 if (! endSoundPlayed) {
                     FXPlayer.playLoseMatch();
                     endSoundPlayed = true;
-                    isLost();
+                    GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
                 }
             }
 

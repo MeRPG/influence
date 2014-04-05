@@ -48,8 +48,12 @@ public class GameScreen extends StaticScreen {
 
         // TODO: refactor!
         if (colorForBorder != null) {
-            flashBacklight(colorForBorder);
-            colorForBorder = null;
+            if (match.isEnded()) {
+                turnOnBacklight(colorForBorder);
+            } else {
+                flashBacklight(colorForBorder);
+                colorForBorder = null;
+            }
         }
     }
 
@@ -127,6 +131,16 @@ public class GameScreen extends StaticScreen {
         );
 
         backlight.addAction(sequenceAction);
+    }
+
+    public void turnOnBacklight(Color color) {
+        backlight.addAction(Actions.color(color, Animation.DURATION_NORMAL));
+    }
+
+    public void turnOffBacklight(Color color) {
+        Color real = color.cpy();
+        real.a = 0f;
+        backlight.addAction(Actions.color(real, Animation.DURATION_NORMAL));
     }
 
     @Override
