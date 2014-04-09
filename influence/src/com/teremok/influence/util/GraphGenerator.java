@@ -163,7 +163,7 @@ public class GraphGenerator {
         if (x < 0 || y < 0 || x >= maxCellsY || y >= maxCellsX) {
             return;
         }
-        if (mask[x][y] > 0 && mask[x][y] < Integer.MAX_VALUE) {
+        if (mask[x][y] > 0 && mask[x][y] < Byte.MAX_VALUE) {
 
             matrix[curNum][getNum(x,y)] = 1;
         }
@@ -224,7 +224,7 @@ public class GraphGenerator {
             return true;
         }
 
-        if (mask[x][y] == 0 || mask[x][y] == Integer.MAX_VALUE) {
+        if (mask[x][y] == 0 || mask[x][y] == Byte.MAX_VALUE) {
             return true;
         }
 
@@ -248,7 +248,7 @@ public class GraphGenerator {
         //Logger.log(" - - - - - - - - ");
         for (int i = 0; i < maxCellsY; i++) {
             for (int j = 0; j < maxCellsX; j++) {
-                if (mask[i][j] == Integer.MAX_VALUE) {
+                if (mask[i][j] == Byte.MAX_VALUE) {
                     //Logger.append("-\t");
                 } else {
                     //Logger.append(mask[i][j] + "\t");
