@@ -38,10 +38,26 @@ public class MatchSaver {
 
     public static void save(Match match) {
         try {
-            saveInFile(match);
-            notEnded = match;
+            if (! match.isEnded()){
+                saveInFile(match);
+                notEnded = match;
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void clearFile() {
+        try {
+            FileHandle handle = Gdx.files.external(FILENAME);
+            FileWriter fileWriter = new FileWriter(handle.file());
+            Logger.log(handle.file().getAbsolutePath());
+            XmlWriter xml = new XmlWriter(fileWriter);
+            XmlWriter xmlMatch = xml.element(ROOT);
+            xmlMatch.pop();
+            xml.close();
+        } catch (IOException ex){
+            ex.printStackTrace();
         }
     }
 

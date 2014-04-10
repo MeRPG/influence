@@ -28,6 +28,8 @@ public class StartScreen extends StaticScreen {
     private static final String GOOGLE_PLAY = "google_play";
 
     private ColoredPanel credits;
+    private ButtonTexture newGame;
+    private ButtonTexture resume;
 
     public StartScreen(Game game, String filename) {
         super(game, filename);
@@ -45,20 +47,12 @@ public class StartScreen extends StaticScreen {
     protected void addActors() {
         MatchSaver.load();
 
-        ButtonTexture newGame = new ButtonTexture(uiElements.get(NEWGAME));
+        newGame = new ButtonTexture(uiElements.get(NEWGAME));
+        resume = new ButtonTexture(uiElements.get(CONTINUE));
+
         ButtonTexture settings = new ButtonTexture(uiElements.get(SETTINGS));
         ButtonTexture vk = new ButtonTexture(uiElements.get(VK_COM));
         ButtonTexture googleplay = new ButtonTexture(uiElements.get(GOOGLE_PLAY));
-        ButtonTexture resume = new ButtonTexture(uiElements.get(CONTINUE));
-
-        if (MatchSaver.hasNotEnded()) {
-            newGame.setY(uiElements.get(NEWGAME).y);
-            resume.setVisible(true);
-        } else {
-            newGame.setY(277f);
-            resume.setVisible(false);
-
-        }
 
         if (credits == null) {
             credits = new ColoredPanel(new Color(0x00000000), 0f, 0f, WIDTH, 54f);
@@ -152,5 +146,21 @@ public class StartScreen extends StaticScreen {
         super.resume();
         FXPlayer.load();
         Logger.log("StartScreen: resume;");
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        checkMatchSave();
+    }
+
+    private void checkMatchSave() {
+        if (MatchSaver.hasNotEnded()) {
+            newGame.setY(uiElements.get(NEWGAME).y);
+            resume.setVisible(true);
+        } else {
+            newGame.setY(277f);
+            resume.setVisible(false);
+        }
     }
 }
