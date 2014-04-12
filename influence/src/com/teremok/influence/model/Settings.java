@@ -4,10 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
+import com.teremok.influence.model.player.Player;
+import com.teremok.influence.model.player.PlayerManager;
+import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.util.Logger;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Alexx on 07.02.14
@@ -55,12 +61,21 @@ public class Settings {
     }
 
     public static void saveGameSettings(XmlWriter root) throws IOException{
-        root.element("game")
-                .element("players", gameSettings.getNumberOfPlayers())
-                .element("difficulty", gameSettings.difficulty)
-                .element("fieldSize", gameSettings.fieldSize)
-                .pop();
-
+        XmlWriter gameXml = root.element("game");
+        gameXml
+            .element("players", gameSettings.getNumberOfPlayers())
+            .element("difficulty", gameSettings.difficulty)
+            .element("fieldSize", gameSettings.fieldSize);
+        XmlWriter playersXml = gameXml.element("customPlayers");
+        int num = 0;
+        for (PlayerType player : gameSettings.players.values()) {
+            playersXml.element("player")
+                    .attribute("number", num++)
+                    .text(player)
+                    .pop();
+        }
+        playersXml.pop();
+        gameXml.pop();
     }
 
     public static boolean load() {
@@ -115,6 +130,25 @@ public class Settings {
                 playersNumber = 5;
             gameSettings.players = GameSettings.getPlayersByDifficulty(gameSettings.difficulty, playersNumber);
 
+
+            try {
+                Integer number;
+                String type;
+                Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+
+                XmlReader.Element playersRoot = root.getChildByName("customPlayers");
+                for (XmlReader.Element player : playersRoot.getChildrenByName("player")) {
+                    number = Integer.parseInt(player.getAttribute("number", "0"));
+                    type = player.getText();
+                    players.put(number, PlayerType.valueOf(type));
+                    Logger.log("adding player " + type + " with number " + number);
+                }
+
+                gameSettings.customPlayers = players;
+
+            } catch (Exception ex) {
+                gameSettings.difficulty = GameDifficulty.NORMAL;
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

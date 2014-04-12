@@ -151,7 +151,10 @@ public class PlayersScreen extends StaticScreen {
                         return;
                     FXPlayer.playClick();
                     if (target instanceof PlayerTypeUI) {
-                        Settings.gameSettings.difficulty = GameDifficulty.CUSTOM;
+                        if (Settings.gameSettings.difficulty != GameDifficulty.CUSTOM) {
+                            Settings.gameSettings.customPlayers = Settings.gameSettings.getPlayers(Settings.gameSettings.difficulty, 5);
+                            Settings.gameSettings.difficulty = GameDifficulty.CUSTOM;
+                        }
                         PlayerTypeUI type = (PlayerTypeUI)target;
                         type.next();
                         switch (type.getCode()) {
@@ -177,6 +180,9 @@ public class PlayersScreen extends StaticScreen {
                         switch (clicked.getCode()) {
                             case START:
                                 ScreenController.startSingleplayerGame();
+                                if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                    Settings.gameSettings.customPlayers = new HashMap<Integer, PlayerType>(Settings.gameSettings.players);
+                                }
                                 break;
                             case DELETE:
                                 numberOfPlayers--;
@@ -198,6 +204,7 @@ public class PlayersScreen extends StaticScreen {
                                 Settings.gameSettings.difficulty = GameDifficulty.HARD;
                                 break;
                             case CUSTOM:
+                                Settings.gameSettings.customPlayers = Settings.gameSettings.getPlayers(Settings.gameSettings.difficulty, 5);
                                 Settings.gameSettings.difficulty = GameDifficulty.CUSTOM;
                                 break;
                         }
@@ -221,9 +228,14 @@ public class PlayersScreen extends StaticScreen {
                 break;
             case CUSTOM:
                 custom.check();
+                for (int i = 0; i < 5; i++) {
+                    if (Settings.gameSettings.players.get(i) == null)
+                        Settings.gameSettings.players.put(i, Settings.gameSettings.customPlayers.get(i));
+                }
                 break;
         }
         Settings.gameSettings.players = Settings.gameSettings.getPlayers(Settings.gameSettings.difficulty, numberOfPlayers);
+
         delete.setY(174+50*(5-numberOfPlayers));
         add.setY(122 + 50 * (5 - numberOfPlayers));
 
