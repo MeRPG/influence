@@ -25,7 +25,6 @@ public class GameScreen extends StaticScreen {
     Match match;
     PausePanel pausePanel;
     TexturePanel backlight;
-    TexturePanel backdark;
 
     long lastBackPress = 0;
 
@@ -80,9 +79,6 @@ public class GameScreen extends StaticScreen {
         stage.getRoot().clearChildren();
         stage.addActor(backlight);
         stage.addActor(match.getField());
-        if (! (Settings.gameSettings.fieldSize == FieldSize.SMALL
-                || Settings.gameSettings.fieldSize == FieldSize.NORMAL))
-            stage.addActor(backdark);
         stage.addActor(match.getScore());
         stage.addActor(TooltipHandler.getInstance());
         stage.addActor(pausePanel);
@@ -169,7 +165,6 @@ public class GameScreen extends StaticScreen {
     protected void addActors() {
         AbstractDrawer.setBitmapFont(getFont());
         initBacklight();
-        backdark = new TexturePanel(uiElements.get("backdark"));
         pausePanel = new PausePanel(this);
         updateMatchDependentActors();
     }

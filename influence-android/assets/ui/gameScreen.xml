@@ -2,7 +2,13 @@
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
         atlas="gameScreen" localized="false" localizedBackground="true">
 	<element name="backlight" region="backlight" localized="false"
-        x="0" y="0"/>
-    <element name="backdark" region="backdark" localized="false"
-        x="-8" y="0"/>
+        x="0" y="0" />
+    <element name="darkTop" region="darkTop" localized="false"
+    x="0" y="654"/>
+    <element name="darkBottom" region="darkBottom" localized="false"
+             x="0" y="87"/>
+    <element name="darkLeft" region="darkLeft" localized="false"
+             x="0" y="87"/>
+    <element name="darkRight" region="darkRight" localized="false"
+             x="423" y="87"/>
 </screen>
