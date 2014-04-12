@@ -224,7 +224,7 @@ public class PlayersScreen extends StaticScreen {
                 break;
         }
         Settings.gameSettings.players = Settings.gameSettings.getPlayers(Settings.gameSettings.difficulty, numberOfPlayers);
-        delete.setY(177+50*(5-numberOfPlayers));
+        delete.setY(174+50*(5-numberOfPlayers));
         add.setY(122 + 50 * (5 - numberOfPlayers));
 
         switch (numberOfPlayers) {

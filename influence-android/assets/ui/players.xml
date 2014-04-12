@@ -2,13 +2,13 @@
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
         atlas="screenPlayers" localized="false" localizedBackground="true">	
 	<element name="easy" region="easy_Active" secondRegion="easy_noActive" localized="true"
-				x="111" y="465"/>	
+				x="24" y="465"/>
 	<element name="normal" region="normal_Active" secondRegion="normal_noActive" localized="true"
 				x="24" y="421"/>	
 	<element name="hard" region="hard_Active" secondRegion="hard_noActive" localized="true"
-				x="242" y="465"/>	
+				x="240" y="465"/>
 	<element name="custom" region="custom_Active" secondRegion="custom_noActive" localized="true"
-				x="242" y="421"/>	
+				x="240" y="421"/>
 	<element name="green" region="enemiesGreen" localized="false"
 				x="92" y="322"/>	
 	<element name="yellow" region="enemiesYellow" localized="false"
@@ -18,7 +18,7 @@
 	<element name="purple" region="enemiesPurpure" localized="false"
 				x="92" y="172"/>
 	<element name="delete" region="buttonDelete" localized="false"
-				x="402" y="177"/>		
+				x="399" y="177"/>
 	<element name="start" region="buttonStart" localized="true"
 				x="143" y="85"/>
     <element name="Human" region="human" localized="true"
