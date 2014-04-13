@@ -68,7 +68,7 @@ public class Settings {
             .element("fieldSize", gameSettings.fieldSize);
         XmlWriter playersXml = gameXml.element("customPlayers");
         int num = 0;
-        for (PlayerType player : gameSettings.players.values()) {
+        for (PlayerType player : gameSettings.customPlayers.values()) {
             playersXml.element("player")
                     .attribute("number", num++)
                     .text(player)
@@ -120,6 +120,11 @@ public class Settings {
 
     public static void loadGameSettings(XmlReader.Element root) {
         try {
+
+            if (root.toString().equals("<match/>")){
+                return;
+            }
+
             XmlReader.Element settingsXml = root.getChildByName("game");
             gameSettings = new GameSettings();
             FieldSize size =  FieldSize.valueOf(settingsXml.getChildByName("fieldSize").getText());
@@ -153,6 +158,7 @@ public class Settings {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
         if (gameSettings == null || gameSettings.players == null || gameSettings.difficulty == null || gameSettings.fieldSize == null) {
             gameSettings = GameSettings.getDefault();
         }
