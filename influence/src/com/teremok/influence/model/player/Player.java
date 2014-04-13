@@ -72,6 +72,8 @@ public abstract class Player {
 
     public PlayerType getType() { return type; }
 
+    public void setType(PlayerType type) { this.type = type; }
+
     public int getScore() {
         return score;
     }

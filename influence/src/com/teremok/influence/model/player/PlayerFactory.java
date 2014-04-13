@@ -42,6 +42,7 @@ public class PlayerFactory {
                 player = getHuman(number, match);
 
         }
+        player.setType(type);
         return player;
     }
 

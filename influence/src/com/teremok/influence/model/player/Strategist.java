@@ -69,9 +69,6 @@ public class Strategist extends ComputerPlayer {
     }
 
     // Auto-generated
-
-    public void setStyle(PlayerType style) { this.type = style; }
-
     public Random getRnd() {
         return rnd;
     }
