@@ -132,6 +132,9 @@ public class PlayersScreen extends StaticScreen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
                     ScreenController.showMapSizeScreen();
+                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                        Settings.gameSettings.customPlayers.putAll(Settings.gameSettings.players);
+                    }
                     return true;
                 }
                 return false;
@@ -159,20 +162,36 @@ public class PlayersScreen extends StaticScreen {
                         type.next();
                         switch (type.getCode()) {
                             case GREEN:
-                                if (playerGreen.isVisible())
+                                if (playerGreen.isVisible()) {
                                     Settings.gameSettings.players.put(1, type.getType());
+                                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                        Settings.gameSettings.customPlayers.put(1, type.getType());
+                                    }
+                                }
                                 break;
                             case YELLOW:
-                                if (playerGreen.isVisible())
+                                if (playerGreen.isVisible()) {
                                     Settings.gameSettings.players.put(2, type.getType());
+                                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                        Settings.gameSettings.customPlayers.put(2, type.getType());
+                                    }
+                                }
                                 break;
                             case RED:
-                                if (playerGreen.isVisible())
+                                if (playerGreen.isVisible()) {
                                     Settings.gameSettings.players.put(3, type.getType());
+                                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                        Settings.gameSettings.customPlayers.put(3, type.getType());
+                                    }
+                                }
                                 break;
                             case PURPLE:
-                                if (playerGreen.isVisible())
+                                if (playerGreen.isVisible()) {
                                     Settings.gameSettings.players.put(4, type.getType());
+                                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                        Settings.gameSettings.customPlayers.put(4, type.getType());
+                                    }
+                                }
                                 break;
                         }
                     } else if (target instanceof ButtonTexture) {
@@ -181,13 +200,14 @@ public class PlayersScreen extends StaticScreen {
                             case START:
                                 ScreenController.startSingleplayerGame();
                                 if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
-                                    Settings.gameSettings.customPlayers = new HashMap<Integer, PlayerType>(Settings.gameSettings.players);
+                                    Settings.gameSettings.customPlayers.putAll(Settings.gameSettings.players);
                                 }
                                 break;
                             case DELETE:
                                 numberOfPlayers--;
                                 break;
                             case ADD:
+                                Settings.gameSettings.players.put(numberOfPlayers, Settings.gameSettings.customPlayers.get(numberOfPlayers));
                                 numberOfPlayers++;
                                 break;
                         }
@@ -227,11 +247,17 @@ public class PlayersScreen extends StaticScreen {
                 hard.check();
                 break;
             case CUSTOM:
-                custom.check();
+
                 for (int i = 0; i < 5; i++) {
-                    if (Settings.gameSettings.players.get(i) == null)
+                    if (i < numberOfPlayers) {
                         Settings.gameSettings.players.put(i, Settings.gameSettings.customPlayers.get(i));
+                    } else {
+                        Settings.gameSettings.players.remove(i);
+                    }
                 }
+
+
+                custom.check();
                 break;
         }
         Settings.gameSettings.players = Settings.gameSettings.getPlayers(Settings.gameSettings.difficulty, numberOfPlayers);

@@ -136,17 +136,18 @@ public class Settings {
                 String type;
                 Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
 
-                XmlReader.Element playersRoot = root.getChildByName("customPlayers");
+                XmlReader.Element playersRoot = settingsXml.getChildByName("customPlayers");
                 for (XmlReader.Element player : playersRoot.getChildrenByName("player")) {
                     number = Integer.parseInt(player.getAttribute("number", "0"));
                     type = player.getText();
                     players.put(number, PlayerType.valueOf(type));
-                    Logger.log("adding player " + type + " with number " + number);
+                    Logger.log("adding customPlayer " + type + " with number " + number);
                 }
 
                 gameSettings.customPlayers = players;
 
             } catch (Exception ex) {
+                ex.printStackTrace();
                 gameSettings.difficulty = GameDifficulty.NORMAL;
             }
         } catch (Exception ex) {
