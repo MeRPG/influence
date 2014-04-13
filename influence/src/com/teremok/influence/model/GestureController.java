@@ -50,9 +50,6 @@ public class GestureController extends ActorGestureListener{
             changeZoom(delta);
             getField().resize();
             acting = true;
-            //Logger.log("Zooom! delta: " + delta);
-            //Logger.log("Zooom! zoom: " + zoom);
-            //Logger.log("Zoomed unit size: " + Drawer.getUnitSize*zoom);
         }
     }
       
@@ -61,7 +58,6 @@ public class GestureController extends ActorGestureListener{
         if ( bigField() && ! screen.getMatch().isPaused()) {
             getField().moveBy(deltaX, deltaY);
             acting = true;
-            ////Logger.log("pan! deltaX: " + deltaX + "; deltaY: " + deltaY);
         }
     }
 
@@ -75,7 +71,6 @@ public class GestureController extends ActorGestureListener{
         if (! screen.getMatch().isPaused()) {
             super.touchUp(event, x, y, pointer, button);
             acting = false;
-            Logger.log("GestureController - touchUp ");
         }
     }
 
@@ -83,7 +78,6 @@ public class GestureController extends ActorGestureListener{
     public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
         if (! screen.getMatch().isPaused()) {
             super.touchDown(event, x, y, pointer, button);
-            Logger.log("GestureController - touchDown ");
         }
     }
 
@@ -114,7 +108,6 @@ public class GestureController extends ActorGestureListener{
                zoom += delta;
            }
         }
-        //Logger.log("change zoom: " + zoom);
     }
 
     private static float getZoomMax() {
@@ -125,7 +118,9 @@ public class GestureController extends ActorGestureListener{
         return screen.getMatch().getField();
     }
 
-    public static void resetZoom() { changeZoom(ZOOM_DEFAULT); }
+    public static void resetZoom() {
+        changeZoom(ZOOM_DEFAULT);
+    }
 
     // Auto-generated
 

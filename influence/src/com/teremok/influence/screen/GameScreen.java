@@ -255,7 +255,7 @@ public class GameScreen extends StaticScreen {
             }
 
         });
-
+        getMatch().getField().resize();
         stage.addListener(gestureController);
     }
 
