@@ -2,6 +2,7 @@ package com.teremok.influence.model.player.strategy.power;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
+import com.teremok.influence.model.Settings;
 import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.PowerStrategy;
 
@@ -18,7 +19,7 @@ public class SmartyPowerStrategy implements PowerStrategy {
 
     @Override
     public Cell execute(List<Cell> cells, Field field, Strategist player) {
-        if (cells.size() == 25)
+        if (cells.size() == field.getCellsCount())
             toBePowered.clear();
         for (Cell cell : cells) {
             if (cell.getEnemies().isEmpty()) {
@@ -31,14 +32,29 @@ public class SmartyPowerStrategy implements PowerStrategy {
                 if (cell.getPower() < cell.getMaxPower()) {
                     toBePowered.add(cell.getNumber());
                 }
-                //Logger.log("--- add power to cell " + cell + ", number" + cell.getType() + ", enemies: ");
-                for (Cell en : cell.getEnemies()) {
-                    //Logger.log(en + ", number: " + en.getType());
-                }
-                //Logger.log("--- end of the enemy list");
                 field.addPower(cell);
 
             }
+        }
+
+        HashSet<Integer> toBeRemoved = new HashSet<>();
+
+        for (Integer integer : toBePowered) {
+            boolean found = false;
+            for (Cell cell : cells) {
+                if (cell.getNumber() == integer) {
+                    found = true;
+                    if (cell.getPower() == cell.getMaxPower()) {
+                        found = false;
+                    }
+                }
+            }
+            if (! found) {
+                toBeRemoved.add(integer);
+            }
+        }
+        for (Integer integer : toBeRemoved) {
+            toBePowered.remove(integer);
         }
         return null;
     }
