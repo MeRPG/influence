@@ -10,28 +10,28 @@ backlight
   orig: 480, 720
   offset: 0, 0
   index: -1
-darkLeft
+borderLeft
   rotate: false
-  xy: 483, 215
-  size: 57, 624
-  orig: 57, 624
+  xy: 483, 161
+  size: 57, 678
+  orig: 57, 678
   offset: 0, 0
   index: -1
-darkRight
+borderRight
   rotate: false
-  xy: 542, 215
-  size: 57, 624
-  orig: 57, 624
+  xy: 542, 161
+  size: 57, 678
+  orig: 57, 678
   offset: 0, 0
   index: -1
-darkBottom
+borderBottom
   rotate: false
   xy: 1, 60
   size: 480, 57
   orig: 480, 57
   offset: 0, 0
   index: -1
-darkTop
+borderTop
   rotate: false
   xy: 1, 1
   size: 480, 57

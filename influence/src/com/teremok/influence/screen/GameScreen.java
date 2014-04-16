@@ -116,13 +116,12 @@ public class GameScreen extends StaticScreen {
 
     void initBorders() {
         borderTop = new TexturePanel(uiElements.get("borderTop"));
-        borderTop.setColor(1f,1f,0f,1f);
+        borderTop.setColor(1f,1f,1f,1f);
         borderRight = new TexturePanel(uiElements.get("borderRight"));
-        borderRight.setColor(1f,1f,0f,1f);
+        borderRight.setColor(1f,1f,1f,1f);
         borderBottom = new TexturePanel(uiElements.get("borderBottom"));
-        borderBottom.setColor(1f,1f,0f,1f);
+        borderBottom.setColor(1f,1f,1f,1f);
         borderLeft = new TexturePanel(uiElements.get("borderLeft"));
-        borderLeft.setColor(1f,1f,0f,1f);
     }
 
     void  startNewMatch() {
