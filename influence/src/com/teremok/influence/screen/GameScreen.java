@@ -26,9 +26,14 @@ public class GameScreen extends StaticScreen {
     PausePanel pausePanel;
     TexturePanel backlight;
 
+    TexturePanel borderTop;
+    TexturePanel borderRight;
+    TexturePanel borderBottom;
+    TexturePanel borderLeft;
+
     long lastBackPress = 0;
 
-    public static Color colorForBorder;
+    public static Color colorForBacklight;
 
     public GameScreen(Game game) {
         super(game, "gameScreen");
@@ -47,16 +52,56 @@ public class GameScreen extends StaticScreen {
         match.act(delta);
 
         // TODO: refactor!
-        if (colorForBorder != null) {
+        if (colorForBacklight != null) {
             if (match.isEnded()) {
-                turnOnBacklight(colorForBorder);
+                turnOnBacklight(colorForBacklight);
                 MatchSaver.clearFile();
             } else {
-                flashBacklight(colorForBorder);
-                colorForBorder = null;
+                flashBacklight(colorForBacklight);
+                colorForBacklight = null;
             }
         }
+
+        if (match.getField().getX() < -5) {
+            turnOnBorder(borderLeft);
+        } else {
+            turnOffBorder(borderLeft);
+        }
+
+        if (match.getField().getX() + match.getField().getWidth() > AbstractScreen.WIDTH+5) {
+            turnOnBorder(borderRight);
+        } else {
+            turnOffBorder(borderRight);
+        }
+
+        if (match.getField().getY() < AbstractScreen.HEIGHT - Field.HEIGHT-5) {
+            turnOnBorder(borderBottom);
+        } else {
+            turnOffBorder(borderBottom);
+        }
+
+        if (match.getField().getY() +  match.getField().getHeight() > AbstractScreen.HEIGHT+5) {
+            turnOnBorder(borderTop);
+        } else {
+            turnOffBorder(borderTop);
+        }
     }
+
+    private void turnOnBorder(TexturePanel border) {
+        border.getColor().a = 1f;
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.alpha(1f, Animation.DURATION_NORMAL)
+        );
+        border.addAction(sequenceAction);
+    }
+
+    private void turnOffBorder(TexturePanel border) {
+        SequenceAction sequenceAction = Actions.sequence(
+                Actions.alpha(0f, Animation.DURATION_NORMAL)
+        );
+        border.addAction(sequenceAction);
+    }
+
 
     @Override
     public void show() {
@@ -66,7 +111,18 @@ public class GameScreen extends StaticScreen {
 
     void initBacklight() {
         backlight = new TexturePanel(uiElements.get("backlight"));
-        backlight.setColor(1f,1f,1f,0f);
+        backlight.setColor(1f, 1f, 1f, 0f);
+    }
+
+    void initBorders() {
+        borderTop = new TexturePanel(uiElements.get("borderTop"));
+        borderTop.setColor(1f,1f,0f,1f);
+        borderRight = new TexturePanel(uiElements.get("borderRight"));
+        borderRight.setColor(1f,1f,0f,1f);
+        borderBottom = new TexturePanel(uiElements.get("borderBottom"));
+        borderBottom.setColor(1f,1f,0f,1f);
+        borderLeft = new TexturePanel(uiElements.get("borderLeft"));
+        borderLeft.setColor(1f,1f,0f,1f);
     }
 
     void  startNewMatch() {
@@ -79,12 +135,24 @@ public class GameScreen extends StaticScreen {
         stage.getRoot().clearChildren();
         stage.addActor(backlight);
         stage.addActor(match.getField());
+
+        if (fieldIsScrollable()) {
+            stage.addActor(borderTop);
+            stage.addActor(borderRight);
+            stage.addActor(borderBottom);
+            stage.addActor(borderLeft);
+        }
+
         stage.addActor(match.getScore());
         stage.addActor(TooltipHandler.getInstance());
         stage.addActor(pausePanel);
         if (overlap != null) {
             stage.addActor(overlap);
         }
+    }
+
+    private boolean fieldIsScrollable() {
+        return Settings.gameSettings.fieldSize == FieldSize.LARGE || Settings.gameSettings.fieldSize == FieldSize.XLARGE;
     }
 
     void pauseMatch() {
@@ -165,6 +233,7 @@ public class GameScreen extends StaticScreen {
     protected void addActors() {
         AbstractDrawer.setBitmapFont(getFont());
         initBacklight();
+        initBorders();
         pausePanel = new PausePanel(this);
         updateMatchDependentActors();
     }

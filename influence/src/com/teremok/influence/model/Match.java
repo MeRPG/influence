@@ -89,15 +89,15 @@ public class Match {
                     FXPlayer.playWinMatch();
                     endSoundPlayed = true;
                     if (pm.isHumanInGame())
-                        GameScreen.colorForBorder = Drawer.getPlayerColor(pm.current());
+                        GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
                     else
-                        GameScreen.colorForBorder = Drawer.getBacklightWinColor();
+                        GameScreen.colorForBacklight = Drawer.getBacklightWinColor();
                 }
             } else if (isLost()) {
                 if (! endSoundPlayed) {
                     FXPlayer.playLoseMatch();
                     endSoundPlayed = true;
-                    GameScreen.colorForBorder = Drawer.getBacklightLoseColor();
+                    GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
                 }
             }
 

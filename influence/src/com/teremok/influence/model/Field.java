@@ -426,11 +426,11 @@ public class Field extends Group {
 
             if (Calculator.getDelta() > 0) {
                 if (defence.getType() != -1) {
-                    GameScreen.colorForBorder = getBacklightWinColor();
+                    GameScreen.colorForBacklight = getBacklightWinColor();
                     FXPlayer.playWin();
                 }
             } else {
-                GameScreen.colorForBorder = getBacklightLoseColor();
+                GameScreen.colorForBacklight = getBacklightLoseColor();
                 FXPlayer.playLose();
             }
             if (defence.getPower() != 0) {
@@ -440,10 +440,10 @@ public class Field extends Group {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getNumber()) {
                     if (Calculator.getDelta() > 0) {
-                        GameScreen.colorForBorder = getBacklightLoseColor();
+                        GameScreen.colorForBacklight = getBacklightLoseColor();
                         FXPlayer.playWin();
                     } else {
-                        GameScreen.colorForBorder = getBacklightWinColor();
+                        GameScreen.colorForBacklight = getBacklightWinColor();
                         FXPlayer.playLose();
                     }
                     Vibrator.bzz();
