@@ -182,4 +182,19 @@ public class ScreenController {
         }
     }
 
+    public static void setLoadedAll(boolean loaded) {
+        if (aboutScreen!=null)
+            aboutScreen.loaded = loaded;
+        if (startScreen!=null)
+            startScreen.loaded = loaded;
+        if (settingsScreen!=null)
+            settingsScreen.loaded = loaded;
+        if (currentScreen!=null)
+            currentScreen.loaded = loaded;
+        if (mapSizeScreen!=null)
+            mapSizeScreen.loaded = loaded;
+        if (playersScreen!=null)
+            playersScreen.loaded = loaded;
+    }
+
 }

@@ -121,7 +121,7 @@ public class SettingsScreen extends StaticScreen {
                                 } else {
                                     Localizator.setEnglishLanguage();
                                 }
-                                loaded = false;
+                                ScreenController.setLoadedAll(false);
                                 ScreenController.showSettingsScreen();
                             } else {
                                 if (code.equals(SPEED_NORMAL)) {

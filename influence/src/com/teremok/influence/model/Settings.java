@@ -154,6 +154,7 @@ public class Settings {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 gameSettings.difficulty = GameDifficulty.NORMAL;
+                gameSettings.customPlayers = gameSettings.getPlayers(GameDifficulty.CUSTOM, 5);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
