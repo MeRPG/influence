@@ -55,7 +55,6 @@ public class GameScreen extends StaticScreen {
         if (colorForBacklight != null) {
             if (match.isEnded()) {
                 turnOnBacklight(colorForBacklight);
-                MatchSaver.clearFile();
             } else {
                 flashBacklight(colorForBacklight);
                 colorForBacklight = null;

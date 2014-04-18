@@ -51,7 +51,7 @@ public class MatchSaver {
         try {
             FileHandle handle = Gdx.files.external(FILENAME);
             FileWriter fileWriter = new FileWriter(handle.file());
-            Logger.log(handle.file().getAbsolutePath());
+            Logger.log("Game save cleared: " + handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter xmlMatch = xml.element(ROOT);
             xmlMatch.pop();

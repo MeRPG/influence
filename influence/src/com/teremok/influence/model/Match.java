@@ -71,7 +71,7 @@ public class Match {
             if (phase == Phase.DISTRIBUTE && ! currentPlayer.hasPowerToDistribute()) {
                 currentPlayer = pm.next();
                 phase = Phase.ATTACK;
-                if ( pm.isHumanActing() && pm.current().getNumber() == 0) {
+                if ( pm.isHumanActing() && pm.current().getNumber() == 0 && ! isEnded()) {
                     MatchSaver.save(this);
                 }
             }
@@ -87,6 +87,7 @@ public class Match {
             if (isWon()) {
                 if (! endSoundPlayed) {
                     FXPlayer.playWinMatch();
+                    MatchSaver.clearFile();
                     endSoundPlayed = true;
                     if (pm.isHumanInGame())
                         GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
@@ -96,9 +97,14 @@ public class Match {
             } else if (isLost()) {
                 if (! endSoundPlayed) {
                     FXPlayer.playLoseMatch();
+                    MatchSaver.clearFile();
                     endSoundPlayed = true;
                     GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
                 }
+            }
+
+            if (pm.getNumberOfPlayerInGame() == 1) {
+                GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
             }
 
             currentPlayer.act(delta);
