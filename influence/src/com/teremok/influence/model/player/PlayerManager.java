@@ -46,13 +46,9 @@ public class PlayerManager {
         return players[currentNum];
     }
 
-    // TODO переписать, чтобы Player сам проходил по своему массиву клеток
     public void update() {
-        Player player;
-        for (int i = 0; i < numberOfPlayers; i++) {
-            player = players[i];
-            int scoreToSet = field.calcScore(player.number);
-            player.setScore(scoreToSet);
+        for (Player player : players) {
+            player.updateScore();
         }
     }
 

@@ -34,6 +34,13 @@ public abstract class Player {
             powerToDistribute = 0;
     }
 
+    public void updateScore() {
+        score = 0;
+        for (Cell cell : cells) {
+            score += cell.getPower();
+        }
+    }
+
     public void act(float delta) {
         actLogic(delta);
     }

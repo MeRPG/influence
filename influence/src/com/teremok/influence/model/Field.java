@@ -539,16 +539,6 @@ public class Field extends Group {
         return enemies;
     }
 
-    public int calcScore(int type) {
-        int score = 0;
-        for (Cell cell : cells) {
-            if (cell.isValid() && cell.getType() == type) {
-                score += cell.getPower();
-            }
-        }
-        return score;
-    }
-
     public void moveBy(float deltaX, float deltaY) {
         float newX = getX() + deltaX;
         float newY = getY() + deltaY;
