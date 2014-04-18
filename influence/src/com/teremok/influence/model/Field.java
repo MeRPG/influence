@@ -403,20 +403,6 @@ public class Field extends Group {
 
     }
 
-    public int getPowerToDistribute(int type){
-        int power = 0;
-        int maxCapacity = 0;
-        for (Cell cell : cells) {
-            if (cell.isValid() && cell.getType() == type) {
-                power += 1;
-                maxCapacity += cell.getMaxPower() - cell.getPower();
-            }
-        }
-        if (power > maxCapacity)
-            power = maxCapacity;
-        return power;
-    }
-
     // TODO: refactor
     public void fastShowBacklight(Cell attack, Cell defence) {
 
