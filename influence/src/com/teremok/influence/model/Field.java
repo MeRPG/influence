@@ -21,7 +21,6 @@ import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.FieldShapeDrawer;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -257,13 +256,12 @@ public class Field extends Group {
             cells.get(0);
         }
 
-        return getByNumber(getNum(unitsX,unitsY));
+        return getCellByNumber(getNum(unitsX, unitsY));
     }
 
-    private Cell getByNumber(int number) {
+    private Cell getCellByNumber(int number) {
         for (Cell cell : cells) {
             if (cell.getNumber() == number){
-                //Logger.log("found by number");
                 return  cell;
             }
         }

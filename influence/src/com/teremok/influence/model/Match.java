@@ -133,12 +133,10 @@ public class Match {
         if (player instanceof HumanPlayer) {
             ((HumanPlayer) player).clearPowered();
         }
-        int power = field.getPowerToDistribute(player.getNumber());
+        player.updatePowerToDistribute();
         if (firstTurn && pm.getNumberOfPlayers() == 2){
-            player.setPowerToDistribute(power-1);
+            player.subtractPowerToDistribute();
             firstTurn = false;
-        } else {
-            player.setPowerToDistribute(power);
         }
         phase = Phase.DISTRIBUTE;
         //Logger.log("Distribute power phase.");

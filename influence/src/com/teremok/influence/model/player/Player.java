@@ -41,6 +41,18 @@ public abstract class Player {
         }
     }
 
+    public void updatePowerToDistribute() {
+        int power = 0;
+        int maxCapacity = 0;
+        for (Cell cell : cells) {
+            power += 1;
+            maxCapacity += cell.getMaxPower() - cell.getPower();
+        }
+        if (power > maxCapacity)
+            power = maxCapacity;
+        powerToDistribute = power;
+    }
+
     public void act(float delta) {
         actLogic(delta);
     }
