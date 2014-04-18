@@ -193,7 +193,7 @@ public class Field extends Group {
             return target.isFree();
 
         if (target.isValid() && target.isFree()) {
-            for (Cell enemy : getConnectedEnemies(target)) {
+            for (Cell enemy : target.getEnemies()) {
                 if (enemy.getType() != -1){
                     return false;
                 }
@@ -277,7 +277,7 @@ public class Field extends Group {
     private boolean connectedToSelected(Cell cell) {
         if (selectedCell == null)
             return false;
-        for (Cell c : getConnectedCells(cell)) {
+        for (Cell c : cell.getNeighbors()) {
             if (selectedCell == c) {
                 return true;
             }
@@ -513,30 +513,6 @@ public class Field extends Group {
     public void draw(SpriteBatch batch, float parentAlpha) {
         drawer.draw(this, batch, parentAlpha);
         super.draw(batch, parentAlpha);
-    }
-
-    public List<Cell> getConnectedCells(Cell cell) {
-        List<Cell> list = new LinkedList<Cell>();
-
-        for (int i = 0; i < cellsCount; i++) {
-            Cell cellToAdd = cells.get(i);
-            if (isCellsConnected(cell, cellToAdd)) {
-                if (cellToAdd.isValid())
-                    list.add(cellToAdd);
-            }
-        }
-
-        return list;
-    }
-
-    public List<Cell> getConnectedEnemies(Cell cell) {
-        List<Cell> enemies = new LinkedList<Cell>();
-        for (Cell enemy : getConnectedCells(cell)) {
-            if (enemy.getType() != cell.getType()) {
-                enemies.add(enemy);
-            }
-        }
-        return enemies;
     }
 
     public void moveBy(float deltaX, float deltaY) {
