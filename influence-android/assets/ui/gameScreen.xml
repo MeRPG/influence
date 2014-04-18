@@ -4,11 +4,11 @@
 	<element name="backlight" region="backlight" localized="false"
              x="0" y="0" />
     <element name="borderTop" region="borderTop" localized="false"
-             x="0" y="655"/>
+             x="0" y="654"/>
     <element name="borderBottom" region="borderBottom" localized="false"
              x="0" y="87"/>
     <element name="borderLeft" region="borderLeft" localized="false"
              x="0" y="87"/>
     <element name="borderRight" region="borderRight" localized="false"
-             x="423" y="87"/>
+             x="422" y="87"/>
 </screen>
