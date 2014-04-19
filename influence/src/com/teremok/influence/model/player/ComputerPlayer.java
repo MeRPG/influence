@@ -40,13 +40,18 @@ public class ComputerPlayer extends Player {
     }
 
     protected void actAttackLogic(float delta) {
-        if (turnTime > Settings.speed) {
+        if (nextMove == null) {
+            prepareActions();
             if (nextMove == null) {
-                prepareActions();
-                if (nextMove == null) {
-                    match.switchPhase();
-                }
-            } else {
+                match.switchPhase();
+            }
+        } else {
+            if (turnTime > Settings.speed) {
+                doNextMove();
+                turnTime = 0;
+            }
+            if (nextMove != null && !( nextMove.cell != null && field.isCellVisible(nextMove.cell)
+                    ||  nextMove.enemy != null && field.isCellVisible(nextMove.enemy))) {
                 doNextMove();
                 turnTime = 0;
             }
