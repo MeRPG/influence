@@ -100,7 +100,7 @@ public class Settings {
 
                 myString = getElementText(root, "debug");
                 if (! myString.isEmpty()) {
-                    debug = Boolean.parseBoolean(myString);
+                    debug = true; Boolean.parseBoolean(myString);
                 }
 
                 loadGameSettings(root);

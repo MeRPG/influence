@@ -15,6 +15,9 @@ import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Animation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.badlogic.gdx.Input.Keys;
 
 /**
@@ -30,6 +33,8 @@ public class GameScreen extends StaticScreen {
     TexturePanel borderRight;
     TexturePanel borderBottom;
     TexturePanel borderLeft;
+
+    Map<TexturePanel, Boolean> borderState = new HashMap<>();
 
     long lastBackPress = 0;
 
@@ -87,18 +92,25 @@ public class GameScreen extends StaticScreen {
     }
 
     private void turnOnBorder(TexturePanel border) {
-        border.getColor().a = 1f;
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.alpha(1f, Animation.DURATION_NORMAL)
-        );
-        border.addAction(sequenceAction);
+       if (!borderState.get(border)) {
+            Logger.log("border turned on");
+            SequenceAction sequenceAction = Actions.sequence(
+                    Actions.alpha(1f, Animation.DURATION_NORMAL)
+            );
+            border.addAction(sequenceAction);
+            borderState.put(border, true);
+       }
     }
 
     private void turnOffBorder(TexturePanel border) {
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.alpha(0f, Animation.DURATION_NORMAL)
-        );
-        border.addAction(sequenceAction);
+        if (borderState.get(border)) {
+            Logger.log("border turned off");
+            SequenceAction sequenceAction = Actions.sequence(
+                    Actions.alpha(0f, Animation.DURATION_NORMAL)
+            );
+            border.addAction(sequenceAction);
+            borderState.put(border, false);
+        }
     }
 
 
@@ -115,12 +127,21 @@ public class GameScreen extends StaticScreen {
 
     void initBorders() {
         borderTop = new TexturePanel(uiElements.get("borderTop"));
-        borderTop.setColor(1f,1f,1f,1f);
+        borderTop.setColor(1f, 1f, 1f, 0f);
+        borderState.put(borderTop, false);
+
         borderRight = new TexturePanel(uiElements.get("borderRight"));
-        borderRight.setColor(1f,1f,1f,1f);
+        borderRight.setColor(1f, 1f, 1f, 0f);
+        borderState.put(borderRight, false);
+
         borderBottom = new TexturePanel(uiElements.get("borderBottom"));
-        borderBottom.setColor(1f,1f,1f,1f);
+        borderBottom.setColor(1f, 1f, 1f, 0f);
+        borderState.put(borderBottom, false);
+
         borderLeft = new TexturePanel(uiElements.get("borderLeft"));
+        borderLeft.setColor(1f, 1f, 1f, 0f);
+        borderState.put(borderLeft, false);
+
     }
 
     void  startNewMatch() {
