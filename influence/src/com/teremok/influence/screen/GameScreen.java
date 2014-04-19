@@ -35,6 +35,7 @@ public class GameScreen extends StaticScreen {
     TexturePanel borderLeft;
 
     Map<TexturePanel, Boolean> borderState = new HashMap<>();
+    boolean backlightState;
 
     long lastBackPress = 0;
 
@@ -222,13 +223,16 @@ public class GameScreen extends StaticScreen {
     }
 
     public void turnOnBacklight(Color color) {
-        backlight.addAction(Actions.color(color, Animation.DURATION_NORMAL));
+        if (!backlightState && backlight.getColor().toIntBits() != color.toIntBits())
+            backlight.addAction(Actions.color(color, Animation.DURATION_NORMAL));
     }
 
     public void turnOffBacklight(Color color) {
-        Color real = color.cpy();
-        real.a = 0f;
-        backlight.addAction(Actions.color(real, Animation.DURATION_NORMAL));
+        if (backlightState) {
+            Color real = color.cpy();
+            real.a = 0f;
+            backlight.addAction(Actions.color(real, Animation.DURATION_NORMAL));
+        }
     }
 
     @Override
