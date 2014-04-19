@@ -79,21 +79,21 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawSolid(Cell cell) {
-        if (isNeedToDraw(cell)) {
+        if (current.isCellVisible(cell)) {
             renderer.setColor(getColor(cell));
             renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getPower()*0.03f), 6);
         }
     }
 
     private void drawEmpty(Cell cell) {
-        if (isNeedToDraw(cell)) {
+        if (current.isCellVisible(cell)) {
             renderer.setColor(getColor(cell));
             renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getMaxPower()*0.03f), 6);
         }
     }
 
     private void drawText(SpriteBatch batch, Cell cell) {
-        if (bitmapFont != null && isNeedToDraw(cell)) {
+        if (bitmapFont != null && current.isCellVisible(cell)) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(cell.getPower()+"");
             if (cell.isFree()) {
                 bitmapFont.setColor(Drawer.getEmptyCellTextColor());
@@ -125,7 +125,7 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
                 code = toCell.getNumber() * 1000 + cell.getNumber();
                 routerDraw.add(code);
 
-                if (isNeedToDraw(cell) || isNeedToDraw(toCell)) {
+                if (current.isCellVisible(cell) || current.isCellVisible(toCell)) {
                     float centerX = cell.getX() + Field.cellWidth/2;
                     float centerY = cell.getY() + Field.cellHeight/2;
 
@@ -141,16 +141,6 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
             }
             allCounter++;
         }
-    }
-
-    private boolean isNeedToDraw(Cell cell) {
-        float absoluteCellX = cell.getX() + current.getX();
-        float absoluteCellY = cell.getY() + current.getY();
-        float actualCellWidth = Field.cellWidth*GestureController.getZoom();
-        return  absoluteCellX > (-actualCellWidth/2)
-                && absoluteCellX < AbstractScreen.WIDTH
-                && absoluteCellY > (AbstractScreen.HEIGHT - Field.HEIGHT-actualCellWidth/2)
-                && absoluteCellY < AbstractScreen.HEIGHT;
     }
 
     @Override

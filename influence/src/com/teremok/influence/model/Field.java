@@ -449,32 +449,37 @@ public class Field extends Group {
             return;
         }
 
-        String message = Calculator.getN() + "";
-        BitmapFont font = AbstractDrawer.getBitmapFont();
+        String message;
         Color color;
-        if (Calculator.getDelta() >= 0) {
-            color = Color.GREEN;
-        } else {
-            color = Color.RED;
+        BitmapFont font = AbstractDrawer.getBitmapFont();
+        float tooltipX, tooltipY;
+        if (isCellVisible(attack)) {
+            message = Calculator.getN() + "";
+            if (Calculator.getDelta() >= 0) {
+                color = Color.GREEN;
+            } else {
+                color = Color.RED;
+            }
+            tooltipX = calculateTooltipX(attack.getX());
+            tooltipY = calculateTooltipY(attack.getY());
+            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
         }
-        float tooltipX = calculateTooltipX(attack.getX());
-        float tooltipY = calculateTooltipY(attack.getY());
-        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
 
-        message = Calculator.getM() + "";
-        if (Calculator.getDelta() <= 0) {
-            color = Color.GREEN;
-        } else {
-            color = Color.RED;
+        if (isCellVisible(defense)) {
+            message = Calculator.getM() + "";
+            if (Calculator.getDelta() <= 0) {
+                color = Color.GREEN;
+            } else {
+                color = Color.RED;
+            }
+            tooltipX = calculateTooltipX(defense.getX());
+            tooltipY = calculateTooltipY(defense.getY());
+            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
         }
-        tooltipX = calculateTooltipX(defense.getX());
-        tooltipY = calculateTooltipY(defense.getY());
-        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
-
     }
 
     public void riseAddPowerTooltip(Cell cell, String tooltip) {
-        if (getUnitSize() * GestureController.getZoom() > MIN_SIZE_FOR_TEXT) {
+        if (isCellVisible(cell) && getUnitSize() * GestureController.getZoom() > MIN_SIZE_FOR_TEXT ) {
             BitmapFont font = AbstractDrawer.getBitmapFont();
             Color color = Color.GREEN;
 
@@ -483,6 +488,16 @@ public class Field extends Group {
             TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY));
         }
 
+    }
+
+    public boolean isCellVisible(Cell cell) {
+        float absoluteCellX = cell.getX() + getX();
+        float absoluteCellY = cell.getY() + getY();
+        float actualCellWidth = cellWidth*GestureController.getZoom();
+        return  absoluteCellX > (-actualCellWidth/2)
+                && absoluteCellX < AbstractScreen.WIDTH
+                && absoluteCellY > (AbstractScreen.HEIGHT - Field.HEIGHT-actualCellWidth/2)
+                && absoluteCellY < AbstractScreen.HEIGHT;
     }
 
     private float calculateTooltipX(float cellX) {
