@@ -205,7 +205,7 @@ public class Cell {
     @Override
     public String toString() {
         return "Cell{" +
-                ", type=" + type +
+                "type=" + type +
                 ", unitsX=" + unitsX +
                 ", unitsY=" + unitsY +
                 ", number=" + number +

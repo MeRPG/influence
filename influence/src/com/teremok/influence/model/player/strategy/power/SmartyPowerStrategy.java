@@ -17,46 +17,46 @@ import java.util.Map;
 public class SmartyPowerStrategy extends BasicPowerStrategy {
     HashSet<Integer> toBePowered = new HashSet<Integer>();
 
+    HashSet<Cell> haveEnemies;
+
+    @Override
+    public void cleanUp() {
+        super.cleanUp();
+        if (haveEnemies != null)
+            haveEnemies.clear();
+    }
+
+    @Override
+    public void prepare(Strategist player) {
+        super.prepare(player);
+        if (haveEnemies == null)
+            haveEnemies = new HashSet<>();
+    }
+
     @Override
     public Map<Cell, Integer> execute(List<Cell> cells, Field field, Strategist player) {
-        powerToDistribute = player.getPowerToDistribute();
-        while (powerToDistribute > 0) {
-            if (cells.size() == field.getCellsCount()) {
-                toBePowered.clear();
-            }
-            for (Cell cell : cells) {
-                if (cell.getEnemies().isEmpty()) {
-                    if (toBePowered.isEmpty()) {
-                        addPower(cell);
-                    }
-                    toBePowered.remove(cell.getNumber());
-                } else {
-                    toBePowered.remove(cell.getNumber());
-                    if (getNewPower(cell) < cell.getMaxPower()) {
-                        toBePowered.add(cell.getNumber());
-                    }
-                    addPower(cell);
 
-                }
-            }
-
-            HashSet<Integer> toBeRemoved = new HashSet<>();
-
-            for (Integer integer : toBePowered) {
-                boolean found = false;
-                for (Cell cell : cells) {
-                    if (cell.getNumber() == integer) {
-                        found = getNewPower(cell) != cell.getMaxPower();
-                    }
-                }
-                if (! found) {
-                    toBeRemoved.add(integer);
-                }
-            }
-            for(Integer num : toBeRemoved) {
-                toBePowered.remove(num);
+        int needToFull = 0;
+        for (Cell cell : cells) {
+            if (cell.getEnemies().size() > 0) {
+                haveEnemies.add(cell);
+                needToFull += cell.getMaxPower() - cell.getPower();
             }
         }
+
+        while (powerToDistribute > 0 && needToFull > 0) {
+            for (Cell cell : haveEnemies) {
+                if (addPower(cell))
+                    needToFull--;
+            }
+        }
+
+        while (powerToDistribute > 0) {
+            for (Cell cell : cells) {
+                addPower(cell);
+            }
+        }
+
         return powerMap;
     }
 

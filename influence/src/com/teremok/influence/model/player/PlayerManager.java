@@ -77,6 +77,7 @@ public class PlayerManager {
     private void placeStartPositionsMany() {
         for (Player player : players) {
             field.placeStartPosition(player.getNumber());
+            field.updateLists();
         }
     }
 
