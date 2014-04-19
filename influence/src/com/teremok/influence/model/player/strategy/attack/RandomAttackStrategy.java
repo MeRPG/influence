@@ -30,6 +30,6 @@ public class RandomAttackStrategy implements AttackStrategy {
     }
 
     @Override
-    public void afterExecute() {
+    public void cleanUp() {
     }
 }

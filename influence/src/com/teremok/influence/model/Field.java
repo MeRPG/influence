@@ -31,8 +31,6 @@ import static com.teremok.influence.view.Drawer.*;
  */
 public class Field extends Group {
 
-    private static final String ADD_POWER_TOOLTIP = "+1";
-
     public static float WIDTH =  480f;
     public static float HEIGHT = 624f;
 
@@ -228,9 +226,11 @@ public class Field extends Group {
                         if (match.isInAttackPhase()) {
                             setSelectedCell(target);
                         } else {
-                            HumanPlayer player = (HumanPlayer) pm.current();
-                            player.addPowered(target.getNumber());
-                            addPower(target);
+                            if (pm.current() instanceof HumanPlayer && target.getType() == pm.current().getNumber()) {
+                                HumanPlayer player = (HumanPlayer) pm.current();
+                                player.addPowered(target.getNumber());
+                                addPower(target);
+                            }
                         }
                         Logger.log("Field - touchUp ");
                     }
@@ -308,38 +308,27 @@ public class Field extends Group {
     }
 
     public void addPower(Cell cell) {
-        if (cell.getType() == pm.current().getNumber()) {
-            int newPower = cell.getPower() + 1;
-            int maxPower = cell.getMaxPower();
-            if (newPower <= maxPower && pm.current().getPowerToDistribute() > 0) {
-
-                riseAddPowerTooltip(cell, ADD_POWER_TOOLTIP);
-
-                cell.setPower(cell.getPower() + 1);
-                pm.current().subtractPowerToDistribute();
-            }  else {
-                //Logger.log("Wrong add power " + cell);
-            }
-        }
+        addPower(cell, 1);
     }
 
     public void addPowerFull(Cell cell) {
 
         int powerToDistribute = pm.current().getPowerToDistribute();
         int delta = cell.getMaxPower() - cell.getPower();
-
         if (powerToDistribute > 0 && delta > 0) {
-
             int toAdd = delta < powerToDistribute ? delta : powerToDistribute;
-
-            cell.setPower(cell.getPower() + toAdd);
-
-            pm.current().setPowerToDistribute(powerToDistribute - toAdd);
-
-            riseAddPowerTooltip(cell, "+" + toAdd);
-
+            addPower(cell, toAdd);
         }
     }
+
+    public void addPower(Cell cell, int powerToAdd) {
+        cell.power += powerToAdd;
+        riseAddPowerTooltip(cell, "+"+powerToAdd);
+        pm.current().subtractPowerToDistribute(powerToAdd);
+        Logger.log("Add " + powerToAdd + " power to " + cell);
+    }
+
+
 
     private void reallySetSelected(Cell cell) {
         if (cell.getType() == pm.current().getNumber()) {
@@ -453,41 +442,54 @@ public class Field extends Group {
         Color color;
         BitmapFont font = AbstractDrawer.getBitmapFont();
         float tooltipX, tooltipY;
-        if (isCellVisible(attack)) {
-            message = Calculator.getN() + "";
-            if (Calculator.getDelta() >= 0) {
-                color = Color.GREEN;
-            } else {
-                color = Color.RED;
-            }
-            tooltipX = calculateTooltipX(attack.getX());
-            tooltipY = calculateTooltipY(attack.getY());
+        message = Calculator.getN() + "";
+        if (Calculator.getDelta() >= 0) {
+            color = Color.GREEN;
+        } else {
+            color = Color.RED;
+        }
+        tooltipX = calculateTooltipX(attack.getX());
+        tooltipY = calculateTooltipY(attack.getY());
+
+        if (isTooltipVisible(tooltipX, tooltipY)) {
             TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
         }
 
-        if (isCellVisible(defense)) {
-            message = Calculator.getM() + "";
-            if (Calculator.getDelta() <= 0) {
-                color = Color.GREEN;
-            } else {
-                color = Color.RED;
-            }
-            tooltipX = calculateTooltipX(defense.getX());
-            tooltipY = calculateTooltipY(defense.getY());
+        message = Calculator.getM() + "";
+        if (Calculator.getDelta() <= 0) {
+            color = Color.GREEN;
+        } else {
+            color = Color.RED;
+        }
+        tooltipX = calculateTooltipX(defense.getX());
+        tooltipY = calculateTooltipY(defense.getY());
+        if (isTooltipVisible(tooltipX, tooltipY)) {
             TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
         }
     }
 
     public void riseAddPowerTooltip(Cell cell, String tooltip) {
-        if (isCellVisible(cell) && getUnitSize() * GestureController.getZoom() > MIN_SIZE_FOR_TEXT ) {
-            BitmapFont font = AbstractDrawer.getBitmapFont();
-            Color color = Color.GREEN;
 
-            float tooltipX = calculateTooltipX(cell.getX());
-            float tooltipY = calculateTooltipY(cell.getY());
-            TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY));
+        if (getUnitSize() * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
+            return;
         }
 
+        BitmapFont font = AbstractDrawer.getBitmapFont();
+        Color color = Color.GREEN;
+
+        float tooltipX = calculateTooltipX(cell.getX());
+        float tooltipY = calculateTooltipY(cell.getY());
+
+        if (isTooltipVisible(tooltipX, tooltipY)) {
+            TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY));
+        }
+    }
+
+    public boolean isTooltipVisible (float tooltipX, float tooltipY) {
+        return  tooltipX > -5
+                && tooltipX < AbstractScreen.WIDTH
+                && tooltipY > (AbstractScreen.HEIGHT - Field.HEIGHT-5)
+                && tooltipY < AbstractScreen.HEIGHT;
     }
 
     public boolean isCellVisible(Cell cell) {

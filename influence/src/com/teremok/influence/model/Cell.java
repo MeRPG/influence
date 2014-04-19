@@ -205,9 +205,12 @@ public class Cell {
     @Override
     public String toString() {
         return "Cell{" +
-                "unitsX=" + unitsX +
+                ", type=" + type +
+                ", unitsX=" + unitsX +
                 ", unitsY=" + unitsY +
                 ", number=" + number +
+                ", power=" + power +
+                ", maxPower=" + maxPower +
                 '}';
     }
 }

@@ -37,7 +37,7 @@ public class DummyAttackStrategy implements AttackStrategy {
     }
 
     @Override
-    public void afterExecute() {
+    public void cleanUp() {
         //i = 0;
     }
 }

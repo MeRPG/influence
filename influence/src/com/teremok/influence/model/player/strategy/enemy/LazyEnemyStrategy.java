@@ -53,7 +53,7 @@ public class LazyEnemyStrategy implements EnemyStrategy {
     }
 
     @Override
-    public void afterExecute() {
+    public void cleanUp() {
 
     }
 }

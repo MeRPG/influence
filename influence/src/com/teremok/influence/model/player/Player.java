@@ -53,6 +53,12 @@ public abstract class Player {
         powerToDistribute = power;
     }
 
+    public void subtractPowerToDistribute(int n) {
+        powerToDistribute -= n;
+        if (powerToDistribute < 0)
+            powerToDistribute = 0;
+    }
+
     public void act(float delta) {
         actLogic(delta);
     }
