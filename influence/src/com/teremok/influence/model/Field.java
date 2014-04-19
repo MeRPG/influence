@@ -226,7 +226,7 @@ public class Field extends Group {
                         if (match.isInAttackPhase()) {
                             setSelectedCell(target);
                         } else {
-                            if (pm.current() instanceof HumanPlayer && target.getType() == pm.current().getNumber()) {
+                            if (pm.current() instanceof HumanPlayer && target.getType() == pm.current().getNumber() && target.getPower() < target.getMaxPower()) {
                                 HumanPlayer player = (HumanPlayer) pm.current();
                                 player.addPowered(target.getNumber());
                                 addPower(target);
