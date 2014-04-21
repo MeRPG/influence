@@ -22,10 +22,8 @@ import static com.teremok.influence.view.Drawer.MIN_SIZE_FOR_TEXT;
  */
 public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
-    Set<Integer> routerDraw;
-    int counter = 0;
-    int allCounter = 0;
     float zoomedUnitSize;
+    boolean[][] routes;
 
     @Override
     public void draw (Field field, SpriteBatch batch, float parentAlpha) {
@@ -34,12 +32,14 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         Gdx.gl.glEnable(GL10.GL_BLEND);
         zoomedUnitSize = Drawer.getUnitSize()* GestureController.getZoom();
 
-        counter = 0;
-        allCounter = 0;
-        if (routerDraw == null){
-            routerDraw = new HashSet<Integer>();
+        if (routes == null){
+            routes = new boolean[140][140];
         } else {
-            routerDraw.clear();
+            for (int i = 0; i < 140; i++) {
+                for (int j = 0; j < 140; j++) {
+                    routes[i][j] = false;
+                }
+            }
         }
 
         renderer.begin(ShapeRenderer.ShapeType.Line);
@@ -117,13 +117,11 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
     private void drawCellRoutesShape(Cell cell) {
         for (Cell toCell : cell.getNeighbors()) {
-            Integer code = cell.getNumber() * 1000 + toCell.getNumber();
-
-            if (! routerDraw.contains(code)) {
-
-                routerDraw.add(code);
-                code = toCell.getNumber() * 1000 + cell.getNumber();
-                routerDraw.add(code);
+            int fromCode =  cell.getNumber();
+            int toCode =  toCell.getNumber();
+            if (! (routes[fromCode][toCode] || routes[toCode][fromCode])) {
+                routes[fromCode][toCode] = true;
+                routes[toCode][fromCode] = true;
 
                 if (current.isCellVisible(cell) || current.isCellVisible(toCell)) {
                     float centerX = cell.getX() + Field.cellWidth/2;
@@ -136,10 +134,7 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
                             getColor(cell),
                             getColor(toCell));
                 }
-
-                counter++;
             }
-            allCounter++;
         }
     }
 
