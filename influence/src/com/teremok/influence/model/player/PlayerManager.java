@@ -18,8 +18,13 @@ public class PlayerManager {
     private Match match;
 
     public PlayerManager(Match match) {
+        reset(match);
+    }
+
+    public void reset(Match match) {
         this.match = match;
         this.field = match.getField();
+        currentNum = 0;
     }
 
     public void addPlayer(Player player, int num) {

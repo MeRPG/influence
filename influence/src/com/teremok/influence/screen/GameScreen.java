@@ -66,29 +66,30 @@ public class GameScreen extends StaticScreen {
                 colorForBacklight = null;
             }
         }
+        if (fieldIsScrollable()) {
+            if (match.getField().getX() < -5) {
+                turnOnBorder(borderLeft);
+            } else {
+                turnOffBorder(borderLeft);
+            }
 
-        if (match.getField().getX() < -5) {
-            turnOnBorder(borderLeft);
-        } else {
-            turnOffBorder(borderLeft);
-        }
+            if (match.getField().getX() + match.getField().getWidth() > AbstractScreen.WIDTH + 5) {
+                turnOnBorder(borderRight);
+            } else {
+                turnOffBorder(borderRight);
+            }
 
-        if (match.getField().getX() + match.getField().getWidth() > AbstractScreen.WIDTH+5) {
-            turnOnBorder(borderRight);
-        } else {
-            turnOffBorder(borderRight);
-        }
+            if (match.getField().getY() < AbstractScreen.HEIGHT - Field.HEIGHT - 5) {
+                turnOnBorder(borderBottom);
+            } else {
+                turnOffBorder(borderBottom);
+            }
 
-        if (match.getField().getY() < AbstractScreen.HEIGHT - Field.HEIGHT-5) {
-            turnOnBorder(borderBottom);
-        } else {
-            turnOffBorder(borderBottom);
-        }
-
-        if (match.getField().getY() +  match.getField().getHeight() > AbstractScreen.HEIGHT+5) {
-            turnOnBorder(borderTop);
-        } else {
-            turnOffBorder(borderTop);
+            if (match.getField().getY() + match.getField().getHeight() > AbstractScreen.HEIGHT + 5) {
+                turnOnBorder(borderTop);
+            } else {
+                turnOffBorder(borderTop);
+            }
         }
     }
 
@@ -147,7 +148,11 @@ public class GameScreen extends StaticScreen {
 
     void  startNewMatch() {
         //Logger.log("Starting new match");
-        match = new Match(Settings.gameSettings);
+        if (match == null) {
+            match = new Match(Settings.gameSettings);
+        } else {
+            match.reset(Settings.gameSettings);
+        }
         updateMatchDependentActors();
     }
 
@@ -194,6 +199,7 @@ public class GameScreen extends StaticScreen {
 
     void gracefullyStartNewMatch() {
         pausePanel.hide();
+        match.setPaused(false);
         initOverlap(true);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.alpha(1f, Animation.DURATION_NORMAL),

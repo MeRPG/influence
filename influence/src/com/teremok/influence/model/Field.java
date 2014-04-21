@@ -43,6 +43,9 @@ public class Field extends Group {
     private Cell selectedCell;
     private FieldShapeDrawer drawer;
 
+    private GraphGenerator generator;
+    private Random random;
+
     short[][] matrix;
 
     public static float cellWidth;
@@ -58,9 +61,19 @@ public class Field extends Group {
     private int cellsCount;
 
     public Field(Match match, GameSettings settings) {
+        reset(match, settings);
+        addListener();
+    }
+
+    public Field(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
+        reset(match, settings, cells, matrixString);
+        addListener();
+    }
+
+    public void reset(Match match, GameSettings settings) {
         this.match = match;
         this.pm = match.getPm();
-        drawer = new FieldShapeDrawer();
+        drawer = AbstractDrawer.getFieldShapeDrawer();
 
         maxCellsX = settings.maxCellsX;
         maxCellsY = settings.maxCellsY;
@@ -78,13 +91,12 @@ public class Field extends Group {
         setBounds(initialX, initialY, initialWidth, initialHeight);
 
         generate();
-        addListener();
     }
 
-    public Field(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
+    public void reset(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
         this.match = match;
         this.pm = match.getPm();
-        drawer = new FieldShapeDrawer();
+        drawer = AbstractDrawer.getFieldShapeDrawer();
 
         maxCellsX = settings.maxCellsX;
         maxCellsY = settings.maxCellsY;
@@ -100,12 +112,12 @@ public class Field extends Group {
 
         this.cells = cells;
         setMatrix(matrixString);
-
-        addListener();
     }
 
     private void generate() {
-        GraphGenerator generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
+
+        if (generator == null)
+            generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
         generator.generate();
         cells = generator.getCells();
         matrix = generator.getMatrix();
@@ -117,12 +129,13 @@ public class Field extends Group {
     }
 
     public void placeStartPosition(int type) {
-        Random rnd = new Random();
+        if (random == null)
+            random = new Random();
         int number;
         Cell target;
 
         do {
-            number = rnd.nextInt(cells.size());
+            number = random.nextInt(cells.size());
             target = cells.get(number);
 
             if (isValidForStartPosition(target)) {
@@ -164,12 +177,13 @@ public class Field extends Group {
 
         //Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
 
-        Random rnd = new Random();
+        if (random == null)
+            random = new Random();
         int number;
         Cell target;
 
         do {
-            number = firstInRange + rnd.nextInt(range);
+            number = firstInRange + random.nextInt(range);
             target = cells.get(number);
 
             //Logger.log("Trying number " + number);

@@ -30,6 +30,10 @@ public class Score extends Group {
     ColoredPanel background;
 
     public Score(Match match) {
+        reset(match);
+    }
+
+    public void reset(Match match) {
         this.match = match;
         this.pm = match.getPm();
         drawer = new ScoreDrawer();
@@ -44,6 +48,7 @@ public class Score extends Group {
 
         background = new ColoredPanel(Color.BLACK.cpy(), 0f, AbstractScreen.HEIGHT-8f, actorWidth, 8f);
         background.setTouchable(Touchable.disabled);
+        this.getChildren().clear();
         this.addActor(background);
     }
 

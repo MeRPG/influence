@@ -45,9 +45,27 @@ public class Match {
     }
 
     public Match(GameSettings settings) {
-        pm = new PlayerManager(this);
-        field = new Field(this, settings);
-        score = new Score(this);
+        reset(settings);
+    }
+
+    public void reset(GameSettings settings) {
+        if (pm == null) {
+            pm = new PlayerManager(this);
+        } else {
+            pm.reset(this);
+        }
+
+        if (field == null) {
+            field = new Field(this, settings);
+        } else {
+            field.reset(this, settings);
+        }
+
+        if (score == null) {
+            score = new Score(this);
+        } else {
+            score.reset(this);
+        }
 
         score.setStatus(Localizator.getString("selectYourCell"));
 
