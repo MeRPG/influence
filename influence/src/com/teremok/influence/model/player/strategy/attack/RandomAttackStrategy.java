@@ -19,6 +19,11 @@ public class RandomAttackStrategy implements AttackStrategy {
         rnd = player.getRnd();
         Cell cell;
         int size = cells.size();
+
+        if (size == field.getCellsCount()) {
+            return null;
+        }
+
         int count = 0;
         do {
             cell = cells.get(rnd.nextInt(size));

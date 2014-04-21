@@ -14,6 +14,11 @@ import java.util.Random;
 public class BeefyAttackStrategy implements AttackStrategy {
     @Override
     public Cell execute(List<Cell> cells, Field field, Strategist player) {
+
+        if (cells.size() == field.getCellsCount()) {
+            return null;
+        }
+
         int type = player.getNumber();
         Random rnd = player.getRnd();
 

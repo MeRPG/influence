@@ -17,6 +17,11 @@ public class DummyAttackStrategy implements AttackStrategy {
     @Override
     public Cell execute(List<Cell> cells, Field field, Strategist player) {
         int size = cells.size();
+
+        if (size == field.getCellsCount()) {
+            return null;
+        }
+
         if (i >= size) {
             i = 0;
         }

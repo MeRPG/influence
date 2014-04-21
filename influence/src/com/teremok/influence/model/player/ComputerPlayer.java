@@ -3,7 +3,6 @@ package com.teremok.influence.model.player;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Settings;
-
 import java.util.List;
 import java.util.Random;
 
@@ -35,11 +34,12 @@ public class ComputerPlayer extends Player {
         if (match.isInAttackPhase()) {
             actAttackLogic(delta);
         } else {
-            actDistributeLogic(delta);
+            actPowerLogic(delta);
         }
     }
 
     protected void actAttackLogic(float delta) {
+
         if (nextMove == null) {
             prepareActions();
             if (nextMove == null) {
@@ -86,7 +86,7 @@ public class ComputerPlayer extends Player {
         field.setSelectedCell(cell);
     }
 
-    protected void actDistributeLogic(float delta) {
+    protected void actPowerLogic(float delta) {
         for (Cell cell : field.getCells()) {
             if (cell.isValid() && cell.getType() == number && powerToDistribute > 0) {
                 field.addPower(cell);

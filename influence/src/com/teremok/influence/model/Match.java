@@ -62,6 +62,7 @@ public class Match {
         phase = Phase.ATTACK;
 
         MatchSaver.save(this);
+        Settings.save();
     }
 
     public void act(float delta) {
