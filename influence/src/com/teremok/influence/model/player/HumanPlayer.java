@@ -16,7 +16,7 @@ public class HumanPlayer extends Player {
 
     protected HumanPlayer(int type, Match match) {
         super(type, match);
-        powered = new HashSet<Integer>();
+        powered = new HashSet<>();
         this.type = PlayerType.Human;
     }
 

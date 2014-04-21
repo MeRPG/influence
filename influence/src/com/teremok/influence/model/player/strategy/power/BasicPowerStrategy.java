@@ -32,7 +32,7 @@ public abstract class BasicPowerStrategy implements PowerStrategy {
 
     protected boolean addPower(Cell cell) {
         if (powerToDistribute > 0) {
-            int pow = 0;
+            Integer pow = 0;
             if (powerMap.containsKey(cell))
                 pow = powerMap.get(cell);
             pow++;
@@ -48,7 +48,7 @@ public abstract class BasicPowerStrategy implements PowerStrategy {
 
     protected int getNewPower(Cell cell) {
         if (powerMap.containsKey(cell)) {
-            return powerMap.get(cell)+cell.getPower();
+            return powerMap.get(cell).intValue()+cell.getPower();
         }
         return cell.getPower();
     }

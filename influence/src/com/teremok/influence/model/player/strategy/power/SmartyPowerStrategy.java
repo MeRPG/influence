@@ -15,8 +15,6 @@ import java.util.Map;
  * Created by Alexx on 06.02.14
  */
 public class SmartyPowerStrategy extends BasicPowerStrategy {
-    HashSet<Integer> toBePowered = new HashSet<Integer>();
-
     HashSet<Cell> haveEnemies;
 
     @Override
