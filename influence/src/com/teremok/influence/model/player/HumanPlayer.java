@@ -33,7 +33,7 @@ public class HumanPlayer extends Player {
     private void distributePowerAuto() {
         //Logger.log("Distributing power!");
         for (Cell cell : cells) {
-            if (!powered.contains(cell.getNumber())) {
+            if (!powered.contains(cell.getNumber()) && cell.getPower() != cell.getMaxPower() && powerToDistribute > 0) {
                 field.addPower(cell);
             }
         }
