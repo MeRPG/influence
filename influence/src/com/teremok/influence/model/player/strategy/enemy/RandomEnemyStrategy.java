@@ -22,6 +22,6 @@ public class RandomEnemyStrategy implements EnemyStrategy {
     }
 
     @Override
-    public void afterExecute() {
+    public void cleanUp() {
     }
 }

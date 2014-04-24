@@ -18,8 +18,13 @@ public class PlayerManager {
     private Match match;
 
     public PlayerManager(Match match) {
+        reset(match);
+    }
+
+    public void reset(Match match) {
         this.match = match;
         this.field = match.getField();
+        currentNum = 0;
     }
 
     public void addPlayer(Player player, int num) {
@@ -46,13 +51,9 @@ public class PlayerManager {
         return players[currentNum];
     }
 
-    // TODO переписать, чтобы Player сам проходил по своему массиву клеток
     public void update() {
-        Player player;
-        for (int i = 0; i < numberOfPlayers; i++) {
-            player = players[i];
-            int scoreToSet = field.calcScore(player.number);
-            player.setScore(scoreToSet);
+        for (Player player : players) {
+            player.updateScore();
         }
     }
 
@@ -81,6 +82,7 @@ public class PlayerManager {
     private void placeStartPositionsMany() {
         for (Player player : players) {
             field.placeStartPosition(player.getNumber());
+            field.updateLists();
         }
     }
 

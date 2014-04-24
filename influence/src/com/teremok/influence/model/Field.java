@@ -21,7 +21,6 @@ import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.FieldShapeDrawer;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -31,8 +30,6 @@ import static com.teremok.influence.view.Drawer.*;
  * Created by Alexx on 11.12.13
  */
 public class Field extends Group {
-
-    private static final String ADD_POWER_TOOLTIP = "+1";
 
     public static float WIDTH =  480f;
     public static float HEIGHT = 624f;
@@ -45,6 +42,9 @@ public class Field extends Group {
     private PlayerManager pm;
     private Cell selectedCell;
     private FieldShapeDrawer drawer;
+
+    private GraphGenerator generator;
+    private Random random;
 
     short[][] matrix;
 
@@ -61,9 +61,19 @@ public class Field extends Group {
     private int cellsCount;
 
     public Field(Match match, GameSettings settings) {
+        reset(match, settings);
+        addListener();
+    }
+
+    public Field(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
+        reset(match, settings, cells, matrixString);
+        addListener();
+    }
+
+    public void reset(Match match, GameSettings settings) {
         this.match = match;
         this.pm = match.getPm();
-        drawer = new FieldShapeDrawer();
+        drawer = AbstractDrawer.getFieldShapeDrawer();
 
         maxCellsX = settings.maxCellsX;
         maxCellsY = settings.maxCellsY;
@@ -81,13 +91,12 @@ public class Field extends Group {
         setBounds(initialX, initialY, initialWidth, initialHeight);
 
         generate();
-        addListener();
     }
 
-    public Field(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
+    public void reset(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
         this.match = match;
         this.pm = match.getPm();
-        drawer = new FieldShapeDrawer();
+        drawer = AbstractDrawer.getFieldShapeDrawer();
 
         maxCellsX = settings.maxCellsX;
         maxCellsY = settings.maxCellsY;
@@ -103,12 +112,12 @@ public class Field extends Group {
 
         this.cells = cells;
         setMatrix(matrixString);
-
-        addListener();
     }
 
     private void generate() {
-        GraphGenerator generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
+
+        if (generator == null)
+            generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
         generator.generate();
         cells = generator.getCells();
         matrix = generator.getMatrix();
@@ -120,12 +129,13 @@ public class Field extends Group {
     }
 
     public void placeStartPosition(int type) {
-        Random rnd = new Random();
+        if (random == null)
+            random = new Random();
         int number;
         Cell target;
 
         do {
-            number = rnd.nextInt(cells.size());
+            number = random.nextInt(cells.size());
             target = cells.get(number);
 
             if (isValidForStartPosition(target)) {
@@ -167,12 +177,13 @@ public class Field extends Group {
 
         //Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
 
-        Random rnd = new Random();
+        if (random == null)
+            random = new Random();
         int number;
         Cell target;
 
         do {
-            number = firstInRange + rnd.nextInt(range);
+            number = firstInRange + random.nextInt(range);
             target = cells.get(number);
 
             //Logger.log("Trying number " + number);
@@ -193,7 +204,7 @@ public class Field extends Group {
             return target.isFree();
 
         if (target.isValid() && target.isFree()) {
-            for (Cell enemy : getConnectedEnemies(target)) {
+            for (Cell enemy : target.getEnemies()) {
                 if (enemy.getType() != -1){
                     return false;
                 }
@@ -229,9 +240,11 @@ public class Field extends Group {
                         if (match.isInAttackPhase()) {
                             setSelectedCell(target);
                         } else {
-                            HumanPlayer player = (HumanPlayer) pm.current();
-                            player.addPowered(target.getNumber());
-                            addPower(target);
+                            if (pm.current() instanceof HumanPlayer && target.getType() == pm.current().getNumber() && target.getPower() < target.getMaxPower()) {
+                                HumanPlayer player = (HumanPlayer) pm.current();
+                                player.addPowered(target.getNumber());
+                                addPower(target);
+                            }
                         }
                         Logger.log("Field - touchUp ");
                     }
@@ -257,13 +270,12 @@ public class Field extends Group {
             cells.get(0);
         }
 
-        return getByNumber(getNum(unitsX,unitsY));
+        return getCellByNumber(getNum(unitsX, unitsY));
     }
 
-    private Cell getByNumber(int number) {
+    private Cell getCellByNumber(int number) {
         for (Cell cell : cells) {
             if (cell.getNumber() == number){
-                //Logger.log("found by number");
                 return  cell;
             }
         }
@@ -277,7 +289,7 @@ public class Field extends Group {
     private boolean connectedToSelected(Cell cell) {
         if (selectedCell == null)
             return false;
-        for (Cell c : getConnectedCells(cell)) {
+        for (Cell c : cell.getNeighbors()) {
             if (selectedCell == c) {
                 return true;
             }
@@ -310,38 +322,27 @@ public class Field extends Group {
     }
 
     public void addPower(Cell cell) {
-        if (cell.getType() == pm.current().getNumber()) {
-            int newPower = cell.getPower() + 1;
-            int maxPower = cell.getMaxPower();
-            if (newPower <= maxPower && pm.current().getPowerToDistribute() > 0) {
-
-                riseAddPowerTooltip(cell, ADD_POWER_TOOLTIP);
-
-                cell.setPower(cell.getPower() + 1);
-                pm.current().subtractPowerToDistribute();
-            }  else {
-                //Logger.log("Wrong add power " + cell);
-            }
-        }
+        addPower(cell, 1);
     }
 
     public void addPowerFull(Cell cell) {
 
         int powerToDistribute = pm.current().getPowerToDistribute();
         int delta = cell.getMaxPower() - cell.getPower();
-
         if (powerToDistribute > 0 && delta > 0) {
-
             int toAdd = delta < powerToDistribute ? delta : powerToDistribute;
-
-            cell.setPower(cell.getPower() + toAdd);
-
-            pm.current().setPowerToDistribute(powerToDistribute - toAdd);
-
-            riseAddPowerTooltip(cell, "+" + toAdd);
-
+            addPower(cell, toAdd);
         }
     }
+
+    public void addPower(Cell cell, int powerToAdd) {
+        cell.power += powerToAdd;
+        riseAddPowerTooltip(cell, "+"+powerToAdd);
+        pm.current().subtractPowerToDistribute(powerToAdd);
+        Logger.log("Add " + powerToAdd + " power to " + cell);
+    }
+
+
 
     private void reallySetSelected(Cell cell) {
         if (cell.getType() == pm.current().getNumber()) {
@@ -405,20 +406,6 @@ public class Field extends Group {
 
     }
 
-    public int getPowerToDistribute(int type){
-        int power = 0;
-        int maxCapacity = 0;
-        for (Cell cell : cells) {
-            if (cell.isValid() && cell.getType() == type) {
-                power += 1;
-                maxCapacity += cell.getMaxPower() - cell.getPower();
-            }
-        }
-        if (power > maxCapacity)
-            power = maxCapacity;
-        return power;
-    }
-
     // TODO: refactor
     public void fastShowBacklight(Cell attack, Cell defence) {
 
@@ -465,17 +452,22 @@ public class Field extends Group {
             return;
         }
 
-        String message = Calculator.getN() + "";
-        BitmapFont font = AbstractDrawer.getBitmapFont();
+        String message;
         Color color;
+        BitmapFont font = AbstractDrawer.getBitmapFont();
+        float tooltipX, tooltipY;
+        message = Calculator.getN() + "";
         if (Calculator.getDelta() >= 0) {
             color = Color.GREEN;
         } else {
             color = Color.RED;
         }
-        float tooltipX = calculateTooltipX(attack.getX());
-        float tooltipY = calculateTooltipY(attack.getY());
-        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
+        tooltipX = calculateTooltipX(attack.getX());
+        tooltipY = calculateTooltipY(attack.getY());
+
+        if (isTooltipVisible(tooltipX, tooltipY)) {
+            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
+        }
 
         message = Calculator.getM() + "";
         if (Calculator.getDelta() <= 0) {
@@ -485,20 +477,43 @@ public class Field extends Group {
         }
         tooltipX = calculateTooltipX(defense.getX());
         tooltipY = calculateTooltipY(defense.getY());
-        TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
-
+        if (isTooltipVisible(tooltipX, tooltipY)) {
+            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
+        }
     }
 
     public void riseAddPowerTooltip(Cell cell, String tooltip) {
-        if (getUnitSize() * GestureController.getZoom() > MIN_SIZE_FOR_TEXT) {
-            BitmapFont font = AbstractDrawer.getBitmapFont();
-            Color color = Color.GREEN;
 
-            float tooltipX = calculateTooltipX(cell.getX());
-            float tooltipY = calculateTooltipY(cell.getY());
-            TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY));
+        if (getUnitSize() * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
+            return;
         }
 
+        BitmapFont font = AbstractDrawer.getBitmapFont();
+        Color color = Color.GREEN;
+
+        float tooltipX = calculateTooltipX(cell.getX());
+        float tooltipY = calculateTooltipY(cell.getY());
+
+        if (isTooltipVisible(tooltipX, tooltipY)) {
+            TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY));
+        }
+    }
+
+    public boolean isTooltipVisible (float tooltipX, float tooltipY) {
+        return  tooltipX > -5
+                && tooltipX < AbstractScreen.WIDTH
+                && tooltipY > (AbstractScreen.HEIGHT - Field.HEIGHT-5)
+                && tooltipY < AbstractScreen.HEIGHT;
+    }
+
+    public boolean isCellVisible(Cell cell) {
+        float absoluteCellX = cell.getX() + getX();
+        float absoluteCellY = cell.getY() + getY();
+        float actualCellWidth = cellWidth*GestureController.getZoom();
+        return  absoluteCellX > (-actualCellWidth/2)
+                && absoluteCellX < AbstractScreen.WIDTH
+                && absoluteCellY > (AbstractScreen.HEIGHT - Field.HEIGHT-actualCellWidth/2)
+                && absoluteCellY < AbstractScreen.HEIGHT;
     }
 
     private float calculateTooltipX(float cellX) {
@@ -513,40 +528,6 @@ public class Field extends Group {
     public void draw(SpriteBatch batch, float parentAlpha) {
         drawer.draw(this, batch, parentAlpha);
         super.draw(batch, parentAlpha);
-    }
-
-    public List<Cell> getConnectedCells(Cell cell) {
-        List<Cell> list = new LinkedList<Cell>();
-
-        for (int i = 0; i < cellsCount; i++) {
-            Cell cellToAdd = cells.get(i);
-            if (isCellsConnected(cell, cellToAdd)) {
-                if (cellToAdd.isValid())
-                    list.add(cellToAdd);
-            }
-        }
-
-        return list;
-    }
-
-    public List<Cell> getConnectedEnemies(Cell cell) {
-        List<Cell> enemies = new LinkedList<Cell>();
-        for (Cell enemy : getConnectedCells(cell)) {
-            if (enemy.getType() != cell.getType()) {
-                enemies.add(enemy);
-            }
-        }
-        return enemies;
-    }
-
-    public int calcScore(int type) {
-        int score = 0;
-        for (Cell cell : cells) {
-            if (cell.isValid() && cell.getType() == type) {
-                score += cell.getPower();
-            }
-        }
-        return score;
     }
 
     public void moveBy(float deltaX, float deltaY) {

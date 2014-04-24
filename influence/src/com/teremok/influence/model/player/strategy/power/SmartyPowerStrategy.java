@@ -6,61 +6,57 @@ import com.teremok.influence.model.Settings;
 import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.PowerStrategy;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Alexx on 06.02.14
  */
-public class SmartyPowerStrategy implements PowerStrategy {
-
-
-    HashSet<Integer> toBePowered = new HashSet<Integer>();
+public class SmartyPowerStrategy extends BasicPowerStrategy {
+    HashSet<Cell> haveEnemies;
 
     @Override
-    public Cell execute(List<Cell> cells, Field field, Strategist player) {
-        if (cells.size() == field.getCellsCount())
-            toBePowered.clear();
+    public void cleanUp() {
+        super.cleanUp();
+        if (haveEnemies != null)
+            haveEnemies.clear();
+    }
+
+    @Override
+    public void prepare(Strategist player) {
+        super.prepare(player);
+        if (haveEnemies == null)
+            haveEnemies = new HashSet<>();
+    }
+
+    @Override
+    public Map<Cell, Integer> execute(List<Cell> cells, Field field, Strategist player) {
+
+        int needToFull = 0;
         for (Cell cell : cells) {
-            if (cell.getEnemies().isEmpty()) {
-                if (toBePowered.isEmpty()) {
-                    field.addPower(cell);
-                }
-                toBePowered.remove(cell.getNumber());
-            } else {
-                toBePowered.remove(cell.getNumber());
-                if (cell.getPower() < cell.getMaxPower()) {
-                    toBePowered.add(cell.getNumber());
-                }
-                field.addPower(cell);
-
+            if (cell.getEnemies().size() > 0) {
+                haveEnemies.add(cell);
+                needToFull += cell.getMaxPower() - cell.getPower();
             }
         }
 
-        HashSet<Integer> toBeRemoved = new HashSet<>();
+        while (powerToDistribute > 0 && needToFull > 0) {
+            for (Cell cell : haveEnemies) {
+                if (addPower(cell))
+                    needToFull--;
+            }
+        }
 
-        for (Integer integer : toBePowered) {
-            boolean found = false;
+        while (powerToDistribute > 0) {
             for (Cell cell : cells) {
-                if (cell.getNumber() == integer) {
-                    found = true;
-                    if (cell.getPower() == cell.getMaxPower()) {
-                        found = false;
-                    }
-                }
-            }
-            if (! found) {
-                toBeRemoved.add(integer);
+                addPower(cell);
             }
         }
-        for (Integer integer : toBeRemoved) {
-            toBePowered.remove(integer);
-        }
-        return null;
+
+        return powerMap;
     }
 
-    @Override
-    public void afterExecute() {
-        //toBePowered.clear();
-    }
+
 }

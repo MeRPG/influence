@@ -6,25 +6,21 @@ import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.PowerStrategy;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Alexx on 06.02.14
  */
-public class DummyPowerStrategy implements PowerStrategy {
-
-   int i = 0;
-
+public class DummyPowerStrategy extends BasicPowerStrategy {
     @Override
-    public Cell execute(List<Cell> cells, Field field, Strategist player) {
-        if (i >= cells.size())
-            i = 0;
-        Cell cell = cells.get(i);
-        i++;
-        return cell;
-    }
+    public Map<Cell, Integer> execute(List<Cell> cells, Field field, Strategist player) {
 
-    @Override
-    public void afterExecute() {
-        i = 0;
+        while(powerToDistribute > 0) {
+            for (Cell c : cells) {
+                addPower(c);
+            }
+        }
+
+        return powerMap;
     }
 }

@@ -34,6 +34,31 @@ public abstract class Player {
             powerToDistribute = 0;
     }
 
+    public void updateScore() {
+        score = 0;
+        for (Cell cell : cells) {
+            score += cell.getPower();
+        }
+    }
+
+    public void updatePowerToDistribute() {
+        int power = 0;
+        int maxCapacity = 0;
+        for (Cell cell : cells) {
+            power += 1;
+            maxCapacity += cell.getMaxPower() - cell.getPower();
+        }
+        if (power > maxCapacity)
+            power = maxCapacity;
+        powerToDistribute = power;
+    }
+
+    public void subtractPowerToDistribute(int n) {
+        powerToDistribute -= n;
+        if (powerToDistribute < 0)
+            powerToDistribute = 0;
+    }
+
     public void act(float delta) {
         actLogic(delta);
     }

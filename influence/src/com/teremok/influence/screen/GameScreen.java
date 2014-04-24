@@ -15,6 +15,9 @@ import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Animation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.badlogic.gdx.Input.Keys;
 
 /**
@@ -30,6 +33,9 @@ public class GameScreen extends StaticScreen {
     TexturePanel borderRight;
     TexturePanel borderBottom;
     TexturePanel borderLeft;
+
+    Map<TexturePanel, Boolean> borderState = new HashMap<>();
+    boolean backlightState;
 
     long lastBackPress = 0;
 
@@ -55,51 +61,58 @@ public class GameScreen extends StaticScreen {
         if (colorForBacklight != null) {
             if (match.isEnded()) {
                 turnOnBacklight(colorForBacklight);
-                MatchSaver.clearFile();
             } else {
                 flashBacklight(colorForBacklight);
                 colorForBacklight = null;
             }
         }
+        if (fieldIsScrollable()) {
+            if (match.getField().getX() < -5) {
+                turnOnBorder(borderLeft);
+            } else {
+                turnOffBorder(borderLeft);
+            }
 
-        if (match.getField().getX() < -5) {
-            turnOnBorder(borderLeft);
-        } else {
-            turnOffBorder(borderLeft);
-        }
+            if (match.getField().getX() + match.getField().getWidth() > AbstractScreen.WIDTH + 5) {
+                turnOnBorder(borderRight);
+            } else {
+                turnOffBorder(borderRight);
+            }
 
-        if (match.getField().getX() + match.getField().getWidth() > AbstractScreen.WIDTH+5) {
-            turnOnBorder(borderRight);
-        } else {
-            turnOffBorder(borderRight);
-        }
+            if (match.getField().getY() < AbstractScreen.HEIGHT - Field.HEIGHT - 5) {
+                turnOnBorder(borderBottom);
+            } else {
+                turnOffBorder(borderBottom);
+            }
 
-        if (match.getField().getY() < AbstractScreen.HEIGHT - Field.HEIGHT-5) {
-            turnOnBorder(borderBottom);
-        } else {
-            turnOffBorder(borderBottom);
-        }
-
-        if (match.getField().getY() +  match.getField().getHeight() > AbstractScreen.HEIGHT+5) {
-            turnOnBorder(borderTop);
-        } else {
-            turnOffBorder(borderTop);
+            if (match.getField().getY() + match.getField().getHeight() > AbstractScreen.HEIGHT + 5) {
+                turnOnBorder(borderTop);
+            } else {
+                turnOffBorder(borderTop);
+            }
         }
     }
 
     private void turnOnBorder(TexturePanel border) {
-        border.getColor().a = 1f;
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.alpha(1f, Animation.DURATION_NORMAL)
-        );
-        border.addAction(sequenceAction);
+       if (!borderState.get(border)) {
+            Logger.log("border turned on");
+            SequenceAction sequenceAction = Actions.sequence(
+                    Actions.alpha(1f, Animation.DURATION_NORMAL)
+            );
+            border.addAction(sequenceAction);
+            borderState.put(border, true);
+       }
     }
 
     private void turnOffBorder(TexturePanel border) {
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.alpha(0f, Animation.DURATION_NORMAL)
-        );
-        border.addAction(sequenceAction);
+        if (borderState.get(border)) {
+            Logger.log("border turned off");
+            SequenceAction sequenceAction = Actions.sequence(
+                    Actions.alpha(0f, Animation.DURATION_NORMAL)
+            );
+            border.addAction(sequenceAction);
+            borderState.put(border, false);
+        }
     }
 
 
@@ -116,17 +129,30 @@ public class GameScreen extends StaticScreen {
 
     void initBorders() {
         borderTop = new TexturePanel(uiElements.get("borderTop"));
-        borderTop.setColor(1f,1f,1f,1f);
+        borderTop.setColor(1f, 1f, 1f, 0f);
+        borderState.put(borderTop, false);
+
         borderRight = new TexturePanel(uiElements.get("borderRight"));
-        borderRight.setColor(1f,1f,1f,1f);
+        borderRight.setColor(1f, 1f, 1f, 0f);
+        borderState.put(borderRight, false);
+
         borderBottom = new TexturePanel(uiElements.get("borderBottom"));
-        borderBottom.setColor(1f,1f,1f,1f);
+        borderBottom.setColor(1f, 1f, 1f, 0f);
+        borderState.put(borderBottom, false);
+
         borderLeft = new TexturePanel(uiElements.get("borderLeft"));
+        borderLeft.setColor(1f, 1f, 1f, 0f);
+        borderState.put(borderLeft, false);
+
     }
 
     void  startNewMatch() {
         //Logger.log("Starting new match");
-        match = new Match(Settings.gameSettings);
+        if (match == null) {
+            match = new Match(Settings.gameSettings);
+        } else {
+            match.reset(Settings.gameSettings);
+        }
         updateMatchDependentActors();
     }
 
@@ -173,6 +199,7 @@ public class GameScreen extends StaticScreen {
 
     void gracefullyStartNewMatch() {
         pausePanel.hide();
+        match.setPaused(false);
         initOverlap(true);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.alpha(1f, Animation.DURATION_NORMAL),
@@ -202,13 +229,16 @@ public class GameScreen extends StaticScreen {
     }
 
     public void turnOnBacklight(Color color) {
-        backlight.addAction(Actions.color(color, Animation.DURATION_NORMAL));
+        if (!backlightState && backlight.getColor().toIntBits() != color.toIntBits())
+            backlight.addAction(Actions.color(color, Animation.DURATION_NORMAL));
     }
 
     public void turnOffBacklight(Color color) {
-        Color real = color.cpy();
-        real.a = 0f;
-        backlight.addAction(Actions.color(real, Animation.DURATION_NORMAL));
+        if (backlightState) {
+            Color real = color.cpy();
+            real.a = 0f;
+            backlight.addAction(Actions.color(real, Animation.DURATION_NORMAL));
+        }
     }
 
     @Override

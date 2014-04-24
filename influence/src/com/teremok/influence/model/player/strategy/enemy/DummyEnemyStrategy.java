@@ -24,7 +24,7 @@ public class DummyEnemyStrategy implements EnemyStrategy {
     }
 
     @Override
-    public void afterExecute() {
+    public void cleanUp() {
         i = 0;
     }
 }

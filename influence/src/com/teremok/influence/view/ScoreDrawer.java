@@ -27,11 +27,10 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
 
         batch.end();
 
-        //drawBoundingBox();
         if (! (Settings.gameSettings.fieldSize == FieldSize.SMALL
                 || Settings.gameSettings.fieldSize == FieldSize.NORMAL)) {
 
-            drawCovers();
+           drawCovers();
         }
 
         batch.begin();

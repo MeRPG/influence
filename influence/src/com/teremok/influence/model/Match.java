@@ -45,9 +45,27 @@ public class Match {
     }
 
     public Match(GameSettings settings) {
-        pm = new PlayerManager(this);
-        field = new Field(this, settings);
-        score = new Score(this);
+        reset(settings);
+    }
+
+    public void reset(GameSettings settings) {
+        if (pm == null) {
+            pm = new PlayerManager(this);
+        } else {
+            pm.reset(this);
+        }
+
+        if (field == null) {
+            field = new Field(this, settings);
+        } else {
+            field.reset(this, settings);
+        }
+
+        if (score == null) {
+            score = new Score(this);
+        } else {
+            score.reset(this);
+        }
 
         score.setStatus(Localizator.getString("selectYourCell"));
 
@@ -62,6 +80,7 @@ public class Match {
         phase = Phase.ATTACK;
 
         MatchSaver.save(this);
+        Settings.save();
     }
 
     public void act(float delta) {
@@ -71,7 +90,7 @@ public class Match {
             if (phase == Phase.DISTRIBUTE && ! currentPlayer.hasPowerToDistribute()) {
                 currentPlayer = pm.next();
                 phase = Phase.ATTACK;
-                if ( pm.isHumanActing() && pm.current().getNumber() == 0) {
+                if ( pm.isHumanActing() && pm.current().getNumber() == 0 && ! isEnded()) {
                     MatchSaver.save(this);
                 }
             }
@@ -87,6 +106,7 @@ public class Match {
             if (isWon()) {
                 if (! endSoundPlayed) {
                     FXPlayer.playWinMatch();
+                    MatchSaver.clearFile();
                     endSoundPlayed = true;
                     if (pm.isHumanInGame())
                         GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
@@ -96,9 +116,14 @@ public class Match {
             } else if (isLost()) {
                 if (! endSoundPlayed) {
                     FXPlayer.playLoseMatch();
+                    MatchSaver.clearFile();
                     endSoundPlayed = true;
                     GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
                 }
+            }
+
+            if (pm.getNumberOfPlayerInGame() == 1) {
+                GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
             }
 
             currentPlayer.act(delta);
@@ -127,12 +152,10 @@ public class Match {
         if (player instanceof HumanPlayer) {
             ((HumanPlayer) player).clearPowered();
         }
-        int power = field.getPowerToDistribute(player.getNumber());
+        player.updatePowerToDistribute();
         if (firstTurn && pm.getNumberOfPlayers() == 2){
-            player.setPowerToDistribute(power-1);
+            player.subtractPowerToDistribute();
             firstTurn = false;
-        } else {
-            player.setPowerToDistribute(power);
         }
         phase = Phase.DISTRIBUTE;
         //Logger.log("Distribute power phase.");

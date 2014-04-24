@@ -22,10 +22,8 @@ import static com.teremok.influence.view.Drawer.MIN_SIZE_FOR_TEXT;
  */
 public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
-    Set<Integer> routerDraw;
-    int counter = 0;
-    int allCounter = 0;
     float zoomedUnitSize;
+    boolean[][] routes;
 
     @Override
     public void draw (Field field, SpriteBatch batch, float parentAlpha) {
@@ -34,12 +32,14 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
         Gdx.gl.glEnable(GL10.GL_BLEND);
         zoomedUnitSize = Drawer.getUnitSize()* GestureController.getZoom();
 
-        counter = 0;
-        allCounter = 0;
-        if (routerDraw == null){
-            routerDraw = new HashSet<Integer>();
+        if (routes == null){
+            routes = new boolean[140][140];
         } else {
-            routerDraw.clear();
+            for (int i = 0; i < 140; i++) {
+                for (int j = 0; j < 140; j++) {
+                    routes[i][j] = false;
+                }
+            }
         }
 
         renderer.begin(ShapeRenderer.ShapeType.Line);
@@ -79,21 +79,21 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
     }
 
     private void drawSolid(Cell cell) {
-        if (isNeedToDraw(cell)) {
+        if (current.isCellVisible(cell)) {
             renderer.setColor(getColor(cell));
             renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getPower()*0.03f), 6);
         }
     }
 
     private void drawEmpty(Cell cell) {
-        if (isNeedToDraw(cell)) {
+        if (current.isCellVisible(cell)) {
             renderer.setColor(getColor(cell));
             renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getMaxPower()*0.03f), 6);
         }
     }
 
     private void drawText(SpriteBatch batch, Cell cell) {
-        if (bitmapFont != null && isNeedToDraw(cell)) {
+        if (bitmapFont != null && current.isCellVisible(cell)) {
             BitmapFont.TextBounds textBounds = bitmapFont.getBounds(cell.getPower()+"");
             if (cell.isFree()) {
                 bitmapFont.setColor(Drawer.getEmptyCellTextColor());
@@ -117,15 +117,13 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
 
     private void drawCellRoutesShape(Cell cell) {
         for (Cell toCell : cell.getNeighbors()) {
-            Integer code = cell.getNumber() * 1000 + toCell.getNumber();
+            int fromCode =  cell.getNumber();
+            int toCode =  toCell.getNumber();
+            if (! (routes[fromCode][toCode] || routes[toCode][fromCode])) {
+                routes[fromCode][toCode] = true;
+                routes[toCode][fromCode] = true;
 
-            if (! routerDraw.contains(code)) {
-
-                routerDraw.add(code);
-                code = toCell.getNumber() * 1000 + cell.getNumber();
-                routerDraw.add(code);
-
-                if (isNeedToDraw(cell) || isNeedToDraw(toCell)) {
+                if (current.isCellVisible(cell) || current.isCellVisible(toCell)) {
                     float centerX = cell.getX() + Field.cellWidth/2;
                     float centerY = cell.getY() + Field.cellHeight/2;
 
@@ -136,21 +134,8 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
                             getColor(cell),
                             getColor(toCell));
                 }
-
-                counter++;
             }
-            allCounter++;
         }
-    }
-
-    private boolean isNeedToDraw(Cell cell) {
-        float absoluteCellX = cell.getX() + current.getX();
-        float absoluteCellY = cell.getY() + current.getY();
-        float actualCellWidth = Field.cellWidth*GestureController.getZoom();
-        return  absoluteCellX > (-actualCellWidth/2)
-                && absoluteCellX < AbstractScreen.WIDTH
-                && absoluteCellY > (AbstractScreen.HEIGHT - Field.HEIGHT-actualCellWidth/2)
-                && absoluteCellY < AbstractScreen.HEIGHT;
     }
 
     @Override
