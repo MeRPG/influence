@@ -391,11 +391,14 @@ public class Field extends Group {
         if (calcB > defense.getMaxPower()) {
             calcA += calcB - defense.getMaxPower();
             calcB = defense.getMaxPower();
+
+            if (defense.getPower() > 0) {
+                calcA--;
+            }
+
         }
 
-        if (defense.getPower() > 0) {
-            calcA--;
-        }
+
 
         attack.setPower(calcA);
         defense.setPower(calcB);
