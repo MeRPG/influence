@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.teremok.influence.screen.GameScreen;
+import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.Drawer;
@@ -35,6 +36,7 @@ public class GestureController extends ActorGestureListener{
             Cell hit =  getField().hit(x - getField().getX(),y - getField().getY());
             if (hit != null && screen.getMatch().getPm().isHumanActing() && hit.getType() == screen.getMatch().getPm().current().getNumber()) {
                 getField().addPowerFull(hit);
+                FlurryHelper.logFullPowerEvent();
                 Vibrator.bzz();
             }
         }

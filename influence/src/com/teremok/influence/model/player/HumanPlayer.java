@@ -2,6 +2,7 @@ package com.teremok.influence.model.player;
 
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
+import com.teremok.influence.util.FlurryHelper;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,6 +38,8 @@ public class HumanPlayer extends Player {
                 field.addPower(cell);
             }
         }
+        FlurryHelper.logAutoPowerEvent();
+
         clearPowered();
     }
 

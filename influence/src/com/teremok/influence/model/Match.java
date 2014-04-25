@@ -5,6 +5,7 @@ import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.view.Drawer;
 
 import java.util.List;
@@ -81,6 +82,7 @@ public class Match {
 
         MatchSaver.save(this);
         Settings.save();
+        FlurryHelper.logMatchStartEvent(false);
     }
 
     public void act(float delta) {
@@ -108,10 +110,8 @@ public class Match {
                     FXPlayer.playWinMatch();
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
-                    if (pm.isHumanInGame())
-                        GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
-                    else
-                        GameScreen.colorForBacklight = Drawer.getBacklightWinColor();
+                    GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
+                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN);
                 }
             } else if (isLost()) {
                 if (! endSoundPlayed) {
@@ -119,6 +119,7 @@ public class Match {
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
                     GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
+                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_LOSE);
                 }
             }
 

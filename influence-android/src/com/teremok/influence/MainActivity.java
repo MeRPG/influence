@@ -2,9 +2,12 @@ package com.teremok.influence;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.widget.RelativeLayout;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.flurry.android.FlurryAgent;
+import com.teremok.influence.util.FlurryHelper;
 
 import java.util.Locale;
 
@@ -23,5 +26,23 @@ public class MainActivity extends AndroidApplication {
 
         layout.addView(initializeForView(new Influence(locale), cfg));
         setContentView(layout);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FlurryAgent.onStartSession(this, NotForPublicAccess.FLURRY_CODE);
+
+        FlurryAgent.setLogEnabled(true);
+        FlurryAgent.setLogEvents(true);
+        FlurryAgent.setLogLevel(Log.VERBOSE);
+
+        FlurryHelper.enabled = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FlurryAgent.onEndSession(this);
     }
 }

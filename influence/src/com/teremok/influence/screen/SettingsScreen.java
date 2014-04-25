@@ -9,6 +9,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 
@@ -142,6 +143,7 @@ public class SettingsScreen extends StaticScreen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
                     Settings.save();
+                    FlurryHelper.logSettingsChangeEvent();
                     ScreenController.showStartScreen();
                     return true;
                 }

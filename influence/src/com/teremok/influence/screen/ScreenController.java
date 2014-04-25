@@ -9,6 +9,7 @@ import com.teremok.influence.Influence;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
+import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.ResourseManager;
 import com.teremok.influence.view.Animation;
 
@@ -49,6 +50,7 @@ public class ScreenController {
         if (startScreen == null) {
             startScreen = new StartScreen(game, "startScreen");
         }
+        FlurryHelper.logStartScreenEvent();
         if (currentScreen == null) {
             currentScreen = startScreen;
             game.setScreen(startScreen);
@@ -61,6 +63,7 @@ public class ScreenController {
         if (settingsScreen == null) {
             settingsScreen = new SettingsScreen(game, "settingsScreen");
         }
+        FlurryHelper.logSettingsScreenEvent();
         gracefullyShowScreen(settingsScreen);
     }
 
@@ -68,6 +71,7 @@ public class ScreenController {
         if (mapSizeScreen == null) {
             mapSizeScreen = new MapSizeScreen(game, "mapSize");
         }
+        FlurryHelper.logMapSizeScreenEvent();
         gracefullyShowScreen(mapSizeScreen);
     }
 
@@ -75,6 +79,7 @@ public class ScreenController {
         if (playersScreen == null) {
             playersScreen = new PlayersScreen(game, "players");
         }
+        FlurryHelper.logPlayersScreenEvent();
         gracefullyShowScreen(playersScreen);
     }
 
@@ -82,6 +87,7 @@ public class ScreenController {
         if (aboutScreen == null) {
             aboutScreen = new AboutScreen(game, "aboutScreen");
         }
+        FlurryHelper.logAboutScreenEvent();
         gracefullyShowScreen(aboutScreen);
     }
 
@@ -125,18 +131,11 @@ public class ScreenController {
         };
     }
 
-    public static void startQuickGame () {
+    public static void continueGame() {
+        FlurryHelper.logMatchStartEvent(true);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
                 createResumeGameAction()
-        );
-        currentScreen.overlap.addAction(sequenceAction);
-    }
-
-    public static void startMultiplayerGame () {
-        SequenceAction sequenceAction = Actions.sequence(
-                Actions.fadeIn(Animation.DURATION_NORMAL),
-                createStartGameAction()
         );
         currentScreen.overlap.addAction(sequenceAction);
     }

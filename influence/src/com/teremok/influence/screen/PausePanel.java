@@ -16,6 +16,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.ResourseManager;
 import com.teremok.influence.view.Animation;
 
@@ -140,14 +141,17 @@ public class PausePanel extends Group {
     }
 
     private void  menu() {
+        FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_EXITMENU);
         gameScreen.backToStartScreen();
     }
 
     private void  f5() {
+        FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_RESTART);
         gameScreen.gracefullyStartNewMatch();
     }
 
     private void  exitGame() {
+        FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_EXITGAME);
         hide();
         ScreenController.gracefullyExitGame();
     }

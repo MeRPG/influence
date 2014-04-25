@@ -1,5 +1,6 @@
 package com.teremok.influence.model;
 
+import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerType;
 
 import java.util.HashMap;
@@ -164,6 +165,20 @@ public class GameSettings {
     public int getNumberOfPlayers() {
         if (players != null){
             return players.size();
+        } else {
+            return 0;
+        }
+    }
+
+    public int getNumberOfHumans() {
+        if (players != null){
+            int i = 0;
+            for (Integer player : players.keySet()) {
+                if (players.get(player).equals(PlayerType.Human)) {
+                    i++;
+                }
+            }
+            return i;
         } else {
             return 0;
         }

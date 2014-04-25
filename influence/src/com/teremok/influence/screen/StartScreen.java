@@ -14,6 +14,7 @@ import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
 
 /**
@@ -82,19 +83,23 @@ public class StartScreen extends StaticScreen {
                     String code = target.getCode();
                     switch (code) {
                         case CONTINUE:
-                            ScreenController.startQuickGame();
+                            FlurryHelper.logContinueGameEvent();
+                            ScreenController.continueGame();
                             GestureController.resetZoom();
                             break;
                         case NEWGAME:
+                            FlurryHelper.logNewGameEvent();
                             ScreenController.showMapSizeScreen();
                             break;
                         case SETTINGS:
                             ScreenController.showSettingsScreen();
                             break;
                         case VK_COM:
+                            FlurryHelper.logVkClickEvent();
                             goToVkCom();
                             break;
                         case GOOGLE_PLAY:
+                            FlurryHelper.logPlayClickEvent();
                             goToGooglePlay();
                             break;
                     }
