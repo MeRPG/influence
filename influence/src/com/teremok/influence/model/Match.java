@@ -6,6 +6,7 @@ import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
+import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Drawer;
 
 import java.util.List;
@@ -24,14 +25,18 @@ public class Match {
     Phase phase;
     PlayerManager pm;
     Score score;
+
     boolean paused;
     boolean endSoundPlayed;
-    boolean firstTurn = true;
+
+    int turn;
 
     public Match(GameSettings settings, List<Cell> cells, String matrixString) {
         pm = new PlayerManager(this);
         field = new Field(this, settings, cells, matrixString);
         score = new Score(this);
+
+        turn = 0;
 
         score.setStatus(Localizator.getString("selectYourCell"));
 
@@ -68,6 +73,8 @@ public class Match {
             score.reset(this);
         }
 
+        turn = 0;
+
         score.setStatus(Localizator.getString("selectYourCell"));
 
         pm.addPlayersFromMap(settings.players, field);
@@ -88,12 +95,12 @@ public class Match {
     public void act(float delta) {
         if (! paused) {
             Player currentPlayer = pm.current();
-
             if (phase == Phase.DISTRIBUTE && ! currentPlayer.hasPowerToDistribute()) {
                 currentPlayer = pm.next();
                 phase = Phase.ATTACK;
                 if ( pm.isHumanActing() && pm.current().getNumber() == 0 && ! isEnded()) {
                     MatchSaver.save(this);
+                    turn++;
                 }
             }
 
@@ -154,9 +161,8 @@ public class Match {
             ((HumanPlayer) player).clearPowered();
         }
         player.updatePowerToDistribute();
-        if (firstTurn && pm.getNumberOfPlayers() == 2){
+        if (turn == 1 && pm.getNumberOfPlayers() == 2){
             player.subtractPowerToDistribute();
-            firstTurn = false;
         }
         phase = Phase.DISTRIBUTE;
         //Logger.log("Distribute power phase.");

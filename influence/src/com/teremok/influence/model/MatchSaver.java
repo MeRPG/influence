@@ -21,6 +21,9 @@ import java.util.Map;
  */
 public class MatchSaver {
     private static final String ROOT="match";
+
+    private static final String TURN_ATTR = "turn";
+
     private static final String FIELD="field";
     private static final String PLAYER="player";
     private static final String PLAYERS="players";
@@ -66,7 +69,7 @@ public class MatchSaver {
         FileWriter fileWriter = new FileWriter(handle.file());
         Logger.log(handle.file().getAbsolutePath());
         XmlWriter xml = new XmlWriter(fileWriter);
-        XmlWriter xmlMatch = xml.element(ROOT);
+        XmlWriter xmlMatch = xml.element(ROOT).attribute(TURN_ATTR, match.turn);
 
         XmlWriter playersXml = xml.element(PLAYERS);
         PlayerManager pm = match.getPm();
@@ -130,6 +133,7 @@ public class MatchSaver {
             String matrixString = root.getChildByName(FIELD).getChildByName("routes").getText();
 
             match = new Match(gameSettings, cells, matrixString);
+            match.turn = Integer.parseInt(root.getAttribute(TURN_ATTR, "0"));
 
         } else {
             throw new IOException("File with saved match not found " + FILENAME);
