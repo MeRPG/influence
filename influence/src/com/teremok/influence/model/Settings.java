@@ -28,7 +28,7 @@ public class Settings {
     public static boolean vibrate;
     public static float speed;
 
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     public static GameSettings gameSettings;
 
@@ -46,7 +46,7 @@ public class Settings {
                     .element("vibrate", vibrate)
                     .element("speed", speed)
                     .element("language", Localizator.getLanguage())
-                    .element("debug", debug);
+                    .element("debug", false);
 
 
             saveGameSettings(root);
@@ -97,11 +97,11 @@ public class Settings {
 
                 myString = root.getChildByName("language").getText();
                 Localizator.setLanguage(myString);
-
+                   /*
                 myString = getElementText(root, "debug");
                 if (! myString.isEmpty()) {
-                    debug = true; Boolean.parseBoolean(myString);
-                }
+                    debug = Boolean.parseBoolean(myString);
+                }*/
 
                 loadGameSettings(root);
 
