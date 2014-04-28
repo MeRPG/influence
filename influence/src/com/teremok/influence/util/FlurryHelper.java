@@ -112,7 +112,7 @@ public class FlurryHelper {
             parameters.put("Enemies", Settings.gameSettings.getNumberOfPlayers()+"");
             parameters.put("Humans", Settings.gameSettings.getNumberOfHumans()+"");
             parameters.put("isResume", isResume ? "Yes" : "No");
-            FlurryAgent.logEvent("Match_Start", parameters, true);
+            FlurryAgent.logEvent("Match_Start", parameters);
         }
     }
 
@@ -122,7 +122,6 @@ public class FlurryHelper {
             Map<String,String> parameters = new HashMap<>();
             parameters.put("Reason", reason);
             FlurryAgent.logEvent("Match_End", parameters);
-            FlurryAgent.endTimedEvent("Match_Start");
         }
     }
 
