@@ -1,5 +1,6 @@
 package com.teremok.influence.model;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -41,12 +42,11 @@ public class Field extends Group {
     private Match match;
     private PlayerManager pm;
     private Cell selectedCell;
+    private Router router;
     private FieldShapeDrawer drawer;
 
     private GraphGenerator generator;
     private Random random;
-
-    short[][] matrix;
 
     public static float cellWidth;
     public static float cellHeight;
@@ -65,8 +65,8 @@ public class Field extends Group {
         addListener();
     }
 
-    public Field(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
-        reset(match, settings, cells, matrixString);
+    public Field(Match match, GameSettings settings, List<Cell> cells, Router router) {
+        reset(match, settings, cells, router);
         addListener();
     }
 
@@ -93,7 +93,7 @@ public class Field extends Group {
         generate();
     }
 
-    public void reset(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
+    public void reset(Match match, GameSettings settings, List<Cell> cells, Router router) {
         this.match = match;
         this.pm = match.getPm();
         drawer = AbstractDrawer.getFieldShapeDrawer();
@@ -111,7 +111,7 @@ public class Field extends Group {
         setBounds(initialX, initialY, initialWidth, initialHeight);
 
         this.cells = cells;
-        setMatrix(matrixString);
+        this.router = router;
     }
 
     private void generate() {
@@ -120,7 +120,7 @@ public class Field extends Group {
             generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
         generator.generate();
         cells = generator.getCells();
-        matrix = generator.getMatrix();
+        router = generator.getRouter();
     }
 
     public void regenerate() {
@@ -230,7 +230,40 @@ public class Field extends Group {
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     if (!event.isHandled() && ! GestureController.isActing() && match.canHumanActing()) {
+
                         Cell target = hit(x, y);
+
+                        if (GameScreen.editor) {
+
+                            switch (button) {
+                                case Input.Buttons.LEFT:
+                                    int pow = target.getPower();
+                                    pow++;
+                                    if (! (pow > target.getMaxPower())) {
+                                        target.setPower(pow);
+                                    }
+                                    break;
+                                case Input.Buttons.RIGHT:
+
+                                    int type = target.getType();
+                                    type++;
+                                    if (type > 4) {
+                                        type = -1;
+                                    }
+                                    target.setType(type);
+
+                                    break;
+                                case Input.Buttons.MIDDLE:
+                                    if (target.getMaxPower() == 8) {
+                                        target.setMaxPower(12);
+                                    } else {
+                                        target.setMaxPower(8);
+                                    }
+                                    break;
+                            }
+
+                            return;
+                        }
                         //Logger.log("actual target: " + target);
                         if (target == null)
                             return;
@@ -264,7 +297,7 @@ public class Field extends Group {
 
         int unitsX = (int)(x/cellWidth);
 
-        //Logger.log("hit: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
+        Logger.log("hit: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
 
         if (unitsX < 0 || unitsX > maxCellsX -1 || unitsY < 0 || unitsY > maxCellsY -1) {
             cells.get(0);
@@ -409,7 +442,7 @@ public class Field extends Group {
         if (from.getNumber() == to.getNumber())
             return false;
 
-        return matrix[from.getNumber()][to.getNumber()] == 1 || matrix[to.getNumber()][from.getNumber()] == 1;
+        return router.routeExist(from.getNumber(), to.getNumber());
 
     }
 
@@ -630,60 +663,61 @@ public class Field extends Group {
     public String getMatrix() {
         int hit = 0;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < maxCellsX*maxCellsY; i++) {
-            for (int j = 0; j < maxCellsX*maxCellsY; j++) {
-                sb.append(matrix[i][j]);
-                hit++;
-            }
-            sb.append(';');
-        }
 
-        Logger.log("hits: " + hit);
+//        for (int i = 0; i < maxCellsX*maxCellsY; i++) {
+//            for (int j = 0; j < maxCellsX*maxCellsY; j++) {
+//                sb.append(matrix[i][j]);
+//                hit++;
+//            }
+//            sb.append(';');
+//        }
+//
+//        Logger.log("hits: " + hit);
 
         return sb.toString();
     }
 
     public void setMatrix(String matrixString) {
 
-        if (matrix == null) {
-            matrix = new short[maxCellsX*maxCellsY][maxCellsX*maxCellsY];
-        }
-
-        Logger.log(getMatrix());
-
-        Logger.log("loading routes");
-
-        int x = 0;
-        int y = 0;
-        int hit = 0;
-        char[] chars = matrixString.toCharArray();
-        for (int i = 0; i < chars.length; i++ ) {
-            char ch = chars[i];
-            switch (ch) {
-                case '0':
-                    //Logger.log("x = " + x + "; y = " + y);
-                    matrix[x++][y] = 0;
-                    hit++;
-                    break;
-                case '1':
-                    //Logger.log("x = " + x + "; y = " + y);
-                    matrix[x++][y] = 1;
-                    hit++;
-                    break;
-                case ';':
-                    y++;
-            }
-
-            if (x == maxCellsX*maxCellsY) {
-                x = 0;
-            }
-
-            if (y == maxCellsX*maxCellsY) {
-                break;
-            }
-        }
-
-        Logger.log("hits: " + hit);
+//        if (matrix == null) {
+//            matrix = new short[maxCellsX*maxCellsY][maxCellsX*maxCellsY];
+//        }
+//
+//        Logger.log(getMatrix());
+//
+//        Logger.log("loading routes");
+//
+//        int x = 0;
+//        int y = 0;
+//        int hit = 0;
+//        char[] chars = matrixString.toCharArray();
+//        for (int i = 0; i < chars.length; i++ ) {
+//            char ch = chars[i];
+//            switch (ch) {
+//                case '0':
+//                    //Logger.log("x = " + x + "; y = " + y);
+//                    matrix[x++][y] = 0;
+//                    hit++;
+//                    break;
+//                case '1':
+//                    //Logger.log("x = " + x + "; y = " + y);
+//                    matrix[x++][y] = 1;
+//                    hit++;
+//                    break;
+//                case ';':
+//                    y++;
+//            }
+//
+//            if (x == maxCellsX*maxCellsY) {
+//                x = 0;
+//            }
+//
+//            if (y == maxCellsX*maxCellsY) {
+//                break;
+//            }
+//        }
+//
+//        Logger.log("hits: " + hit);
     }
 
 
@@ -705,5 +739,9 @@ public class Field extends Group {
 
     public int getCellsCount() {
         return cellsCount;
+    }
+
+    public Router getRouter() {
+        return router;
     }
 }

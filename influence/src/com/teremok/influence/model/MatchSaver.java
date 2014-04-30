@@ -35,6 +35,11 @@ public class MatchSaver {
     private static final String MAX_POWER="maxPower";
     private static final String TYPE="type";
 
+    private static final String ROUTE="route";
+    private static final String FROM="from";
+    private static final String TO="to";
+    private static final String ENABLED="enabled";
+
     private static String FILENAME =".influence-match";
 
     private static Match notEnded;
@@ -97,6 +102,14 @@ public class MatchSaver {
                     .pop();
         }
 
+        for (Route route : field.getRouter().getAsCollection()) {
+            fieldXml.element(ROUTE)
+                    .attribute(FROM, route.from)
+                    .attribute(TO, route.to)
+                    .attribute(ENABLED, route.enabled)
+                    .pop();
+        }
+
         fieldXml.element("routes", field.getMatrix()).pop();
 
         fieldXml.pop();
@@ -130,9 +143,10 @@ public class MatchSaver {
             Logger.log("loading players");
             loadPlayers(root, gameSettings);
             List<Cell> cells = loadCells(root);
-            String matrixString = root.getChildByName(FIELD).getChildByName("routes").getText();
 
-            match = new Match(gameSettings, cells, matrixString);
+            Router router = loadRoutes(root);
+
+            match = new Match(gameSettings, cells, router);
             match.turn = Integer.parseInt(root.getAttribute(TURN_ATTR, "0"));
 
         } else {
@@ -183,6 +197,29 @@ public class MatchSaver {
             Logger.log("adding cell " + cell);
         }
         return cells;
+    }
+
+
+    private static Router loadRoutes(XmlReader.Element root) {
+        int from;
+        int to;
+        boolean enabled;
+
+        Route route;
+
+        Router router = new Router();
+
+        XmlReader.Element playersRoot = root.getChildByName(FIELD);
+        for (XmlReader.Element player : playersRoot.getChildrenByName(ROUTE)) {
+            from = player.getIntAttribute(FROM, 0);
+            to = player.getIntAttribute(TO, 0);
+            enabled =  player.getBooleanAttribute(ENABLED, false);
+
+            route = new Route(from, to, enabled);
+            router.add(route);
+        }
+        router.print();
+        return router;
     }
 
     public static boolean hasNotEnded() {

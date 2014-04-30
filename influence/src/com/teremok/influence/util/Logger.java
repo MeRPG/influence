@@ -48,7 +48,7 @@ public class Logger {
             printer.println(" - - - - - - - - - - ");
             printer.println("Reopened file at" + Calendar.getInstance().getTime());
             printer.println(" - - - - - - - - - - ");
-            System.setErr(printer);
+            //System.setErr(printer);
         } catch (IOException e) {
             e.printStackTrace();
         }

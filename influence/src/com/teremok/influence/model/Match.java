@@ -31,9 +31,9 @@ public class Match {
 
     int turn;
 
-    public Match(GameSettings settings, List<Cell> cells, String matrixString) {
+    public Match(GameSettings settings, List<Cell> cells, Router router) {
         pm = new PlayerManager(this);
-        field = new Field(this, settings, cells, matrixString);
+        field = new Field(this, settings, cells, router);
         score = new Score(this);
 
         turn = 0;

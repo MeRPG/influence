@@ -1,6 +1,7 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -36,6 +37,8 @@ public class GameScreen extends StaticScreen {
 
     Map<TexturePanel, Boolean> borderState = new HashMap<>();
     boolean backlightState;
+
+    public static boolean editor = false;
 
     long lastBackPress = 0;
 
@@ -285,6 +288,9 @@ public class GameScreen extends StaticScreen {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (editor) {
+                    return match.getField().hit(x,y) != null;
+                }
                 return stage.hit(x,y,true) instanceof Score;
             }
 
@@ -328,6 +334,10 @@ public class GameScreen extends StaticScreen {
                     if (keycode == Keys.D) {
                         match = MatchSaver.load();
                         updateMatchDependentActors();
+                    }
+                    if (keycode == Keys.E) {
+                        editor = !editor;
+                        Logger.log("enable editor: " + editor);
                     }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
 

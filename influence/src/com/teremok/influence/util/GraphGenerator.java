@@ -1,6 +1,8 @@
 package com.teremok.influence.util;
 
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.Route;
+import com.teremok.influence.model.Router;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +22,8 @@ public class GraphGenerator {
 
     private Random rnd;
 
+    Router router;
+
     private byte[][] mask;
     private short[][] matrix;
 
@@ -31,6 +35,7 @@ public class GraphGenerator {
         this.maxCellsY = maxCellsY;
         this.cellsCount = cellsCount;
         this.matrixSize = maxCellsX*maxCellsY;
+        router = new Router();
         rnd = new Random();
         matrix = new short[cellsCount][cellsCount];
         cells = new LinkedList<Cell>();
@@ -55,8 +60,17 @@ public class GraphGenerator {
             } while (!isEmpty(x, y) || isAlone(x, y));
             mask[x][y] = 1;
         }
+
+        router.clear();
+        router.print();
+
         constructMatrix();
+
+        router.print();
+
         minimizeMatrix();
+
+        router.print();
     }
 
     public void parse(List<Cell> cells) {
@@ -164,8 +178,11 @@ public class GraphGenerator {
             return;
         }
         if (mask[x][y] > 0 && mask[x][y] < Byte.MAX_VALUE) {
-
-            matrix[curNum][getNum(x,y)] = 1;
+            int newNum = getNum(x,y);
+            if (newNum != curNum) {
+                matrix[curNum][newNum] = 1;
+                router.add(new Route(curNum, newNum, true));
+            }
         }
     }
 
@@ -267,6 +284,7 @@ public class GraphGenerator {
             if (rnd.nextFloat() > KEEPING_ROUTES_POSSIBILITY) {
                 matrix[current][from] = 0;
                 matrix[from][current] = 0;
+                router.disable(current, from);
             }
             return;
         }
@@ -291,5 +309,9 @@ public class GraphGenerator {
 
     public short[][] getMatrix() {
         return matrix;
+    }
+
+    public Router getRouter() {
+        return router;
     }
 }

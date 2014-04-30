@@ -28,7 +28,7 @@ public class Settings {
     public static boolean vibrate;
     public static float speed;
 
-    public static boolean debug = false;
+    public static boolean debug = true;
 
     public static GameSettings gameSettings;
 
@@ -46,7 +46,7 @@ public class Settings {
                     .element("vibrate", vibrate)
                     .element("speed", speed)
                     .element("language", Localizator.getLanguage())
-                    .element("debug", false);
+                    .element("debug", true);
 
 
             saveGameSettings(root);
@@ -178,7 +178,7 @@ public class Settings {
         sound = true;
         vibrate = true;
         speed = NORMAL;
-        debug = false;
+        debug = true;
         gameSettings = GameSettings.getDefault();
         Localizator.setDefaultLanguage();
     }

@@ -36,9 +36,9 @@
     </xs:complexType>
 
     <xs:complexType name="playersTop">
-         <xs:sequence>
-             <xs:element name="player" type="player" minOccurs="2" maxOccurs="8" />
-         </xs:sequence>
+        <xs:sequence>
+            <xs:element name="player" type="player" minOccurs="2" maxOccurs="8" />
+        </xs:sequence>
     </xs:complexType>
 
     <xs:simpleType name="difficulty" xml:base="xs:string">
@@ -86,10 +86,19 @@
         </xs:simpleContent>
     </xs:complexType>
 
+    <xs:complexType name="route">
+        <xs:simpleContent>
+            <xs:extension base="cellPower">
+                <xs:attribute name="from" type="xs:int" />
+                <xs:attribute name="to" type="xs:int" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
     <xs:complexType name="field">
-        <xs:sequence>
-            <xs:element name="cell" type="cell" maxOccurs="unbounded"/>
-            <xs:element name="routes" type="xs:string" maxOccurs="1"/>
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element name="cell" type="cell" />
+            <xs:element name="route" type="route" />
         </xs:sequence>
     </xs:complexType>
 
