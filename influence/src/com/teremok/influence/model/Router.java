@@ -52,6 +52,15 @@ public class Router {
         disable(calculateKey(from, to));
     }
 
+    public void toggle(int from, int to) {
+        toggle(calculateKey(from, to));
+    }
+
+    public void toggle(Integer routeKey) {
+        Route route = routeMap.get(routeKey);
+        route.enabled = ! route.enabled;
+    }
+
     public void print() {
         int enableCount = 0;
         Route route;
@@ -73,6 +82,16 @@ public class Router {
     public boolean routeExist(int from, int to) {
         Integer routeKey = calculateKey(from, to);
         return routeExist(routeKey);
+    }
+
+    public boolean routePossible(Integer routeKey) {
+        Route route = routeMap.get(routeKey);
+        return route != null;
+    }
+
+    public boolean routePossible(int from, int to) {
+        Integer routeKey = calculateKey(from, to);
+        return routePossible(routeKey);
     }
 
     public static int calculateKey(int from, int to) {

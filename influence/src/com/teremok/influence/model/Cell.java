@@ -109,7 +109,7 @@ public class Cell {
     }
 
     public void clearNeighbors() {
-        enemies.clear();
+        neighbors.clear();
     }
 
     public void addEnemy(Cell cell) {

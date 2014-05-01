@@ -110,8 +110,6 @@ public class MatchSaver {
                     .pop();
         }
 
-        fieldXml.element("routes", field.getMatrix()).pop();
-
         fieldXml.pop();
         xml.close();
     }

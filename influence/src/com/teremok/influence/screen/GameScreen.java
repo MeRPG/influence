@@ -39,6 +39,8 @@ public class GameScreen extends StaticScreen {
     boolean backlightState;
 
     public static boolean editor = false;
+    public static boolean shifted = false;
+    public static int fromRoute = -1;
 
     long lastBackPress = 0;
 
@@ -339,6 +341,14 @@ public class GameScreen extends StaticScreen {
                         editor = !editor;
                         Logger.log("enable editor: " + editor);
                     }
+
+                    if (keycode == Keys.SHIFT_LEFT || keycode == Keys.SHIFT_RIGHT) {
+                        if (editor) {
+                            shifted = true;
+                            Logger.log("shift down");
+                        }
+                    }
+
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
 
                         if (keycode != Keys.MENU) {
@@ -362,6 +372,17 @@ public class GameScreen extends StaticScreen {
                 return true;
             }
 
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == Keys.SHIFT_LEFT || keycode == Keys.SHIFT_RIGHT) {
+                    if (editor) {
+                        shifted = false;
+                        fromRoute = -1;
+                        Logger.log("shift up");
+                    }
+                }
+                return super.keyUp(event, keycode);
+            }
         });
         getMatch().getField().resize();
         stage.addListener(gestureController);

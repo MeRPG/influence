@@ -237,9 +237,24 @@ public class Field extends Group {
 
                             switch (button) {
                                 case Input.Buttons.LEFT:
+
+                                    if (GameScreen.shifted) {
+                                        if (GameScreen.fromRoute == -1) {
+                                            GameScreen.fromRoute = target.getNumber();
+                                        } else if (!router.routePossible(GameScreen.fromRoute, target.getNumber())){
+                                            GameScreen.fromRoute = target.getNumber();
+                                        } else {
+                                            router.toggle(GameScreen.fromRoute, target.getNumber());
+                                            updateLists();
+                                        }
+                                        return;
+                                    }
+
                                     int pow = target.getPower();
                                     pow++;
-                                    if (! (pow > target.getMaxPower())) {
+                                    if (pow > target.getMaxPower()) {
+                                        target.setPower(0);
+                                    } else {
                                         target.setPower(pow);
                                     }
                                     break;
@@ -247,7 +262,7 @@ public class Field extends Group {
 
                                     int type = target.getType();
                                     type++;
-                                    if (type > 4) {
+                                    if (type >= Settings.gameSettings.getNumberOfPlayers()) {
                                         type = -1;
                                     }
                                     target.setType(type);
@@ -259,9 +274,13 @@ public class Field extends Group {
                                     } else {
                                         target.setMaxPower(8);
                                     }
+                                    if (target.getPower() > target.getMaxPower()) {
+                                        target.setPower(target.getMaxPower());
+                                    }
                                     break;
                             }
 
+                            updateLists();
                             return;
                         }
                         //Logger.log("actual target: " + target);
@@ -633,7 +652,7 @@ public class Field extends Group {
 
     public void updateLists() {
 
-        //Logger.log("update lists called.");
+        Logger.log("update lists called.");
 
         Player[] players = pm.getPlayers();
         if (players != null) {
@@ -659,67 +678,6 @@ public class Field extends Group {
         }
 
     }
-
-    public String getMatrix() {
-        int hit = 0;
-        StringBuilder sb = new StringBuilder();
-
-//        for (int i = 0; i < maxCellsX*maxCellsY; i++) {
-//            for (int j = 0; j < maxCellsX*maxCellsY; j++) {
-//                sb.append(matrix[i][j]);
-//                hit++;
-//            }
-//            sb.append(';');
-//        }
-//
-//        Logger.log("hits: " + hit);
-
-        return sb.toString();
-    }
-
-    public void setMatrix(String matrixString) {
-
-//        if (matrix == null) {
-//            matrix = new short[maxCellsX*maxCellsY][maxCellsX*maxCellsY];
-//        }
-//
-//        Logger.log(getMatrix());
-//
-//        Logger.log("loading routes");
-//
-//        int x = 0;
-//        int y = 0;
-//        int hit = 0;
-//        char[] chars = matrixString.toCharArray();
-//        for (int i = 0; i < chars.length; i++ ) {
-//            char ch = chars[i];
-//            switch (ch) {
-//                case '0':
-//                    //Logger.log("x = " + x + "; y = " + y);
-//                    matrix[x++][y] = 0;
-//                    hit++;
-//                    break;
-//                case '1':
-//                    //Logger.log("x = " + x + "; y = " + y);
-//                    matrix[x++][y] = 1;
-//                    hit++;
-//                    break;
-//                case ';':
-//                    y++;
-//            }
-//
-//            if (x == maxCellsX*maxCellsY) {
-//                x = 0;
-//            }
-//
-//            if (y == maxCellsX*maxCellsY) {
-//                break;
-//            }
-//        }
-//
-//        Logger.log("hits: " + hit);
-    }
-
 
     // Auto-generated
 
