@@ -312,6 +312,7 @@ public class GameScreen extends StaticScreen {
                 if (! event.isHandled()) {
                     if (keycode == Keys.R) {
                         gracefullyStartNewMatch();
+                        editor = false;
                     }
                     if (keycode == Keys.L) {
                         Localizator.switchLanguage();
@@ -338,6 +339,28 @@ public class GameScreen extends StaticScreen {
                         updateMatchDependentActors();
                     }
                     if (keycode == Keys.E) {
+
+                        if (! editor) {
+                            switch (Settings.gameSettings.fieldSize) {
+                                case SMALL:
+                                    Settings.gameSettings.cellsCount = 18;
+                                    break;
+                                case NORMAL:
+                                    Settings.gameSettings.cellsCount = 32;
+                                    break;
+                                case LARGE:
+                                    Settings.gameSettings.cellsCount = 65;
+                                    break;
+                                case XLARGE:
+                                    Settings.gameSettings.cellsCount = 133;
+                                    break;
+                            }
+                            gracefullyStartNewMatch();
+                            match.getField().loadHiddenCells();
+                        } else {
+                            match.getField().clearRoutes();
+                        }
+
                         editor = !editor;
                         Logger.log("enable editor: " + editor);
                     }

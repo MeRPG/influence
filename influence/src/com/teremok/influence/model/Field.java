@@ -22,6 +22,7 @@ import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.FieldShapeDrawer;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -38,6 +39,7 @@ public class Field extends Group {
     private static final int INITIAL_CELL_POWER = 2;
 
     private List<Cell> cells;
+    private List<Cell> hiddenCells;
 
     private Match match;
     private PlayerManager pm;
@@ -115,8 +117,8 @@ public class Field extends Group {
     }
 
     private void generate() {
-
-        if (generator == null)
+        if (generator == null || generator.cellsCount != cellsCount
+                || generator.maxCellsX != maxCellsX || generator.maxCellsY != maxCellsY)
             generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
         generator.generate();
         cells = generator.getCells();
@@ -234,9 +236,17 @@ public class Field extends Group {
                         Cell target = hit(x, y);
 
                         if (GameScreen.editor) {
-
+                            Cell hidden = hitHidden(x,y);
                             switch (button) {
                                 case Input.Buttons.LEFT:
+
+                                    if (target == null && hidden != null) {
+                                        showCell(hidden);
+                                        updateLists();
+                                        return;
+                                    }
+                                    if (target == null)
+                                        return;
 
                                     if (GameScreen.shifted) {
                                         if (GameScreen.fromRoute == -1) {
@@ -259,27 +269,34 @@ public class Field extends Group {
                                     }
                                     break;
                                 case Input.Buttons.RIGHT:
+                                    if (target != null) {
+                                        if (GameScreen.shifted) {
+                                            hideCell(target);
+                                            updateLists();
+                                            return;
+                                        }
 
-                                    int type = target.getType();
-                                    type++;
-                                    if (type >= Settings.gameSettings.getNumberOfPlayers()) {
-                                        type = -1;
+                                        int type = target.getType();
+                                        type++;
+                                        if (type >= Settings.gameSettings.getNumberOfPlayers()) {
+                                            type = -1;
+                                        }
+                                        target.setType(type);
                                     }
-                                    target.setType(type);
-
                                     break;
                                 case Input.Buttons.MIDDLE:
-                                    if (target.getMaxPower() == 8) {
-                                        target.setMaxPower(12);
-                                    } else {
-                                        target.setMaxPower(8);
-                                    }
-                                    if (target.getPower() > target.getMaxPower()) {
-                                        target.setPower(target.getMaxPower());
+                                    if (target != null) {
+                                        if (target.getMaxPower() == 8) {
+                                            target.setMaxPower(12);
+                                        } else {
+                                            target.setMaxPower(8);
+                                        }
+                                        if (target.getPower() > target.getMaxPower()) {
+                                            target.setPower(target.getMaxPower());
+                                        }
                                     }
                                     break;
                             }
-
                             updateLists();
                             return;
                         }
@@ -331,7 +348,7 @@ public class Field extends Group {
                 return  cell;
             }
         }
-        return cells.get(0);
+        return null;
     }
 
     private int getNum( int i, int j) {
@@ -677,6 +694,84 @@ public class Field extends Group {
             }
         }
 
+    }
+
+    // For editor
+
+    public void loadHiddenCells() {
+        hiddenCells = new LinkedList<>();
+        for (int i = 0; i < maxCellsY; i++) {
+            for (int j = 0; j < maxCellsX; j++) {
+                Cell cell = Cell.makeEmptyCell(getNum(i, j), i, j);
+                if (! cells.contains(cell)) {
+                    hiddenCells.add(cell);
+                }
+            }
+        }
+        Logger.log("Loaded hidden : " + hiddenCells.size());
+    }
+
+    void showCell(Cell cell) {
+        cells.add(cell);
+        swapUnitsCoords(cell);
+        hiddenCells.remove(cell);
+        cellsCount++;
+        Logger.log("show cell: " + cell);
+    }
+
+    void hideCell(Cell cell) {
+        hiddenCells.add(cell);
+        swapUnitsCoords(cell);
+        cells.remove(cell);
+        cellsCount--;
+        router.disableForNumber(cell.number);
+        Logger.log("hide cell: " + cell);
+    }
+
+    public void clearRoutes() {
+        for (Cell cell : hiddenCells) {
+            router.removeForNumber(cell.number);
+        }
+    }
+
+    void removeRoutes(Cell cell) {
+        router.removeForNumber(cell.number);
+    }
+
+    void swapUnitsCoords(Cell cell) {
+        int tmp = cell.unitsX;
+        cell.unitsX = cell.unitsY;
+        cell.unitsY = tmp;
+
+    }
+
+    public Cell hitHidden(float x, float y) {
+
+        int unitsY = (int)(y/cellHeight);
+
+        if (unitsY%2 == 1) {
+            x -= cellWidth/2;
+        }
+
+        int unitsX = (int)(x/cellWidth);
+
+        Logger.log("hit hidden: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
+
+        if (unitsX < 0 || unitsX > maxCellsX -1 || unitsY < 0 || unitsY > maxCellsY -1) {
+            cells.get(0);
+        }
+
+        return getHiddenCellByNumber(getNum(unitsX, unitsY));
+    }
+
+    private Cell getHiddenCellByNumber(int number) {
+        if (hiddenCells != null)
+        for (Cell cell : hiddenCells) {
+            if (cell.getNumber() == number){
+                return  cell;
+            }
+        }
+        return null;
     }
 
     // Auto-generated

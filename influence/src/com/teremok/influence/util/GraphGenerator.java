@@ -14,10 +14,10 @@ import java.util.Random;
 public class GraphGenerator {
     private float KEEPING_ROUTES_POSSIBILITY = 0.8f;
 
-    private int maxCellsX;
-    private int maxCellsY;
+    public int maxCellsX;
+    public int maxCellsY;
     private int matrixSize;
-    private int cellsCount;
+    public int cellsCount;
     int cycles;
 
     private Random rnd;
@@ -153,7 +153,7 @@ public class GraphGenerator {
         }
     }
 
-    private void checkAround(int curNum, int x, int y) {
+    public void checkAround(int curNum, int x, int y) {
         for (int i = -1; i < 2; i++ ) {
             for (int j = -1; j < 2; j++ ) {
                 if (
@@ -173,7 +173,7 @@ public class GraphGenerator {
         }
     }
 
-    private void checkForMatrix(int curNum, int x, int y) {
+    public void checkForMatrix(int curNum, int x, int y) {
         if (x < 0 || y < 0 || x >= maxCellsY || y >= maxCellsX) {
             return;
         }

@@ -22,12 +22,30 @@ public class Router {
         }
     }
 
+    public void add(int from, int to) {
+        Route route = new Route(from, to, true);
+        routeMap.put(route.key, route);
+    }
+
     public void add(Route route) {
         routeMap.put(route.key, route);
     }
 
     public void clear() {
         routeMap.clear();
+    }
+
+    public void removeForNumber(int number) {
+        HashSet<Integer> toDelete = new HashSet<>();
+        for (Route route : routeMap.values()) {
+            if (route.from == number || route.to == number) {
+                toDelete.add(route.key);
+            }
+        }
+
+        for (Integer key : toDelete) {
+            routeMap.remove(key);
+        }
     }
 
     public Collection<Route> getAsCollection(){
@@ -46,6 +64,14 @@ public class Router {
     public void disable(Integer routeKey) {
         Route route = routeMap.get(routeKey);
         route.enabled = false;
+    }
+
+    public void disableForNumber(int number) {
+        for (Route route : routeMap.values()) {
+            if (route.from == number || route.to == number) {
+                disable(route.key);
+            }
+        }
     }
 
     public void disable(int from, int to) {

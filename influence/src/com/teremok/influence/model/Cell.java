@@ -134,6 +134,23 @@ public class Cell {
     }
     // Auto-generated
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cell)) return false;
+
+        Cell cell = (Cell) o;
+
+        return number == cell.number;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return number;
+    }
+
     public int getType() {
         return type;
     }
