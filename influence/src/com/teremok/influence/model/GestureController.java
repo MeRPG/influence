@@ -62,8 +62,7 @@ public class GestureController extends ActorGestureListener{
     }
 
     public boolean bigField() {
-        return !(Settings.gameSettings.fieldSize.equals(FieldSize.NORMAL) ||
-                Settings.gameSettings.fieldSize.equals(FieldSize.SMALL));
+        return !(Settings.gameSettings.fieldSize.equals(FieldSize.SMALL));
     }
 
     @Override
@@ -111,7 +110,7 @@ public class GestureController extends ActorGestureListener{
     }
 
     private static float getZoomMax() {
-        return 48f / Drawer.getUnitSize();
+        return 48f*2f / Drawer.getUnitSize();
     }
 
     private Field getField() {

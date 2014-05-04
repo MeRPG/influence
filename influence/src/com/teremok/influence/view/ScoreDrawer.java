@@ -27,9 +27,7 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
 
         batch.end();
 
-        if (! (Settings.gameSettings.fieldSize == FieldSize.SMALL
-                || Settings.gameSettings.fieldSize == FieldSize.NORMAL)) {
-
+        if (! (Settings.gameSettings.fieldSize == FieldSize.SMALL)) {
            drawCovers();
         }
 
