@@ -93,6 +93,24 @@ public class FlurryHelper {
         }
     }
 
+    public static void logPauseRestartEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Pause_Restart");
+        }
+    }
+
+    public static void logPauseExitGameEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Pause_Exit_Game");
+        }
+    }
+
+    public static void logPauseExitMenuEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Pause_Exit_Menu");
+        }
+    }
+
     public static void logSettingsChangeEvent() {
         if (flurryEnabled()) {
             Map<String,String> parameters = new HashMap<>();
@@ -104,23 +122,27 @@ public class FlurryHelper {
         }
     }
 
-    public static void logMatchStartEvent(boolean isResume) {
+    public static void logMatchStartEvent() {
         if (flurryEnabled()) {
             Map<String,String> parameters = new HashMap<>();
             parameters.put("Field_Size", Settings.gameSettings.fieldSize.toString());
             parameters.put("Game_Difficulty", Settings.gameSettings.difficulty.toString());
             parameters.put("Enemies", Settings.gameSettings.getNumberOfPlayers()+"");
             parameters.put("Humans", Settings.gameSettings.getNumberOfHumans()+"");
-            parameters.put("isResume", isResume ? "Yes" : "No");
             FlurryAgent.logEvent("Match_Start", parameters);
         }
     }
 
 
-    public static void logMatchEndEvent(String reason) {
+    public static void logMatchEndEvent(String reason, int turns) {
+
         if (flurryEnabled()) {
+            int turnsRange = turns - turns % 5 + 1;
+            String turnsString = turnsRange + "-" + (turnsRange+4);
+
             Map<String,String> parameters = new HashMap<>();
             parameters.put("Reason", reason);
+            parameters.put("Turns", turnsString);
             FlurryAgent.logEvent("Match_End", parameters);
         }
     }

@@ -132,7 +132,6 @@ public class ScreenController {
     }
 
     public static void continueGame() {
-        FlurryHelper.logMatchStartEvent(true);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
                 createResumeGameAction()

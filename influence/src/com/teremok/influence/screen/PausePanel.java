@@ -141,17 +141,17 @@ public class PausePanel extends Group {
     }
 
     private void  menu() {
-        FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_EXITMENU);
+        FlurryHelper.logPauseExitMenuEvent();
         gameScreen.backToStartScreen();
     }
 
     private void  f5() {
-        FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_RESTART);
+        FlurryHelper.logPauseRestartEvent();
         gameScreen.gracefullyStartNewMatch();
     }
 
     private void  exitGame() {
-        FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_EXITGAME);
+        FlurryHelper.logPauseExitGameEvent();
         hide();
         ScreenController.gracefullyExitGame();
     }

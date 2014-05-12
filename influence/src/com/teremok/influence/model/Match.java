@@ -89,7 +89,6 @@ public class Match {
 
         MatchSaver.save(this);
         Settings.save();
-        FlurryHelper.logMatchStartEvent(false);
     }
 
     public void act(float delta) {
@@ -101,6 +100,9 @@ public class Match {
                 if ( pm.isHumanActing() && pm.current().getNumber() == 0 && ! isEnded()) {
                     MatchSaver.save(this);
                     turn++;
+                    if (turn == 1) {
+                        FlurryHelper.logMatchStartEvent();
+                    }
                 }
             }
 
@@ -118,7 +120,7 @@ public class Match {
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
                     GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
-                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN);
+                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN, turn);
                 }
             } else if (isLost()) {
                 if (! endSoundPlayed) {
@@ -126,7 +128,7 @@ public class Match {
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
                     GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
-                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_LOSE);
+                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_LOSE, turn);
                 }
             }
 
