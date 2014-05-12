@@ -37,6 +37,7 @@ public class Match {
         score = new Score(this);
 
         turn = 0;
+        endSoundPlayed = false;
 
         score.setStatus(Localizator.getString("selectYourCell"));
 
@@ -74,6 +75,7 @@ public class Match {
         }
 
         turn = 0;
+        endSoundPlayed = false;
 
         score.setStatus(Localizator.getString("selectYourCell"));
 
