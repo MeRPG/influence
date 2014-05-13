@@ -75,7 +75,9 @@ public class Field extends Group {
     public void reset(Match match, GameSettings settings) {
         this.match = match;
         this.pm = match.getPm();
+
         drawer = AbstractDrawer.getFieldShapeDrawer();
+        selectedCell = null;
 
         maxCellsX = settings.maxCellsX;
         maxCellsY = settings.maxCellsY;
