@@ -28,6 +28,8 @@ public class Settings {
     public static boolean vibrate;
     public static float speed;
 
+    public static int lastAboutScreen = 0;
+
     public static boolean debug = true;
 
     public static GameSettings gameSettings;
