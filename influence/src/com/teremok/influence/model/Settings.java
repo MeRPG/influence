@@ -48,8 +48,8 @@ public class Settings {
                     .element("vibrate", vibrate)
                     .element("speed", speed)
                     .element("language", Localizator.getLanguage())
-                    .element("debug", true);
-
+                    .element("debug", true)
+                    .element("lastAboutScreen", lastAboutScreen);
 
             saveGameSettings(root);
 
@@ -104,6 +104,8 @@ public class Settings {
                 if (! myString.isEmpty()) {
                     debug = Boolean.parseBoolean(myString);
                 }*/
+
+                lastAboutScreen = root.getInt("lastAboutScreen", 0);
 
                 loadGameSettings(root);
 
