@@ -29,6 +29,7 @@ public class Settings {
     public static float speed;
 
     public static int lastAboutScreen = 0;
+    public static boolean aboutScreenChanged = false;
 
     public static boolean debug = true;
 

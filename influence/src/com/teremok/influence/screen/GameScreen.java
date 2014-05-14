@@ -356,6 +356,7 @@ public class GameScreen extends StaticScreen {
                                 rbc.close();
 
                                 Settings.lastAboutScreen = i;
+                                Settings.aboutScreenChanged = true;
 
                                 Logger.log("new about screen: " + i);
                             } else {
