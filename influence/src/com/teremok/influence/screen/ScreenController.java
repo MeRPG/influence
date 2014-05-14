@@ -10,7 +10,7 @@ import com.teremok.influence.model.Match;
 import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.ResourseManager;
+import com.teremok.influence.util.ResourceManager;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -39,7 +39,7 @@ public class ScreenController {
             currentScreen = null;
             mapSizeScreen = null;
             playersScreen = null;
-            ResourseManager.disposeAll();
+            ResourceManager.disposeAll();
         }
         startScreen = new StartScreen(game, "startScreen");
         currentScreen = startScreen;

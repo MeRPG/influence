@@ -17,7 +17,7 @@ import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.ResourseManager;
+import com.teremok.influence.util.ResourceManager;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -55,7 +55,7 @@ public class PausePanel extends Group {
     }
 
     private void loadAndMakeButtons() {
-        atlas = ResourseManager.getAtlas("pausePanel");
+        atlas = ResourceManager.getAtlas("pausePanel");
 
         background = atlas.findRegion("background");
         Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );

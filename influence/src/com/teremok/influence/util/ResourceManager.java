@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by Alexx on 24.02.14
  */
-public class ResourseManager {
+public class ResourceManager {
 
 
     private static final String UI_PATH_INTERNAL = "ui/";
