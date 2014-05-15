@@ -30,7 +30,7 @@ public class ResourceManager {
         String externalPath = ATLAS_PATH_EXTERNAL + atlasName + ATLAS_EXT;
         TextureAtlas atlas;
         Logger.log("Load atlas " + atlasName);
-        if ((Settings.aboutScreenChanged || Settings.debug) && Gdx.files.external(externalPath).exists()) {
+        if (Gdx.files.external(externalPath).exists()) {
             atlas= new TextureAtlas(Gdx.files.external(externalPath));
             Logger.log("use external path: " + externalPath);
         } else {

@@ -4,12 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
-import com.teremok.influence.model.player.Player;
-import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.util.Logger;
 
-import javax.xml.bind.annotation.XmlElement;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,7 +26,6 @@ public class Settings {
     public static float speed;
 
     public static int lastAboutScreen = 0;
-    public static boolean aboutScreenChanged = false;
 
     public static boolean debug = true;
 

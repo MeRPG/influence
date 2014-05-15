@@ -13,6 +13,7 @@ import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
+import com.teremok.influence.util.AboutScreenChecker;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
@@ -36,6 +37,7 @@ public class StartScreen extends StaticScreen {
         super(game, filename);
         Settings.init();
         Logger.init();
+        AboutScreenChecker.check();
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,11 +15,6 @@ import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Animation;
 
-import java.io.FileOutputStream;
-import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -323,49 +315,6 @@ public class GameScreen extends StaticScreen {
                     }
                     if (keycode == Keys.L) {
                         Localizator.switchLanguage();
-                    }
-                    if (keycode == Keys.U) {
-                        try {
-                            FileHandle fileHandle = Gdx.files.external("/.influence/atlas/test.txt");
-                            URL website = new URL("http://timeforlime.ru/influence/test.txt");
-                            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-                            FileOutputStream fos = new FileOutputStream(fileHandle.file());
-                            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-
-                            fos.close();
-                            rbc.close();
-
-                            int i = Integer.parseInt(new String(fileHandle.readBytes()));
-                            if (i > Settings.lastAboutScreen) {
-                                fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.png");
-                                website = new URL("http://timeforlime.ru/influence/aboutScreen.png");
-                                rbc = Channels.newChannel(website.openStream());
-                                fos = new FileOutputStream(fileHandle.file());
-                                fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-
-                                fos.close();
-                                rbc.close();
-
-                                fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.pack");
-                                website = new URL("http://timeforlime.ru/influence/aboutScreen.pack");
-                                rbc = Channels.newChannel(website.openStream());
-                                fos = new FileOutputStream(fileHandle.file());
-                                fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-
-                                fos.close();
-                                rbc.close();
-
-                                Settings.lastAboutScreen = i;
-                                Settings.aboutScreenChanged = true;
-
-                                Logger.log("new about screen: " + i);
-                            } else {
-                                Logger.log("no new about screen :( ");
-                            }
-
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
                     }
                     if (keycode == Keys.I) {
                         Settings.load();
