@@ -30,7 +30,7 @@ public class AboutScreenChecker implements Runnable {
             is.close();
 
             int i = Integer.parseInt(new String(fileHandle.readBytes()));
-            if (true) {
+            if (i != Settings.lastAboutScreen) {
                 fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.png");
                 url = new URL("http://timeforlime.ru/influence/aboutScreen.png");
                 is = url.openStream();
