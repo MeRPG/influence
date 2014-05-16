@@ -40,7 +40,7 @@ public class MatchSaver {
     private static final String TO="to";
     private static final String ENABLED="enabled";
 
-    private static String FILENAME =".influence-match";
+    private static String FILENAME ="match.xml";
 
     private static Match notEnded;
 
@@ -57,7 +57,7 @@ public class MatchSaver {
 
     public static void clearFile() {
         try {
-            FileHandle handle = Gdx.files.external(FILENAME);
+            FileHandle handle = Gdx.files.external(Settings.DIR+FILENAME);
             FileWriter fileWriter = new FileWriter(handle.file());
             Logger.log("Game save cleared: " + handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
@@ -70,7 +70,7 @@ public class MatchSaver {
     }
 
     private static void saveInFile(Match match) throws IOException {
-        FileHandle handle = Gdx.files.external(FILENAME);
+        FileHandle handle = Gdx.files.external(Settings.DIR+FILENAME);
         FileWriter fileWriter = new FileWriter(handle.file());
         Logger.log(handle.file().getAbsolutePath());
         XmlWriter xml = new XmlWriter(fileWriter);
@@ -127,7 +127,7 @@ public class MatchSaver {
 
     private static Match loadFromFile() throws IOException{
         Match match = null;
-        FileHandle handle = Gdx.files.external(FILENAME);
+        FileHandle handle = Gdx.files.external(Settings.DIR+FILENAME);
         Logger.log("loading match from file " + handle.path());
         if (handle.exists()) {
             XmlReader reader = new XmlReader();
@@ -148,7 +148,7 @@ public class MatchSaver {
             match.turn = Integer.parseInt(root.getAttribute(TURN_ATTR, "0"));
 
         } else {
-            throw new IOException("File with saved match not found " + FILENAME);
+            throw new IOException("File with saved match not found " + Settings.DIR+FILENAME);
         }
         return match;
     }

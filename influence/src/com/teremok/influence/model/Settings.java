@@ -31,10 +31,11 @@ public class Settings {
 
     public static GameSettings gameSettings;
 
-    private static final String FILENAME = ".influence-settings";
+    public static final String DIR = ".influence/";
+    private static final String FILENAME = "settings.xml";
 
     public static void save() {
-        FileHandle handle = Gdx.files.external(FILENAME);
+        FileHandle handle = Gdx.files.external(DIR+FILENAME);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
             Logger.log(handle.file().getAbsolutePath());
@@ -78,7 +79,7 @@ public class Settings {
     }
 
     public static boolean load() {
-        FileHandle handle = Gdx.files.external(FILENAME);
+        FileHandle handle = Gdx.files.external(DIR+FILENAME);
         if (handle.exists()) {
             try{
                 XmlReader reader = new XmlReader();
@@ -184,9 +185,27 @@ public class Settings {
         Localizator.setDefaultLanguage();
     }
 
+    private static void checkDirs() {
+        FileHandle setting = Gdx.files.external(DIR);
+        Logger.log("checkDirs...");
+        if (! setting.exists()) {
+            Logger.log("creating new root directory");
+
+            setting.mkdirs();
+            Gdx.files.external(DIR+"/atlas").mkdirs();
+            Gdx.files.external(DIR+"/misc").mkdirs();
+            Gdx.files.external(DIR+"/ui").mkdirs();
+            Gdx.files.external(DIR+"/missions").mkdirs();
+        }
+    }
+
     public static void init() {
+        checkDirs();
         reset();
         if (! load())
             reset();
     }
+
+
+
 }

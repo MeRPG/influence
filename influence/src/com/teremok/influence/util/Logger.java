@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.teremok.influence.model.Settings;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Calendar;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Calendar;
 public class Logger {
 
     private static final String CODE = "INF_LOG -- ";
-    private static final String LOG_FILE = ".influence-log";
+    private static final String LOG_FILE = "process.log";
 
     private static PrintStream printer;
 
@@ -42,7 +44,7 @@ public class Logger {
     private static void openFile() {
         if (! Settings.debug)
             return;
-        FileHandle logFile = Gdx.files.external(LOG_FILE);
+        FileHandle logFile = Gdx.files.external(Settings.DIR+LOG_FILE);
         try {
             printer = new PrintStream(new FileOutputStream(logFile.file(), true));
             printer.println(" - - - - - - - - - - ");
