@@ -4,10 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.teremok.influence.model.Settings;
 
-import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 
 /**
  * Created by Алексей on 15.05.2014
@@ -25,35 +23,25 @@ public class AboutScreenChecker implements Runnable {
     @Override
     public void run() {
         try {
-            Logger.log("start about screen check");
             FileHandle fileHandle = Gdx.files.external("/.influence/atlas/test.txt");
-            URL website = new URL("http://timeforlime.ru/influence/test.txt");
-            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-            FileOutputStream fos = new FileOutputStream(fileHandle.file());
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-
-            fos.close();
-            rbc.close();
+            URL url = new URL("http://timeforlime.ru/influence/test.txt");
+            InputStream is = url.openStream();
+            fileHandle.write(is,false);
+            is.close();
 
             int i = Integer.parseInt(new String(fileHandle.readBytes()));
-            if (i > Settings.lastAboutScreen) {
+            if (true) {
                 fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.png");
-                website = new URL("http://timeforlime.ru/influence/aboutScreen.png");
-                rbc = Channels.newChannel(website.openStream());
-                fos = new FileOutputStream(fileHandle.file());
-                fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-
-                fos.close();
-                rbc.close();
+                url = new URL("http://timeforlime.ru/influence/aboutScreen.png");
+                is = url.openStream();
+                fileHandle.write(is,false);
+                is.close();
 
                 fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.pack");
-                website = new URL("http://timeforlime.ru/influence/aboutScreen.pack");
-                rbc = Channels.newChannel(website.openStream());
-                fos = new FileOutputStream(fileHandle.file());
-                fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-
-                fos.close();
-                rbc.close();
+                url = new URL("http://timeforlime.ru/influence/aboutScreen.pack");
+                is = url.openStream();
+                fileHandle.write(is,false);
+                is.close();
 
                 Settings.lastAboutScreen = i;
 
@@ -63,6 +51,7 @@ public class AboutScreenChecker implements Runnable {
             }
 
         } catch (Exception ex) {
+            Logger.log("Exception: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
