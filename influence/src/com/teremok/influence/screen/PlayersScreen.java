@@ -137,6 +137,12 @@ public class PlayersScreen extends StaticScreen {
                     }
                     return true;
                 }
+                if (! event.isHandled() && (keycode == Input.Keys.E)) {
+                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                        Settings.gameSettings.customPlayers.putAll(Settings.gameSettings.players);
+                    }
+                    ScreenController.showEditorScreen();
+                }
                 return false;
             }
 

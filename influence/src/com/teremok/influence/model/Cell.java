@@ -191,6 +191,14 @@ public class Cell {
         return unitsY;
     }
 
+    public void setUnitsY(int unitsY) {
+        this.unitsY = unitsY;
+    }
+
+    public void setUnitsX(int unitsX) {
+        this.unitsX = unitsX;
+    }
+
     public float getX() {
         return x;
     }

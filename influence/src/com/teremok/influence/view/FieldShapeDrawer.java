@@ -9,11 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Field;
 import com.teremok.influence.model.GestureController;
-import com.teremok.influence.screen.AbstractScreen;
-import com.teremok.influence.util.Logger;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static com.teremok.influence.view.Drawer.MIN_SIZE_FOR_TEXT;
 

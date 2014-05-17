@@ -42,7 +42,7 @@ public class Score extends Group {
         float actorX = 0;
         float actorY = 0;
         float actorWidth = AbstractScreen.WIDTH-1f;
-        float actorHeight = AbstractScreen.HEIGHT - Field.HEIGHT-1f;
+        float actorHeight = AbstractScreen.HEIGHT - FieldModel.HEIGHT-1f;
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 

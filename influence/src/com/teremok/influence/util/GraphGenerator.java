@@ -1,6 +1,7 @@
 package com.teremok.influence.util;
 
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.FieldModel;
 import com.teremok.influence.model.Route;
 import com.teremok.influence.model.Router;
 
@@ -39,6 +40,16 @@ public class GraphGenerator {
         rnd = new Random();
         matrix = new short[cellsCount][cellsCount];
         cells = new LinkedList<Cell>();
+    }
+
+    public GraphGenerator(FieldModel model) {
+        this(model.cellsCount, model.maxCellsX, model.maxCellsY);
+    }
+
+    public void generate(FieldModel model) {
+        generate();
+        model.cells = cells;
+        model.router = router;
     }
 
     public void generate() {
@@ -303,6 +314,12 @@ public class GraphGenerator {
             if (matrix[current][vertex] == 1 && vertex != current && vertex != from)
                 DFS(vertex, current);  // Запускаемся из соседа
         }
+    }
+
+    public boolean matchModel(FieldModel model) {
+        return cellsCount == model.cellsCount
+                && maxCellsX == model.maxCellsX
+                && maxCellsY == model.maxCellsY;
     }
 
     // Auto-generated

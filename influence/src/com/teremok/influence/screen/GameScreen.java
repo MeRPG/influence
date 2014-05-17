@@ -37,10 +37,6 @@ public class GameScreen extends StaticScreen {
     Map<TexturePanel, Boolean> borderState = new HashMap<>();
     boolean backlightState;
 
-    public static boolean editor = false;
-    public static boolean shifted = false;
-    public static int fromRoute = -1;
-
     long lastBackPress = 0;
 
     public static Color colorForBacklight;
@@ -83,7 +79,7 @@ public class GameScreen extends StaticScreen {
                 turnOffBorder(borderRight);
             }
 
-            if (match.getField().getY() < AbstractScreen.HEIGHT - Field.HEIGHT - 5) {
+            if (match.getField().getY() < AbstractScreen.HEIGHT - FieldModel.HEIGHT - 5) {
                 turnOnBorder(borderBottom);
             } else {
                 turnOffBorder(borderBottom);
@@ -289,9 +285,6 @@ public class GameScreen extends StaticScreen {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (editor) {
-                    return match.getField().hit(x,y) != null;
-                }
                 return stage.hit(x,y,true) instanceof Score;
             }
 
@@ -311,7 +304,6 @@ public class GameScreen extends StaticScreen {
                 if (! event.isHandled()) {
                     if (keycode == Keys.R) {
                         gracefullyStartNewMatch();
-                        editor = false;
                     }
                     if (keycode == Keys.L) {
                         Localizator.switchLanguage();
@@ -337,40 +329,6 @@ public class GameScreen extends StaticScreen {
                         match = MatchSaver.load();
                         updateMatchDependentActors();
                     }
-                    if (keycode == Keys.E) {
-
-                        if (! editor) {
-                            switch (Settings.gameSettings.fieldSize) {
-                                case SMALL:
-                                    Settings.gameSettings.cellsCount = 18;
-                                    break;
-                                case NORMAL:
-                                    Settings.gameSettings.cellsCount = 32;
-                                    break;
-                                case LARGE:
-                                    Settings.gameSettings.cellsCount = 65;
-                                    break;
-                                case XLARGE:
-                                    Settings.gameSettings.cellsCount = 133;
-                                    break;
-                            }
-                            gracefullyStartNewMatch();
-                            match.getField().loadHiddenCells();
-                        } else {
-                            match.getField().clearRoutes();
-                        }
-
-                        editor = !editor;
-                        Logger.log("enable editor: " + editor);
-                    }
-
-                    if (keycode == Keys.SHIFT_LEFT || keycode == Keys.SHIFT_RIGHT) {
-                        if (editor) {
-                            shifted = true;
-                            Logger.log("shift down");
-                        }
-                    }
-
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
 
                         if (keycode != Keys.MENU) {
@@ -392,18 +350,6 @@ public class GameScreen extends StaticScreen {
                     }
                 }
                 return true;
-            }
-
-            @Override
-            public boolean keyUp(InputEvent event, int keycode) {
-                if (keycode == Keys.SHIFT_LEFT || keycode == Keys.SHIFT_RIGHT) {
-                    if (editor) {
-                        shifted = false;
-                        fromRoute = -1;
-                        Logger.log("shift up");
-                    }
-                }
-                return super.keyUp(event, keycode);
             }
         });
         getMatch().getField().resize();

@@ -26,6 +26,7 @@ public class ScreenController {
     private static StaticScreen currentScreen;
     private static MapSizeScreen mapSizeScreen;
     private static PlayersScreen playersScreen;
+    private static EditorScreen editorScreen;
 
     public static void init(Influence game) {
         ScreenController.game = game;
@@ -65,6 +66,13 @@ public class ScreenController {
         }
         FlurryHelper.logSettingsScreenEvent();
         gracefullyShowScreen(settingsScreen);
+    }
+
+    public static void showEditorScreen() {
+        if (editorScreen == null) {
+            editorScreen = new EditorScreen(game, "gameScreen");
+        }
+        gracefullyShowScreen(editorScreen);
     }
 
     public static void showMapSizeScreen() {

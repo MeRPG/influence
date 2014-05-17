@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.Drawer;
 
@@ -48,7 +47,7 @@ public class GestureController extends ActorGestureListener{
     @Override
     public void zoom(InputEvent event, float initialDistance, float distance) {
         if ( bigField() && ! screen.getMatch().isPaused()) {
-            float delta = (distance - initialDistance) /  (Field.WIDTH * 10);
+            float delta = (distance - initialDistance) /  (FieldModel.WIDTH * 10);
             changeZoom(delta);
             getField().resize();
             acting = true;

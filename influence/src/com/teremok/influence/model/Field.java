@@ -1,6 +1,5 @@
 package com.teremok.influence.model;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,7 +21,6 @@ import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.FieldShapeDrawer;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -32,42 +30,29 @@ import static com.teremok.influence.view.Drawer.*;
  * Created by Alexx on 11.12.13
  */
 public class Field extends Group {
-
-    public static float WIDTH =  480f;
-    public static float HEIGHT = 624f;
-
     private static final int INITIAL_CELL_POWER = 2;
-
-    private List<Cell> cells;
-    private List<Cell> hiddenCells;
 
     private Match match;
     private PlayerManager pm;
-    private Cell selectedCell;
-    private Router router;
     private FieldShapeDrawer drawer;
 
-    private GraphGenerator generator;
-    private Random random;
+    public Cell selectedCell;
+    FieldModel model;
 
     public static float cellWidth;
     public static float cellHeight;
 
-    private float initialX;
-    private float initialY;
-    private float initialWidth;
-    private float initialHeight;
-
-    private int maxCellsY;
-    private int maxCellsX;
-    private int cellsCount;
+    private GraphGenerator generator;
+    private Random random;
 
     public Field(Match match, GameSettings settings) {
+        model = new FieldModel();
         reset(match, settings);
         addListener();
     }
 
     public Field(Match match, GameSettings settings, List<Cell> cells, Router router) {
+        model = new FieldModel();
         reset(match, settings, cells, router);
         addListener();
     }
@@ -77,22 +62,13 @@ public class Field extends Group {
         this.pm = match.getPm();
 
         drawer = AbstractDrawer.getFieldShapeDrawer();
-        selectedCell = null;
-
-        maxCellsX = settings.maxCellsX;
-        maxCellsY = settings.maxCellsY;
-        cellsCount = settings.cellsCount;
-
-        initialX = 0f;
-        initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
 
         cellWidth = getUnitSize() *2;
         cellHeight = getUnitSize() *2;
 
-        initialWidth = WIDTH;
-        initialHeight = HEIGHT;
+        model.reset(settings);
 
-        setBounds(initialX, initialY, initialWidth, initialHeight);
+        setBounds(model.initialX, model.initialY, model.initialWidth, model.initialHeight);
 
         generate();
     }
@@ -102,29 +78,18 @@ public class Field extends Group {
         this.pm = match.getPm();
         drawer = AbstractDrawer.getFieldShapeDrawer();
 
-        maxCellsX = settings.maxCellsX;
-        maxCellsY = settings.maxCellsY;
-        cellsCount = settings.cellsCount;
+        cellWidth = getUnitSize() *2;
+        cellHeight = getUnitSize() *2;
 
-        initialX = 0f;
-        initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
+        model.reset(settings, cells, router);
 
-        initialWidth = WIDTH;
-        initialHeight = HEIGHT;
-
-        setBounds(initialX, initialY, initialWidth, initialHeight);
-
-        this.cells = cells;
-        this.router = router;
+        setBounds(model.initialX, model.initialY, model.initialWidth, model.initialHeight);
     }
 
     private void generate() {
-        if (generator == null || generator.cellsCount != cellsCount
-                || generator.maxCellsX != maxCellsX || generator.maxCellsY != maxCellsY)
-            generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
-        generator.generate();
-        cells = generator.getCells();
-        router = generator.getRouter();
+        if (generator == null || ! generator.matchModel(model))
+            generator = new GraphGenerator(model);
+        generator.generate(model);
     }
 
     public void regenerate() {
@@ -137,28 +102,24 @@ public class Field extends Group {
             random = new Random();
         int number;
         Cell target;
-
         do {
-            number = random.nextInt(cells.size());
-            target = cells.get(number);
-
+            number = random.nextInt(model.cells.size());
+            target = model.cells.get(number);
             if (isValidForStartPosition(target)) {
                 break;
             }
-
         } while (true);
-        //Logger.log("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
 
     public void placeStartPositionFromRange(int type, int startNumber, int endNumber) {
-        if (startNumber < 0 || startNumber >= maxCellsY * maxCellsX -1) {
+        if (startNumber < 0 || startNumber >= model.maxCellsY * model.maxCellsX -1) {
             startNumber = 0;
         }
 
-        if (endNumber <= 0 || endNumber >= maxCellsY * maxCellsX -1) {
-            endNumber = maxCellsY * maxCellsX -1;
+        if (endNumber <= 0 || endNumber >= model.maxCellsY * model.maxCellsX -1) {
+            endNumber = model.maxCellsY * model.maxCellsX -1;
         }
 
         if (endNumber < startNumber) {
@@ -169,7 +130,7 @@ public class Field extends Group {
 
         int firstInRange = 0;
         int range = 0;
-        for (Cell cell : cells) {
+        for (Cell cell : model.cells) {
             if (cell.getNumber() >= endNumber)
                 break;
             if (cell.getNumber() < startNumber) {
@@ -179,25 +140,20 @@ public class Field extends Group {
             }
         }
 
-        //Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
-
         if (random == null)
             random = new Random();
+
         int number;
         Cell target;
 
         do {
             number = firstInRange + random.nextInt(range);
-            target = cells.get(number);
-
-            //Logger.log("Trying number " + number);
-
+            target = model.cells.get(number);
             if (isValidForStartPosition(target)) {
                 break;
             }
-
         } while (true);
-        //Logger.log("Placing player: " + target);
+
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
@@ -237,72 +193,6 @@ public class Field extends Group {
 
                         Cell target = hit(x, y);
 
-                        if (GameScreen.editor) {
-                            Cell hidden = hitHidden(x,y);
-                            switch (button) {
-                                case Input.Buttons.LEFT:
-
-                                    if (target == null && hidden != null) {
-                                        showCell(hidden);
-                                        updateLists();
-                                        return;
-                                    }
-                                    if (target == null)
-                                        return;
-
-                                    if (GameScreen.shifted) {
-                                        if (GameScreen.fromRoute == -1) {
-                                            GameScreen.fromRoute = target.getNumber();
-                                        } else if (!router.routePossible(GameScreen.fromRoute, target.getNumber())){
-                                            GameScreen.fromRoute = target.getNumber();
-                                        } else {
-                                            router.toggle(GameScreen.fromRoute, target.getNumber());
-                                            updateLists();
-                                        }
-                                        return;
-                                    }
-
-                                    int pow = target.getPower();
-                                    pow++;
-                                    if (pow > target.getMaxPower()) {
-                                        target.setPower(0);
-                                    } else {
-                                        target.setPower(pow);
-                                    }
-                                    break;
-                                case Input.Buttons.RIGHT:
-                                    if (target != null) {
-                                        if (GameScreen.shifted) {
-                                            hideCell(target);
-                                            updateLists();
-                                            return;
-                                        }
-
-                                        int type = target.getType();
-                                        type++;
-                                        if (type >= Settings.gameSettings.getNumberOfPlayers()) {
-                                            type = -1;
-                                        }
-                                        target.setType(type);
-                                    }
-                                    break;
-                                case Input.Buttons.MIDDLE:
-                                    if (target != null) {
-                                        if (target.getMaxPower() == 8) {
-                                            target.setMaxPower(12);
-                                        } else {
-                                            target.setMaxPower(8);
-                                        }
-                                        if (target.getPower() > target.getMaxPower()) {
-                                            target.setPower(target.getMaxPower());
-                                        }
-                                    }
-                                    break;
-                            }
-                            updateLists();
-                            return;
-                        }
-                        //Logger.log("actual target: " + target);
                         if (target == null)
                             return;
 
@@ -326,7 +216,7 @@ public class Field extends Group {
     }
 
     public Cell hit(float x, float y) {
-
+        Logger.log("hit field on " + x + "; " + y);
         int unitsY = (int)(y/cellHeight);
 
         if (unitsY%2 == 1) {
@@ -335,43 +225,25 @@ public class Field extends Group {
 
         int unitsX = (int)(x/cellWidth);
 
-        Logger.log("hit: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
+        Logger.log("hit: " + unitsX + "; " + unitsY + "; " + model.getNum(unitsX, unitsY));
 
-        if (unitsX < 0 || unitsX > maxCellsX -1 || unitsY < 0 || unitsY > maxCellsY -1) {
-            cells.get(0);
+        if (unitsX < 0 || unitsX > model.maxCellsX -1 || unitsY < 0 || unitsY > model.maxCellsY -1) {
+            model.cells.get(0);
         }
 
-        return getCellByNumber(getNum(unitsX, unitsY));
-    }
-
-    private Cell getCellByNumber(int number) {
-        for (Cell cell : cells) {
-            if (cell.getNumber() == number){
-                return  cell;
-            }
-        }
-        return null;
-    }
-
-    private int getNum( int i, int j) {
-        return i + j* maxCellsX;
+        return model.getCell(unitsX, unitsY);
     }
 
     private boolean connectedToSelected(Cell cell) {
         if (selectedCell == null)
             return false;
-        for (Cell c : cell.getNeighbors()) {
-            if (selectedCell == c) {
-                return true;
-            }
-        }
-        return false;
+        return model.isCellsConnected(selectedCell, cell);
     }
 
     public void setSelectedCell(Cell cell) {
 
         if (selectedCell != null) {
-            if (isCellsConnected(selectedCell, cell)
+            if (model.isCellsConnected(selectedCell, cell)
                     && selectedCell.getPower() > 1
                     && selectedCell.getType() != cell.getType()) {
 
@@ -443,9 +315,6 @@ public class Field extends Group {
 
     private int fight(Cell attack, Cell defense) {
 
-        //Logger.log("Attack!");
-        //Logger.log(attack.getPower() + " \t->\t " + defense.getPower());
-
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
         riseDiceTooltips(attack, defense);
@@ -469,19 +338,8 @@ public class Field extends Group {
 
         }
 
-
-
         attack.setPower(calcA);
         defense.setPower(calcB);
-    }
-
-    private boolean isCellsConnected(Cell from, Cell to) {
-
-        if (from.getNumber() == to.getNumber())
-            return false;
-
-        return router.routeExist(from.getNumber(), to.getNumber());
-
     }
 
     // TODO: refactor
@@ -580,7 +438,7 @@ public class Field extends Group {
     public boolean isTooltipVisible (float tooltipX, float tooltipY) {
         return  tooltipX > -5
                 && tooltipX < AbstractScreen.WIDTH
-                && tooltipY > (AbstractScreen.HEIGHT - Field.HEIGHT-5)
+                && tooltipY > (AbstractScreen.HEIGHT - FieldModel.HEIGHT-5)
                 && tooltipY < AbstractScreen.HEIGHT;
     }
 
@@ -590,7 +448,7 @@ public class Field extends Group {
         float actualCellWidth = cellWidth*GestureController.getZoom();
         return  absoluteCellX > (-actualCellWidth/2)
                 && absoluteCellX < AbstractScreen.WIDTH
-                && absoluteCellY > (AbstractScreen.HEIGHT - Field.HEIGHT-actualCellWidth/2)
+                && absoluteCellY > (AbstractScreen.HEIGHT - FieldModel.HEIGHT-actualCellWidth/2)
                 && absoluteCellY < AbstractScreen.HEIGHT;
     }
 
@@ -612,18 +470,13 @@ public class Field extends Group {
         float newX = getX() + deltaX;
         float newY = getY() + deltaY;
 
-        //Logger.log("move: " + newX + "; " + newY);
+        if (newX > model.initialX)
+            newX = model.initialX;
+        if (newY > model.initialY)
+            newY = model.initialY;
 
-        if (newX > initialX)
-            newX = initialX;
-        if (newY > initialY)
-            newY = initialY;
-
-        float minX = initialX - (getZoomedWidth() - initialWidth);
-        float minY = initialY - (getZoomedHeight() - initialHeight);
-
-        //Logger.log("zoomed: " + getZoomedWidth() + "; " + getZoomedHeight());
-        //Logger.log("minimal: " + minX + "; " + minY);
+        float minX = model.initialX - (getZoomedWidth() - model.initialWidth);
+        float minY = model.initialY - (getZoomedHeight() - model.initialHeight);
 
         if (newX < minX)
             newX = minX;
@@ -632,21 +485,19 @@ public class Field extends Group {
 
         this.setX(newX);
         this.setY(newY);
-
-        //Logger.log("actual move: " + newX + "; " + newY);
     }
 
     public void resize() {
         this.setWidth(getZoomedWidth());
         this.setHeight(getZoomedHeight());
 
-        cellWidth = Field.getZoomedWidth() / maxCellsX;
-        cellHeight = Field.getZoomedHeight() / maxCellsY;
+        cellWidth = Field.getZoomedWidth() / model.maxCellsX;
+        cellHeight = Field.getZoomedHeight() / model.maxCellsY;
 
         float cellX;
         float cellY;
 
-        for (Cell c : cells) {
+        for (Cell c : model.cells) {
             cellX = c.getUnitsY()*cellWidth;
             if (c.getUnitsX()%2 == 1) {
                 cellX += cellHeight/2;
@@ -661,11 +512,11 @@ public class Field extends Group {
     }
 
     public static float getZoomedWidth() {
-        return WIDTH * GestureController.getZoom();
+        return FieldModel.WIDTH * GestureController.getZoom();
     }
 
     public static float getZoomedHeight() {
-        return HEIGHT * GestureController.getZoom();
+        return FieldModel.HEIGHT * GestureController.getZoom();
 
     }
 
@@ -680,100 +531,13 @@ public class Field extends Group {
             }
         }
 
-        for (Cell cell : cells) {
-            cell.clearEnemies();
-            cell.clearNeighbors();
-            for (Cell cell2 : cells) {
-                if (isCellsConnected(cell, cell2)) {
-                    cell.addNeighbor(cell2);
-                    if (( cell.getType() != cell2.getType() || cell.isFree() )) {
-                        cell.addEnemy(cell2);
-                    }
-                }
-            }
+        model.updateLists();
+
+        for (Cell cell : model.cells) {
             if (cell.getType() != -1) {
                 pm.getPlayers()[cell.getType()].addCell(cell);
             }
         }
-
-    }
-
-    // For editor
-
-    public void loadHiddenCells() {
-        hiddenCells = new LinkedList<>();
-        for (int i = 0; i < maxCellsY; i++) {
-            for (int j = 0; j < maxCellsX; j++) {
-                Cell cell = Cell.makeEmptyCell(getNum(i, j), i, j);
-                if (! cells.contains(cell)) {
-                    hiddenCells.add(cell);
-                }
-            }
-        }
-        Logger.log("Loaded hidden : " + hiddenCells.size());
-    }
-
-    void showCell(Cell cell) {
-        cells.add(cell);
-        swapUnitsCoords(cell);
-        hiddenCells.remove(cell);
-        cellsCount++;
-        Logger.log("show cell: " + cell);
-    }
-
-    void hideCell(Cell cell) {
-        hiddenCells.add(cell);
-        swapUnitsCoords(cell);
-        cells.remove(cell);
-        cellsCount--;
-        router.disableForNumber(cell.number);
-        Logger.log("hide cell: " + cell);
-    }
-
-    public void clearRoutes() {
-        for (Cell cell : hiddenCells) {
-            router.removeForNumber(cell.number);
-        }
-    }
-
-    void removeRoutes(Cell cell) {
-        router.removeForNumber(cell.number);
-    }
-
-    void swapUnitsCoords(Cell cell) {
-        int tmp = cell.unitsX;
-        cell.unitsX = cell.unitsY;
-        cell.unitsY = tmp;
-
-    }
-
-    public Cell hitHidden(float x, float y) {
-
-        int unitsY = (int)(y/cellHeight);
-
-        if (unitsY%2 == 1) {
-            x -= cellWidth/2;
-        }
-
-        int unitsX = (int)(x/cellWidth);
-
-        Logger.log("hit hidden: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
-
-        if (unitsX < 0 || unitsX > maxCellsX -1 || unitsY < 0 || unitsY > maxCellsY -1) {
-            cells.get(0);
-        }
-
-        return getHiddenCellByNumber(getNum(unitsX, unitsY));
-    }
-
-    private Cell getHiddenCellByNumber(int number) {
-        if (hiddenCells != null)
-        for (Cell cell : hiddenCells) {
-            if (cell.getNumber() == number){
-                return  cell;
-            }
-        }
-        return null;
     }
 
     // Auto-generated
@@ -782,21 +546,21 @@ public class Field extends Group {
         return selectedCell;
     }
 
-    public List<Cell> getCells() {return cells; }
-
-    public int getMaxCellsX() {
-        return maxCellsX;
-    }
-
-    public int getMaxCellsY() {
-        return maxCellsY;
-    }
+    public List<Cell> getCells() {return model.cells; }
 
     public int getCellsCount() {
-        return cellsCount;
+        return  model.cellsCount;
     }
 
     public Router getRouter() {
-        return router;
+        return  model.router;
+    }
+
+    public FieldModel getModel() {
+        return model;
+    }
+
+    public void setModel(FieldModel model) {
+        this.model = model;
     }
 }
