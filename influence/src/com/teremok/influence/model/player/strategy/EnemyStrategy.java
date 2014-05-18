@@ -1,7 +1,7 @@
 package com.teremok.influence.model.player.strategy;
 
-import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.FieldModel;
 import com.teremok.influence.model.player.Strategist;
 
 import java.util.List;
@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface EnemyStrategy extends Strategy {
     @Override
-    Cell execute(List<Cell> cells, FieldController field, Strategist player);
+    Cell execute(List<Cell> cells, FieldModel fieldModel, Strategist player);
 }

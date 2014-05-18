@@ -537,21 +537,7 @@ public class FieldController extends Group {
         return selectedCell;
     }
 
-    public List<Cell> getCells() {return model.cells; }
-
-    public int getCellsCount() {
-        return  model.cellsCount;
-    }
-
-    public Router getRouter() {
-        return  model.router;
-    }
-
     public FieldModel getModel() {
         return model;
-    }
-
-    public void setModel(FieldModel model) {
-        this.model = model;
     }
 }

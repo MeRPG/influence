@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.FieldModel;
 
 import static com.teremok.influence.view.Drawer.MIN_SIZE_FOR_TEXT;
 
@@ -23,6 +24,9 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
     @Override
     public void draw (FieldController field, SpriteBatch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
+
+        FieldModel model = field.getModel();
+
         batch.end();
         Gdx.gl.glEnable(GL10.GL_BLEND);
         zoomedUnitSize = Drawer.getUnitSize()* GestureController.getZoom();
@@ -39,19 +43,19 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
 
         renderer.begin(ShapeRenderer.ShapeType.Line);
         // draw Routes
-        for (Cell c : current.getCells()) {
+        for (Cell c : model.cells) {
             drawCellRoutesShape(c);
         }
 
         // draw Empty
-        for (Cell c : current.getCells()) {
+        for (Cell c : model.cells) {
             drawEmpty(c);
         }
         renderer.end();
 
         // draw Solids
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-        for (Cell c : current.getCells()) {
+        for (Cell c : model.cells) {
             drawSolid(c);
         }
         renderer.end();
@@ -60,7 +64,7 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
 
         batch.begin();
         if (zoomedUnitSize > MIN_SIZE_FOR_TEXT) {
-            for (Cell c : current.getCells()) {
+            for (Cell c : model.cells) {
                 drawText(batch, c);
             }
         }

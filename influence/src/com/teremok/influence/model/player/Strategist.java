@@ -8,7 +8,6 @@ import com.teremok.influence.model.player.strategy.PowerStrategy;
 import com.teremok.influence.model.player.strategy.attack.DummyAttackStrategy;
 import com.teremok.influence.model.player.strategy.enemy.DummyEnemyStrategy;
 import com.teremok.influence.model.player.strategy.power.DummyPowerStrategy;
-import com.teremok.influence.util.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -53,11 +52,11 @@ public class Strategist extends ComputerPlayer {
 
     @Override
     protected void prepareActions() {
-        Cell cell = attackStrategy.execute(cells, field, this);
+        Cell cell = attackStrategy.execute(cells, field.getModel(), this);
         if (cell != null && cell.getPower() > 1) {
             List<Cell> enemies = cell.getEnemies();
             if (! enemies.isEmpty()) {
-                Cell enemy = enemyStrategy.execute(enemies, field, this);
+                Cell enemy = enemyStrategy.execute(enemies, field.getModel(), this);
                 nextMove = new Move(cell, enemy);
             }
         }
@@ -66,7 +65,7 @@ public class Strategist extends ComputerPlayer {
     @Override
     protected void actPowerLogic(float delta) {
         powerStrategy.prepare(this);
-        Map<Cell, Integer> powerMap = powerStrategy.execute(cells, field, this);
+        Map<Cell, Integer> powerMap = powerStrategy.execute(cells, field.getModel(), this);
         for (Cell cell : powerMap.keySet()) {
             field.addPower(cell, powerMap.get(cell));
         }

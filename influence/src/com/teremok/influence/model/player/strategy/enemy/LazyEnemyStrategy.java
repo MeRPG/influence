@@ -1,7 +1,7 @@
 package com.teremok.influence.model.player.strategy.enemy;
 
-import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.FieldModel;
 import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.EnemyStrategy;
 
@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class LazyEnemyStrategy implements EnemyStrategy {
     @Override
-    public Cell execute(List<Cell> cells, FieldController field, Strategist player) {
+    public Cell execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
         Random rnd = player.getRnd();
 
         int number = 0;

@@ -1,7 +1,7 @@
 package com.teremok.influence.model.player.strategy.power;
 
-import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.FieldModel;
 import com.teremok.influence.model.player.Strategist;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class RandomPowerStrategy extends BasicPowerStrategy {
     Random rnd;
 
     @Override
-    public Map<Cell, Integer> execute(List<Cell> cells, FieldController field, Strategist player) {
+    public Map<Cell, Integer> execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
         rnd = player.getRnd();
         Cell cell;
 

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
-import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.PlayerType;
@@ -91,8 +90,8 @@ public class MatchSaver {
         Settings.saveGameSettings(xmlMatch);
 
         XmlWriter fieldXml = xml.element(FIELD);
-        FieldController field = match.getField();
-        for (Cell cell : field.getCells()) {
+        FieldModel fieldModel = match.getField().getModel();
+        for (Cell cell : fieldModel.cells) {
             fieldXml.element(CELL)
                     .attribute(NUMBER, cell.getNumber())
                     .attribute(UNITS_X, cell.getUnitsX())
@@ -103,7 +102,7 @@ public class MatchSaver {
                     .pop();
         }
 
-        for (Route route : field.getRouter().getAsCollection()) {
+        for (Route route : fieldModel.router.getAsCollection()) {
             fieldXml.element(ROUTE)
                     .attribute(FROM, route.from)
                     .attribute(TO, route.to)
@@ -127,7 +126,7 @@ public class MatchSaver {
     }
 
     private static Match loadFromFile() throws IOException{
-        Match match = null;
+        Match match;
         FileHandle handle = Gdx.files.external(Settings.DIR+FILENAME);
         Logger.log("loading match from file " + handle.path());
         if (handle.exists()) {
@@ -157,7 +156,7 @@ public class MatchSaver {
     private static void loadPlayers(XmlReader.Element root, GameSettings settings) {
         Integer number;
         String type;
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
 
         XmlReader.Element playersRoot = root.getChildByName(PLAYERS);
         for (XmlReader.Element player : playersRoot.getChildrenByName(PLAYER)) {
@@ -180,7 +179,7 @@ public class MatchSaver {
 
         Cell cell;
 
-        List<Cell> cells = new LinkedList<Cell>();
+        List<Cell> cells = new LinkedList<>();
 
         XmlReader.Element playersRoot = root.getChildByName(FIELD);
         for (XmlReader.Element player : playersRoot.getChildrenByName(CELL)) {
