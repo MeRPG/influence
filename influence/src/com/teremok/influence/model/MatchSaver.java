@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
+import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.PlayerType;
@@ -90,7 +91,7 @@ public class MatchSaver {
         Settings.saveGameSettings(xmlMatch);
 
         XmlWriter fieldXml = xml.element(FIELD);
-        Field field = match.getField();
+        FieldController field = match.getField();
         for (Cell cell : field.getCells()) {
             fieldXml.element(CELL)
                     .attribute(NUMBER, cell.getNumber())

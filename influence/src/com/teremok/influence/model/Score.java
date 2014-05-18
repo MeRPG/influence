@@ -19,15 +19,9 @@ public class Score extends Group {
 
     Match match;
     PlayerManager pm;
-    String status;
-    String subStatus;
     ScoreDrawer drawer;
 
-    int lastTotalScore = 0;
-
-    ColoredPanel[] panelsTop;
-    ColoredPanel[] panelsBottom;
-    ColoredPanel background;
+    ScoreModel model;
 
     public Score(Match match) {
         reset(match);
@@ -37,7 +31,9 @@ public class Score extends Group {
         this.match = match;
         this.pm = match.getPm();
         drawer = new ScoreDrawer();
-        status = "---emptyStatus---";
+
+        model = new ScoreModel();
+        model.resetStatus();
 
         float actorX = 0;
         float actorY = 0;
@@ -46,29 +42,19 @@ public class Score extends Group {
 
         setBounds(actorX, actorY, actorWidth, actorHeight);
 
-        background = new ColoredPanel(Color.BLACK.cpy(), 0f, AbstractScreen.HEIGHT-8f, actorWidth, 8f);
-        background.setTouchable(Touchable.disabled);
+        model.background = new ColoredPanel(Color.BLACK.cpy(), 0f, AbstractScreen.HEIGHT-8f, actorWidth, 8f);
+        model.background.setTouchable(Touchable.disabled);
+
         this.getChildren().clear();
-        this.addActor(background);
+        this.addActor(model.background);
     }
 
-    public void initColoredPanels() {
-        panelsTop = new ColoredPanel[pm.getNumberOfPlayers()];
-        panelsBottom = new ColoredPanel[pm.getNumberOfPlayers()];
-
-        float panelWidth = getWidth()/pm.getNumberOfPlayers();
-        for (int i = 0; i < pm.getNumberOfPlayers(); i++) {
-            ColoredPanel newPanel = new ColoredPanel(Drawer.getCellColorByNumber(i),
-                    panelWidth*i, getHeight()-16f, panelWidth, 8f
-            );
-            newPanel.setTouchable(Touchable.disabled);
-            panelsTop[i] = newPanel;
-            this.addActor(newPanel);
-            ColoredPanel newNewPanel = newPanel.copy();
-            newNewPanel.setTouchable(Touchable.disabled);
-            panelsBottom[i] = newNewPanel;
-            this.addActor(newNewPanel);
-            newNewPanel.setY(getY());
+    public void init() {
+        int numberOfPlayers = pm.getNumberOfPlayers();
+        model.initColoredPanels(numberOfPlayers, getY(), getWidth(), getHeight());
+        for (int i = 0; i < numberOfPlayers; i++) {
+            this.addActor(model.panelsTop[i]);
+            this.addActor(model.panelsBottom[i]);
         }
     }
 
@@ -82,37 +68,56 @@ public class Score extends Group {
     public void act(float delta) {
         super.act(delta);
         pm.update();
-
-        if (match.isEnded()){
-            if (match.isWon()) {
-                status = Localizator.getString("youWon");
-                subStatus = Localizator.getString("touchForNewGame");
-            } else if (match.isLost()) {
-                status = Localizator.getString("youLost");
-                subStatus = Localizator.getString("touchForNewGame");
-            }
-        } else {
-            if (match.getPm().isHumanActing()){
-                if (match.isInAttackPhase()) {
-                    subStatus = Localizator.getString("orTouchToEndAttack");
-                } else {
-                    subStatus = Localizator.getString("orTouchToEndTurn");
-                }
-            } else {
-                subStatus = null;
-            }
-        }
-
+        updateStatus();
         updateWidth();
         updateBackground();
     }
 
-    private void updateWidth(){
-        int totalScore = pm.getTotalScore();
-        if (lastTotalScore == totalScore) {
+    private void updateStatus() {
+
+        if (match.isWon()) {
+            model.setWonStatus();
             return;
         }
-        lastTotalScore = totalScore;
+
+        if (match.isLost()) {
+            model.setLostStatus();
+            return;
+        }
+
+        if (! pm.isHumanActing()) {
+            model.setWaitStatus();
+            return;
+        }
+
+        Cell selectedCell = match.field.selectedCell;
+
+        if (match.isInAttackPhase()) {
+            model.setAttackPhaseStatus();
+            if (selectedCell != null) {
+                if (selectedCell.getPower() > 1) {
+                    model.setTouchToAttackStatus();
+                } else if (pm.current().getScore() == pm.current().getCells().size()) {
+                    model.setEndAttackStatus();
+                } else {
+                    model.setSelectMoreThanOneStatus();
+                }
+            }
+        }
+
+        if (match.isInPowerPhase()) {
+            if (pm.current().getPowerToDistribute() > 0)
+                model.setPowerPhaseStatus();
+        }
+
+    }
+
+    private void updateWidth(){
+        int totalScore = pm.getTotalScore();
+        if (model.lastTotalScore == totalScore) {
+            return;
+        }
+        model.lastTotalScore = totalScore;
 
         float[] width = new float[pm.getNumberOfPlayers()];
 
@@ -125,9 +130,7 @@ public class Score extends Group {
 
     private void updateBackground() {
         Color scoreBackground = Drawer.getCellColorByNumber(pm.current().getNumber()).cpy();
-        //scoreBackground.add(0.2f, 0.2f, 0.2f, 0.2f);
-
-        background.addAction(
+        model.background.addAction(
                 Actions.color( scoreBackground, Animation.DURATION_SHORT)
         );
     }
@@ -135,18 +138,17 @@ public class Score extends Group {
     public void setPanelsWidths(float[] widths) {
         float prevWidth = 0;
         for (int i = 0; i < pm.getNumberOfPlayers(); i++) {
-            panelsTop[i].addAction(
+            model.panelsTop[i].addAction(
                 Actions.parallel(
-                    Actions.sizeTo(widths[i], panelsTop[i].getHeight(), Animation.DURATION_SHORT),
-                    Actions.moveTo(prevWidth, panelsTop[i].getY(), Animation.DURATION_SHORT)
+                    Actions.sizeTo(widths[i], model.panelsTop[i].getHeight(), Animation.DURATION_SHORT),
+                    Actions.moveTo(prevWidth, model.panelsTop[i].getY(), Animation.DURATION_SHORT)
                 )
             );
 
-
-            panelsBottom[i].addAction(
+            model.panelsBottom[i].addAction(
                     Actions.parallel(
-                            Actions.sizeTo(widths[i], panelsBottom[i].getHeight(), Animation.DURATION_SHORT),
-                            Actions.moveTo(prevWidth, panelsBottom[i].getY(), Animation.DURATION_SHORT)
+                            Actions.sizeTo(widths[i], model.panelsBottom[i].getHeight(), Animation.DURATION_SHORT),
+                            Actions.moveTo(prevWidth, model.panelsBottom[i].getY(), Animation.DURATION_SHORT)
                     )
             );
 
@@ -164,15 +166,5 @@ public class Score extends Group {
         return pm;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getSubStatus() {
-        return subStatus;
-    }
+    public ScoreModel getModel() { return model; }
 }

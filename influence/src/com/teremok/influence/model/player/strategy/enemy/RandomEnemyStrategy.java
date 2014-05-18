@@ -1,7 +1,7 @@
 package com.teremok.influence.model.player.strategy.enemy;
 
+import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.Field;
 import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.EnemyStrategy;
 
@@ -15,7 +15,7 @@ public class RandomEnemyStrategy implements EnemyStrategy {
     Random rnd;
 
     @Override
-    public Cell execute(List<Cell> cells, Field field, Strategist player) {
+    public Cell execute(List<Cell> cells, FieldController field, Strategist player) {
         rnd = player.getRnd();
         Cell cell = cells.get(rnd.nextInt(cells.size()));
         return cell;

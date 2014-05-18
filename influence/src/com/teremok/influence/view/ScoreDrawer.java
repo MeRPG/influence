@@ -53,8 +53,8 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
     private void drawStatusString(SpriteBatch batch) {
 
         String colorString = Localizator.getString("ofYourColor");
-
-        BitmapFont.TextBounds bounds = bitmapFont.getBounds(current.getStatus());
+        String statusText = current.getModel().status;
+        BitmapFont.TextBounds bounds = bitmapFont.getBounds(statusText);
 
         float Z = current.getWidth();
         float X = bounds.width;
@@ -63,16 +63,16 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
         float y = current.getY() + 16 + (current.getHeight() - 24f + bounds.height)/2;
 
         // если ход игрок и ничего не выбрано
-        if ((current.getMatch().isInAttackPhase() && current.getMatch().getField().getSelectedCell() == null) && current.getPm().isHumanActing()) {
+        if (statusText.equals(Localizator.getString("selectYourCell"))) {
             BitmapFont.TextBounds colorBounds = bitmapFont.getBounds(colorString);
             float Y = colorBounds.width;
             x = x - Y/2;
             bitmapFont.setColor(Drawer.getTextColor());
-            bitmapFont.draw(batch, current.getStatus(), x, y);
+            bitmapFont.draw(batch, statusText, x, y);
             bitmapFont.setColor(getCellColorByNumber(current.getPm().current().getNumber()));
             bitmapFont.draw(batch, colorString, x + X, y);
 
-        } else if (current.getMatch().isInDistributePhase() && current.getPm().isHumanActing()) {
+        } else if (statusText.equals(Localizator.getString("touchToPower"))) {
             colorString = Localizator.getString("yourCells");
             String powerString = " (" +current.getPm().current().getPowerToDistribute() + ")";
             BitmapFont.TextBounds colorBounds = bitmapFont.getBounds(colorString);
@@ -81,7 +81,7 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
             float W = powerBounds.width;
             x = x - Y/2 - W/2;
             bitmapFont.setColor(Drawer.getTextColor());
-            bitmapFont.draw(batch, current.getStatus(), x, y);
+            bitmapFont.draw(batch, statusText, x, y);
             bitmapFont.setColor(getCellColorByNumber(current.getPm().current().getNumber()));
             bitmapFont.draw(batch, colorString, x + X, y);
             bitmapFont.draw(batch, powerString, x + X + Y, y);
@@ -89,14 +89,15 @@ public class ScoreDrawer extends AbstractDrawer<Score> {
         } else {
 
             bitmapFont.setColor(Drawer.getTextColor());
-            bitmapFont.draw(batch, current.getStatus(), x, y);
+            bitmapFont.draw(batch, current.getModel().status, x, y);
         }
 
-        if (current.getSubStatus() != null) {
-            BitmapFont.TextBounds subStatusBounds = bitmapFont.getBounds(current.getSubStatus());
+        if (current.getModel().subStatus != null) {
+            String subStatusText = current.getModel().subStatus;
+            BitmapFont.TextBounds subStatusBounds = bitmapFont.getBounds(subStatusText);
             bitmapFont.setColor(Drawer.getDimmedTextColor());
             x = current.getX() + (current.getWidth() - subStatusBounds.width)/2;
-            bitmapFont.draw(batch, current.getSubStatus(), x, y - subStatusBounds.height * 1.5f);
+            bitmapFont.draw(batch, subStatusText, x, y - subStatusBounds.height * 1.5f);
         }
     }
 

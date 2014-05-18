@@ -1,8 +1,12 @@
-package com.teremok.influence.model;
+package com.teremok.influence.controller;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.FieldModel;
+import com.teremok.influence.model.FieldSize;
+import com.teremok.influence.model.Settings;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Vibrator;
@@ -31,7 +35,7 @@ public class GestureController extends ActorGestureListener{
 
     @Override
     public boolean longPress(Actor actor, float x, float y) {
-        if (! screen.getMatch().isPaused() && screen.getMatch().isInDistributePhase() && screen.getMatch().getPm().isHumanActing()) {
+        if (! screen.getMatch().isPaused() && screen.getMatch().isInPowerPhase() && screen.getMatch().getPm().isHumanActing()) {
             Cell hit =  getField().hit(x - getField().getX(),y - getField().getY());
             if (hit != null && screen.getMatch().getPm().isHumanActing() && hit.getType() == screen.getMatch().getPm().current().getNumber()) {
                 getField().addPowerFull(hit);
@@ -115,7 +119,7 @@ public class GestureController extends ActorGestureListener{
         return 48f / Drawer.getUnitSize();
     }
 
-    private Field getField() {
+    private FieldController getField() {
         return screen.getMatch().getField();
     }
 

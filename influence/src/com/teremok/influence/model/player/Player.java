@@ -1,7 +1,7 @@
 package com.teremok.influence.model.player;
 
+import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.Field;
 import com.teremok.influence.model.Match;
 
 import java.util.LinkedList;
@@ -16,7 +16,7 @@ public abstract class Player {
     protected int powerToDistribute;
     protected int score;
     protected Match match;
-    protected Field field;
+    protected FieldController field;
     protected PlayerType type;
     protected List<Cell> cells;
 
@@ -111,7 +111,7 @@ public abstract class Player {
         return cells;
     }
 
-    public void setField(Field field) {
+    public void setField(FieldController field) {
         this.field = field;
     }
 }

@@ -1,6 +1,5 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerType;
 
 import java.util.HashMap;

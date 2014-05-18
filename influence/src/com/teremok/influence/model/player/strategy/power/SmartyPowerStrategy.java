@@ -1,12 +1,9 @@
 package com.teremok.influence.model.player.strategy.power;
 
+import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.Field;
-import com.teremok.influence.model.Settings;
 import com.teremok.influence.model.player.Strategist;
-import com.teremok.influence.model.player.strategy.PowerStrategy;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +29,7 @@ public class SmartyPowerStrategy extends BasicPowerStrategy {
     }
 
     @Override
-    public Map<Cell, Integer> execute(List<Cell> cells, Field field, Strategist player) {
+    public Map<Cell, Integer> execute(List<Cell> cells, FieldController field, Strategist player) {
 
         int needToFull = 0;
         for (Cell cell : cells) {

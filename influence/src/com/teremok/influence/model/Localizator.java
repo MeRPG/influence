@@ -16,7 +16,7 @@ public class Localizator {
     private static Map<String, Map<String, String>> dictionary;
 
     static  {
-        dictionary = new HashMap<String, Map<String, String>>();
+        dictionary = new HashMap<>();
     }
 
     public static String getString(String key) {
@@ -63,13 +63,13 @@ public class Localizator {
     }
 
     private static void fillRussianStrings() {
-        Map<String, String> stringsRussian = new HashMap<String, String>();
+        Map<String, String> stringsRussian = new HashMap<>();
         stringsRussian.put("selectYourCell", "Коснитесь клетки ");
         stringsRussian.put("ofYourColor", "вашего цвета");
         stringsRussian.put("yourCells", "своим клеткам");
         stringsRussian.put("selectMoreThanOne", "Выберите клетку с 2+ силы");
         stringsRussian.put("touchNearby", "Коснитесь соседней клетки для атаки");
-        stringsRussian.put("touchToDistribute", "Раздайте силу ");
+        stringsRussian.put("touchToPower", "Раздайте силу ");
         stringsRussian.put("touchToEndTurn", "Коснитесь, чтобы завершить ход");
         stringsRussian.put("orTouchToEndAttack", "(коснитесь здесь, чтобы завершить ход)");
         stringsRussian.put("orTouchToEndTurn", "(коснитесь здесь, чтобы завершить ход)");
@@ -87,19 +87,20 @@ public class Localizator {
         stringsRussian.put("sounds", "Звук");
         stringsRussian.put("vibrate", "Вибрация");
         stringsRussian.put("computerPlayerSpeed", "Скорость ходов");
+        stringsRussian.put("touchToEndAttack", "Коснитесь, чтобы завершить атаку");
 
         dictionary.put(LANGUAGE_RUSSIAN, stringsRussian);
     }
 
 
     private static void fillEnglishStrings() {
-        Map<String, String> stringsEnglish = new HashMap<String, String>();
+        Map<String, String> stringsEnglish = new HashMap<>();
         stringsEnglish.put("selectYourCell", "Touch a cell ");
         stringsEnglish.put("ofYourColor", "of your color");
         stringsEnglish.put("yourCells", "your cells");
         stringsEnglish.put("selectMoreThanOne", "Select a cell with 2+ power");
         stringsEnglish.put("touchNearby", "Touch a nearby cell to attack");
-        stringsEnglish.put("touchToDistribute", "Distribute power to ");
+        stringsEnglish.put("touchToPower", "Power up ");
         stringsEnglish.put("touchToEndTurn", "Touch to end turn");
         stringsEnglish.put("orTouchToEndAttack", "(or touch here to end attack)");
         stringsEnglish.put("orTouchToEndTurn", "(or touch here to end turn)");
@@ -117,6 +118,7 @@ public class Localizator {
         stringsEnglish.put("sounds", "Sound");
         stringsEnglish.put("vibrate", "Vibrate");
         stringsEnglish.put("computerPlayerSpeed", "Computer speed");
+        stringsEnglish.put("touchToEndAttack", "Touch here to end attack");
 
         dictionary.put(LANGUAGE_ENGLISH, stringsEnglish);
     }

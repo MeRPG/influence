@@ -1,7 +1,7 @@
 package com.teremok.influence.model.player.strategy.attack;
 
+import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.Field;
 import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.AttackStrategy;
 
@@ -15,7 +15,7 @@ public class DummyAttackStrategy implements AttackStrategy {
     int i = 0;
 
     @Override
-    public Cell execute(List<Cell> cells, Field field, Strategist player) {
+    public Cell execute(List<Cell> cells, FieldController field, Strategist player) {
         int size = cells.size();
 
         if (size == field.getCellsCount()) {

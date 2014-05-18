@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.util.Logger;
@@ -27,7 +28,7 @@ public class EditorScreen extends StaticScreen {
     TexturePanel backlight;
 
     Match match;
-    Field field;
+    FieldController field;
 
     FieldModel fieldModel;
 
@@ -251,13 +252,13 @@ public class EditorScreen extends StaticScreen {
 
     public Cell hitHidden(float x, float y) {
         Logger.log("hit hidden on " + x + "; " + y);
-        int unitsY = (int)(y/Field.cellHeight);
+        int unitsY = (int)(y/ FieldController.cellHeight);
 
         if (unitsY%2 == 1) {
-            x -= Field.cellWidth/2;
+            x -= FieldController.cellWidth/2;
         }
 
-        int unitsX = (int)(x/Field.cellWidth);
+        int unitsX = (int)(x/ FieldController.cellWidth);
 
         if (unitsX < 0 || unitsX > fieldModel.maxCellsX -1 || unitsY < 0 || unitsY > fieldModel.maxCellsY -1) {
             fieldModel.cells.get(0);

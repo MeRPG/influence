@@ -13,7 +13,6 @@ public class FieldModel {
 
     public List<Cell> cells;
 
-    public Cell selectedCell;
     public Router router;
 
     public float initialX;
@@ -26,7 +25,6 @@ public class FieldModel {
     public int cellsCount;
 
     public void reset(GameSettings settings) {
-        selectedCell = null;
 
         maxCellsX = settings.maxCellsX;
         maxCellsY = settings.maxCellsY;
@@ -63,12 +61,10 @@ public class FieldModel {
     }
 
     public boolean isCellsConnected(Cell from, Cell to) {
-
         if (from.getNumber() == to.getNumber())
             return false;
         else
             return router.routeExist(from.getNumber(), to.getNumber());
-
     }
 
     public void updateLists() {

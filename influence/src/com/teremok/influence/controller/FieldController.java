@@ -1,4 +1,4 @@
-package com.teremok.influence.model;
+package com.teremok.influence.controller;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -29,7 +30,7 @@ import static com.teremok.influence.view.Drawer.*;
 /**
  * Created by Alexx on 11.12.13
  */
-public class Field extends Group {
+public class FieldController extends Group {
     private static final int INITIAL_CELL_POWER = 2;
 
     private Match match;
@@ -45,13 +46,13 @@ public class Field extends Group {
     private GraphGenerator generator;
     private Random random;
 
-    public Field(Match match, GameSettings settings) {
+    public FieldController(Match match, GameSettings settings) {
         model = new FieldModel();
         reset(match, settings);
         addListener();
     }
 
-    public Field(Match match, GameSettings settings, List<Cell> cells, Router router) {
+    public FieldController(Match match, GameSettings settings, List<Cell> cells, Router router) {
         model = new FieldModel();
         reset(match, settings, cells, router);
         addListener();
@@ -62,6 +63,8 @@ public class Field extends Group {
         this.pm = match.getPm();
 
         drawer = AbstractDrawer.getFieldShapeDrawer();
+
+        selectedCell = null;
 
         cellWidth = getUnitSize() *2;
         cellHeight = getUnitSize() *2;
@@ -77,6 +80,8 @@ public class Field extends Group {
         this.match = match;
         this.pm = match.getPm();
         drawer = AbstractDrawer.getFieldShapeDrawer();
+
+        selectedCell = null;
 
         cellWidth = getUnitSize() *2;
         cellHeight = getUnitSize() *2;
@@ -235,9 +240,7 @@ public class Field extends Group {
     }
 
     private boolean connectedToSelected(Cell cell) {
-        if (selectedCell == null)
-            return false;
-        return model.isCellsConnected(selectedCell, cell);
+        return selectedCell != null && model.isCellsConnected(selectedCell, cell);
     }
 
     public void setSelectedCell(Cell cell) {
@@ -253,8 +256,6 @@ public class Field extends Group {
                     cell.setType(selectedCell.getType());
                     reallySetSelected(cell);
                     updateLists();
-                } else if (pm.isHumanActing()) {
-                    match.score.setStatus(Localizator.getString("selectMoreThanOne"));
                 }
             } else  {
                 reallySetSelected(cell);
@@ -279,7 +280,7 @@ public class Field extends Group {
     }
 
     public void addPower(Cell cell, int powerToAdd) {
-        cell.power += powerToAdd;
+        cell.setPower(powerToAdd + cell.getPower());
         riseAddPowerTooltip(cell, "+"+powerToAdd);
         pm.current().subtractPowerToDistribute(powerToAdd);
         Logger.log("Add " + powerToAdd + " power to " + cell);
@@ -293,16 +294,6 @@ public class Field extends Group {
                 selectedCell.setSelected(false);
             cell.setSelected(true);
             selectedCell = cell;
-
-            if (pm.isHumanActing()) {
-                if (cell.getPower() <= 1) {
-                    match.score.setStatus(Localizator.getString("selectMoreThanOne"));
-                } else {
-                    match.score.setStatus(Localizator.getString("touchNearby"));
-                }
-            }  else {
-                match.score.setStatus(Localizator.getString("waitYourMove"));
-            }
         }
     }
 
@@ -491,8 +482,8 @@ public class Field extends Group {
         this.setWidth(getZoomedWidth());
         this.setHeight(getZoomedHeight());
 
-        cellWidth = Field.getZoomedWidth() / model.maxCellsX;
-        cellHeight = Field.getZoomedHeight() / model.maxCellsY;
+        cellWidth = FieldController.getZoomedWidth() / model.maxCellsX;
+        cellHeight = FieldController.getZoomedHeight() / model.maxCellsY;
 
         float cellX;
         float cellY;

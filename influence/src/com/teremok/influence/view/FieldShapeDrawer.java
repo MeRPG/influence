@@ -6,22 +6,22 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.influence.controller.FieldController;
+import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.Field;
-import com.teremok.influence.model.GestureController;
 
 import static com.teremok.influence.view.Drawer.MIN_SIZE_FOR_TEXT;
 
 /**
  * Created by Alexx on 23.12.13
  */
-public class FieldShapeDrawer extends AbstractDrawer<Field> {
+public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
 
     float zoomedUnitSize;
     boolean[][] routes;
 
     @Override
-    public void draw (Field field, SpriteBatch batch, float parentAlpha) {
+    public void draw (FieldController field, SpriteBatch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
         batch.end();
         Gdx.gl.glEnable(GL10.GL_BLEND);
@@ -76,14 +76,14 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
     private void drawSolid(Cell cell) {
         if (current.isCellVisible(cell)) {
             renderer.setColor(getColor(cell));
-            renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getPower()*0.03f), 6);
+            renderer.circle(cell.getX() + FieldController.cellWidth/2, cell.getY() + FieldController.cellHeight/2, zoomedUnitSize * (0.4f + cell.getPower()*0.03f), 6);
         }
     }
 
     private void drawEmpty(Cell cell) {
         if (current.isCellVisible(cell)) {
             renderer.setColor(getColor(cell));
-            renderer.circle(cell.getX() + Field.cellWidth/2, cell.getY() + Field.cellHeight/2, zoomedUnitSize * (0.4f + cell.getMaxPower()*0.03f), 6);
+            renderer.circle(cell.getX() + FieldController.cellWidth/2, cell.getY() + FieldController.cellHeight/2, zoomedUnitSize * (0.4f + cell.getMaxPower()*0.03f), 6);
         }
     }
 
@@ -95,8 +95,8 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
             } else {
                 bitmapFont.setColor(Drawer.getCellTextColor());
             }
-            bitmapFont.draw(batch, cell.getPower()+"", current.getX() + cell.getX() + Field.cellWidth/2 - textBounds.width/2,
-                    current.getY() + cell.getY() + Field.cellHeight/2 + textBounds.height/2);
+            bitmapFont.draw(batch, cell.getPower()+"", current.getX() + cell.getX() + FieldController.cellWidth/2 - textBounds.width/2,
+                    current.getY() + cell.getY() + FieldController.cellHeight/2 + textBounds.height/2);
         }
     }
 
@@ -119,11 +119,11 @@ public class FieldShapeDrawer extends AbstractDrawer<Field> {
                 routes[toCode][fromCode] = true;
 
                 if (current.isCellVisible(cell) || current.isCellVisible(toCell)) {
-                    float centerX = cell.getX() + Field.cellWidth/2;
-                    float centerY = cell.getY() + Field.cellHeight/2;
+                    float centerX = cell.getX() + FieldController.cellWidth/2;
+                    float centerY = cell.getY() + FieldController.cellHeight/2;
 
-                    float centerXto = toCell.getX() + Field.cellWidth/2;
-                    float centerYto = toCell.getY() + Field.cellHeight/2;
+                    float centerXto = toCell.getX() + FieldController.cellWidth/2;
+                    float centerYto = toCell.getY() + FieldController.cellHeight/2;
 
                     renderer.line(centerX, centerY, centerXto, centerYto,
                             getColor(cell),

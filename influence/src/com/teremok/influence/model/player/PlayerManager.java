@@ -1,6 +1,6 @@
 package com.teremok.influence.model.player;
 
-import com.teremok.influence.model.Field;
+import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.util.Logger;
 
@@ -14,7 +14,7 @@ public class PlayerManager {
     private int currentNum = 0;
     private Player[] players = new Player[5];
     private int numberOfPlayers = 0;
-    private Field field;
+    private FieldController field;
     private Match match;
 
     public PlayerManager(Match match) {
@@ -57,7 +57,7 @@ public class PlayerManager {
         }
     }
 
-    public void addPlayersFromMap(Map<Integer, PlayerType> map, Field field) {
+    public void addPlayersFromMap(Map<Integer, PlayerType> map, FieldController field) {
         this.field = field;
         resetPlayersArray(map.size());
         for (Integer i = 0; i < map.size(); i++) {
@@ -133,7 +133,7 @@ public class PlayerManager {
         return players;
     }
 
-    public Field getField() {
+    public FieldController getField() {
         return field;
     }
 }
