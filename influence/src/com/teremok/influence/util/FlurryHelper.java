@@ -146,8 +146,14 @@ public class FlurryHelper {
         }
     }
 
+    public static void logDoubleClickExitMenuEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Double_Click_Exit_Menu");
+        }
+    }
+
     private static boolean flurryEnabled() {
-        return enabled;
+        return !Settings.debug;
     }
 
 }

@@ -15,6 +15,7 @@ import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Animation;
@@ -340,6 +341,7 @@ public class GameScreen extends StaticScreen {
 
                             if (newTime - lastBackPress < 250) {
                                 backToStartScreen();
+                                FlurryHelper.logDoubleClickExitMenuEvent();
                             }
 
                             lastBackPress = newTime;
