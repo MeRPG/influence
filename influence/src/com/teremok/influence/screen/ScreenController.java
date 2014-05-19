@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
+import com.teremok.influence.controller.MatchSaver;
+import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.Match;
-import com.teremok.influence.model.MatchSaver;
-import com.teremok.influence.model.Settings;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.ResourceManager;
 import com.teremok.influence.view.Animation;
@@ -124,7 +124,7 @@ public class ScreenController {
     }
 
     public static void exitGame() {
-        Settings.save();
+        SettingsSaver.save();
         Gdx.app.exit();
     }
 

@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teremok.influence.controller.GestureController;
+import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.controller.ScoreController;
+import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
@@ -311,10 +313,10 @@ public class GameScreen extends StaticScreen {
                         Localizator.switchLanguage();
                     }
                     if (keycode == Keys.I) {
-                        Settings.load();
+                        SettingsSaver.load();
                     }
                     if (keycode == Keys.O) {
-                        Settings.save();
+                        SettingsSaver.save();
                     }
                     if (keycode == Keys.PLUS && gestureController.bigField() && !match.isPaused()) {
                         GestureController.addZoom();

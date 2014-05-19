@@ -1,9 +1,10 @@
-package com.teremok.influence.model;
+package com.teremok.influence.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
+import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.PlayerType;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static com.teremok.influence.util.IOConstants.MATCH_PATH;
 
 /**
  * Created by Alexx on 21.02.14
@@ -40,8 +43,6 @@ public class MatchSaver {
     private static final String TO="to";
     private static final String ENABLED="enabled";
 
-    private static String FILENAME ="match.xml";
-
     private static Match notEnded;
 
     public static void save(Match match) {
@@ -57,7 +58,7 @@ public class MatchSaver {
 
     public static void clearFile() {
         try {
-            FileHandle handle = Gdx.files.external(Settings.DIR+FILENAME);
+            FileHandle handle = Gdx.files.external(MATCH_PATH);
             FileWriter fileWriter = new FileWriter(handle.file());
             Logger.log("Game save cleared: " + handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
@@ -70,11 +71,11 @@ public class MatchSaver {
     }
 
     private static void saveInFile(Match match) throws IOException {
-        FileHandle handle = Gdx.files.external(Settings.DIR+FILENAME);
+        FileHandle handle = Gdx.files.external(MATCH_PATH);
         FileWriter fileWriter = new FileWriter(handle.file());
         Logger.log(handle.file().getAbsolutePath());
         XmlWriter xml = new XmlWriter(fileWriter);
-        XmlWriter xmlMatch = xml.element(ROOT).attribute(TURN_ATTR, match.turn);
+        XmlWriter xmlMatch = xml.element(ROOT).attribute(TURN_ATTR, match.getTurn());
 
         XmlWriter playersXml = xml.element(PLAYERS);
         PlayerManager pm = match.getPm();
@@ -87,7 +88,7 @@ public class MatchSaver {
         }
         playersXml.pop();
 
-        Settings.saveGameSettings(xmlMatch);
+        SettingsSaver.saveGameSettings(xmlMatch);
 
         XmlWriter fieldXml = xml.element(FIELD);
         FieldModel fieldModel = match.getFieldController().getModel();
@@ -127,14 +128,14 @@ public class MatchSaver {
 
     private static Match loadFromFile() throws IOException{
         Match match;
-        FileHandle handle = Gdx.files.external(Settings.DIR+FILENAME);
+        FileHandle handle = Gdx.files.external(MATCH_PATH);
         Logger.log("loading match from file " + handle.path());
         if (handle.exists()) {
             XmlReader reader = new XmlReader();
 
             XmlReader.Element root = reader.parse(handle.reader());
 
-            Settings.loadGameSettings(root);
+            SettingsSaver.loadGameSettings(root);
 
             GameSettings gameSettings = Settings.gameSettings;
 
@@ -145,10 +146,10 @@ public class MatchSaver {
             Router router = loadRoutes(root);
 
             match = new Match(gameSettings, cells, router);
-            match.turn = Integer.parseInt(root.getAttribute(TURN_ATTR, "0"));
+            match.setTurn(root.getIntAttribute(TURN_ATTR, 0));
 
         } else {
-            throw new IOException("File with saved match not found " + Settings.DIR+FILENAME);
+            throw new IOException("File with saved match not found " + MATCH_PATH);
         }
         return match;
     }

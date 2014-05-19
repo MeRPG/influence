@@ -1,9 +1,8 @@
 package com.teremok.influence.util;
 
 import com.flurry.android.FlurryAgent;
-import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
+import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.model.Localizator;
-import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
 
 import java.util.HashMap;

@@ -1,7 +1,9 @@
 package com.teremok.influence.model;
 
 import com.teremok.influence.controller.FieldController;
+import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.controller.ScoreController;
+import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -87,7 +89,7 @@ public class Match {
         phase = Phase.ATTACK;
 
         MatchSaver.save(this);
-        Settings.save();
+        SettingsSaver.save();
     }
 
     public void act(float delta) {
@@ -212,5 +214,13 @@ public class Match {
 
     public void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    public int getTurn() {
+        return turn;
     }
 }

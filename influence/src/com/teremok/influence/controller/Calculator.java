@@ -1,4 +1,4 @@
-package com.teremok.influence.model;
+package com.teremok.influence.controller;
 
 import com.teremok.influence.util.Logger;
 
@@ -16,20 +16,6 @@ public class Calculator {
     private static int delta;
     private static int n;
     private static int m;
-
-    public static void test(int inA, int inB, int inN, int inM) {
-        a = inA;
-        b = inB;
-        n = inN;
-        m = inM;
-
-        delta = n - m;
-
-        calculateResults();
-
-        //Logger.log(inA + "\t|\t" + inB + "\t|\t" + inN + "\t|\t" + inM + "\t|\t" + a + "\t|\t" + b);
-        //Logger.log(" - - - ");
-    }
 
     public static int rollNDices(int number) {
         int result = 0;
@@ -72,8 +58,6 @@ public class Calculator {
         if (defenseDices == 0) {
             defenseDices++;
         }
-
-        //Logger.log("Dices: " + attackDices + "\t->\t" + defenseDices);
 
         if (delta > 0) {
             b = a;
