@@ -23,7 +23,7 @@ public abstract class Player {
     protected Player(int number, Match match) {
         this.number = number;
         this.match = match;
-        this.field = match.getField();
+        this.field = match.getFieldController();
         cells = new LinkedList<Cell>();
     }
 

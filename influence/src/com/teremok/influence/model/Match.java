@@ -1,6 +1,7 @@
 package com.teremok.influence.model;
 
 import com.teremok.influence.controller.FieldController;
+import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -21,10 +22,10 @@ public class Match {
         POWER
     }
 
-    FieldController field;
+    FieldController fieldController;
     Phase phase;
     PlayerManager pm;
-    Score score;
+    ScoreController scoreController;
 
     boolean paused;
     boolean endSoundPlayed;
@@ -33,18 +34,18 @@ public class Match {
 
     public Match(GameSettings settings, List<Cell> cells, Router router) {
         pm = new PlayerManager(this);
-        field = new FieldController(this, settings, cells, router);
-        score = new Score(this);
+        fieldController = new FieldController(this, settings, cells, router);
+        scoreController = new ScoreController(this);
 
         turn = 0;
         endSoundPlayed = false;
 
-        pm.addPlayersFromMap(settings.players, field);
+        pm.addPlayersFromMap(settings.players, fieldController);
 
-        score.init();
-        field.updateLists();
+        scoreController.init();
+        fieldController.updateLists();
         pm.update();
-        field.resize();
+        fieldController.resize();
 
         phase = Phase.ATTACK;
     }
@@ -60,28 +61,28 @@ public class Match {
             pm.reset(this);
         }
 
-        if (field == null) {
-            field = new FieldController(this, settings);
+        if (fieldController == null) {
+            fieldController = new FieldController(this, settings);
         } else {
-            field.reset(this, settings);
+            fieldController.reset(this, settings);
         }
 
-        if (score == null) {
-            score = new Score(this);
+        if (scoreController == null) {
+            scoreController = new ScoreController(this);
         } else {
-            score.reset(this);
+            scoreController.reset(this);
         }
 
         turn = 0;
         endSoundPlayed = false;
 
-        pm.addPlayersFromMap(settings.players, field);
+        pm.addPlayersFromMap(settings.players, fieldController);
         pm.placeStartPositions();
 
-        score.init();
-        field.updateLists();
+        scoreController.init();
+        fieldController.updateLists();
         pm.update();
-        field.resize();
+        fieldController.resize();
 
         phase = Phase.ATTACK;
 
@@ -157,7 +158,7 @@ public class Match {
             player.subtractPowerToDistribute();
         }
         phase = Phase.POWER;
-        field.resetSelection();
+        fieldController.resetSelection();
     }
 
     public void setAttackPhase() {
@@ -193,16 +194,16 @@ public class Match {
 
     // Auto-generated
 
-    public FieldController getField() {
-        return field;
+    public FieldController getFieldController() {
+        return fieldController;
     }
 
     public PlayerManager getPm() {
         return pm;
     }
 
-    public Score getScore() {
-        return score;
+    public ScoreController getScoreController() {
+        return scoreController;
     }
 
     public boolean isPaused() {

@@ -23,7 +23,7 @@ public class PlayerManager {
 
     public void reset(Match match) {
         this.match = match;
-        this.field = match.getField();
+        this.field = match.getFieldController();
         currentNum = 0;
     }
 

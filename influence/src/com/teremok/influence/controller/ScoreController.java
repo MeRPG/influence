@@ -1,10 +1,14 @@
-package com.teremok.influence.model;
+package com.teremok.influence.controller;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.FieldModel;
+import com.teremok.influence.model.Match;
+import com.teremok.influence.model.ScoreModel;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.ui.ColoredPanel;
@@ -15,7 +19,7 @@ import com.teremok.influence.view.ScoreDrawer;
 /**
  * Created by Alexx on 24.12.13
  */
-public class Score extends Group {
+public class ScoreController extends Group {
 
     Match match;
     PlayerManager pm;
@@ -23,7 +27,7 @@ public class Score extends Group {
 
     ScoreModel model;
 
-    public Score(Match match) {
+    public ScoreController(Match match) {
         reset(match);
     }
 
@@ -90,7 +94,7 @@ public class Score extends Group {
             return;
         }
 
-        Cell selectedCell = match.field.selectedCell;
+        Cell selectedCell = match.getFieldController().selectedCell;
 
         if (match.isInAttackPhase()) {
             model.setAttackPhaseStatus();

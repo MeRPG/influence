@@ -81,7 +81,7 @@ public class EditorScreen extends StaticScreen {
                 break;
         }
         match = new Match(Settings.gameSettings);
-        field = match.getField();
+        field = match.getFieldController();
         field.setTouchable(Touchable.disabled);
         fieldModel = field.getModel();
         loadHiddenCells();
@@ -183,7 +183,7 @@ public class EditorScreen extends StaticScreen {
                 }
                 if (keycode == Input.Keys.D) {
                     match = MatchSaver.load();
-                    field = match.getField();
+                    field = match.getFieldController();
                     field.setTouchable(Touchable.disabled);
                     fieldModel = field.getModel();
 

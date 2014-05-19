@@ -120,7 +120,7 @@ public class GestureController extends ActorGestureListener{
     }
 
     private FieldController getField() {
-        return screen.getMatch().getField();
+        return screen.getMatch().getFieldController();
     }
 
     public static void resetZoom() {

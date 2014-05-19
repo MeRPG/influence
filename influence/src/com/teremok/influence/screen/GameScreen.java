@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teremok.influence.controller.GestureController;
+import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
@@ -68,25 +69,25 @@ public class GameScreen extends StaticScreen {
             }
         }
         if (fieldIsScrollable()) {
-            if (match.getField().getX() < -5) {
+            if (match.getFieldController().getX() < -5) {
                 turnOnBorder(borderLeft);
             } else {
                 turnOffBorder(borderLeft);
             }
 
-            if (match.getField().getX() + match.getField().getWidth() > AbstractScreen.WIDTH + 5) {
+            if (match.getFieldController().getX() + match.getFieldController().getWidth() > AbstractScreen.WIDTH + 5) {
                 turnOnBorder(borderRight);
             } else {
                 turnOffBorder(borderRight);
             }
 
-            if (match.getField().getY() < AbstractScreen.HEIGHT - FieldModel.HEIGHT - 5) {
+            if (match.getFieldController().getY() < AbstractScreen.HEIGHT - FieldModel.HEIGHT - 5) {
                 turnOnBorder(borderBottom);
             } else {
                 turnOffBorder(borderBottom);
             }
 
-            if (match.getField().getY() + match.getField().getHeight() > AbstractScreen.HEIGHT + 5) {
+            if (match.getFieldController().getY() + match.getFieldController().getHeight() > AbstractScreen.HEIGHT + 5) {
                 turnOnBorder(borderTop);
             } else {
                 turnOffBorder(borderTop);
@@ -160,7 +161,7 @@ public class GameScreen extends StaticScreen {
     private void updateMatchDependentActors() {
         stage.getRoot().clearChildren();
         stage.addActor(backlight);
-        stage.addActor(match.getField());
+        stage.addActor(match.getFieldController());
 
         if (fieldIsScrollable()) {
             stage.addActor(borderTop);
@@ -169,7 +170,7 @@ public class GameScreen extends StaticScreen {
             stage.addActor(borderLeft);
         }
 
-        stage.addActor(match.getScore());
+        stage.addActor(match.getScoreController());
         stage.addActor(TooltipHandler.getInstance());
         stage.addActor(pausePanel);
         if (overlap != null) {
@@ -279,14 +280,14 @@ public class GameScreen extends StaticScreen {
             public boolean scrolled(InputEvent event, float x, float y, int amount) {
                 if (! event.isHandled() && gestureController.bigField() && !match.isPaused()) {
                     GestureController.changeZoomBySteps(-amount);
-                    match.getField().resize();
+                    match.getFieldController().resize();
                 }
                 return true;
             }
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return stage.hit(x,y,true) instanceof Score;
+                return stage.hit(x,y,true) instanceof ScoreController;
             }
 
             @Override
@@ -317,11 +318,11 @@ public class GameScreen extends StaticScreen {
                     }
                     if (keycode == Keys.PLUS && gestureController.bigField() && !match.isPaused()) {
                         GestureController.addZoom();
-                        match.getField().resize();
+                        match.getFieldController().resize();
                     }
                     if (keycode == Keys.MINUS && gestureController.bigField() && !match.isPaused()) {
                         GestureController.subZoom();
-                        match.getField().resize();
+                        match.getFieldController().resize();
                     }
                     if (keycode == Keys.S) {
                         MatchSaver.save(match);
@@ -353,7 +354,7 @@ public class GameScreen extends StaticScreen {
                 return true;
             }
         });
-        getMatch().getField().resize();
+        getMatch().getFieldController().resize();
         stage.addListener(gestureController);
     }
 

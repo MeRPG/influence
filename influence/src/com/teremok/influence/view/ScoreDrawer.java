@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.Localizator;
-import com.teremok.influence.model.Score;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.screen.AbstractScreen;
 
@@ -17,12 +17,12 @@ import static com.teremok.influence.view.Drawer.getCellColorByNumber;
 /**
  * Created by Alexx on 24.12.13
  */
-public class ScoreDrawer extends AbstractDrawer<Score> {
+public class ScoreDrawer extends AbstractDrawer<ScoreController> {
 
     private static final float COVER_SIZE = 160;
 
     @Override
-    public void draw(Score score, SpriteBatch batch, float parentAlpha) {
+    public void draw(ScoreController score, SpriteBatch batch, float parentAlpha) {
         super.draw(score, batch, parentAlpha);
 
         batch.end();

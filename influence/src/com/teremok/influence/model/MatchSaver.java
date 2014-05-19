@@ -90,7 +90,7 @@ public class MatchSaver {
         Settings.saveGameSettings(xmlMatch);
 
         XmlWriter fieldXml = xml.element(FIELD);
-        FieldModel fieldModel = match.getField().getModel();
+        FieldModel fieldModel = match.getFieldController().getModel();
         for (Cell cell : fieldModel.cells) {
             fieldXml.element(CELL)
                     .attribute(NUMBER, cell.getNumber())
