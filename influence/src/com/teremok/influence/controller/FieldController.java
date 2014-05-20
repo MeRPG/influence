@@ -312,6 +312,24 @@ public class FieldController extends Group {
         fastShowBacklight(attack, defense);
         setResultPower(attack, defense);
 
+        if (pm.getNumberOfHumans() == 1) {
+            if (attack.getType() == 0) {
+                if (defense.getType() != -1) {
+                    Chronicle.match.damage += Calculator.getN();
+                    Chronicle.match.damageGet += Calculator.getM();
+                }
+                if (delta > 0)
+                    Chronicle.match.cellsConquered++;
+            }
+
+            if (defense.getType() == 0) {
+                Chronicle.match.damageGet += Calculator.getN();
+                Chronicle.match.damage += Calculator.getM();
+                if (delta > 0)
+                    Chronicle.match.cellsLost++;
+            }
+        }
+
         return delta;
     }
 

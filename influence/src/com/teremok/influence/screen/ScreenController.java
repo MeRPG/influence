@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
+import com.teremok.influence.controller.ChronicleController;
 import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.Match;
@@ -125,6 +126,7 @@ public class ScreenController {
 
     public static void exitGame() {
         SettingsSaver.save();
+        ChronicleController.save();
         Gdx.app.exit();
     }
 

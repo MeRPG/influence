@@ -44,6 +44,8 @@ public class Match {
 
         pm.addPlayersFromMap(settings.players, fieldController);
 
+        Chronicle.matchStart();
+
         scoreController.init();
         fieldController.updateLists();
         pm.update();
@@ -77,6 +79,8 @@ public class Match {
 
         turn = 0;
         endSoundPlayed = false;
+
+        Chronicle.matchStart();
 
         pm.addPlayersFromMap(settings.players, fieldController);
         pm.placeStartPositions();
@@ -112,6 +116,9 @@ public class Match {
                     FXPlayer.playWinMatch();
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
+                    if (pm.getNumberOfHumans() == 1) {
+                        Chronicle.matchEnd(true, pm.current().getScore());
+                    }
                     GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
                     FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN, turn);
                 }
@@ -120,6 +127,10 @@ public class Match {
                     FXPlayer.playLoseMatch();
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
+                    if (pm.getNumberOfHumans() == 1) {
+                        Chronicle.matchEnd(false, 0);
+                    }
+
                     GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
                     FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_LOSE, turn);
                 }

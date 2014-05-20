@@ -123,6 +123,15 @@ public class PlayerManager {
         return total;
     }
 
+    public int getNumberOfHumans() {
+        int humans = 0;
+        for (Player player : players) {
+            if (player instanceof HumanPlayer)
+                humans++;
+        }
+        return humans;
+    }
+
     // Auto-generated
 
     public int getNumberOfPlayers() {
