@@ -15,7 +15,7 @@ public class RandomPowerStrategy extends BasicPowerStrategy {
     Random rnd;
 
     @Override
-    public Map<Cell, Integer> execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
+    public Map<Cell, Integer> execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player) {
         rnd = player.getRnd();
         Cell cell;
 

@@ -15,7 +15,7 @@ public class RandomAttackStrategy implements AttackStrategy {
     Random rnd;
 
     @Override
-    public Cell execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
+    public Cell execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player) {
         rnd = player.getRnd();
         Cell cell;
         int size = cells.size();

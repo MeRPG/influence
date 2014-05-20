@@ -3,7 +3,6 @@ package com.teremok.influence.model.player.strategy.power;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.PowerStrategy;
-import com.teremok.influence.model.player.strategy.Strategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +47,7 @@ public abstract class BasicPowerStrategy implements PowerStrategy {
 
     protected int getNewPower(Cell cell) {
         if (powerMap.containsKey(cell)) {
-            return powerMap.get(cell).intValue()+cell.getPower();
+            return powerMap.get(cell) +cell.getPower();
         }
         return cell.getPower();
     }

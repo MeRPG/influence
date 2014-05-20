@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface EnemyStrategy extends Strategy {
     @Override
-    Cell execute(List<Cell> cells, FieldModel fieldModel, Strategist player);
+    Cell execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player);
 }

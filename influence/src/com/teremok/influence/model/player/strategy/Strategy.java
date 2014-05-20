@@ -10,6 +10,6 @@ import java.util.List;
  * Created by Alexx on 05.02.14
  */
 public interface Strategy {
-    Object execute(List<Cell> cells, FieldModel fieldModel, Strategist player);
+    Object execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player);
     void cleanUp();
 }

@@ -52,11 +52,11 @@ public class Strategist extends ComputerPlayer {
 
     @Override
     protected void prepareActions() {
-        Cell cell = attackStrategy.execute(cells, field.getModel(), this);
+        Cell cell = attackStrategy.execute(null, cells, field.getModel(), this);
         if (cell != null && cell.getPower() > 1) {
             List<Cell> enemies = cell.getEnemies();
             if (! enemies.isEmpty()) {
-                Cell enemy = enemyStrategy.execute(enemies, field.getModel(), this);
+                Cell enemy = enemyStrategy.execute(cell, enemies, field.getModel(), this);
                 nextMove = new Move(cell, enemy);
             }
         }
@@ -65,7 +65,7 @@ public class Strategist extends ComputerPlayer {
     @Override
     protected void actPowerLogic(float delta) {
         powerStrategy.prepare(this);
-        Map<Cell, Integer> powerMap = powerStrategy.execute(cells, field.getModel(), this);
+        Map<Cell, Integer> powerMap = powerStrategy.execute(null, cells, field.getModel(), this);
         for (Cell cell : powerMap.keySet()) {
             field.addPower(cell, powerMap.get(cell));
         }

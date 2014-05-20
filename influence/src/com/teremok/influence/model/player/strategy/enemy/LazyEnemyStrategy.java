@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class LazyEnemyStrategy implements EnemyStrategy {
     @Override
-    public Cell execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
+    public Cell execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player) {
         Random rnd = player.getRnd();
 
         int number = 0;

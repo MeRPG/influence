@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class BeefyAttackStrategy implements AttackStrategy {
     @Override
-    public Cell execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
+    public Cell execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player) {
 
         if (cells.size() == fieldModel.cellsCount) {
             return null;

@@ -16,7 +16,7 @@ public interface PowerStrategy extends Strategy {
     void cleanUp();
 
     @Override
-    Map<Cell, Integer> execute(List<Cell> cells, FieldModel fieldModel, Strategist player);
+    Map<Cell, Integer> execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player);
 
     void prepare(Strategist player);
 }

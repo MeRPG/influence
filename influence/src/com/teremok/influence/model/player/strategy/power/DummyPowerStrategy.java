@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class DummyPowerStrategy extends BasicPowerStrategy {
     @Override
-    public Map<Cell, Integer> execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
+    public Map<Cell, Integer> execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player) {
 
         while(powerToDistribute > 0) {
             for (Cell c : cells) {

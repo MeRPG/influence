@@ -15,7 +15,7 @@ public class DummyEnemyStrategy implements EnemyStrategy {
     int i = 0;
 
     @Override
-    public Cell execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
+    public Cell execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player) {
         if (i >= cells.size())
             i = 0;
         Cell cell = cells.get(i);

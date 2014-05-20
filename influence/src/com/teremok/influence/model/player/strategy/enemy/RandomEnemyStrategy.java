@@ -15,7 +15,7 @@ public class RandomEnemyStrategy implements EnemyStrategy {
     Random rnd;
 
     @Override
-    public Cell execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
+    public Cell execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player) {
         rnd = player.getRnd();
         Cell cell = cells.get(rnd.nextInt(cells.size()));
         return cell;

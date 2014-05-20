@@ -29,7 +29,7 @@ public class SmartyPowerStrategy extends BasicPowerStrategy {
     }
 
     @Override
-    public Map<Cell, Integer> execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
+    public Map<Cell, Integer> execute(Cell attacker, List<Cell> cells, FieldModel fieldModel, Strategist player) {
 
         int needToFull = 0;
         for (Cell cell : cells) {
