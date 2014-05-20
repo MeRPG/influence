@@ -1,7 +1,5 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.util.Logger;
-
 import java.util.*;
 
 /**
@@ -92,11 +90,11 @@ public class Router {
         Route route;
         for (Integer routeKey : routeMap.keySet()) {
             route = routeMap.get(routeKey);
-            Logger.log("route: " + route);
+            //Logger.log("route: " + route);
             if (route.enabled)
                 enableCount++;
         }
-        Logger.log("route count: " + routeMap.size() +"; enabled: " + enableCount);
+        //Logger.log("route count: " + routeMap.size() +"; enabled: " + enableCount);
 
     }
 

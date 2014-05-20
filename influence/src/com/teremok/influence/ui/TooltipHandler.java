@@ -19,6 +19,6 @@ public class TooltipHandler extends Group {
         int nextId = getInstance().getChildren().size+1;
         tooltip.setId(nextId);
         tooltip.addActions();
-        getInstance().addActor(tooltip);
+        //getInstance().addActor(tooltip);
     }
 }

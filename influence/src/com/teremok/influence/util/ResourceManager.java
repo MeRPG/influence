@@ -29,19 +29,19 @@ public class ResourceManager {
         String internalPath = ATLAS_PATH_INTERNAL + atlasName + ATLAS_EXT;
         String externalPath = ATLAS_PATH_EXTERNAL + atlasName + ATLAS_EXT;
         TextureAtlas atlas;
-        Logger.log("Load atlas " + atlasName);
+        //Logger.log("Load atlas " + atlasName);
         if (Gdx.files.external(externalPath).exists()) {
             atlas= new TextureAtlas(Gdx.files.external(externalPath));
-            Logger.log("use external path: " + externalPath);
+            //Logger.log("use external path: " + externalPath);
         } else {
             atlas= new TextureAtlas(Gdx.files.internal(internalPath));
-            Logger.log("use internal path: " + internalPath);
+            //Logger.log("use internal path: " + internalPath);
         }
         for (Texture texture : atlas.getTextures()) {
             texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
         atlases.put(atlasName, atlas);
-        Logger.log("Atlas loaded: " + atlas);
+        //Logger.log("Atlas loaded: " + atlas);
         return atlas;
     }
 

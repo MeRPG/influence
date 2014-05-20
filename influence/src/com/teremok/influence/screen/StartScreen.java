@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.controller.MatchSaver;
+import com.teremok.influence.ga.Scientist;
 import com.teremok.influence.model.Chronicle;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
@@ -39,6 +40,7 @@ public class StartScreen extends StaticScreen {
         Settings.init();
         Logger.init();
         Chronicle.init();
+        Scientist.populateRandom();
         AboutScreenChecker.check();
     }
 
@@ -154,7 +156,7 @@ public class StartScreen extends StaticScreen {
     public void resume() {
         super.resume();
         FXPlayer.load();
-        Logger.log("StartScreen: resume;");
+        //Logger.log("StartScreen: resume;");
     }
 
     @Override

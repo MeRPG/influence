@@ -4,6 +4,7 @@ import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.controller.SettingsSaver;
+import com.teremok.influence.ga.Scientist;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -94,6 +95,7 @@ public class Match {
 
         MatchSaver.save(this);
         SettingsSaver.save();
+        Scientist.END = false;
     }
 
     public void act(float delta) {
@@ -141,6 +143,12 @@ public class Match {
             }
 
             currentPlayer.act(delta);
+
+            if (!Scientist.END && pm.getPlayers()[0].getScore() > Scientist.maxCurrentScore)
+                Scientist.maxCurrentScore = pm.getPlayers()[0].getScore();
+            if (!Scientist.END && (pm.getNumberOfPlayerInGame() == 1 || pm.getPlayers()[0].getScore() == 0)) {
+                Scientist.processMatchResult(pm.getPlayers()[0].getScore());
+            }
         }
     }
 

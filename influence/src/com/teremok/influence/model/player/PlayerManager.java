@@ -2,7 +2,6 @@ package com.teremok.influence.model.player;
 
 import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Match;
-import com.teremok.influence.util.Logger;
 
 import java.util.Map;
 
@@ -62,7 +61,7 @@ public class PlayerManager {
         resetPlayersArray(map.size());
         for (Integer i = 0; i < map.size(); i++) {
             addPlayer(PlayerFactory.getByType(map.get(i), i, match), i);
-            Logger.log("PM adding player in match");
+            //Logger.log("PM adding player in match");
         }
     }
 

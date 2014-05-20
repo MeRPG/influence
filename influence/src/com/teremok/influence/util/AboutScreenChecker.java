@@ -45,13 +45,13 @@ public class AboutScreenChecker implements Runnable {
 
                 Settings.lastAboutScreen = i;
 
-                Logger.log("new about screen: " + i);
+                //Logger.log("new about screen: " + i);
             } else {
-                Logger.log("no new about screen :( ");
+                //Logger.log("no new about screen :( ");
             }
 
         } catch (Exception ex) {
-            Logger.log("Exception: " + ex.getMessage());
+            //Logger.log("Exception: " + ex.getMessage());
             ex.printStackTrace();
         }
     }

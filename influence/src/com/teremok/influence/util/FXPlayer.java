@@ -1,8 +1,6 @@
 package com.teremok.influence.util;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.teremok.influence.model.Settings;
 
 import java.util.HashMap;
 
@@ -20,58 +18,58 @@ public class FXPlayer {
     static HashMap<String, Sound> sounds;
 
     public static void playClick() {
-        if (Settings.sound && sounds != null) {
-            sounds.get(CLICK).play();
-        }
+//        if (Settings.sound && sounds != null) {
+//            sounds.get(CLICK).play();
+//        }
     }
 
     public static void playWin() {
-        if (Settings.sound && sounds != null) {
-            sounds.get(WIN).play();
-        }
+//        if (Settings.sound && sounds != null) {
+//            sounds.get(WIN).play();
+//        }
     }
 
     public static void playLose() {
-        if (Settings.sound && sounds != null) {
-            sounds.get(LOSE).play();
-        }
+//        if (Settings.sound && sounds != null) {
+//            sounds.get(LOSE).play();
+//        }
     }
 
     public static void playWinMatch() {
-        if (Settings.sound && sounds != null) {
-            sounds.get(WIN_MATCH).play();
-        }
+//        if (Settings.sound && sounds != null) {
+//            sounds.get(WIN_MATCH).play();
+//        }
     }
 
     public static void playLoseMatch() {
-        if (Settings.sound && sounds != null) {
-            sounds.get(LOSE_MATCH).play();
-        }
+//        if (Settings.sound && sounds != null) {
+//            sounds.get(LOSE_MATCH).play();
+//        }
     }
 
     public static void dispose() {
-        for (Sound sound : sounds.values()) {
-            sound.dispose();
-        }
-        sounds.clear();
+//        for (Sound sound : sounds.values()) {
+//            sound.dispose();
+//        }
+//        sounds.clear();
     }
 
     public static void load() {
-        if (sounds == null) {
-            sounds = new HashMap<String, Sound>();
-        }
-        load(CLICK);
-        load(WIN);
-        load(LOSE);
-        load(WIN_MATCH);
-        load(LOSE_MATCH);
+//        if (sounds == null) {
+//            sounds = new HashMap<String, Sound>();
+//        }
+//        load(CLICK);
+//        load(WIN);
+//        load(LOSE);
+//        load(WIN_MATCH);
+//        load(LOSE_MATCH);
     }
 
     private static void load(String name) {
-        Sound sound = sounds.get(name);
-        if (sound != null)
-            sound.dispose();
-        sounds.put(name, Gdx.audio.newSound(Gdx.files.internal("sound/" + name+".mp3")));
+//        Sound sound = sounds.get(name);
+//        if (sound != null)
+//            sound.dispose();
+//        sounds.put(name, Gdx.audio.newSound(Gdx.files.internal("sound/" + name+".mp3")));
     }
 
 

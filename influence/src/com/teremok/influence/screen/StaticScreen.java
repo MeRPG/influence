@@ -16,7 +16,6 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.UIElementParams;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.ResourceManager;
 import com.teremok.influence.view.Animation;
 
@@ -119,7 +118,7 @@ public abstract class StaticScreen extends AbstractScreen {
             loadElement(element);
         }
         for (UIElementParams params : uiElements.values()) {
-            Logger.log(params.toString());
+            //Logger.log(params.toString());
         }
     }
 
@@ -127,7 +126,7 @@ public abstract class StaticScreen extends AbstractScreen {
         for (UIElementParams params : uiElements.values()) {
             if (! params.parsed) {
                 stage.addActor(new TexturePanel(params));
-                Logger.log("add non parsed element as TexturePanel: " + params.name);
+                //Logger.log("add non parsed element as TexturePanel: " + params.name);
             }
         }
     }
@@ -143,17 +142,17 @@ public abstract class StaticScreen extends AbstractScreen {
 
         if (params.localized) {
             params.region = atlas.findRegion(region + "_" + Localizator.getLanguage());
-            Logger.log("finding localized region: " + region + "_" + Localizator.getLanguage() + " : " + params.region);
+            //Logger.log("finding localized region: " + region + "_" + Localizator.getLanguage() + " : " + params.region);
             if (! secondRegion.isEmpty()) {
                 params.region2 = atlas.findRegion(secondRegion + "_" + Localizator.getLanguage());
-                Logger.log("finding localized region: " + secondRegion + "_" + Localizator.getLanguage() + " : " + params.region2);
+                //Logger.log("finding localized region: " + secondRegion + "_" + Localizator.getLanguage() + " : " + params.region2);
             }
         } else {
             params.region = atlas.findRegion(region);
-            Logger.log("finding region: " + region + " : " + params.region);
+            //Logger.log("finding region: " + region + " : " + params.region);
             if (! secondRegion.isEmpty()) {
                 params.region2 = atlas.findRegion(secondRegion);
-                Logger.log("finding region: " + secondRegion + " : " + params.region2);
+                //Logger.log("finding region: " + secondRegion + " : " + params.region2);
             }
         }
 
@@ -200,20 +199,20 @@ public abstract class StaticScreen extends AbstractScreen {
         super.resize(width, height);
         addNonparsed();
         fadeOutOverlap();
-        Logger.log("resize");
+        //Logger.log("resize");
     }
 
     @Override
     public void show() {
         super.show();
-        Logger.log("show - loading textures from " + filename);
+        //Logger.log("show - loading textures from " + filename);
         loadScreenCatchEx();
     }
 
     @Override
     public void hide() {
         //super.hide();
-        Logger.log("hide");
+        //Logger.log("hide");
     }
 
     @Override

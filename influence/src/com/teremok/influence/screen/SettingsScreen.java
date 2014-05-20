@@ -11,7 +11,6 @@ import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 
 /**
@@ -161,6 +160,6 @@ public class SettingsScreen extends StaticScreen {
     public void show() {
         super.show();
         FXPlayer.load();
-        Logger.log("SettingsScreen: show;");
+        //Logger.log("SettingsScreen: show;");
     }
 }

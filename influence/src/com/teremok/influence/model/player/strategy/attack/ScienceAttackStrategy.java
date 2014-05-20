@@ -7,14 +7,15 @@ import com.teremok.influence.model.player.strategy.AttackStrategy;
 
 import java.util.List;
 
+import static com.teremok.influence.ga.Scientist.unit;
+
 /**
  * Created by Алексей on 20.05.2014
  */
 public class ScienceAttackStrategy implements AttackStrategy {
 
     //private static final float DELTA_POWER_COEF = 0.75f;
-    private static final float ENEMIES_NUMBER_COEF = 0.25f;
-    private static final float POWER_COEF = 1.0f;
+
 
     private float bids[];
     private float coef[];
@@ -57,8 +58,10 @@ public class ScienceAttackStrategy implements AttackStrategy {
         if (cell.getPower() < 2) {
             return 0;
         }
+        if (cell.getEnemies().size() == 0)
+            return 0;
 
-        float numberOfEnemiesBid = cell.getEnemies().size() * ENEMIES_NUMBER_COEF;
+        float numberOfEnemiesBid = cell.getEnemies().size() * unit.A_ENEMIES_NUMBER_COEF;
 
         /*
         float deltaPowerBid = 0;
@@ -68,7 +71,7 @@ public class ScienceAttackStrategy implements AttackStrategy {
         deltaPowerBid /= cell.getEnemies().size();
         deltaPowerBid *= DELTA_POWER_COEF;    */
 
-        float powerBid = (cell.getPower()-1) * POWER_COEF;
+        float powerBid = (cell.getPower()-1) * unit.A_POWER_COEF;
 
         bids = powerBid + numberOfEnemiesBid;
 

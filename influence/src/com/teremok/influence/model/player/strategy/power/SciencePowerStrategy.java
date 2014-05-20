@@ -3,22 +3,16 @@ package com.teremok.influence.model.player.strategy.power;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.FieldModel;
 import com.teremok.influence.model.player.Strategist;
-import com.teremok.influence.util.Logger;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.teremok.influence.ga.Scientist.unit;
 
 /**
  * Created by Алексей on 20.05.2014
  */
 public class SciencePowerStrategy extends BasicPowerStrategy {
-
-    private static final float INITIAL_BID = 0.1f;
-    private static final float POWER_COEF = 0.75f;
-    private static final float ENEMIES_NUMBER_COEF = 0.50f;
-    private static final float EMPTY_ENEMY_COEF = 1.0f;
-
-
 
     private float bids[];
     private float coef[];
@@ -58,19 +52,17 @@ public class SciencePowerStrategy extends BasicPowerStrategy {
         int i = 0;
         sum = 0;
         for (Cell cell : cells) {
-            Logger.append( i + "");
+            //Logger.append( i + "");
             bids[i] = checkBids(cell);
             sum += bids[i];
             i++;
         }
-        Logger.log("bid sum: " + sum);
+
         for (i = 0; i < cells.size(); i++) {
             coef[i] = bids[i] / sum;
-            Logger.log( i + " - coef: " + coef[i]);
             if (coef[i] > coef[max])
                 max = i;
         }
-        Logger.log("max coef: " + coef[max] + "; bid: " + bids[max]);
     }
 
     private float checkBids(Cell cell) {
@@ -78,7 +70,7 @@ public class SciencePowerStrategy extends BasicPowerStrategy {
         if (getNewPower(cell) == cell.getMaxPower())
             return 0;
 
-        float routesBid = cell.getEnemies().size() * ENEMIES_NUMBER_COEF;
+        float routesBid = cell.getEnemies().size() * unit.P_ENEMIES_NUMBER_COEF;
 
         float powerBid = -(getNewPower(cell) -1);
         float emptyEnemyBid = 0;
@@ -88,15 +80,14 @@ public class SciencePowerStrategy extends BasicPowerStrategy {
                 emptyEnemyBid++;
             }
         }
-        powerBid *= POWER_COEF;
+        powerBid *= unit.P_POWER_COEF;
 
         if (powerBid < 0)
             powerBid = 0;
 
-        emptyEnemyBid *= EMPTY_ENEMY_COEF;
+        emptyEnemyBid *= unit.P_EMPTY_ENEMY_COEF;
 
-        bids = INITIAL_BID + powerBid + emptyEnemyBid + routesBid;
-        Logger.log("bids = INITIAL (" + INITIAL_BID + ") + " + powerBid + " + " + emptyEnemyBid + " + " + routesBid);
+        bids = unit.P_INITIAL_BID + powerBid + emptyEnemyBid + routesBid;
         if (bids < 0)
             bids = 0;
         return bids;

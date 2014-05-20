@@ -1,7 +1,5 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.util.Logger;
-
 /**
  * Created by Alexx on 27.02.14
  */
@@ -13,6 +11,6 @@ public enum GameDifficulty {
     CUSTOM ("CUSTOM");
 
     GameDifficulty(String string) {
-        Logger.log("game difficulty " + string + " created.");
+        //Logger.log("game difficulty " + string + " created.");
     }
 }

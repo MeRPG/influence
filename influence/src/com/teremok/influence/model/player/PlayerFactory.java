@@ -3,9 +3,12 @@ package com.teremok.influence.model.player;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.player.strategy.attack.BeefyAttackStrategy;
 import com.teremok.influence.model.player.strategy.attack.RandomAttackStrategy;
+import com.teremok.influence.model.player.strategy.attack.ScienceAttackStrategy;
 import com.teremok.influence.model.player.strategy.enemy.LazyEnemyStrategy;
 import com.teremok.influence.model.player.strategy.enemy.RandomEnemyStrategy;
+import com.teremok.influence.model.player.strategy.enemy.ScienceEnemyStrategy;
 import com.teremok.influence.model.player.strategy.power.RandomPowerStrategy;
+import com.teremok.influence.model.player.strategy.power.SciencePowerStrategy;
 import com.teremok.influence.model.player.strategy.power.SmartyPowerStrategy;
 
 /**
@@ -56,7 +59,9 @@ public class PlayerFactory {
 
     public static Strategist getBeefy(int number, Match match) {
         Strategist beefy = new Strategist(number, match);
-        beefy.setAttackStrategy(new BeefyAttackStrategy());
+        beefy.setAttackStrategy(new ScienceAttackStrategy());
+        beefy.setEnemyStrategy(new ScienceEnemyStrategy());
+        beefy.setPowerStrategy(new SciencePowerStrategy());
         return  beefy;
     }
 

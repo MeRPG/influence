@@ -5,7 +5,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
 import com.teremok.influence.model.Chronicle;
-import com.teremok.influence.util.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class ChronicleController {
         FileHandle handle = Gdx.files.external(CHRONICLE_PATH);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
-            Logger.log(handle.file().getAbsolutePath());
+            //Logger.log(handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter root = xml.element("chronicle");
 

@@ -9,7 +9,6 @@ import com.teremok.influence.model.GameDifficulty;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.player.PlayerType;
-import com.teremok.influence.util.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,7 +29,7 @@ public class SettingsSaver {
         FileHandle handle = Gdx.files.external(SETTINGS_PATH);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
-            Logger.log(handle.file().getAbsolutePath());
+            //Logger.log(handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter root = xml.element("settings");
 
@@ -140,7 +139,7 @@ public class SettingsSaver {
                     number = Integer.parseInt(player.getAttribute("number", "0"));
                     type = player.getText();
                     players.put(number, PlayerType.valueOf(type));
-                    Logger.log("adding customPlayer " + type + " with number " + number);
+                    //Logger.log("adding customPlayer " + type + " with number " + number);
                 }
 
                 gameSettings.customPlayers = players;
@@ -162,9 +161,9 @@ public class SettingsSaver {
 
     public static void checkDirs() {
         FileHandle setting = Gdx.files.external(DIR);
-        Logger.log("checkDirs...");
+        //Logger.log("checkDirs...");
         if (! setting.exists()) {
-            Logger.log("creating new root directory");
+            //Logger.log("creating new root directory");
 
             setting.mkdirs();
             Gdx.files.external(DIR+"/atlas").mkdirs();

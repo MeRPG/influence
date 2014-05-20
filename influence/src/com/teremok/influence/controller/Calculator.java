@@ -1,7 +1,5 @@
 package com.teremok.influence.controller;
 
-import com.teremok.influence.util.Logger;
-
 import java.util.Random;
 
 /**
@@ -34,19 +32,19 @@ public class Calculator {
         a = powerA;
         b = powerB;
 
-        Logger.log("Attack:\t" + powerA + " \t->\t " + powerB);
+        //Logger.log("Attack:\t" + powerA + " \t->\t " + powerB);
 
         n = rollNDices(powerA);
         m = rollNDices(powerB);
 
-        Logger.log("Delta:\t" + n + " \t->\t " + m);
+        //Logger.log("Delta:\t" + n + " \t->\t " + m);
 
         delta = n - m;
 
         calculateResults();
 
-        Logger.log("Result:\t" + a + " \t->\t " + b);
-        Logger.log("-\t-\t-\t-\t-");
+        //Logger.log("Result:\t" + a + " \t->\t " + b);
+        //Logger.log("-\t-\t-\t-\t-");
         return delta;
     }
 

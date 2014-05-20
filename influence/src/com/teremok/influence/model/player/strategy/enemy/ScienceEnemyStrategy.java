@@ -7,13 +7,12 @@ import com.teremok.influence.model.player.strategy.EnemyStrategy;
 
 import java.util.List;
 
+import static com.teremok.influence.ga.Scientist.unit;
+
 /**
  * Created by Алексей on 20.05.2014
  */
 public class ScienceEnemyStrategy implements EnemyStrategy {
-
-    private static final float POWER_COEF = 1.0f;
-    private static final float NEAR_POWER_COEF = 0.1f;
 
     private float bids[];
     private float coef[];
@@ -53,7 +52,7 @@ public class ScienceEnemyStrategy implements EnemyStrategy {
     private float checkBids(Cell attacker, Cell cell) {
         float bids;
 
-        float powerBid = (attacker.getPower() - cell.getPower() ) * POWER_COEF;
+        float powerBid = (attacker.getPower() - cell.getPower() ) * unit.E_POWER_COEF;
         if (powerBid < 0) {
             powerBid = 0;
         }
@@ -63,7 +62,7 @@ public class ScienceEnemyStrategy implements EnemyStrategy {
             nearPowerBid += enemyOfEnemy.getPower();
         }
         nearPowerBid /= cell.getEnemies().size();
-        nearPowerBid *= NEAR_POWER_COEF;
+        nearPowerBid *= unit.E_NEAR_POWER_COEF;
 
         bids = powerBid + nearPowerBid;
 

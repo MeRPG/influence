@@ -11,12 +11,12 @@ import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.controller.SettingsSaver;
+import com.teremok.influence.ga.Scientist;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Animation;
 
@@ -96,11 +96,15 @@ public class GameScreen extends StaticScreen {
                 turnOffBorder(borderTop);
             }
         }
+
+        if (Scientist.END || match.getPm().getNumberOfPlayerInGame() == 1) {
+            gracefullyStartNewMatch();
+        }
     }
 
     private void turnOnBorder(TexturePanel border) {
        if (!borderState.get(border)) {
-            Logger.log("border turned on");
+            //Logger.log("border turned on");
             SequenceAction sequenceAction = Actions.sequence(
                     Actions.alpha(1f, Animation.DURATION_NORMAL)
             );
@@ -111,7 +115,7 @@ public class GameScreen extends StaticScreen {
 
     private void turnOffBorder(TexturePanel border) {
         if (borderState.get(border)) {
-            Logger.log("border turned off");
+            //Logger.log("border turned off");
             SequenceAction sequenceAction = Actions.sequence(
                     Actions.alpha(0f, Animation.DURATION_NORMAL)
             );
@@ -124,7 +128,7 @@ public class GameScreen extends StaticScreen {
     @Override
     public void show() {
         super.show();
-        Logger.log("GameScreen: show;");
+        //Logger.log("GameScreen: show;");
     }
 
     void initBacklight() {
@@ -224,7 +228,7 @@ public class GameScreen extends StaticScreen {
     public void flashBacklight(Color color) {
         backlight.setColor(color);
         backlight.getColor().a = 1f;
-        Logger.log("backlight : flash! " + backlight.getColor().a);
+        //Logger.log("backlight : flash! " + backlight.getColor().a);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.delay(Animation.DURATION_SHORT),
                 Actions.alpha(0f, Animation.DURATION_NORMAL)
@@ -251,7 +255,7 @@ public class GameScreen extends StaticScreen {
         super.pause();
         FXPlayer.dispose();
         pauseMatch();
-        Logger.log("GameScreen: show;");
+        //Logger.log("GameScreen: show;");
     }
 
     @Override
@@ -260,7 +264,7 @@ public class GameScreen extends StaticScreen {
         FXPlayer.load();
         if (match.isPaused())
             pausePanel.show();
-        Logger.log("GameScreen: show;");
+        //Logger.log("GameScreen: show;");
     }
 
     @Override
@@ -365,19 +369,19 @@ public class GameScreen extends StaticScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        Logger.log("GameScreen: resize;");
+        //Logger.log("GameScreen: resize;");
     }
 
     @Override
     public void hide() {
         super.hide();
-        Logger.log("GameScreen: hide;");
+        //Logger.log("GameScreen: hide;");
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        Logger.log("GameScreen: dispose;");
+        //Logger.log("GameScreen: dispose;");
     }
 
 

@@ -59,7 +59,7 @@ public class GameSettings {
     }
 
     public static Map<Integer, PlayerType> singlePlayerEasy(int playersNumber) {
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
         switch (playersNumber) {
             case 5:
                 players.put(4, PlayerType.Lazy);
@@ -78,11 +78,11 @@ public class GameSettings {
     }
 
     public static Map<Integer, PlayerType>   singlePlayerNormal(int playersNumber) {
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
 
         switch (playersNumber) {
             case 5:
-                players.put(4, PlayerType.Beefy);
+                players.put(4, PlayerType.Lazy);
             case 4:
                 players.put(3, PlayerType.Lazy);
             case 3:
@@ -96,7 +96,7 @@ public class GameSettings {
     }
 
     public static Map<Integer, PlayerType> singlePlayerHard(int playersNumber) {
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
 
         switch (playersNumber) {
             case 5:
@@ -104,17 +104,17 @@ public class GameSettings {
             case 4:
                 players.put(3, PlayerType.Hunter);
             case 3:
-                players.put(2, PlayerType.Smarty);
+                players.put(2, PlayerType.Hunter);
             case 2:
-                players.put(1, PlayerType.Smarty);
+                players.put(1, PlayerType.Hunter);
             default:
-                players.put(0, PlayerType.Human);
+                players.put(0, PlayerType.Beefy);
         }
         return players;
     }
 
     public static Map<Integer, PlayerType> singlePlayerInsane(int playersNumber) {
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
 
         switch (playersNumber) {
             case 5:

@@ -12,7 +12,6 @@ import com.teremok.influence.model.FieldModel;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.TexturePanel;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Drawer;
 
@@ -99,7 +98,7 @@ public class EditorScreen extends StaticScreen {
         stage.addListener( new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Logger.log("Editor - touchDown");
+                //Logger.log("Editor - touchDown");
                 return true;
             }
 
@@ -108,7 +107,7 @@ public class EditorScreen extends StaticScreen {
                 if (event.isHandled())
                     return;
                 event.handle();
-                Logger.log("Editor - touchUp on " + x + "; " + y);
+                //Logger.log("Editor - touchUp on " + x + "; " + y);
                 Cell target = field.hit(x-fieldModel.initialX, y-fieldModel.initialY);
                 Cell hidden = hitHidden(x-fieldModel.initialX, y-fieldModel.initialY);
                 switch (button) {
@@ -176,7 +175,7 @@ public class EditorScreen extends StaticScreen {
 
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                Logger.log("keyUp: " + keycode);
+                //Logger.log("keyUp: " + keycode);
                 if (keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT) {
                     shifted = false;
                     fromRoute = -1;
@@ -201,7 +200,7 @@ public class EditorScreen extends StaticScreen {
 
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                Logger.log("keyDown: " + keycode);
+                //Logger.log("keyDown: " + keycode);
                 if (keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT) {
                     shifted = true;
                 }
@@ -255,7 +254,7 @@ public class EditorScreen extends StaticScreen {
     }
 
     public Cell hitHidden(float x, float y) {
-        Logger.log("hit hidden on " + x + "; " + y);
+        //Logger.log("hit hidden on " + x + "; " + y);
         int unitsY = (int)(y/ FieldController.cellHeight);
 
         if (unitsY%2 == 1) {

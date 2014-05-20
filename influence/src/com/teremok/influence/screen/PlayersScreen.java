@@ -12,7 +12,6 @@ import com.teremok.influence.model.Settings;
 import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +61,7 @@ public class PlayersScreen extends StaticScreen {
     @Override
     protected void addActors() {
 
-        Logger.log("number of players: " + numberOfPlayers);
+        //Logger.log("number of players: " + numberOfPlayers);
 
         playerGreen = new TexturePanel(uiElements.get(GREEN));
         playerGreen.setTouchable(Touchable.disabled);

@@ -105,7 +105,7 @@ public class GraphGenerator {
             for (int i = 1; i < maxCellsY; i += 2) {
                 mask[i][maxCellsX -1] = Byte.MAX_VALUE;
 
-                Logger.log("add forbidden " + i + " : "+ (maxCellsX -1));
+                //Logger.log("add forbidden " + i + " : "+ (maxCellsX -1));
             }
         }
     }

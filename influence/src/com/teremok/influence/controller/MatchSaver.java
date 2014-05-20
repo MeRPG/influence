@@ -60,7 +60,7 @@ public class MatchSaver {
         try {
             FileHandle handle = Gdx.files.external(MATCH_PATH);
             FileWriter fileWriter = new FileWriter(handle.file());
-            Logger.log("Game save cleared: " + handle.file().getAbsolutePath());
+            //Logger.log("Game save cleared: " + handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter xmlMatch = xml.element(ROOT);
             xmlMatch.pop();
@@ -129,7 +129,7 @@ public class MatchSaver {
     private static Match loadFromFile() throws IOException{
         Match match;
         FileHandle handle = Gdx.files.external(MATCH_PATH);
-        Logger.log("loading match from file " + handle.path());
+        //Logger.log("loading match from file " + handle.path());
         if (handle.exists()) {
             XmlReader reader = new XmlReader();
 
@@ -139,7 +139,7 @@ public class MatchSaver {
 
             GameSettings gameSettings = Settings.gameSettings;
 
-            Logger.log("loading players");
+            //Logger.log("loading players");
             loadPlayers(root, gameSettings);
             List<Cell> cells = loadCells(root);
 
@@ -164,7 +164,7 @@ public class MatchSaver {
             number = Integer.parseInt(player.getAttribute(NUMBER, "0"));
             type = player.getText();
             players.put(number, PlayerType.valueOf(type));
-            Logger.log("adding player " + type + " with number " + number);
+            //Logger.log("adding player " + type + " with number " + number);
         }
 
         settings.players = players;
@@ -193,7 +193,7 @@ public class MatchSaver {
 
             cell = new Cell(number, unitsX, unitsY, power, maxPower, type);
             cells.add(cell);
-            Logger.log("adding cell " + cell);
+            //Logger.log("adding cell " + cell);
         }
         return cells;
     }
