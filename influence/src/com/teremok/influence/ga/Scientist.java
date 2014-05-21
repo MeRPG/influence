@@ -15,7 +15,7 @@ public class Scientist {
     private static int GENERATIONS = 10;
 
     private static float MUTATION = 0.25f;
-    private static float MUTATION_STEP = 0.05f;
+    private static float MUTATION_STEP = MUTATION / GENERATIONS;
 
     private static Unit[] population = new Unit[POPULATION_SIZE];
     private static float[] results = new float[POPULATION_SIZE];
@@ -81,7 +81,7 @@ public class Scientist {
             sb.append(" attack {");
             sb.append(" A_ENEMIES_NUMBER_COEF: ");
             sb.append(A_ENEMIES_NUMBER_COEF);
-            sb.append("A_POWER_COEF: ");
+            sb.append(" A_POWER_COEF: ");
             sb.append(A_POWER_COEF);
             sb.append(" }\n enemy {");
             sb.append(" E_POWER_COEF: ");
@@ -235,6 +235,8 @@ public class Scientist {
                     decreaseMutationCoef();
                 }
 
+                lastAverageScore = averageScore;
+
                 newGeneration();
 
 
@@ -242,6 +244,8 @@ public class Scientist {
                     Logger.log("------ GENERATIONS LIMIT! ------");
                     ScreenController.exitGame();
                 }
+
+                generation++;
             } else {
                 setCurrent(current + 1);
             }
