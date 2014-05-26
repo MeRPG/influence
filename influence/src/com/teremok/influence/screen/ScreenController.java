@@ -82,6 +82,7 @@ public class ScreenController {
         if (statisticsScreen == null) {
             statisticsScreen = new StatisticsScreen(game, "statisticsScreen");
         }
+        FlurryHelper.logStatisticsScreenEvent();
         gracefullyShowScreen(statisticsScreen);
     }
 

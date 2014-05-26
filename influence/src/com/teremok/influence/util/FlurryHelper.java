@@ -92,6 +92,14 @@ public class FlurryHelper {
         }
     }
 
+    public static void logStatisticsScreenEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Statistics_Screen");
+        }
+    }
+
+
+
     public static void logPauseRestartEvent() {
         if (flurryEnabled()) {
             FlurryAgent.logEvent("Pause_Restart");
