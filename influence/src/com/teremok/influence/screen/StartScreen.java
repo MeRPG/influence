@@ -116,6 +116,9 @@ public class StartScreen extends StaticScreen {
                     ScreenController.gracefullyExitGame();
                     return true;
                 }
+                if (keycode == Input.Keys.S) {
+                    ScreenController.showStatisticsScreen();
+                }
                 return false;
             }
         });

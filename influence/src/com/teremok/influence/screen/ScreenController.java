@@ -28,6 +28,7 @@ public class ScreenController {
     private static MapSizeScreen mapSizeScreen;
     private static PlayersScreen playersScreen;
     private static EditorScreen editorScreen;
+    private static StatisticsScreen statisticsScreen;
 
     public static void init(Influence game) {
         ScreenController.game = game;
@@ -41,6 +42,7 @@ public class ScreenController {
             currentScreen = null;
             mapSizeScreen = null;
             playersScreen = null;
+            statisticsScreen = null;
             ResourceManager.disposeAll();
         }
         startScreen = new StartScreen(game, "startScreen");
@@ -74,6 +76,13 @@ public class ScreenController {
             editorScreen = new EditorScreen(game, "gameScreen");
         }
         gracefullyShowScreen(editorScreen);
+    }
+
+    public static void showStatisticsScreen() {
+        if (statisticsScreen == null) {
+            statisticsScreen = new StatisticsScreen(game, "statisticsScreen");
+        }
+        gracefullyShowScreen(statisticsScreen);
     }
 
     public static void showMapSizeScreen() {
