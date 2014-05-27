@@ -1,5 +1,6 @@
 package com.teremok.influence.util;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.teremok.influence.ui.TextureNumber;
@@ -9,12 +10,21 @@ import com.teremok.influence.ui.TextureNumber;
  */
 public class TextureNumberFactory {
 
+    enum CompareResult {
+        BAD, GOOD, AVERAGE
+    }
+
     private final int LEFT_DIGEST_SIDE = 1;
     private final int RIGHT_DIGEST_SIDE = 2;
 
     private final float REGION_WIDTH = 91f;
 
-    private float[][] sizes = {
+    private final Color BAD_COLOR = new Color(Color.RED);
+    private final Color GOOD_COLOR = new Color(Color.GREEN);
+    private final Color NORMAL_COLOR = new Color(Color.CYAN);
+    private final Color AVERAGE_COLOR = new Color(Color.ORANGE);
+
+    private final float[][] sizes = {
             { 0, 37, 37},
             { 1, 41, 42},
             { 2, 37, 37},
@@ -60,8 +70,71 @@ public class TextureNumberFactory {
             lastDigit = digit;
         }
 
+        lastNumber.setColor(NORMAL_COLOR);
         lastNumber.setPositions(positions);
         lastDigit = 0;
         return lastNumber;
+    }
+
+    public Color getCompareColorBad(int a, int b) {
+        Color retColor = NORMAL_COLOR;
+        switch (compareBad(a, b)) {
+            case BAD:
+                retColor = BAD_COLOR;
+                break;
+            case GOOD:
+                retColor = GOOD_COLOR;
+                break;
+            case AVERAGE:
+                retColor = AVERAGE_COLOR;
+                break;
+        }
+        return retColor;
+    }
+
+    public Color getCompareColor(int a, int b) {
+        Color retColor = NORMAL_COLOR;
+        switch (compare(a, b)) {
+            case BAD:
+                retColor = BAD_COLOR;
+                break;
+            case GOOD:
+                retColor = GOOD_COLOR;
+                break;
+            case AVERAGE:
+                retColor = AVERAGE_COLOR;
+                break;
+        }
+        return retColor;
+    }
+
+    private CompareResult compare(int a, int b) {
+        if (inRange(a,b,0.5f)) {
+            return CompareResult.AVERAGE;
+        }
+        if (a < b) {
+            return CompareResult.BAD;
+        }
+        if (a > b) {
+            return CompareResult.GOOD;
+        }
+        return CompareResult.AVERAGE;
+    }
+
+    private CompareResult compareBad(int a, int b) {
+        if (inRange(a,b,0.5f)) {
+            return CompareResult.AVERAGE;
+        }
+        if (a < b) {
+            return CompareResult.GOOD;
+        }
+        if (a > b) {
+            return CompareResult.BAD;
+        }
+        return CompareResult.AVERAGE;
+    }
+
+    private boolean inRange(float a, float b, float range) {
+        return (a >  b-b*range) && (a < b+b*range);
     }
 }

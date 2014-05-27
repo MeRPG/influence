@@ -1,5 +1,6 @@
 package com.teremok.influence.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -25,9 +26,12 @@ public class TextureNumber extends Actor {
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        Color beforeColor = batch.getColor();
+        batch.setColor(getColor());
         for (int i = 0; i < regions.size; i++) {
             batch.draw(regions.get(i), getX()+positions[i], getY());
         }
+        batch.setColor(beforeColor);
     }
 
     public void addRegion(TextureAtlas.AtlasRegion region) {
