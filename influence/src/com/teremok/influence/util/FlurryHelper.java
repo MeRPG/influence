@@ -98,8 +98,6 @@ public class FlurryHelper {
         }
     }
 
-
-
     public static void logPauseRestartEvent() {
         if (flurryEnabled()) {
             FlurryAgent.logEvent("Pause_Restart");
