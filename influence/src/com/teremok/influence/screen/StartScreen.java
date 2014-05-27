@@ -27,6 +27,7 @@ public class StartScreen extends StaticScreen {
     private static final String CONTINUE = "continue";
     private static final String NEWGAME = "newgame";
     private static final String SETTINGS = "settings";
+    private static final String STATISTICS = "statistics";
     private static final String VK_COM = "vk";
     private static final String GOOGLE_PLAY = "google_play";
 
@@ -56,6 +57,8 @@ public class StartScreen extends StaticScreen {
         resume = new ButtonTexture(uiElements.get(CONTINUE));
 
         ButtonTexture settings = new ButtonTexture(uiElements.get(SETTINGS));
+        ButtonTexture statistics = new ButtonTexture(STATISTICS, uiElements.get(SETTINGS).region, settings.getX() - 86, settings.getY());
+
         ButtonTexture vk = new ButtonTexture(uiElements.get(VK_COM));
         ButtonTexture googleplay = new ButtonTexture(uiElements.get(GOOGLE_PLAY));
 
@@ -67,6 +70,7 @@ public class StartScreen extends StaticScreen {
         stage.addActor(newGame);
         stage.addActor(resume);
         stage.addActor(settings);
+        stage.addActor(statistics);
         stage.addActor(vk);
         stage.addActor(googleplay);
     }
@@ -97,6 +101,9 @@ public class StartScreen extends StaticScreen {
                             break;
                         case SETTINGS:
                             ScreenController.showSettingsScreen();
+                            break;
+                        case STATISTICS:
+                            ScreenController.showStatisticsScreen();
                             break;
                         case VK_COM:
                             FlurryHelper.logVkClickEvent();
