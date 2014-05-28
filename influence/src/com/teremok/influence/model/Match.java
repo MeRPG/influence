@@ -167,7 +167,7 @@ public class Match {
             ((HumanPlayer) player).clearPowered();
         }
         player.updatePowerToDistribute();
-        if (turn == 1 && pm.getNumberOfPlayers() == 2){
+        if (turn == 1 && pm.getNumberOfPlayers() == 2 && pm.current().getNumber() == 0){
             player.subtractPowerToDistribute();
         }
         phase = Phase.POWER;
