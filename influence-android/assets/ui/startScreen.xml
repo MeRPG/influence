@@ -1,14 +1,18 @@
 <?xml version="1.0"  standalone="no"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
         atlas="startScreen" localized="false">
-    <element name="newgame" region="newgame" localized="true"
+    <element name="newgame" region="newGame" localized="true"
             x="115" y="233"/>
     <element name="continue" region="continue" localized="true"
              x="115" y="322"/>
     <element name="settings" region="settings" localized="false"
              x="401" y="68"/>
+    <element name="stat" region="stat" localized="false"
+             x="336" y="68"/>
+    <element name="f" region="f" localized="false"
+             x="14" y="68"/>
     <element name="vk" region="vk" localized="false"
-             x="17" y="68"/>
+             x="76" y="68"/>
     <element name="google_play" region="google_play" localized="false"
-             x="84" y="68"/>
+             x="138" y="68"/>
 </screen>

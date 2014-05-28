@@ -40,6 +40,14 @@ public class FlurryHelper {
         }
     }
 
+    public static void logFacebookClickEvent() {
+        if (flurryEnabled()) {
+            Map<String,String> parameters = new HashMap<>();
+            parameters.put("Language", Localizator.getLanguage());
+            FlurryAgent.logEvent("Facebook_Click", parameters);
+        }
+    }
+
     public static void logPlayClickEvent() {
         if (flurryEnabled()) {
             Map<String,String> parameters = new HashMap<>();

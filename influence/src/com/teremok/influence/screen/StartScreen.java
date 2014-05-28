@@ -27,8 +27,9 @@ public class StartScreen extends StaticScreen {
     private static final String CONTINUE = "continue";
     private static final String NEWGAME = "newgame";
     private static final String SETTINGS = "settings";
-    private static final String STATISTICS = "statistics";
+    private static final String STATISTICS = "stat";
     private static final String VK_COM = "vk";
+    private static final String F = "f";
     private static final String GOOGLE_PLAY = "google_play";
 
     private ColoredPanel credits;
@@ -57,10 +58,11 @@ public class StartScreen extends StaticScreen {
         resume = new ButtonTexture(uiElements.get(CONTINUE));
 
         ButtonTexture settings = new ButtonTexture(uiElements.get(SETTINGS));
-        ButtonTexture statistics = new ButtonTexture(STATISTICS, uiElements.get(SETTINGS).region, settings.getX() - 86, settings.getY());
+        ButtonTexture statistics = new ButtonTexture(uiElements.get(STATISTICS));
 
         ButtonTexture vk = new ButtonTexture(uiElements.get(VK_COM));
         ButtonTexture googleplay = new ButtonTexture(uiElements.get(GOOGLE_PLAY));
+        ButtonTexture f = new ButtonTexture(uiElements.get(F));
 
         if (credits == null) {
             credits = new ColoredPanel(new Color(0x00000000), 0f, 0f, WIDTH, 54f);
@@ -72,6 +74,7 @@ public class StartScreen extends StaticScreen {
         stage.addActor(settings);
         stage.addActor(statistics);
         stage.addActor(vk);
+        stage.addActor(f);
         stage.addActor(googleplay);
     }
 
@@ -104,6 +107,10 @@ public class StartScreen extends StaticScreen {
                             break;
                         case STATISTICS:
                             ScreenController.showStatisticsScreen();
+                            break;
+                        case F:
+                            FlurryHelper.logFacebookClickEvent();
+                            goToF();
                             break;
                         case VK_COM:
                             FlurryHelper.logVkClickEvent();
@@ -150,6 +157,11 @@ public class StartScreen extends StaticScreen {
     public void goToVkCom()
     {
         Gdx.net.openURI("https:/vk.com/teremokgames");
+    }
+
+    public void goToF()
+    {
+        Gdx.net.openURI("https://www.facebook.com/teremokgames");
     }
 
     public void goToGooglePlay()
