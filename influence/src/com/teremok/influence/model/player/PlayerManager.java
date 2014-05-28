@@ -72,23 +72,10 @@ public class PlayerManager {
     }
 
     public void placeStartPositions() {
-        if (players.length == 2) {
-            placeStartPositionsTwo();
-        } else {
-            placeStartPositionsMany();
-        }
-    }
-
-    private void placeStartPositionsMany() {
         for (Player player : players) {
             field.placeStartPosition(player.getNumber());
             field.updateLists();
         }
-    }
-
-    private void placeStartPositionsTwo() {
-        field.placeStartPositionFromRange(players[0].number, 0, 70);
-        field.placeStartPositionFromRange(players[1].number, 300, 350);
     }
 
     public boolean isHumanActing() {
