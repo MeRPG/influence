@@ -22,34 +22,24 @@ public class StatisticsScreen extends StaticScreen {
         TextureNumberFactory numberFactory = new TextureNumberFactory();
 
         TextureNumber number;
-        number = numberFactory.getNumber(Chronicle.played, 240, 550);
+        number = numberFactory.getNumber(Chronicle.played, 240, 455, false);
+        number.setColor(Chronicle.played == 0 ? numberFactory.BAD_COLOR : numberFactory.NORMAL_COLOR);
         stage.addActor(number);
 
-        number = numberFactory.getNumber(Chronicle.won, 240, 500);
-        number.setColor(numberFactory.getCompareColor(Chronicle.won, Chronicle.played - Chronicle.won));
+        number = numberFactory.getNumber(Chronicle.getWinRate(), 240, 361, true);
+        number.setColor(numberFactory.getCompareColor(Chronicle.getWinRate(), 50));
         stage.addActor(number);
 
-        number = numberFactory.getNumber(Chronicle.played - Chronicle.won, 240, 450);
-        number.setColor(numberFactory.getCompareColorBad(Chronicle.played - Chronicle.won, Chronicle.won));
+        number = numberFactory.getNumber(Chronicle.cellsConquered, 240, 267, false);
+        number.setColor(Chronicle.cellsConquered == 0 ? numberFactory.BAD_COLOR : numberFactory.GOOD_COLOR);
         stage.addActor(number);
 
-        number = numberFactory.getNumber(Chronicle.damage, 240, 400);
-        number.setColor(numberFactory.getCompareColor(Chronicle.damage, Chronicle.damageGet));
+        number = numberFactory.getNumber(Chronicle.cellsLost, 240, 173, false);
+        number.setColor(numberFactory.BAD_COLOR);
         stage.addActor(number);
 
-        number = numberFactory.getNumber(Chronicle.damageGet, 240, 350);
-        number.setColor(numberFactory.getCompareColorBad(Chronicle.damageGet, Chronicle.damage));
-        stage.addActor(number);
-
-        number = numberFactory.getNumber(Chronicle.cellsConquered, 240, 300);
-        number.setColor(numberFactory.getCompareColor(Chronicle.cellsConquered, Chronicle.cellsLost));
-        stage.addActor(number);
-
-        number = numberFactory.getNumber(Chronicle.cellsLost, 240, 250);
-        number.setColor(numberFactory.getCompareColorBad(Chronicle.cellsLost, Chronicle.cellsConquered));
-        stage.addActor(number);
-
-        number = numberFactory.getNumber(Chronicle.totalScore, 240, 200);
+        number = numberFactory.getNumber(Chronicle.getInfluence(), 240, 79, false);
+        number.setColor(Chronicle.getInfluence() == 0 ? numberFactory.BAD_COLOR : numberFactory.NORMAL_COLOR);
         stage.addActor(number);
 
     }

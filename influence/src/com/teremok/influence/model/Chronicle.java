@@ -12,8 +12,6 @@ public class Chronicle {
     public static int damage;
     public static int damageGet;
 
-    public static int totalScore;
-
     public static int cellsConquered;
     public static int cellsLost;
 
@@ -35,7 +33,7 @@ public class Chronicle {
         match.damageGet = 0;
     }
 
-    public static void matchEnd(boolean won, int score) {
+    public static void matchEnd(boolean won) {
         Chronicle.played++;
         if (won) {
             Chronicle.won++;
@@ -46,8 +44,6 @@ public class Chronicle {
         cellsConquered += match.cellsConquered;
         cellsLost += match.cellsLost;
 
-        Chronicle.totalScore = countScore();
-
         match.damage = 0;
         match.damageGet = 0;
         match.cellsConquered = 0;
@@ -56,7 +52,11 @@ public class Chronicle {
         ChronicleController.save();
     }
 
-    private static int countScore() {
+    public static int getWinRate() {
+        return played == 0 ?  0 : won*100/played;
+    }
+
+    public static int getInfluence() {
         return played*100 - (played-won)*100 + cellsConquered*50 - cellsLost*50 + damage - damageGet;
     }
 }

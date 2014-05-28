@@ -14,15 +14,20 @@ public class TextureNumberFactory {
         BAD, GOOD, AVERAGE
     }
 
+    private final int PERCENT_DIGIT = 10;
+    private final int POINT_DIGIT = 11;
+    private final int QUOTE_DIGIT = 12;
+    private final int MINUS_DIGIT = 13;
+
     private final int LEFT_DIGEST_SIDE = 1;
     private final int RIGHT_DIGEST_SIDE = 2;
 
     private final float REGION_WIDTH = 91f;
 
-    private final Color BAD_COLOR = new Color(Color.RED);
-    private final Color GOOD_COLOR = new Color(Color.GREEN);
-    private final Color NORMAL_COLOR = new Color(Color.CYAN);
-    private final Color AVERAGE_COLOR = new Color(Color.ORANGE);
+    public final Color BAD_COLOR = new Color(0xde3535FF);
+    public final Color GOOD_COLOR = new Color(0x48d827FF);
+    public final Color NORMAL_COLOR = new Color(0x35b7deFF);
+    public final Color AVERAGE_COLOR = new Color(0xe9bd11FF);
 
     private final float[][] sizes = {
             { 0, 37, 37},
@@ -34,7 +39,11 @@ public class TextureNumberFactory {
             { 6, 37, 38},
             { 7, 37, 37},
             { 8, 37, 37},
-            { 9, 37, 38}
+            { 9, 37, 38},
+            { 10, 35, 35},
+            { 11, 43, 44},
+            { 12, 42, 42},
+            { 13, 40, 40}
     };
 
     Array<TextureAtlas.AtlasRegion> numbers;
@@ -44,18 +53,30 @@ public class TextureNumberFactory {
     int lastDigit;
     float[] positions;
 
-    public TextureNumber getNumber(int number, float x, float y) {
+    public TextureNumber getNumber(int number, float x, float y, boolean percents) {
 
         if (numbers == null) {
             TextureAtlas atlas = ResourceManager.getAtlas("numbers");
             numbers = atlas.findRegions("number");
         }
-        char[] chars = Integer.toString(number).toCharArray();
+        char[] chars = Integer.toString(Math.abs(number)).toCharArray();
         lastNumber = new TextureNumber(number, x - sizes[chars[0]-'0'][LEFT_DIGEST_SIDE], y);
+        int length = chars.length;
 
-        positions = new float[chars.length];
+        if (number < 0)
+            length++;
+        if (percents)
+            length++;
+
+        positions = new float[length];
         int i = 0;
         float position = 0f;
+        if (number < 0) {
+            positions[0] = 0f;
+            lastNumber.addRegion(numbers.get(MINUS_DIGIT));
+            i++;
+            lastDigit = MINUS_DIGIT;
+        }
         for (char ch : chars) {
             int digit = ch - '0';
             if (i == 0) {
@@ -68,6 +89,13 @@ public class TextureNumberFactory {
             i++;
             lastNumber.addRegion(numbers.get(digit));
             lastDigit = digit;
+        }
+
+        if (percents) {
+            position += REGION_WIDTH - sizes[lastDigit][RIGHT_DIGEST_SIDE] + 4 - sizes[PERCENT_DIGIT][LEFT_DIGEST_SIDE];
+            positions[i] = position;
+            lastNumber.addRegion(numbers.get(PERCENT_DIGIT));
+            lastDigit = PERCENT_DIGIT;
         }
 
         lastNumber.setColor(NORMAL_COLOR);
@@ -109,7 +137,7 @@ public class TextureNumberFactory {
     }
 
     private CompareResult compare(int a, int b) {
-        if (inRange(a,b,0.5f)) {
+        if (inRange(a,b,0.15f)) {
             return CompareResult.AVERAGE;
         }
         if (a < b) {

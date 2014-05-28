@@ -15,12 +15,20 @@ public class TextureNumber extends Actor {
     int number;
     Array<TextureAtlas.AtlasRegion> regions = new Array<>();
     float[] positions;
+    boolean rate;
+    boolean minus;
 
     public TextureNumber(int number, float x, float y) {
         setX(x);
         setY(y);
         this.number = number;
         setTouchable(Touchable.disabled);
+    }
+
+    public TextureNumber(int number, float x, float y, boolean rate, boolean minus) {
+        this(number, x, y);
+        this.rate = rate;
+        this.minus = minus;
     }
 
     @Override

@@ -117,7 +117,7 @@ public class Match {
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
                     if (pm.getNumberOfHumans() == 1) {
-                        Chronicle.matchEnd(true, pm.current().getScore());
+                        Chronicle.matchEnd(true);
                     }
                     GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
                     FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN, turn);
@@ -128,7 +128,7 @@ public class Match {
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
                     if (pm.getNumberOfHumans() == 1) {
-                        Chronicle.matchEnd(false, 0);
+                        Chronicle.matchEnd(false);
                     }
 
                     GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();

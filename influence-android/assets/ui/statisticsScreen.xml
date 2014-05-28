@@ -1,4 +1,4 @@
 <?xml version="1.0"  standalone="no"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
-        atlas="statisticsScreen" localized="false" localizedBackground="true">
+        atlas="statScreen" localized="false" localizedBackground="true">
 </screen>

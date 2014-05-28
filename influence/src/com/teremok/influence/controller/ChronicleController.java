@@ -30,7 +30,6 @@ public class ChronicleController {
                 .element("won", won)
                 .element("damage", damage)
                 .element("damageGet", damageGet)
-                .element("totalScore", totalScore)
                 .element("cellsConquered", cellsConquered)
                 .element("cellsLost", cellsLost);
 
@@ -61,7 +60,6 @@ public class ChronicleController {
                 won = root.getInt("won", 0);
                 damage = root.getInt("damage", 0);
                 damageGet = root.getInt("damageGet", 0);
-                totalScore = root.getInt("totalScore", 0);
                 cellsConquered = root.getInt("cellsConquered", 0);
                 cellsLost = root.getInt("cellsLost", 0);
 
