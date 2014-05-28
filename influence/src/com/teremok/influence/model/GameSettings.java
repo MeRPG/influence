@@ -21,8 +21,8 @@ public class GameSettings {
 
     public static GameSettings getDefault() {
         GameSettings settings = new GameSettings();
-        settings.players = getPlayersByDifficulty(GameDifficulty.NORMAL, 5);
-        settings.customPlayers = getPlayersByDifficulty(GameDifficulty.EASY, 5);
+        settings.players = getPlayersByDifficulty(GameDifficulty.NORMAL, 4);
+        settings.customPlayers = getPlayersByDifficulty(GameDifficulty.NORMAL, 5);
         settings.setSize(FieldSize.NORMAL);
         settings.difficulty = GameDifficulty.NORMAL;
         return settings;
