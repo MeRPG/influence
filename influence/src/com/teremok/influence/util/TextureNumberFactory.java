@@ -19,8 +19,8 @@ public class TextureNumberFactory {
     private final int QUOTE_DIGIT = 12;
     private final int MINUS_DIGIT = 13;
 
-    private final int LEFT_DIGEST_SIDE = 1;
-    private final int RIGHT_DIGEST_SIDE = 2;
+    private final int LEFT_DIGIT_SIDE = 1;
+    private final int RIGHT_DIGIT_SIDE = 2;
 
     private final float REGION_WIDTH = 91f;
 
@@ -59,10 +59,12 @@ public class TextureNumberFactory {
             TextureAtlas atlas = ResourceManager.getAtlas("numbers");
             numbers = atlas.findRegions("number");
         }
-        char[] chars = Integer.toString(Math.abs(number)).toCharArray();
-        lastNumber = new TextureNumber(number, x - sizes[chars[0]-'0'][LEFT_DIGEST_SIDE], y);
-        int length = chars.length;
 
+        char[] chars = Integer.toString(Math.abs(number)).toCharArray();
+        float leftPadding =  sizes[chars[0]-'0'][LEFT_DIGIT_SIDE];
+        lastNumber = new TextureNumber(number, x, y);
+        int firstDigit = chars[0]-'0';
+        int length = chars.length;
         if (number < 0)
             length++;
         if (percents)
@@ -76,13 +78,15 @@ public class TextureNumberFactory {
             lastNumber.addRegion(numbers.get(MINUS_DIGIT));
             i++;
             lastDigit = MINUS_DIGIT;
+            firstDigit = MINUS_DIGIT;
+            leftPadding = sizes[MINUS_DIGIT][LEFT_DIGIT_SIDE];
         }
         for (char ch : chars) {
             int digit = ch - '0';
             if (i == 0) {
                 position = 0;
             } else {
-                position += REGION_WIDTH - sizes[lastDigit][RIGHT_DIGEST_SIDE] + 4 - sizes[digit][LEFT_DIGEST_SIDE];
+                position += REGION_WIDTH - sizes[lastDigit][RIGHT_DIGIT_SIDE] + 4 - sizes[digit][LEFT_DIGIT_SIDE];
 
             }
             positions[i] = position;
@@ -92,14 +96,17 @@ public class TextureNumberFactory {
         }
 
         if (percents) {
-            position += REGION_WIDTH - sizes[lastDigit][RIGHT_DIGEST_SIDE] + 4 - sizes[PERCENT_DIGIT][LEFT_DIGEST_SIDE];
+            position += REGION_WIDTH - sizes[lastDigit][RIGHT_DIGIT_SIDE] + 4 - sizes[PERCENT_DIGIT][LEFT_DIGIT_SIDE];
             positions[i] = position;
             lastNumber.addRegion(numbers.get(PERCENT_DIGIT));
             lastDigit = PERCENT_DIGIT;
         }
 
+        float textWidth = position + REGION_WIDTH - sizes[lastDigit][RIGHT_DIGIT_SIDE] - leftPadding;
+        lastNumber.setTextWidth(textWidth);
         lastNumber.setColor(NORMAL_COLOR);
         lastNumber.setPositions(positions);
+        lastNumber.setLeftPadding(leftPadding);
         lastDigit = 0;
         return lastNumber;
     }
