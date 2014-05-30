@@ -1,9 +1,6 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.controller.FieldController;
-import com.teremok.influence.controller.MatchSaver;
-import com.teremok.influence.controller.ScoreController;
-import com.teremok.influence.controller.SettingsSaver;
+import com.teremok.influence.controller.*;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -44,7 +41,7 @@ public class Match {
 
         pm.addPlayersFromMap(settings.players, fieldController);
 
-        Chronicle.matchStart();
+        ChronicleController.matchStart();
 
         scoreController.init();
         fieldController.updateLists();
@@ -80,7 +77,7 @@ public class Match {
         turn = 0;
         endSoundPlayed = false;
 
-        Chronicle.matchStart();
+        ChronicleController.matchStart();
 
         pm.addPlayersFromMap(settings.players, fieldController);
         pm.placeStartPositions();
@@ -117,7 +114,7 @@ public class Match {
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
                     if (pm.getNumberOfHumans() == 1) {
-                        Chronicle.matchEnd(true);
+                        ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, true);
                     }
                     GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
                     FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN, turn);
@@ -128,7 +125,7 @@ public class Match {
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
                     if (pm.getNumberOfHumans() == 1) {
-                        Chronicle.matchEnd(false);
+                        ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, false);
                     }
 
                     GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();

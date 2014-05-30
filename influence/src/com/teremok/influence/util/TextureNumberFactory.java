@@ -19,6 +19,7 @@ public class TextureNumberFactory {
     private final int POINT_DIGIT = 11;
     private final int QUOTE_DIGIT = 12;
     private final int MINUS_DIGIT = 13;
+    private final int COMMA_DIGIT = 14;
 
     private final int LEFT_DIGIT_SIDE = 1;
     private final int RIGHT_DIGIT_SIDE = 2;
@@ -43,8 +44,9 @@ public class TextureNumberFactory {
             { 9, 37, 38},
             { 10, 35, 35},
             { 11, 43, 44},
-            { 12, 42, 42},
-            { 13, 40, 40}
+            { 12, 44, 43},
+            { 13, 40, 40},
+            { 13, 44, 43}
     };
 
     Array<TextureAtlas.AtlasRegion> numbers;
@@ -103,7 +105,7 @@ public class TextureNumberFactory {
             int digit = ch - '0';
             if (digit < 0) {
                 if (Localizator.getLanguage().equals(Localizator.LANGUAGE_ENGLISH)) {
-                    digit = POINT_DIGIT;
+                    digit = COMMA_DIGIT;
                 } else {
                     digit = QUOTE_DIGIT;
                 }

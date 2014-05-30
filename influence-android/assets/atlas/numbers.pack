@@ -51,52 +51,59 @@ number
   size: 91, 78
   orig: 91, 78
   offset: 0, 0
-  index: 2
+  index: 14
 number
   rotate: false
   xy: 187, 81
   size: 91, 78
   orig: 91, 78
   offset: 0, 0
-  index: 3
+  index: 2
 number
   rotate: false
   xy: 280, 161
   size: 91, 78
   orig: 91, 78
   offset: 0, 0
-  index: 4
+  index: 3
 number
   rotate: false
   xy: 187, 1
   size: 91, 78
   orig: 91, 78
   offset: 0, 0
-  index: 5
+  index: 4
 number
   rotate: false
   xy: 280, 81
   size: 91, 78
   orig: 91, 78
   offset: 0, 0
-  index: 6
+  index: 5
 number
   rotate: false
   xy: 373, 161
   size: 91, 78
   orig: 91, 78
   offset: 0, 0
-  index: 7
+  index: 6
 number
   rotate: false
   xy: 280, 1
   size: 91, 78
   orig: 91, 78
   offset: 0, 0
-  index: 8
+  index: 7
 number
   rotate: false
   xy: 373, 81
+  size: 91, 78
+  orig: 91, 78
+  offset: 0, 0
+  index: 8
+number
+  rotate: false
+  xy: 373, 1
   size: 91, 78
   orig: 91, 78
   offset: 0, 0
