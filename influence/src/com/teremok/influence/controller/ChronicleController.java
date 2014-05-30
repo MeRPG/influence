@@ -117,7 +117,7 @@ public class ChronicleController {
     }
 
     public static int getWinInfluence(Collection<PlayerType> players, FieldSize fieldSize) {
-        int score = 0;
+        int score;
         float playerSum = 0;
         for (PlayerType player : players) {
             playerSum += getW(player);
