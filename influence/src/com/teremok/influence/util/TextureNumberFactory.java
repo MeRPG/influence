@@ -3,6 +3,7 @@ package com.teremok.influence.util;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
+import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.TextureNumber;
 
 /**
@@ -59,8 +60,25 @@ public class TextureNumberFactory {
             TextureAtlas atlas = ResourceManager.getAtlas("numbers");
             numbers = atlas.findRegions("number");
         }
+        String stringNumber = Integer.toString(Math.abs(number));
+        int quotes = stringNumber.length()/3;
 
-        char[] chars = Integer.toString(Math.abs(number)).toCharArray();
+        if (quotes > 0) {
+            String numberWithQuotes = "";
+            for (int i = 0; i < stringNumber.length(); i++) {
+                if ((stringNumber.length()-i) % 3 == 0 && i != 0) {
+                    numberWithQuotes += "'";
+                }
+                numberWithQuotes += stringNumber.charAt(i);
+            }
+            Logger.log("Number, string: " + stringNumber);
+            stringNumber = numberWithQuotes;
+            Logger.log("Number, quoted: " + stringNumber);
+            Logger.log("Quotes: " + quotes);
+        }
+
+        char[] chars = stringNumber.toCharArray();
+
         float leftPadding =  sizes[chars[0]-'0'][LEFT_DIGIT_SIDE];
         lastNumber = new TextureNumber(number, x, y);
         int firstDigit = chars[0]-'0';
@@ -83,6 +101,13 @@ public class TextureNumberFactory {
         }
         for (char ch : chars) {
             int digit = ch - '0';
+            if (digit < 0) {
+                if (Localizator.getLanguage().equals(Localizator.LANGUAGE_ENGLISH)) {
+                    digit = POINT_DIGIT;
+                } else {
+                    digit = QUOTE_DIGIT;
+                }
+            }
             if (i == 0) {
                 position = 0;
             } else {
@@ -144,7 +169,7 @@ public class TextureNumberFactory {
     }
 
     private CompareResult compare(int a, int b) {
-        if (inRange(a,b,0.15f)) {
+        if (inRange(a,b,0.3f)) {
             return CompareResult.AVERAGE;
         }
         if (a < b) {
