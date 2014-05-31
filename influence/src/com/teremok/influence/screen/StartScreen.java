@@ -14,7 +14,6 @@ import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
-import com.teremok.influence.util.AboutScreenChecker;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
@@ -41,7 +40,7 @@ public class StartScreen extends StaticScreen {
         Settings.init();
         Logger.init();
         ChronicleController.load();
-        AboutScreenChecker.check();
+        // AboutScreenChecker.check();
     }
 
     @Override
@@ -83,14 +82,14 @@ public class StartScreen extends StaticScreen {
         stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return stage.hit(x,y,true) instanceof Button;
+                return stage.hit(x, y, true) instanceof Button;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (! event.isHandled()) {
+                if (!event.isHandled()) {
                     FXPlayer.playClick();
-                    Button target = (Button)event.getTarget();
+                    Button target = (Button) event.getTarget();
                     String code = target.getCode();
                     switch (code) {
                         case CONTINUE:
@@ -126,7 +125,7 @@ public class StartScreen extends StaticScreen {
 
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
+                if (!event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE)) {
                     ScreenController.gracefullyExitGame();
                     return true;
                 }
@@ -140,7 +139,7 @@ public class StartScreen extends StaticScreen {
         credits.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return stage.hit(x,y,true) == credits;
+                return stage.hit(x, y, true) == credits;
             }
 
             @Override
