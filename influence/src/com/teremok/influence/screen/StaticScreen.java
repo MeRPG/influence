@@ -36,6 +36,7 @@ public abstract class StaticScreen extends AbstractScreen {
     protected Map<String, UIElementParams> uiElements;
     protected Image background;
     public ColoredPanel overlap;
+    private TexturePanel infoMessage;
 
     private static final String ATLAS_ATTR = "atlas";
     private static final String NAME_ATTR = "name";
@@ -190,6 +191,35 @@ public abstract class StaticScreen extends AbstractScreen {
         overlap.addAction(
             Actions.fadeOut(Animation.DURATION_NORMAL)
         );
+    }
+
+    protected void showInfoMessage(TextureRegion textureRegion, float x, float y) {
+        addInfoMessage(textureRegion, x, y);
+        showInfoMessage();
+    }
+
+    protected void addInfoMessage(TextureRegion textureRegion, float x, float y) {
+        addInfoMessage(new TexturePanel(textureRegion, x, y));
+    }
+
+    protected void addInfoMessage(TexturePanel infoMessage) {
+        this.infoMessage = infoMessage;
+        stage.addActor(infoMessage);
+        hideInfoMessage();
+    }
+
+    protected void showInfoMessage() {
+        infoMessage.setVisible(true);
+        infoMessage.setTouchable(Touchable.enabled);
+    }
+
+    protected void hideInfoMessage() {
+        infoMessage.setVisible(false);
+        infoMessage.setTouchable(Touchable.disabled);
+    }
+
+    protected boolean isInfoMessageVisible() {
+        return infoMessage != null && infoMessage.isVisible();
     }
 
     protected abstract void addActors();

@@ -42,8 +42,8 @@ public class StatisticsScreen extends StaticScreen {
         number.centre();
         stage.addActor(number);
 
-        number = numberFactory.getNumber(Chronicle.getInfluence(), 240, 79, false);
-        number.setColor(Chronicle.getInfluence() == 0 ? numberFactory.BAD_COLOR : numberFactory.NORMAL_COLOR);
+        number = numberFactory.getNumber(Chronicle.influence, 240, 79, false);
+        number.setColor(Chronicle.influence < 1 ? numberFactory.BAD_COLOR : numberFactory.NORMAL_COLOR);
         number.centre();
         stage.addActor(number);
 
