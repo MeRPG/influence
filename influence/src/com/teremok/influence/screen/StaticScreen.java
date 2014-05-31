@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -206,6 +207,33 @@ public abstract class StaticScreen extends AbstractScreen {
         this.infoMessage = infoMessage;
         stage.addActor(infoMessage);
         hideInfoMessage();
+    }
+
+    protected void showInfoMessageAnimation() {
+        infoMessage.getColor().a = 0.0f;
+        showInfoMessage();
+        Logger.log("infoMessage alpha: " + infoMessage.getColor().a);
+        infoMessage.addAction(Actions.fadeIn(Animation.DURATION_SHORT));
+        Logger.log("infoMessage alpha after fadeIn: " + infoMessage.getColor().a);
+    }
+
+    protected void hideInfoMessageAnimation() {
+        infoMessage.getColor().a = 1.0f;
+        Logger.log("infoMessage alpha: " + infoMessage.getColor().a);
+        infoMessage.addAction(
+                Actions.sequence(
+                        Actions.fadeOut(Animation.DURATION_SHORT),
+                        new Action() {
+                            @Override
+                            public boolean act(float v) {
+                                Logger.log("infoMessage alpha after fadeOut: " + infoMessage.getColor().a);
+                                hideInfoMessage();
+                                return true;
+                            }
+                        }
+                )
+        );
+
     }
 
     protected void showInfoMessage() {
