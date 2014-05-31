@@ -32,8 +32,6 @@ public class EditorScreen extends StaticScreen {
 
     TexturePanel backlight;
 
-    TexturePanel info;
-
     Match match;
     FieldController field;
 
@@ -96,10 +94,8 @@ public class EditorScreen extends StaticScreen {
         initBorders();
         initBacklight();
         stage.addActor(field);
-        info = new TexturePanel(ResourceManager.getAtlas("editorInfo").findRegion("info"),0,0);
-        info.setVisible(false);
-        stage.addActor(info);
-
+        TexturePanel info = new TexturePanel(ResourceManager.getAtlas("editorInfo").findRegion("info"),0,0);
+        addInfoMessage(info);
     }
 
     @Override
@@ -205,8 +201,11 @@ public class EditorScreen extends StaticScreen {
                     loadHiddenCells();
                 }
                 if (keycode == Input.Keys.I) {
-                    boolean infoVisibility = info.isVisible();
-                    info.setVisible(! infoVisibility);
+                    if (isInfoMessageVisible()) {
+                        hideInfoMessage();
+                    } else {
+                        showInfoMessage();
+                    }
                 }
                 return true;
             }
