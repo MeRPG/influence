@@ -27,7 +27,6 @@ public class Settings {
         speed = NORMAL;
         debug = false;
         gameSettings = GameSettings.getDefault();
-        Localizator.setDefaultLanguage();
     }
 
     public static void init() {
