@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by Alexx on 24.02.14
  */
-public class ResourseManager {
+public class ResourceManager {
 
 
     private static final String UI_PATH_INTERNAL = "ui/";
@@ -30,7 +30,7 @@ public class ResourseManager {
         String externalPath = ATLAS_PATH_EXTERNAL + atlasName + ATLAS_EXT;
         TextureAtlas atlas;
         Logger.log("Load atlas " + atlasName);
-        if (Settings.debug && Gdx.files.external(externalPath).exists()) {
+        if ((Settings.debug || Settings.lastAboutScreen != 0 && atlasName.equals("aboutScreen")) && Gdx.files.external(externalPath).exists()) {
             atlas= new TextureAtlas(Gdx.files.external(externalPath));
             Logger.log("use external path: " + externalPath);
         } else {

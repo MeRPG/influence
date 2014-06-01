@@ -6,13 +6,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.teremok.influence.model.GestureController;
+import com.teremok.influence.controller.ChronicleController;
+import com.teremok.influence.controller.GestureController;
+import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.model.Localizator;
-import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
+import com.teremok.influence.util.AboutScreenChecker;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
@@ -25,7 +27,9 @@ public class StartScreen extends StaticScreen {
     private static final String CONTINUE = "continue";
     private static final String NEWGAME = "newgame";
     private static final String SETTINGS = "settings";
+    private static final String STATISTICS = "stat";
     private static final String VK_COM = "vk";
+    private static final String F = "f";
     private static final String GOOGLE_PLAY = "google_play";
 
     private ColoredPanel credits;
@@ -36,6 +40,8 @@ public class StartScreen extends StaticScreen {
         super(game, filename);
         Settings.init();
         Logger.init();
+        ChronicleController.load();
+        AboutScreenChecker.check();
     }
 
     @Override
@@ -52,8 +58,11 @@ public class StartScreen extends StaticScreen {
         resume = new ButtonTexture(uiElements.get(CONTINUE));
 
         ButtonTexture settings = new ButtonTexture(uiElements.get(SETTINGS));
+        ButtonTexture statistics = new ButtonTexture(uiElements.get(STATISTICS));
+
         ButtonTexture vk = new ButtonTexture(uiElements.get(VK_COM));
         ButtonTexture googleplay = new ButtonTexture(uiElements.get(GOOGLE_PLAY));
+        ButtonTexture f = new ButtonTexture(uiElements.get(F));
 
         if (credits == null) {
             credits = new ColoredPanel(new Color(0x00000000), 0f, 0f, WIDTH, 54f);
@@ -63,7 +72,9 @@ public class StartScreen extends StaticScreen {
         stage.addActor(newGame);
         stage.addActor(resume);
         stage.addActor(settings);
+        stage.addActor(statistics);
         stage.addActor(vk);
+        stage.addActor(f);
         stage.addActor(googleplay);
     }
 
@@ -94,6 +105,13 @@ public class StartScreen extends StaticScreen {
                         case SETTINGS:
                             ScreenController.showSettingsScreen();
                             break;
+                        case STATISTICS:
+                            ScreenController.showStatisticsScreen();
+                            break;
+                        case F:
+                            FlurryHelper.logFacebookClickEvent();
+                            goToF();
+                            break;
                         case VK_COM:
                             FlurryHelper.logVkClickEvent();
                             goToVkCom();
@@ -111,6 +129,9 @@ public class StartScreen extends StaticScreen {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
                     ScreenController.gracefullyExitGame();
                     return true;
+                }
+                if (keycode == Input.Keys.S) {
+                    ScreenController.showStatisticsScreen();
                 }
                 return false;
             }
@@ -136,6 +157,11 @@ public class StartScreen extends StaticScreen {
     public void goToVkCom()
     {
         Gdx.net.openURI("https:/vk.com/teremokgames");
+    }
+
+    public void goToF()
+    {
+        Gdx.net.openURI("https://www.facebook.com/teremokgames");
     }
 
     public void goToGooglePlay()

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
@@ -125,12 +126,16 @@ public class SettingsScreen extends StaticScreen {
                                 ScreenController.setLoadedAll(false);
                                 ScreenController.showSettingsScreen();
                             } else {
-                                if (code.equals(SPEED_NORMAL)) {
-                                    Settings.speed = Settings.NORMAL;
-                                } else if (code.equals(SPEED_FAST)) {
-                                    Settings.speed = Settings.FAST;
-                                } else if (code.equals(SPEED_SLOW)) {
-                                    Settings.speed = Settings.SLOW;
+                                switch (code) {
+                                    case SPEED_NORMAL:
+                                        Settings.speed = Settings.NORMAL;
+                                        break;
+                                    case SPEED_FAST:
+                                        Settings.speed = Settings.FAST;
+                                        break;
+                                    case SPEED_SLOW:
+                                        Settings.speed = Settings.SLOW;
+                                        break;
                                 }
                             }
                         }
@@ -142,7 +147,7 @@ public class SettingsScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    Settings.save();
+                    SettingsSaver.save();
                     FlurryHelper.logSettingsChangeEvent();
                     ScreenController.showStartScreen();
                     return true;

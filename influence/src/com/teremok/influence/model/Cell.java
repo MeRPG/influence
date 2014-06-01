@@ -109,7 +109,7 @@ public class Cell {
     }
 
     public void clearNeighbors() {
-        enemies.clear();
+        neighbors.clear();
     }
 
     public void addEnemy(Cell cell) {
@@ -133,6 +133,23 @@ public class Cell {
 
     }
     // Auto-generated
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cell)) return false;
+
+        Cell cell = (Cell) o;
+
+        return number == cell.number;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return number;
+    }
 
     public int getType() {
         return type;
@@ -172,6 +189,14 @@ public class Cell {
 
     public int getUnitsY() {
         return unitsY;
+    }
+
+    public void setUnitsY(int unitsY) {
+        this.unitsY = unitsY;
+    }
+
+    public void setUnitsX(int unitsX) {
+        this.unitsX = unitsX;
     }
 
     public float getX() {

@@ -17,7 +17,7 @@ import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.UIElementParams;
 import com.teremok.influence.util.Logger;
-import com.teremok.influence.util.ResourseManager;
+import com.teremok.influence.util.ResourceManager;
 import com.teremok.influence.view.Animation;
 
 import java.io.IOException;
@@ -73,7 +73,7 @@ public abstract class StaticScreen extends AbstractScreen {
     }
 
     private void loadScreen() throws IOException {
-        FileHandle handle = ResourseManager.getScreenUi(filename);
+        FileHandle handle = ResourceManager.getScreenUi(filename);
         XmlReader reader = new XmlReader();
         XmlReader.Element root = reader.parse(handle.reader());
 
@@ -89,9 +89,9 @@ public abstract class StaticScreen extends AbstractScreen {
 
         atlasName = root.getAttribute(ATLAS_ATTR);
         if (localizedAtlas) {
-            atlas = ResourseManager.getAtlas(atlasName + "_" + Localizator.getLanguage());
+            atlas = ResourceManager.getAtlas(atlasName + "_" + Localizator.getLanguage());
         } else {
-            atlas = ResourseManager.getAtlas(atlasName);
+            atlas = ResourceManager.getAtlas(atlasName);
         }
     }
 
@@ -220,7 +220,7 @@ public abstract class StaticScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
         loaded = false;
-        //ResourseManager.disposeAtlas(atlasName);
+        //ResourceManager.disposeAtlas(atlasName);
     }
 
     // Auto-generated

@@ -1,12 +1,12 @@
 package com.teremok.influence.model;
 
+import com.teremok.influence.controller.*;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Drawer;
 
 import java.util.List;
@@ -18,34 +18,35 @@ public class Match {
 
     public static enum Phase {
         ATTACK,
-        DISTRIBUTE
+        POWER
     }
 
-    Field field;
+    FieldController fieldController;
     Phase phase;
     PlayerManager pm;
-    Score score;
+    ScoreController scoreController;
 
     boolean paused;
     boolean endSoundPlayed;
 
     int turn;
 
-    public Match(GameSettings settings, List<Cell> cells, String matrixString) {
+    public Match(GameSettings settings, List<Cell> cells, Router router) {
         pm = new PlayerManager(this);
-        field = new Field(this, settings, cells, matrixString);
-        score = new Score(this);
+        fieldController = new FieldController(this, settings, cells, router);
+        scoreController = new ScoreController(this);
 
         turn = 0;
+        endSoundPlayed = false;
 
-        score.setStatus(Localizator.getString("selectYourCell"));
+        pm.addPlayersFromMap(settings.players, fieldController);
 
-        pm.addPlayersFromMap(settings.players, field);
+        ChronicleController.matchStart();
 
-        score.initColoredPanels();
-        field.updateLists();
+        scoreController.init();
+        fieldController.updateLists();
         pm.update();
-        field.resize();
+        fieldController.resize();
 
         phase = Phase.ATTACK;
     }
@@ -61,54 +62,49 @@ public class Match {
             pm.reset(this);
         }
 
-        if (field == null) {
-            field = new Field(this, settings);
+        if (fieldController == null) {
+            fieldController = new FieldController(this, settings);
         } else {
-            field.reset(this, settings);
+            fieldController.reset(this, settings);
         }
 
-        if (score == null) {
-            score = new Score(this);
+        if (scoreController == null) {
+            scoreController = new ScoreController(this);
         } else {
-            score.reset(this);
+            scoreController.reset(this);
         }
 
         turn = 0;
+        endSoundPlayed = false;
 
-        score.setStatus(Localizator.getString("selectYourCell"));
+        ChronicleController.matchStart();
 
-        pm.addPlayersFromMap(settings.players, field);
+        pm.addPlayersFromMap(settings.players, fieldController);
         pm.placeStartPositions();
 
-        score.initColoredPanels();
-        field.updateLists();
+        scoreController.init();
+        fieldController.updateLists();
         pm.update();
-        field.resize();
+        fieldController.resize();
 
         phase = Phase.ATTACK;
 
         MatchSaver.save(this);
-        Settings.save();
-        FlurryHelper.logMatchStartEvent(false);
+        SettingsSaver.save();
     }
 
     public void act(float delta) {
         if (! paused) {
             Player currentPlayer = pm.current();
-            if (phase == Phase.DISTRIBUTE && ! currentPlayer.hasPowerToDistribute()) {
+            if (phase == Phase.POWER && ! currentPlayer.hasPowerToDistribute()) {
                 currentPlayer = pm.next();
                 phase = Phase.ATTACK;
                 if ( pm.isHumanActing() && pm.current().getNumber() == 0 && ! isEnded()) {
                     MatchSaver.save(this);
                     turn++;
-                }
-            }
-
-            if (field.getSelectedCell() == null && pm.isHumanActing()) {
-                if (isInDistributePhase() && currentPlayer.hasPowerToDistribute()) {
-                    score.setStatus(Localizator.getString("touchToDistribute"));
-                } else {
-                    score.setStatus(Localizator.getString("selectYourCell"));
+                    if (turn == 1) {
+                        FlurryHelper.logMatchStartEvent();
+                    }
                 }
             }
 
@@ -117,16 +113,23 @@ public class Match {
                     FXPlayer.playWinMatch();
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
+                    if (pm.getNumberOfHumans() == 1) {
+                        ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, true);
+                    }
                     GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
-                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN);
+                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN, turn);
                 }
             } else if (isLost()) {
                 if (! endSoundPlayed) {
                     FXPlayer.playLoseMatch();
                     MatchSaver.clearFile();
                     endSoundPlayed = true;
+                    if (pm.getNumberOfHumans() == 1) {
+                        ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, false);
+                    }
+
                     GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
-                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_LOSE);
+                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_LOSE, turn);
                 }
             }
 
@@ -161,22 +164,20 @@ public class Match {
             ((HumanPlayer) player).clearPowered();
         }
         player.updatePowerToDistribute();
-        if (turn == 1 && pm.getNumberOfPlayers() == 2){
+        if (turn == 1 && pm.getNumberOfPlayers() == 2 && pm.current().getNumber() == 0){
             player.subtractPowerToDistribute();
         }
-        phase = Phase.DISTRIBUTE;
-        //Logger.log("Distribute power phase.");
-        field.resetSelection();
+        phase = Phase.POWER;
+        fieldController.resetSelection();
     }
 
     public void setAttackPhase() {
         pm.next();
         phase = Phase.ATTACK;
-        //Logger.log("Attack phase.");
     }
 
-    public boolean isInDistributePhase() {
-        return phase.equals(Phase.DISTRIBUTE);
+    public boolean isInPowerPhase() {
+        return phase.equals(Phase.POWER);
     }
 
     public boolean isInAttackPhase() {
@@ -203,16 +204,16 @@ public class Match {
 
     // Auto-generated
 
-    public Field getField() {
-        return field;
+    public FieldController getFieldController() {
+        return fieldController;
     }
 
     public PlayerManager getPm() {
         return pm;
     }
 
-    public Score getScore() {
-        return score;
+    public ScoreController getScoreController() {
+        return scoreController;
     }
 
     public boolean isPaused() {
@@ -221,5 +222,13 @@ public class Match {
 
     public void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    public int getTurn() {
+        return turn;
     }
 }

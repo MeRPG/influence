@@ -1,6 +1,9 @@
 package com.teremok.influence.util;
 
 import com.teremok.influence.model.Cell;
+import com.teremok.influence.model.FieldModel;
+import com.teremok.influence.model.Route;
+import com.teremok.influence.model.Router;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,13 +15,15 @@ import java.util.Random;
 public class GraphGenerator {
     private float KEEPING_ROUTES_POSSIBILITY = 0.8f;
 
-    private int maxCellsX;
-    private int maxCellsY;
+    public int maxCellsX;
+    public int maxCellsY;
     private int matrixSize;
-    private int cellsCount;
+    public int cellsCount;
     int cycles;
 
     private Random rnd;
+
+    Router router;
 
     private byte[][] mask;
     private short[][] matrix;
@@ -31,9 +36,20 @@ public class GraphGenerator {
         this.maxCellsY = maxCellsY;
         this.cellsCount = cellsCount;
         this.matrixSize = maxCellsX*maxCellsY;
+        router = new Router();
         rnd = new Random();
         matrix = new short[cellsCount][cellsCount];
         cells = new LinkedList<Cell>();
+    }
+
+    public GraphGenerator(FieldModel model) {
+        this(model.cellsCount, model.maxCellsX, model.maxCellsY);
+    }
+
+    public void generate(FieldModel model) {
+        generate();
+        model.cells = cells;
+        model.router = router;
     }
 
     public void generate() {
@@ -55,8 +71,17 @@ public class GraphGenerator {
             } while (!isEmpty(x, y) || isAlone(x, y));
             mask[x][y] = 1;
         }
+
+        router.clear();
+        router.print();
+
         constructMatrix();
+
+        router.print();
+
         minimizeMatrix();
+
+        router.print();
     }
 
     public void parse(List<Cell> cells) {
@@ -139,7 +164,7 @@ public class GraphGenerator {
         }
     }
 
-    private void checkAround(int curNum, int x, int y) {
+    public void checkAround(int curNum, int x, int y) {
         for (int i = -1; i < 2; i++ ) {
             for (int j = -1; j < 2; j++ ) {
                 if (
@@ -159,13 +184,16 @@ public class GraphGenerator {
         }
     }
 
-    private void checkForMatrix(int curNum, int x, int y) {
+    public void checkForMatrix(int curNum, int x, int y) {
         if (x < 0 || y < 0 || x >= maxCellsY || y >= maxCellsX) {
             return;
         }
         if (mask[x][y] > 0 && mask[x][y] < Byte.MAX_VALUE) {
-
-            matrix[curNum][getNum(x,y)] = 1;
+            int newNum = getNum(x,y);
+            if (newNum != curNum) {
+                matrix[curNum][newNum] = 1;
+                router.add(new Route(curNum, newNum, true));
+            }
         }
     }
 
@@ -267,6 +295,7 @@ public class GraphGenerator {
             if (rnd.nextFloat() > KEEPING_ROUTES_POSSIBILITY) {
                 matrix[current][from] = 0;
                 matrix[from][current] = 0;
+                router.disable(current, from);
             }
             return;
         }
@@ -287,9 +316,19 @@ public class GraphGenerator {
         }
     }
 
+    public boolean matchModel(FieldModel model) {
+        return cellsCount == model.cellsCount
+                && maxCellsX == model.maxCellsX
+                && maxCellsY == model.maxCellsY;
+    }
+
     // Auto-generated
 
     public short[][] getMatrix() {
         return matrix;
+    }
+
+    public Router getRouter() {
+        return router;
     }
 }

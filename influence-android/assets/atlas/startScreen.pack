@@ -5,57 +5,71 @@ filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 1, 229
+  xy: 1, 279
   size: 480, 720
   orig: 480, 720
   offset: 0, 0
   index: -1
 continue_en
   rotate: false
-  xy: 1, 165
+  xy: 1, 215
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
 continue_ru
   rotate: false
-  xy: 257, 165
+  xy: 257, 215
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
-newgame_en
+newGame_en
   rotate: false
-  xy: 1, 101
+  xy: 1, 151
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
-newgame_ru
+newGame_ru
   rotate: false
-  xy: 257, 101
+  xy: 257, 151
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
 settings
   rotate: false
-  xy: 1, 50
+  xy: 1, 100
   size: 68, 49
   orig: 68, 49
   offset: 0, 0
   index: -1
+f
+  rotate: false
+  xy: 1, 51
+  size: 47, 47
+  orig: 47, 47
+  offset: 0, 0
+  index: -1
 vk
   rotate: false
-  xy: 1, 1
+  xy: 71, 102
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 google_play
   rotate: false
-  xy: 71, 51
+  xy: 1, 1
   size: 44, 48
   orig: 44, 48
+  offset: 0, 0
+  index: -1
+stat
+  rotate: false
+  xy: 120, 104
+  size: 47, 45
+  orig: 47, 45
   offset: 0, 0
   index: -1

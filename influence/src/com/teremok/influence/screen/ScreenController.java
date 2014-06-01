@@ -6,11 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
+import com.teremok.influence.controller.ChronicleController;
+import com.teremok.influence.controller.MatchSaver;
+import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.Match;
-import com.teremok.influence.model.MatchSaver;
-import com.teremok.influence.model.Settings;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.ResourseManager;
+import com.teremok.influence.util.ResourceManager;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -26,6 +27,8 @@ public class ScreenController {
     private static StaticScreen currentScreen;
     private static MapSizeScreen mapSizeScreen;
     private static PlayersScreen playersScreen;
+    private static EditorScreen editorScreen;
+    private static StatisticsScreen statisticsScreen;
 
     public static void init(Influence game) {
         ScreenController.game = game;
@@ -39,7 +42,8 @@ public class ScreenController {
             currentScreen = null;
             mapSizeScreen = null;
             playersScreen = null;
-            ResourseManager.disposeAll();
+            statisticsScreen = null;
+            ResourceManager.disposeAll();
         }
         startScreen = new StartScreen(game, "startScreen");
         currentScreen = startScreen;
@@ -65,6 +69,19 @@ public class ScreenController {
         }
         FlurryHelper.logSettingsScreenEvent();
         gracefullyShowScreen(settingsScreen);
+    }
+
+    public static void showEditorScreen() {
+        if (editorScreen == null) {
+            editorScreen = new EditorScreen(game, "gameScreen");
+        }
+        gracefullyShowScreen(editorScreen);
+    }
+
+    public static void showStatisticsScreen() {
+        statisticsScreen = new StatisticsScreen(game, "statisticsScreen");
+        FlurryHelper.logStatisticsScreenEvent();
+        gracefullyShowScreen(statisticsScreen);
     }
 
     public static void showMapSizeScreen() {
@@ -116,7 +133,8 @@ public class ScreenController {
     }
 
     public static void exitGame() {
-        Settings.save();
+        SettingsSaver.save();
+        ChronicleController.save();
         Gdx.app.exit();
     }
 
@@ -132,7 +150,6 @@ public class ScreenController {
     }
 
     public static void continueGame() {
-        FlurryHelper.logMatchStartEvent(true);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
                 createResumeGameAction()

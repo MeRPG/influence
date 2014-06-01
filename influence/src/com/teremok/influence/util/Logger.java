@@ -4,8 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.teremok.influence.model.Settings;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Calendar;
+
+import static com.teremok.influence.util.IOConstants.LOG_PATH;
 
 /**
  * Created by Alexx on 10.02.14
@@ -13,7 +17,6 @@ import java.util.Calendar;
 public class Logger {
 
     private static final String CODE = "INF_LOG -- ";
-    private static final String LOG_FILE = ".influence-log";
 
     private static PrintStream printer;
 
@@ -42,13 +45,13 @@ public class Logger {
     private static void openFile() {
         if (! Settings.debug)
             return;
-        FileHandle logFile = Gdx.files.external(LOG_FILE);
+        FileHandle logFile = Gdx.files.external(LOG_PATH);
         try {
             printer = new PrintStream(new FileOutputStream(logFile.file(), true));
             printer.println(" - - - - - - - - - - ");
             printer.println("Reopened file at" + Calendar.getInstance().getTime());
             printer.println(" - - - - - - - - - - ");
-            System.setErr(printer);
+            //System.setErr(printer);
         } catch (IOException e) {
             e.printStackTrace();
         }

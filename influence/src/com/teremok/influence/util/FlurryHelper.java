@@ -1,9 +1,8 @@
 package com.teremok.influence.util;
 
 import com.flurry.android.FlurryAgent;
-import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
+import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.model.Localizator;
-import com.teremok.influence.model.MatchSaver;
 import com.teremok.influence.model.Settings;
 
 import java.util.HashMap;
@@ -38,6 +37,14 @@ public class FlurryHelper {
             Map<String,String> parameters = new HashMap<>();
             parameters.put("Language", Localizator.getLanguage());
             FlurryAgent.logEvent("Vk_Click", parameters);
+        }
+    }
+
+    public static void logFacebookClickEvent() {
+        if (flurryEnabled()) {
+            Map<String,String> parameters = new HashMap<>();
+            parameters.put("Language", Localizator.getLanguage());
+            FlurryAgent.logEvent("Facebook_Click", parameters);
         }
     }
 
@@ -93,6 +100,30 @@ public class FlurryHelper {
         }
     }
 
+    public static void logStatisticsScreenEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Statistics_Screen");
+        }
+    }
+
+    public static void logPauseRestartEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Pause_Restart");
+        }
+    }
+
+    public static void logPauseExitGameEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Pause_Exit_Game");
+        }
+    }
+
+    public static void logPauseExitMenuEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Pause_Exit_Menu");
+        }
+    }
+
     public static void logSettingsChangeEvent() {
         if (flurryEnabled()) {
             Map<String,String> parameters = new HashMap<>();
@@ -104,29 +135,39 @@ public class FlurryHelper {
         }
     }
 
-    public static void logMatchStartEvent(boolean isResume) {
+    public static void logMatchStartEvent() {
         if (flurryEnabled()) {
             Map<String,String> parameters = new HashMap<>();
             parameters.put("Field_Size", Settings.gameSettings.fieldSize.toString());
             parameters.put("Game_Difficulty", Settings.gameSettings.difficulty.toString());
             parameters.put("Enemies", Settings.gameSettings.getNumberOfPlayers()+"");
             parameters.put("Humans", Settings.gameSettings.getNumberOfHumans()+"");
-            parameters.put("isResume", isResume ? "Yes" : "No");
             FlurryAgent.logEvent("Match_Start", parameters);
         }
     }
 
 
-    public static void logMatchEndEvent(String reason) {
+    public static void logMatchEndEvent(String reason, int turns) {
+
         if (flurryEnabled()) {
+            int turnsRange = turns - turns % 5 + 1;
+            String turnsString = turnsRange + "-" + (turnsRange+4);
+
             Map<String,String> parameters = new HashMap<>();
             parameters.put("Reason", reason);
+            parameters.put("Turns", turnsString);
             FlurryAgent.logEvent("Match_End", parameters);
         }
     }
 
+    public static void logDoubleClickExitMenuEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Double_Click_Exit_Menu");
+        }
+    }
+
     private static boolean flurryEnabled() {
-        return enabled;
+        return !Settings.debug;
     }
 
 }

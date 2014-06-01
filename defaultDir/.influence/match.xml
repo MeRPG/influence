@@ -38,6 +38,6 @@
 		<cell number="32" unitsX="6" unitsY="2" maxPower="8" type="-1">0</cell>
 		<cell number="33" unitsX="6" unitsY="3" maxPower="8" type="-1">0</cell>
 		<cell number="34" unitsX="6" unitsY="4" maxPower="8" type="-1">0</cell>
-        <routes></routes>
+        <route from="33" to="34" />
 	</field>
 </match>

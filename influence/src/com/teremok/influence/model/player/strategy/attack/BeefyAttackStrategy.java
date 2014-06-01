@@ -1,7 +1,7 @@
 package com.teremok.influence.model.player.strategy.attack;
 
 import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.Field;
+import com.teremok.influence.model.FieldModel;
 import com.teremok.influence.model.player.Strategist;
 import com.teremok.influence.model.player.strategy.AttackStrategy;
 
@@ -13,9 +13,9 @@ import java.util.Random;
  */
 public class BeefyAttackStrategy implements AttackStrategy {
     @Override
-    public Cell execute(List<Cell> cells, Field field, Strategist player) {
+    public Cell execute(List<Cell> cells, FieldModel fieldModel, Strategist player) {
 
-        if (cells.size() == field.getCellsCount()) {
+        if (cells.size() == fieldModel.cellsCount) {
             return null;
         }
 
@@ -35,7 +35,7 @@ public class BeefyAttackStrategy implements AttackStrategy {
                 end = false;
             if (cell.getEnemies().isEmpty())
                 end = false;
-            if (player.getCells().size() == field.getCellsCount())
+            if (player.getCells().size() == fieldModel.cellsCount)
                 end = true;
         }
 

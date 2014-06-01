@@ -23,7 +23,7 @@ public class HumanPlayer extends Player {
 
     @Override
     protected void actLogic(float delta) {
-        if (match.isInDistributePhase() && auto) {
+        if (match.isInPowerPhase() && auto) {
             distributePowerAuto();
         } else {
             auto = false;

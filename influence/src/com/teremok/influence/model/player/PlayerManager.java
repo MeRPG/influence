@@ -1,6 +1,6 @@
 package com.teremok.influence.model.player;
 
-import com.teremok.influence.model.Field;
+import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.util.Logger;
 
@@ -14,7 +14,7 @@ public class PlayerManager {
     private int currentNum = 0;
     private Player[] players = new Player[5];
     private int numberOfPlayers = 0;
-    private Field field;
+    private FieldController field;
     private Match match;
 
     public PlayerManager(Match match) {
@@ -23,7 +23,7 @@ public class PlayerManager {
 
     public void reset(Match match) {
         this.match = match;
-        this.field = match.getField();
+        this.field = match.getFieldController();
         currentNum = 0;
     }
 
@@ -57,7 +57,7 @@ public class PlayerManager {
         }
     }
 
-    public void addPlayersFromMap(Map<Integer, PlayerType> map, Field field) {
+    public void addPlayersFromMap(Map<Integer, PlayerType> map, FieldController field) {
         this.field = field;
         resetPlayersArray(map.size());
         for (Integer i = 0; i < map.size(); i++) {
@@ -72,23 +72,10 @@ public class PlayerManager {
     }
 
     public void placeStartPositions() {
-        if (players.length == 2) {
-            placeStartPositionsTwo();
-        } else {
-            placeStartPositionsMany();
-        }
-    }
-
-    private void placeStartPositionsMany() {
         for (Player player : players) {
             field.placeStartPosition(player.getNumber());
             field.updateLists();
         }
-    }
-
-    private void placeStartPositionsTwo() {
-        field.placeStartPositionFromRange(players[0].number, 0, 70);
-        field.placeStartPositionFromRange(players[1].number, 300, 350);
     }
 
     public boolean isHumanActing() {
@@ -123,6 +110,15 @@ public class PlayerManager {
         return total;
     }
 
+    public int getNumberOfHumans() {
+        int humans = 0;
+        for (Player player : players) {
+            if (player instanceof HumanPlayer)
+                humans++;
+        }
+        return humans;
+    }
+
     // Auto-generated
 
     public int getNumberOfPlayers() {
@@ -133,7 +129,7 @@ public class PlayerManager {
         return players;
     }
 
-    public Field getField() {
+    public FieldController getField() {
         return field;
     }
 }

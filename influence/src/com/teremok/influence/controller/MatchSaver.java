@@ -1,9 +1,10 @@
-package com.teremok.influence.model;
+package com.teremok.influence.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
+import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.PlayerType;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static com.teremok.influence.util.IOConstants.MATCH_PATH;
 
 /**
  * Created by Alexx on 21.02.14
@@ -35,7 +38,10 @@ public class MatchSaver {
     private static final String MAX_POWER="maxPower";
     private static final String TYPE="type";
 
-    private static String FILENAME =".influence-match";
+    private static final String ROUTE="route";
+    private static final String FROM="from";
+    private static final String TO="to";
+    private static final String ENABLED="enabled";
 
     private static Match notEnded;
 
@@ -52,7 +58,7 @@ public class MatchSaver {
 
     public static void clearFile() {
         try {
-            FileHandle handle = Gdx.files.external(FILENAME);
+            FileHandle handle = Gdx.files.external(MATCH_PATH);
             FileWriter fileWriter = new FileWriter(handle.file());
             Logger.log("Game save cleared: " + handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
@@ -65,11 +71,11 @@ public class MatchSaver {
     }
 
     private static void saveInFile(Match match) throws IOException {
-        FileHandle handle = Gdx.files.external(FILENAME);
+        FileHandle handle = Gdx.files.external(MATCH_PATH);
         FileWriter fileWriter = new FileWriter(handle.file());
         Logger.log(handle.file().getAbsolutePath());
         XmlWriter xml = new XmlWriter(fileWriter);
-        XmlWriter xmlMatch = xml.element(ROOT).attribute(TURN_ATTR, match.turn);
+        XmlWriter xmlMatch = xml.element(ROOT).attribute(TURN_ATTR, match.getTurn());
 
         XmlWriter playersXml = xml.element(PLAYERS);
         PlayerManager pm = match.getPm();
@@ -82,11 +88,11 @@ public class MatchSaver {
         }
         playersXml.pop();
 
-        Settings.saveGameSettings(xmlMatch);
+        SettingsSaver.saveGameSettings(xmlMatch);
 
         XmlWriter fieldXml = xml.element(FIELD);
-        Field field = match.getField();
-        for (Cell cell : field.getCells()) {
+        FieldModel fieldModel = match.getFieldController().getModel();
+        for (Cell cell : fieldModel.cells) {
             fieldXml.element(CELL)
                     .attribute(NUMBER, cell.getNumber())
                     .attribute(UNITS_X, cell.getUnitsX())
@@ -97,7 +103,13 @@ public class MatchSaver {
                     .pop();
         }
 
-        fieldXml.element("routes", field.getMatrix()).pop();
+        for (Route route : fieldModel.router.getAsCollection()) {
+            fieldXml.element(ROUTE)
+                    .attribute(FROM, route.from)
+                    .attribute(TO, route.to)
+                    .attribute(ENABLED, route.enabled)
+                    .pop();
+        }
 
         fieldXml.pop();
         xml.close();
@@ -115,28 +127,29 @@ public class MatchSaver {
     }
 
     private static Match loadFromFile() throws IOException{
-        Match match = null;
-        FileHandle handle = Gdx.files.external(FILENAME);
+        Match match;
+        FileHandle handle = Gdx.files.external(MATCH_PATH);
         Logger.log("loading match from file " + handle.path());
         if (handle.exists()) {
             XmlReader reader = new XmlReader();
 
             XmlReader.Element root = reader.parse(handle.reader());
 
-            Settings.loadGameSettings(root);
+            SettingsSaver.loadGameSettings(root);
 
             GameSettings gameSettings = Settings.gameSettings;
 
             Logger.log("loading players");
             loadPlayers(root, gameSettings);
             List<Cell> cells = loadCells(root);
-            String matrixString = root.getChildByName(FIELD).getChildByName("routes").getText();
 
-            match = new Match(gameSettings, cells, matrixString);
-            match.turn = Integer.parseInt(root.getAttribute(TURN_ATTR, "0"));
+            Router router = loadRoutes(root);
+
+            match = new Match(gameSettings, cells, router);
+            match.setTurn(root.getIntAttribute(TURN_ATTR, 0));
 
         } else {
-            throw new IOException("File with saved match not found " + FILENAME);
+            throw new IOException("File with saved match not found " + MATCH_PATH);
         }
         return match;
     }
@@ -144,7 +157,7 @@ public class MatchSaver {
     private static void loadPlayers(XmlReader.Element root, GameSettings settings) {
         Integer number;
         String type;
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
 
         XmlReader.Element playersRoot = root.getChildByName(PLAYERS);
         for (XmlReader.Element player : playersRoot.getChildrenByName(PLAYER)) {
@@ -167,7 +180,7 @@ public class MatchSaver {
 
         Cell cell;
 
-        List<Cell> cells = new LinkedList<Cell>();
+        List<Cell> cells = new LinkedList<>();
 
         XmlReader.Element playersRoot = root.getChildByName(FIELD);
         for (XmlReader.Element player : playersRoot.getChildrenByName(CELL)) {
@@ -183,6 +196,29 @@ public class MatchSaver {
             Logger.log("adding cell " + cell);
         }
         return cells;
+    }
+
+
+    private static Router loadRoutes(XmlReader.Element root) {
+        int from;
+        int to;
+        boolean enabled;
+
+        Route route;
+
+        Router router = new Router();
+
+        XmlReader.Element playersRoot = root.getChildByName(FIELD);
+        for (XmlReader.Element player : playersRoot.getChildrenByName(ROUTE)) {
+            from = player.getIntAttribute(FROM, 0);
+            to = player.getIntAttribute(TO, 0);
+            enabled =  player.getBooleanAttribute(ENABLED, false);
+
+            route = new Route(from, to, enabled);
+            router.add(route);
+        }
+        router.print();
+        return router;
     }
 
     public static boolean hasNotEnded() {

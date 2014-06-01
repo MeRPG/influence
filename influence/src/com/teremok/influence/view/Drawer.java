@@ -13,7 +13,7 @@ import java.util.Map;
  */
 
 public class Drawer {
-    public static final float  MIN_SIZE_FOR_TEXT = 30f;
+    public static float MIN_SIZE_FOR_TEXT = 30f;
 
     private static Map<String, Color> colors;
 
@@ -38,7 +38,7 @@ public class Drawer {
         colors.put("GREY_SELECTED", new Color(0x2E2E2EFF).add(0.2f, 0.2f, 0.2f, 0.0f));
 
         colors.put("TEXT_COLOR", Color.WHITE.cpy());
-        colors.put("DIMMED_TEXT_COLOR", new Color(0x2E2E2EFF));
+        colors.put("DIMMED_TEXT_COLOR", new Color(0x5E5E5EFF));
         colors.put("CELL_TEXT_COLOR", Color.BLACK.cpy());
         colors.put("EMPTY_CELL_TEXT_COLOR",  Color.BLACK.cpy());
         colors.put("BACKGROUND_COLOR", Color.BLACK.cpy());

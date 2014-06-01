@@ -1,4 +1,4 @@
-package com.teremok.influence.model;
+package com.teremok.influence.controller;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -29,98 +30,71 @@ import static com.teremok.influence.view.Drawer.*;
 /**
  * Created by Alexx on 11.12.13
  */
-public class Field extends Group {
-
-    public static float WIDTH =  480f;
-    public static float HEIGHT = 624f;
-
+public class FieldController extends Group {
     private static final int INITIAL_CELL_POWER = 2;
-
-    private List<Cell> cells;
 
     private Match match;
     private PlayerManager pm;
-    private Cell selectedCell;
     private FieldShapeDrawer drawer;
 
-    private GraphGenerator generator;
-    private Random random;
-
-    short[][] matrix;
+    public Cell selectedCell;
+    FieldModel model;
 
     public static float cellWidth;
     public static float cellHeight;
 
-    private float initialX;
-    private float initialY;
-    private float initialWidth;
-    private float initialHeight;
+    private GraphGenerator generator;
+    private Random random;
 
-    private int maxCellsY;
-    private int maxCellsX;
-    private int cellsCount;
-
-    public Field(Match match, GameSettings settings) {
+    public FieldController(Match match, GameSettings settings) {
+        model = new FieldModel();
         reset(match, settings);
         addListener();
     }
 
-    public Field(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
-        reset(match, settings, cells, matrixString);
+    public FieldController(Match match, GameSettings settings, List<Cell> cells, Router router) {
+        model = new FieldModel();
+        reset(match, settings, cells, router);
         addListener();
     }
 
     public void reset(Match match, GameSettings settings) {
         this.match = match;
         this.pm = match.getPm();
+
         drawer = AbstractDrawer.getFieldShapeDrawer();
 
-        maxCellsX = settings.maxCellsX;
-        maxCellsY = settings.maxCellsY;
-        cellsCount = settings.cellsCount;
-
-        initialX = 0f;
-        initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
+        selectedCell = null;
 
         cellWidth = getUnitSize() *2;
         cellHeight = getUnitSize() *2;
 
-        initialWidth = WIDTH;
-        initialHeight = HEIGHT;
+        model.reset(settings);
 
-        setBounds(initialX, initialY, initialWidth, initialHeight);
+        setBounds(model.initialX, model.initialY, model.initialWidth, model.initialHeight);
 
         generate();
     }
 
-    public void reset(Match match, GameSettings settings, List<Cell> cells, String matrixString ) {
+    public void reset(Match match, GameSettings settings, List<Cell> cells, Router router) {
         this.match = match;
         this.pm = match.getPm();
         drawer = AbstractDrawer.getFieldShapeDrawer();
 
-        maxCellsX = settings.maxCellsX;
-        maxCellsY = settings.maxCellsY;
-        cellsCount = settings.cellsCount;
+        selectedCell = null;
 
-        initialX = 0f;
-        initialY = AbstractScreen.HEIGHT - HEIGHT-1f;
+        cellWidth = getUnitSize() *2;
+        cellHeight = getUnitSize() *2;
 
-        initialWidth = WIDTH;
-        initialHeight = HEIGHT;
+        model.reset(settings, cells, router);
 
-        setBounds(initialX, initialY, initialWidth, initialHeight);
-
-        this.cells = cells;
-        setMatrix(matrixString);
+        setBounds(model.initialX, model.initialY, model.initialWidth, model.initialHeight);
     }
 
     private void generate() {
-
-        if (generator == null)
-            generator = new GraphGenerator(cellsCount, maxCellsX, maxCellsY);
-        generator.generate();
-        cells = generator.getCells();
-        matrix = generator.getMatrix();
+        if (generator == null || ! generator.matchModel(model))
+            generator = new GraphGenerator(model);
+        generator.generate(model);
     }
 
     public void regenerate() {
@@ -133,28 +107,24 @@ public class Field extends Group {
             random = new Random();
         int number;
         Cell target;
-
         do {
-            number = random.nextInt(cells.size());
-            target = cells.get(number);
-
+            number = random.nextInt(model.cells.size());
+            target = model.cells.get(number);
             if (isValidForStartPosition(target)) {
                 break;
             }
-
         } while (true);
-        //Logger.log("Placing player: " + target);
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
 
     public void placeStartPositionFromRange(int type, int startNumber, int endNumber) {
-        if (startNumber < 0 || startNumber >= maxCellsY * maxCellsX -1) {
+        if (startNumber < 0 || startNumber >= model.maxCellsY * model.maxCellsX -1) {
             startNumber = 0;
         }
 
-        if (endNumber <= 0 || endNumber >= maxCellsY * maxCellsX -1) {
-            endNumber = maxCellsY * maxCellsX -1;
+        if (endNumber <= 0 || endNumber >= model.maxCellsY * model.maxCellsX -1) {
+            endNumber = model.maxCellsY * model.maxCellsX -1;
         }
 
         if (endNumber < startNumber) {
@@ -165,7 +135,7 @@ public class Field extends Group {
 
         int firstInRange = 0;
         int range = 0;
-        for (Cell cell : cells) {
+        for (Cell cell : model.cells) {
             if (cell.getNumber() >= endNumber)
                 break;
             if (cell.getNumber() < startNumber) {
@@ -175,25 +145,20 @@ public class Field extends Group {
             }
         }
 
-        //Logger.log("placeStartPositionFromRange [" + startNumber + "; " + endNumber + "]");
-
         if (random == null)
             random = new Random();
+
         int number;
         Cell target;
 
         do {
             number = firstInRange + random.nextInt(range);
-            target = cells.get(number);
-
-            //Logger.log("Trying number " + number);
-
+            target = model.cells.get(number);
             if (isValidForStartPosition(target)) {
                 break;
             }
-
         } while (true);
-        //Logger.log("Placing player: " + target);
+
         target.setPower(INITIAL_CELL_POWER);
         target.setType(type);
     }
@@ -230,8 +195,9 @@ public class Field extends Group {
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     if (!event.isHandled() && ! GestureController.isActing() && match.canHumanActing()) {
+
                         Cell target = hit(x, y);
-                        //Logger.log("actual target: " + target);
+
                         if (target == null)
                             return;
 
@@ -255,7 +221,7 @@ public class Field extends Group {
     }
 
     public Cell hit(float x, float y) {
-
+        Logger.log("hit field on " + x + "; " + y);
         int unitsY = (int)(y/cellHeight);
 
         if (unitsY%2 == 1) {
@@ -264,43 +230,23 @@ public class Field extends Group {
 
         int unitsX = (int)(x/cellWidth);
 
-        //Logger.log("hit: " + unitsX + "; " + unitsY + "; " + getNum(unitsX,unitsY));
+        Logger.log("hit: " + unitsX + "; " + unitsY + "; " + model.getNum(unitsX, unitsY));
 
-        if (unitsX < 0 || unitsX > maxCellsX -1 || unitsY < 0 || unitsY > maxCellsY -1) {
-            cells.get(0);
+        if (unitsX < 0 || unitsX > model.maxCellsX -1 || unitsY < 0 || unitsY > model.maxCellsY -1) {
+            model.cells.get(0);
         }
 
-        return getCellByNumber(getNum(unitsX, unitsY));
-    }
-
-    private Cell getCellByNumber(int number) {
-        for (Cell cell : cells) {
-            if (cell.getNumber() == number){
-                return  cell;
-            }
-        }
-        return cells.get(0);
-    }
-
-    private int getNum( int i, int j) {
-        return i + j* maxCellsX;
+        return model.getCell(unitsX, unitsY);
     }
 
     private boolean connectedToSelected(Cell cell) {
-        if (selectedCell == null)
-            return false;
-        for (Cell c : cell.getNeighbors()) {
-            if (selectedCell == c) {
-                return true;
-            }
-        }
-        return false;
+        return selectedCell != null && model.isCellsConnected(selectedCell, cell);
     }
 
     public void setSelectedCell(Cell cell) {
 
         if (selectedCell != null) {
-            if (isCellsConnected(selectedCell, cell)
+            if (model.isCellsConnected(selectedCell, cell)
                     && selectedCell.getPower() > 1
                     && selectedCell.getType() != cell.getType()) {
 
@@ -310,8 +256,6 @@ public class Field extends Group {
                     cell.setType(selectedCell.getType());
                     reallySetSelected(cell);
                     updateLists();
-                } else if (pm.isHumanActing()) {
-                    match.score.setStatus(Localizator.getString("selectMoreThanOne"));
                 }
             } else  {
                 reallySetSelected(cell);
@@ -336,7 +280,7 @@ public class Field extends Group {
     }
 
     public void addPower(Cell cell, int powerToAdd) {
-        cell.power += powerToAdd;
+        cell.setPower(powerToAdd + cell.getPower());
         riseAddPowerTooltip(cell, "+"+powerToAdd);
         pm.current().subtractPowerToDistribute(powerToAdd);
         Logger.log("Add " + powerToAdd + " power to " + cell);
@@ -350,16 +294,6 @@ public class Field extends Group {
                 selectedCell.setSelected(false);
             cell.setSelected(true);
             selectedCell = cell;
-
-            if (pm.isHumanActing()) {
-                if (cell.getPower() <= 1) {
-                    match.score.setStatus(Localizator.getString("selectMoreThanOne"));
-                } else {
-                    match.score.setStatus(Localizator.getString("touchNearby"));
-                }
-            }  else {
-                match.score.setStatus(Localizator.getString("waitYourMove"));
-            }
         }
     }
 
@@ -372,14 +306,29 @@ public class Field extends Group {
 
     private int fight(Cell attack, Cell defense) {
 
-        //Logger.log("Attack!");
-        //Logger.log(attack.getPower() + " \t->\t " + defense.getPower());
-
         int delta = Calculator.fight(attack.getPower(), defense.getPower());
 
         riseDiceTooltips(attack, defense);
         fastShowBacklight(attack, defense);
         setResultPower(attack, defense);
+
+        if (pm.getNumberOfHumans() == 1) {
+            if (attack.getType() == 0) {
+                if (defense.getType() != -1) {
+                    Chronicle.match.damage += Calculator.getResultPowerA();
+                    //Chronicle.match.damageGet += Calculator.getResultPowerB();
+                }
+                if (delta > 0)
+                    Chronicle.match.cellsConquered++;
+            }
+
+            if (defense.getType() == 0) {
+                Chronicle.match.damageGet += Calculator.getResultPowerA();
+                //Chronicle.match.damage += Calculator.getResultPowerB();
+                if (delta > 0)
+                    Chronicle.match.cellsLost++;
+            }
+        }
 
         return delta;
     }
@@ -398,19 +347,8 @@ public class Field extends Group {
 
         }
 
-
-
         attack.setPower(calcA);
         defense.setPower(calcB);
-    }
-
-    private boolean isCellsConnected(Cell from, Cell to) {
-
-        if (from.getNumber() == to.getNumber())
-            return false;
-
-        return matrix[from.getNumber()][to.getNumber()] == 1 || matrix[to.getNumber()][from.getNumber()] == 1;
-
     }
 
     // TODO: refactor
@@ -509,7 +447,7 @@ public class Field extends Group {
     public boolean isTooltipVisible (float tooltipX, float tooltipY) {
         return  tooltipX > -5
                 && tooltipX < AbstractScreen.WIDTH
-                && tooltipY > (AbstractScreen.HEIGHT - Field.HEIGHT-5)
+                && tooltipY > (AbstractScreen.HEIGHT - FieldModel.HEIGHT-5)
                 && tooltipY < AbstractScreen.HEIGHT;
     }
 
@@ -519,7 +457,7 @@ public class Field extends Group {
         float actualCellWidth = cellWidth*GestureController.getZoom();
         return  absoluteCellX > (-actualCellWidth/2)
                 && absoluteCellX < AbstractScreen.WIDTH
-                && absoluteCellY > (AbstractScreen.HEIGHT - Field.HEIGHT-actualCellWidth/2)
+                && absoluteCellY > (AbstractScreen.HEIGHT - FieldModel.HEIGHT-actualCellWidth/2)
                 && absoluteCellY < AbstractScreen.HEIGHT;
     }
 
@@ -541,18 +479,13 @@ public class Field extends Group {
         float newX = getX() + deltaX;
         float newY = getY() + deltaY;
 
-        //Logger.log("move: " + newX + "; " + newY);
+        if (newX > model.initialX)
+            newX = model.initialX;
+        if (newY > model.initialY)
+            newY = model.initialY;
 
-        if (newX > initialX)
-            newX = initialX;
-        if (newY > initialY)
-            newY = initialY;
-
-        float minX = initialX - (getZoomedWidth() - initialWidth);
-        float minY = initialY - (getZoomedHeight() - initialHeight);
-
-        //Logger.log("zoomed: " + getZoomedWidth() + "; " + getZoomedHeight());
-        //Logger.log("minimal: " + minX + "; " + minY);
+        float minX = model.initialX - (getZoomedWidth() - model.initialWidth);
+        float minY = model.initialY - (getZoomedHeight() - model.initialHeight);
 
         if (newX < minX)
             newX = minX;
@@ -561,21 +494,19 @@ public class Field extends Group {
 
         this.setX(newX);
         this.setY(newY);
-
-        //Logger.log("actual move: " + newX + "; " + newY);
     }
 
     public void resize() {
         this.setWidth(getZoomedWidth());
         this.setHeight(getZoomedHeight());
 
-        cellWidth = Field.getZoomedWidth() / maxCellsX;
-        cellHeight = Field.getZoomedHeight() / maxCellsY;
+        cellWidth = FieldController.getZoomedWidth() / model.maxCellsX;
+        cellHeight = FieldController.getZoomedHeight() / model.maxCellsY;
 
         float cellX;
         float cellY;
 
-        for (Cell c : cells) {
+        for (Cell c : model.cells) {
             cellX = c.getUnitsY()*cellWidth;
             if (c.getUnitsX()%2 == 1) {
                 cellX += cellHeight/2;
@@ -590,17 +521,17 @@ public class Field extends Group {
     }
 
     public static float getZoomedWidth() {
-        return WIDTH * GestureController.getZoom();
+        return FieldModel.WIDTH * GestureController.getZoom();
     }
 
     public static float getZoomedHeight() {
-        return HEIGHT * GestureController.getZoom();
+        return FieldModel.HEIGHT * GestureController.getZoom();
 
     }
 
     public void updateLists() {
 
-        //Logger.log("update lists called.");
+        Logger.log("update lists called.");
 
         Player[] players = pm.getPlayers();
         if (players != null) {
@@ -609,83 +540,14 @@ public class Field extends Group {
             }
         }
 
-        for (Cell cell : cells) {
-            cell.clearEnemies();
-            cell.clearNeighbors();
-            for (Cell cell2 : cells) {
-                if (isCellsConnected(cell, cell2)) {
-                    cell.addNeighbor(cell2);
-                    if (( cell.getType() != cell2.getType() || cell.isFree() )) {
-                        cell.addEnemy(cell2);
-                    }
-                }
-            }
+        model.updateLists();
+
+        for (Cell cell : model.cells) {
             if (cell.getType() != -1) {
                 pm.getPlayers()[cell.getType()].addCell(cell);
             }
         }
-
     }
-
-    public String getMatrix() {
-        int hit = 0;
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < maxCellsX*maxCellsY; i++) {
-            for (int j = 0; j < maxCellsX*maxCellsY; j++) {
-                sb.append(matrix[i][j]);
-                hit++;
-            }
-            sb.append(';');
-        }
-
-        Logger.log("hits: " + hit);
-
-        return sb.toString();
-    }
-
-    public void setMatrix(String matrixString) {
-
-        if (matrix == null) {
-            matrix = new short[maxCellsX*maxCellsY][maxCellsX*maxCellsY];
-        }
-
-        Logger.log(getMatrix());
-
-        Logger.log("loading routes");
-
-        int x = 0;
-        int y = 0;
-        int hit = 0;
-        char[] chars = matrixString.toCharArray();
-        for (int i = 0; i < chars.length; i++ ) {
-            char ch = chars[i];
-            switch (ch) {
-                case '0':
-                    //Logger.log("x = " + x + "; y = " + y);
-                    matrix[x++][y] = 0;
-                    hit++;
-                    break;
-                case '1':
-                    //Logger.log("x = " + x + "; y = " + y);
-                    matrix[x++][y] = 1;
-                    hit++;
-                    break;
-                case ';':
-                    y++;
-            }
-
-            if (x == maxCellsX*maxCellsY) {
-                x = 0;
-            }
-
-            if (y == maxCellsX*maxCellsY) {
-                break;
-            }
-        }
-
-        Logger.log("hits: " + hit);
-    }
-
 
     // Auto-generated
 
@@ -693,17 +555,7 @@ public class Field extends Group {
         return selectedCell;
     }
 
-    public List<Cell> getCells() {return cells; }
-
-    public int getMaxCellsX() {
-        return maxCellsX;
-    }
-
-    public int getMaxCellsY() {
-        return maxCellsY;
-    }
-
-    public int getCellsCount() {
-        return cellsCount;
+    public FieldModel getModel() {
+        return model;
     }
 }
