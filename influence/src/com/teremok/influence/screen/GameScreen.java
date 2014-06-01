@@ -7,18 +7,17 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.teremok.influence.controller.GestureController;
-import com.teremok.influence.controller.MatchSaver;
-import com.teremok.influence.controller.ScoreController;
-import com.teremok.influence.controller.SettingsSaver;
+import com.teremok.influence.controller.*;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
+import com.teremok.influence.util.TextureNumberFactory;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Animation;
+import com.teremok.influence.view.Drawer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +42,7 @@ public class GameScreen extends StaticScreen {
     boolean backlightState;
 
     long lastBackPress = 0;
+    boolean endSoundPlayed = false;
 
     public static Color colorForBacklight;
 
@@ -96,6 +96,44 @@ public class GameScreen extends StaticScreen {
                 turnOffBorder(borderTop);
             }
         }
+
+        if (match.isWon()) {
+            if (! endSoundPlayed) {
+                FXPlayer.playWinMatch();
+                MatchSaver.clearFile();
+                endSoundPlayed = true;
+                if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
+                    int lastInfluence = Chronicle.influence;
+                    ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, true);
+                    int deltaInfluence = Chronicle.influence - lastInfluence;
+                    addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
+                    showInfoMessageAnimation();
+                }
+                GameScreen.colorForBacklight = Drawer.getPlayerColor(match.getPm().current());
+                FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN, match.getTurn());
+            }
+        } else if (match.isLost()) {
+            if (! endSoundPlayed) {
+                FXPlayer.playLoseMatch();
+                MatchSaver.clearFile();
+                endSoundPlayed = true;
+                if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
+                    int lastInfluence = Chronicle.influence;
+                    ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, false);
+                    int deltaInfluence = Chronicle.influence - lastInfluence;
+                    addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
+                    showInfoMessageAnimation();
+                }
+
+                GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
+                FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_LOSE, match.getTurn());
+            }
+        }
+
+        if (match.getPm().getNumberOfPlayerInGame() == 1) {
+            GameScreen.colorForBacklight = Drawer.getPlayerColor(match.getPm().current());
+        }
+
     }
 
     private void turnOnBorder(TexturePanel border) {
@@ -155,8 +193,10 @@ public class GameScreen extends StaticScreen {
         //Logger.log("Starting new match");
         if (match == null) {
             match = new Match(Settings.gameSettings);
+            endSoundPlayed = false;
         } else {
             match.reset(Settings.gameSettings);
+            endSoundPlayed = false;
         }
         updateMatchDependentActors();
     }
@@ -297,6 +337,10 @@ public class GameScreen extends StaticScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
                     FXPlayer.playClick();
+                    if (isInfoMessageVisible()) {
+                        hideInfoMessageAnimation();
+                        return;
+                    }
                     if (match.canHumanActing() && ! match.isEnded())
                         match.switchPhase();
                     if (match.isEnded())
@@ -335,7 +379,10 @@ public class GameScreen extends StaticScreen {
                         updateMatchDependentActors();
                     }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
-
+                        if (isInfoMessageVisible()) {
+                            hideInfoMessageAnimation();
+                            return true;
+                        }
                         if (keycode != Keys.MENU) {
                             long newTime = System.currentTimeMillis();
 

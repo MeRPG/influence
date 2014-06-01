@@ -17,6 +17,8 @@ public class GameSettings {
     public int maxCellsY;
     public int cellsCount;
 
+    public boolean gameForInfluence;
+
     public Map<Integer, PlayerType> customPlayers;
 
     public static GameSettings getDefault() {

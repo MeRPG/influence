@@ -202,9 +202,9 @@ public class EditorScreen extends StaticScreen {
                 }
                 if (keycode == Input.Keys.I) {
                     if (isInfoMessageVisible()) {
-                        hideInfoMessage();
+                        hideInfoMessageAnimation();
                     } else {
-                        showInfoMessage();
+                        showInfoMessageAnimation();
                     }
                 }
                 return true;

@@ -29,6 +29,7 @@ public class ScreenController {
     private static PlayersScreen playersScreen;
     private static EditorScreen editorScreen;
     private static StatisticsScreen statisticsScreen;
+    private static GameTypeScreen gameTypeScreen;
 
     public static void init(Influence game) {
         ScreenController.game = game;
@@ -69,6 +70,14 @@ public class ScreenController {
         }
         FlurryHelper.logSettingsScreenEvent();
         gracefullyShowScreen(settingsScreen);
+    }
+
+    public static void showGameTypeScreen() {
+        if (gameTypeScreen == null) {
+            gameTypeScreen = new GameTypeScreen(game, "aboutScreen");
+        }
+        FlurryHelper.logGameTypeScreenEvent();
+        gracefullyShowScreen(gameTypeScreen);
     }
 
     public static void showEditorScreen() {

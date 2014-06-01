@@ -237,12 +237,12 @@ public abstract class StaticScreen extends AbstractScreen {
 
     }
 
-    protected void showInfoMessage() {
+    private void showInfoMessage() {
         infoMessage.setVisible(true);
         infoMessage.setTouchable(Touchable.enabled);
     }
 
-    protected void hideInfoMessage() {
+    private void hideInfoMessage() {
         infoMessage.setVisible(false);
         infoMessage.setTouchable(Touchable.disabled);
     }

@@ -4,10 +4,7 @@ import com.teremok.influence.controller.*;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
-import com.teremok.influence.screen.GameScreen;
-import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.view.Drawer;
 
 import java.util.List;
 
@@ -27,7 +24,6 @@ public class Match {
     ScoreController scoreController;
 
     boolean paused;
-    boolean endSoundPlayed;
 
     int turn;
 
@@ -37,7 +33,6 @@ public class Match {
         scoreController = new ScoreController(this);
 
         turn = 0;
-        endSoundPlayed = false;
 
         pm.addPlayersFromMap(settings.players, fieldController);
 
@@ -75,7 +70,6 @@ public class Match {
         }
 
         turn = 0;
-        endSoundPlayed = false;
 
         ChronicleController.matchStart();
 
@@ -107,36 +101,6 @@ public class Match {
                     }
                 }
             }
-
-            if (isWon()) {
-                if (! endSoundPlayed) {
-                    FXPlayer.playWinMatch();
-                    MatchSaver.clearFile();
-                    endSoundPlayed = true;
-                    if (pm.getNumberOfHumans() == 1) {
-                        ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, true);
-                    }
-                    GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
-                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN, turn);
-                }
-            } else if (isLost()) {
-                if (! endSoundPlayed) {
-                    FXPlayer.playLoseMatch();
-                    MatchSaver.clearFile();
-                    endSoundPlayed = true;
-                    if (pm.getNumberOfHumans() == 1) {
-                        ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, false);
-                    }
-
-                    GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
-                    FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_LOSE, turn);
-                }
-            }
-
-            if (pm.getNumberOfPlayerInGame() == 1) {
-                GameScreen.colorForBacklight = Drawer.getPlayerColor(pm.current());
-            }
-
             currentPlayer.act(delta);
         }
     }

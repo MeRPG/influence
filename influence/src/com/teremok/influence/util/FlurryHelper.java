@@ -15,9 +15,6 @@ public class FlurryHelper {
 
     public static final String END_REASON_WIN = "WIN";
     public static final String END_REASON_LOSE = "LOSE";
-    public static final String END_REASON_EXITGAME = "EXIT_GAME";
-    public static final String END_REASON_RESTART = "RESTART";
-    public static final String END_REASON_EXITMENU = "EXIT_MENU";
     public static boolean enabled;
 
     public static void logFullPowerEvent() {
@@ -103,6 +100,12 @@ public class FlurryHelper {
     public static void logStatisticsScreenEvent() {
         if (flurryEnabled()) {
             FlurryAgent.logEvent("Statistics_Screen");
+        }
+    }
+
+    public static void logGameTypeScreenEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("GameType_Screen");
         }
     }
 
