@@ -17,7 +17,7 @@ public class Settings {
 
     public static int lastAboutScreen = 1;
 
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     public static GameSettings gameSettings;
 
@@ -25,7 +25,7 @@ public class Settings {
         sound = true;
         vibrate = true;
         speed = NORMAL;
-        debug = true;
+        debug = false;
         gameSettings = GameSettings.getDefault();
         Localizator.setDefaultLanguage();
     }
