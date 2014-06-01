@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -37,7 +38,7 @@ public abstract class StaticScreen extends AbstractScreen {
     protected Map<String, UIElementParams> uiElements;
     protected Image background;
     public ColoredPanel overlap;
-    private TexturePanel infoMessage;
+    private Actor infoMessage;
 
     private static final String ATLAS_ATTR = "atlas";
     private static final String NAME_ATTR = "name";
@@ -203,7 +204,7 @@ public abstract class StaticScreen extends AbstractScreen {
         addInfoMessage(new TexturePanel(textureRegion, x, y));
     }
 
-    protected void addInfoMessage(TexturePanel infoMessage) {
+    protected void addInfoMessage(Actor infoMessage) {
         this.infoMessage = infoMessage;
         stage.addActor(infoMessage);
         hideInfoMessage();
