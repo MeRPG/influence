@@ -8,11 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.model.Chronicle;
 import com.teremok.influence.net.HttpRequestBuilder;
+import com.teremok.influence.net.HttpResponseReader;
+import com.teremok.influence.net.Record;
+import com.teremok.influence.ui.RecordTable;
 import com.teremok.influence.ui.TextureNumber;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.TextureNumberFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +27,8 @@ public class StatisticsScreen extends StaticScreen {
     public StatisticsScreen (Game game, String filename) {
         super(game, filename);
     }
+
+    List<Record> records;
 
     @Override
     protected void addActors() {
@@ -86,19 +92,13 @@ public class StatisticsScreen extends StaticScreen {
                     event.handle();
 
                     Map<String, String> parameters = new HashMap<>();
-                    parameters.put("id", 1 +"");
-                    parameters.put("influence", Chronicle.influence +"");
-                    parameters.put("name", "Pupok29");
-                    parameters.put("influence", "123");
+                    parameters.put("top", 10 +"");
 
                     Gdx.net.sendHttpRequest (HttpRequestBuilder.build(parameters),
                             new Net.HttpResponseListener() {
                                 public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                                    String status = httpResponse.getResultAsString();
-                                    int place = Integer.parseInt(status);
-                                    addInfoMessage(new TextureNumberFactory().getNumber(place, 100, 100, false));
-                                    showInfoMessageAnimation();
-                                    Logger.log("HttpResponse " + status);
+                                    records = HttpResponseReader.readRecords(httpResponse);
+                                    Logger.log("HttpResponse ok");
                                 }
 
                                 public void failed(Throwable t) {
@@ -108,6 +108,11 @@ public class StatisticsScreen extends StaticScreen {
                                     t.printStackTrace();
                                 }
                         });
+
+                    if (records != null) {
+                        addInfoMessage(new RecordTable(records, getFont()));
+                        showInfoMessageAnimation();
+                    }
                 }
             }
         });
