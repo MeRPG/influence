@@ -4,10 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.net.HttpParametersUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.model.Chronicle;
+import com.teremok.influence.net.HttpRequestBuilder;
 import com.teremok.influence.ui.TextureNumber;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.TextureNumberFactory;
@@ -67,8 +67,6 @@ public class StatisticsScreen extends StaticScreen {
                 }
                 return false;
             }
-
-
         });
         stage.addListener( new InputListener() {
             @Override
@@ -86,30 +84,30 @@ public class StatisticsScreen extends StaticScreen {
                 if (! event.isHandled()) {
 
                     event.handle();
+
                     Map<String, String> parameters = new HashMap<>();
                     parameters.put("id", 1 +"");
                     parameters.put("influence", Chronicle.influence +"");
+                    parameters.put("name", "Pupok29");
+                    parameters.put("influence", "123");
 
-                    Net.HttpRequest httpGet = new Net.HttpRequest(Net.HttpMethods.GET);
-                    httpGet.setUrl("http://timeforlime.ru/influence/index.php");
-                    httpGet.setContent(HttpParametersUtils.convertHttpParameters(parameters));
+                    Gdx.net.sendHttpRequest (HttpRequestBuilder.build(parameters),
+                            new Net.HttpResponseListener() {
+                                public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                                    String status = httpResponse.getResultAsString();
+                                    int place = Integer.parseInt(status);
+                                    addInfoMessage(new TextureNumberFactory().getNumber(place, 100, 100, false));
+                                    showInfoMessageAnimation();
+                                    Logger.log("HttpResponse " + status);
+                                }
 
-                    Gdx.net.sendHttpRequest (httpGet, new Net.HttpResponseListener() {
-                        public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                            String status = httpResponse.getResultAsString();
-                            int stat = Integer.parseInt(status);
-                            addInfoMessage(new TextureNumberFactory().getNumber(stat, 100, 100, false));
-                            showInfoMessageAnimation();
-                            Logger.log("HttpResponse " + status);
-                        }
-
-                        public void failed(Throwable t) {
-                            String status = "failed";
-                            //do stuff here based on the failed attempt
-                            Logger.log("HttpResponse " + status);
-                            t.printStackTrace();
-                        }
-                    });
+                                public void failed(Throwable t) {
+                                    String status = "failed";
+                                    //do stuff here based on the failed attempt
+                                    Logger.log("HttpResponse " + status);
+                                    t.printStackTrace();
+                                }
+                        });
                 }
             }
         });

@@ -83,7 +83,7 @@ public class SettingsSaver {
                 vibrate = root.getBoolean("vibrate", true);
                 speed = root.getFloat("speed", 0.5f);
                 Localizator.setLanguage(root.getChildByName("language").getText());
-                debug = root.getBoolean("debug", true);
+                //debug = root.getBoolean("debug", true);
                 lastAboutScreen = root.getInt("lastAboutScreen", 0);
 
                 loadGameSettings(root);
