@@ -32,15 +32,17 @@ public class HumanPlayer extends Player {
     }
 
     private void distributePowerAuto() {
-        //Logger.log("Distributing power!");
         for (Cell cell : cells) {
-            if (!powered.contains(cell.getNumber()) && cell.getPower() != cell.getMaxPower() && powerToDistribute > 0) {
+            if ( cellNotPowered(cell) && ! cell.isFull() && this.hasPowerToDistribute()) {
                 field.addPower(cell);
             }
         }
         FlurryHelper.logAutoPowerEvent();
-
         clearPowered();
+    }
+
+    private boolean cellNotPowered(Cell cell) {
+        return !powered.contains(cell.getNumber());
     }
 
     public void addPowered(int number) {

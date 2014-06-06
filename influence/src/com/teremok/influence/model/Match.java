@@ -89,26 +89,39 @@ public class Match {
 
     public void act(float delta) {
         if (! paused) {
-            Player currentPlayer = pm.current();
-            if (phase == Phase.POWER && ! currentPlayer.hasPowerToDistribute()) {
-                currentPlayer = pm.next();
-                phase = Phase.ATTACK;
-                if ( pm.isHumanActing() && pm.current().getNumber() == 0 && ! isEnded()) {
-                    MatchSaver.save(this);
-                    turn++;
-                    if (turn == 1) {
-                        FlurryHelper.logMatchStartEvent();
-                    }
-                }
+            if (needToSwitchPhase()) {
+                setAttackPhase();
+                startNewTurnIfNeeded();
             }
-            currentPlayer.act(delta);
+            pm.current().act(delta);
         }
     }
 
+    private boolean needToSwitchPhase() {
+        return phase == Phase.POWER && ! pm.current().hasPowerToDistribute();
+    }
+
+    private void startNewTurnIfNeeded() {
+        if ( needToStartNewTurn() ) {
+            startNewTurn();
+        }
+    }
+
+    private boolean needToStartNewTurn() {
+        return pm.isHumanActing() && pm.current().getNumber() == 0 && ! isEnded();
+    }
+
+    private void startNewTurn() {
+        MatchSaver.save(this);
+        turn++;
+        if (turn == 1) {
+            FlurryHelper.logMatchStartEvent();
+        }
+    }
 
     public void switchPhase() {
         if (phase == Phase.ATTACK) {
-            setDistributePhase();
+            setPowerPhase();
         } else {
 
             Player player = pm.current();
@@ -122,21 +135,21 @@ public class Match {
 
     }
 
-    public void setDistributePhase() {
-        Player player = pm.current();
-        if (player instanceof HumanPlayer) {
-            ((HumanPlayer) player).clearPowered();
-        }
-        player.updatePowerToDistribute();
-        if (turn == 1 && pm.getNumberOfPlayers() == 2 && pm.current().getNumber() == 0){
-            player.subtractPowerToDistribute();
+    public void setPowerPhase() {
+        pm.current().updatePowerToDistribute();
+        if (needToSubtractPower()){
+            pm.current().subtractPowerToDistribute();
         }
         phase = Phase.POWER;
         fieldController.resetSelection();
     }
 
+    private boolean needToSubtractPower() {
+        return turn == 1 && pm.getNumberOfPlayers() == 2 && pm.current().getNumber() == 0;
+    }
+
     public void setAttackPhase() {
-        pm.next();
+        pm.nextCurrentPlayer();
         phase = Phase.ATTACK;
     }
 
@@ -154,7 +167,6 @@ public class Match {
 
     public boolean isEnded() {
         int playersInGame = pm.getNumberOfPlayerInGame();
-
         return playersInGame == 1 || ! pm.isHumanInGame();
     }
 

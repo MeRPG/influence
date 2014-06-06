@@ -58,8 +58,6 @@ public class Cell {
         this(number);
         this.unitsX = unitsX;
         this.unitsY = unitsY;
-
-        updateBounds();
     }
 
     public static Cell makeRandomCell(int number, int x, int y) {
@@ -128,10 +126,10 @@ public class Cell {
         return type == -1;
     }
 
-    public void updateBounds() {
-
-
+    public boolean isFull() {
+        return power == maxPower;
     }
+
     // Auto-generated
 
 
