@@ -167,7 +167,7 @@ public class FlurryHelper {
     }
 
     private static boolean flurryEnabled() {
-        return !Settings.debug;
+        return false;
     }
 
 }
