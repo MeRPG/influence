@@ -6,9 +6,11 @@
     <element name="vibrate" region="vibrationOn" secondRegion="vibrationOff" localized="false"
             x="265" y="372"/>
     <element name="ru" region="languageRussianOn" secondRegion="languageRussianOff" localized="false"
-            x="42" y="229"/>
+            x="0" y="231"/>
     <element name="en" region="languageEnglishOn" secondRegion="languageEnglishOff" localized="false"
-            x="231" y="229"/>
+            x="146" y="231"/>
+    <element name="de" region="languageDeutschOn" secondRegion="languageDeutschOff" localized="false"
+             x="296" y="231"/>
     <element name="slow" region="speedSlowOn" secondRegion="speedSlowOff" localized="false"
             x="10" y="84"/>
     <element name="normal" region="speedNormalOn" secondRegion="speedNormalOff" localized="false"

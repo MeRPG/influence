@@ -147,30 +147,31 @@ public class Localizator {
 
     private static void fillGermanStrings() {
         Map<String, String> stringsGerman = new HashMap<>();
-        stringsGerman.put("selectYourCell", "GTouch a cell ");
-        stringsGerman.put("ofYourColor", "Gof your color");
-        stringsGerman.put("yourCells", "Gyour cells");
-        stringsGerman.put("selectMoreThanOne", "GSelect a cell with 2+ power");
-        stringsGerman.put("touchNearby", "GTouch a nearby cell to attack");
-        stringsGerman.put("touchToPower", "GPower up ");
-        stringsGerman.put("touchToEndTurn", "GTouch to end turn");
-        stringsGerman.put("orTouchToEndAttack", "G(or touch here to end attack)");
-        stringsGerman.put("orTouchToEndTurn", "G(or touch here to end turn)");
-        stringsGerman.put("waitYourMove", "GWait your move");
-        stringsGerman.put("youWon", "GYou won!");
-        stringsGerman.put("youLost", "GYou lost!");
-        stringsGerman.put("touchForNewGame", "GTouch here to start new game.");
-        stringsGerman.put("singleplayer", "GSingleplayer");
-        stringsGerman.put("multiplayer", "GPlay with friend");
-        stringsGerman.put("resume", "GResume");
-        stringsGerman.put("pause", "GPause");
-        stringsGerman.put("settings", "GSettings");
-        stringsGerman.put("quickGame", "GQuick play");
-        stringsGerman.put("chooseLanguage", "GChoose language: ");
-        stringsGerman.put("sounds", "GSound");
-        stringsGerman.put("vibrate", "GVibrate");
-        stringsGerman.put("computerPlayerSpeed", "GComputer speed");
-        stringsGerman.put("touchToEndAttack", "GTouch here to end attack");
+        stringsGerman.put("selectYourCell", "Berühre eine Zelle ");
+        stringsGerman.put("ofYourColor", "deiner Farbe");
+        stringsGerman.put("yourCells", "deine Zellen ");
+        stringsGerman.put("auf", "auf");
+        stringsGerman.put("selectMoreThanOne", "Wähle eine Zelle mit 2+ Energie");
+        stringsGerman.put("touchNearby", "Tippe auf eine umliegende Zelle, um sie zu attackieren");
+        stringsGerman.put("touchToPower", "Bessere ");
+        stringsGerman.put("touchToEndTurn", "Tippe, um die Runde zu beenden");
+        stringsGerman.put("orTouchToEndAttack", "(oder tippe hier, um die Angriff zu beenden)");
+        stringsGerman.put("orTouchToEndTurn", "(oder tippe hier, um die Runde zu beenden)");
+        stringsGerman.put("waitYourMove", "Warte auf deinen Zug");
+        stringsGerman.put("youWon", "Du hast gewonnen!");
+        stringsGerman.put("youLost", "Du hast verloren!");
+        stringsGerman.put("touchForNewGame", "Tippe hier, um eine neue Runde zu starten");
+        stringsGerman.put("singleplayer", "Einzelspieler");
+        stringsGerman.put("multiplayer", "Spiele mit einem Freund");
+        stringsGerman.put("resume", "Fortsetzen");
+        stringsGerman.put("pause", "Pause");
+        stringsGerman.put("settings", "Einstellungen");
+        stringsGerman.put("quickGame", "Schnelles Spiel");
+        stringsGerman.put("chooseLanguage", "Wähle deine Sprache: ");
+        stringsGerman.put("sounds", "Ton");
+        stringsGerman.put("vibrate", "Vibration");
+        stringsGerman.put("computerPlayerSpeed", "KI-Geschwindigkeit");
+        stringsGerman.put("touchToEndAttack", "Tippe hier, um den Angriff zu beenden");
 
         dictionary.put(LANGUAGE_GERMAN, stringsGerman);
     }
