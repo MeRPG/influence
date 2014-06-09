@@ -13,15 +13,15 @@ background
 speedNormalOff
   rotate: false
   xy: 1, 180
-  size: 232, 84
-  orig: 232, 84
+  size: 222, 84
+  orig: 222, 84
   offset: 0, 0
   index: -1
 speedNormalOn
   rotate: false
   xy: 483, 902
-  size: 232, 84
-  orig: 232, 84
+  size: 222, 84
+  orig: 222, 84
   offset: 0, 0
   index: -1
 languageRussianOff
@@ -40,7 +40,7 @@ languageRussianOn
   index: -1
 speedSlowOff
   rotate: false
-  xy: 235, 180
+  xy: 225, 180
   size: 189, 84
   orig: 189, 84
   offset: 0, 0
@@ -54,7 +54,7 @@ languageEnglishOff
   index: -1
 speedSlowOn
   rotate: false
-  xy: 717, 902
+  xy: 707, 902
   size: 189, 84
   orig: 189, 84
   offset: 0, 0
