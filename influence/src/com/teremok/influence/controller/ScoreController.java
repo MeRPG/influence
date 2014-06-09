@@ -1,7 +1,7 @@
 package com.teremok.influence.controller;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -63,7 +63,7 @@ public class ScoreController extends Group {
     }
 
     @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
+    public void draw(Batch batch, float parentAlpha) {
         drawer.draw(this, batch, parentAlpha);
         super.draw(batch, parentAlpha);
     }
@@ -101,7 +101,7 @@ public class ScoreController extends Group {
             if (selectedCell != null) {
                 if (selectedCell.getPower() > 1) {
                     model.setTouchToAttackStatus();
-                } else if (pm.current().getScore() == pm.current().getCells().size()) {
+                } else if (noCellsToAttack()) {
                     model.setEndAttackStatus();
                 } else {
                     model.setSelectMoreThanOneStatus();
@@ -114,6 +114,19 @@ public class ScoreController extends Group {
                 model.setPowerPhaseStatus();
         }
 
+    }
+
+    boolean noCellsToAttack() {
+        if (pm.current().getScore() == pm.current().getCells().size()){
+            return true;
+        } else {
+            for (Cell cell : pm.current().getCells()) {
+                if (cell.hasEnemies() && cell.getPower() > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private void updateWidth(){

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 /**
  * Created by Alexx on 08.02.14
  */
+@SuppressWarnings("unchecked")
 public abstract class Checkbox extends Actor implements UIElement {
     String code;
     boolean checked;

@@ -7,11 +7,16 @@ package com.teremok.influence.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.teremok.influence.util.FontFactory;
 
 public abstract class AbstractScreen implements Screen {
 
@@ -21,27 +26,28 @@ public abstract class AbstractScreen implements Screen {
     protected final Game game;
     protected BitmapFont font;
     protected final Stage stage;
-    protected SpriteBatch batch;
+    protected Batch batch;
     protected TextureAtlas atlas;
 
     public AbstractScreen(Game game) {
         this.game = game;
-        this.stage = new Stage( 0, 0, true );
+        this.stage = new Stage();
+        Camera camera = new OrthographicCamera();
+        Viewport viewport = new FitViewport(WIDTH, HEIGHT, camera);
+        camera.translate(WIDTH/2, HEIGHT/2, 0);
+        stage.setViewport(viewport);
     }
 
     public BitmapFont getFont() {
         if (font == null)  {
-            font = new BitmapFont(
-                    Gdx.files.internal("font/mainFont.fnt"),
-                    Gdx.files.internal("font/mainFont.png"), false
-            );
+            font = FontFactory.getCellsFont();
         }
         return font;
     }
 
-    public SpriteBatch getBatch() {
+    public Batch getBatch() {
         if (batch == null)
-            batch = stage.getSpriteBatch();
+            batch = stage.getBatch();
         return batch;
     }
 
@@ -54,14 +60,13 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.setViewport(WIDTH, HEIGHT, true);
-        // выравнивание камеры по центру
-        stage.getCamera().translate(-stage.getGutterWidth(), -stage.getGutterHeight(), 0);
+        stage.getViewport().update(width, height);
     }
 
     @Override
     public void render(float delta) {
-        stage.act( delta );
+        stage.getCamera().update();
+        stage.act(delta);
 
         Gdx.gl.glClearColor( 0f, 0f, 0f, 1f );
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );

@@ -13,7 +13,6 @@ import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.util.Logger;
-import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Drawer;
 
 import java.util.LinkedList;
@@ -69,7 +68,6 @@ public class EditorScreen extends StaticScreen {
     @Override
     protected void addActors() {
         Drawer.MIN_SIZE_FOR_TEXT = 5;
-        AbstractDrawer.setBitmapFont(getFont());
         switch (Settings.gameSettings.fieldSize) {
             case SMALL:
                 Settings.gameSettings.cellsCount = 18;

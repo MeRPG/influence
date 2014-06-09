@@ -1,8 +1,8 @@
 package com.teremok.influence.ui;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teremok.influence.model.Localizator;
 
 /**
@@ -23,7 +23,7 @@ public class ButtonColored extends ColoredPanel implements Button {
     }
 
     @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
+    public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
         BitmapFont.TextBounds bounds = font.getBounds(Localizator.getString(code));

@@ -17,7 +17,6 @@ public class MainActivity extends AndroidApplication {
         super.onCreate(savedInstanceState);
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-        cfg.useGL20 = false;
         cfg.useWakelock = true;
         cfg.hideStatusBar = false;
         RelativeLayout layout = new RelativeLayout(this);

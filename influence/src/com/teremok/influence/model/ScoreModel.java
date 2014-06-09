@@ -38,7 +38,7 @@ public class ScoreModel {
 
     public void resetStatus() {
         status = "---emptyStatus---";
-        subStatus = "";
+        subStatus = null;
     }
 
     public void setWonStatus() {
@@ -81,4 +81,7 @@ public class ScoreModel {
         subStatus = null;
     }
 
+    public boolean substatusExists() {
+        return subStatus != null;
+    }
 }

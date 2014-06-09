@@ -1,6 +1,6 @@
 package com.teremok.influence.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -35,7 +35,7 @@ public class CheckboxTexture extends Checkbox {
 
 
     @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
+    public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         if (checked) {
             region = regionOn;

@@ -17,7 +17,6 @@ import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
-import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Animation;
 
 import java.util.HashMap;
@@ -265,7 +264,6 @@ public class GameScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
-        AbstractDrawer.setBitmapFont(getFont());
         initBacklight();
         initBorders();
         pausePanel = new PausePanel(this);
@@ -290,6 +288,7 @@ public class GameScreen extends StaticScreen {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Logger.log("touchDown: " + x + ", y");
                 return stage.hit(x,y,true) instanceof ScoreController;
             }
 

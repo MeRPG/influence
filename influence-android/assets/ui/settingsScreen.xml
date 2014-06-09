@@ -1,6 +1,6 @@
 <?xml version="1.0"  standalone="no"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
-        atlas="settingsScreen" localized="true">
+        atlas="settings" localized="true">
     <element name="sounds" region="soundOn" secondRegion="soundOff" localized="false"
             x="79" y="377"/>
     <element name="vibrate" region="vibrationOn" secondRegion="vibrationOff" localized="false"
@@ -12,9 +12,9 @@
     <element name="de" region="languageDeutschOn" secondRegion="languageDeutschOff" localized="false"
              x="296" y="231"/>
     <element name="slow" region="speedSlowOn" secondRegion="speedSlowOff" localized="false"
-            x="10" y="84"/>
+            x="0" y="84"/>
     <element name="normal" region="speedNormalOn" secondRegion="speedNormalOff" localized="false"
-            x="148" y="84"/>
+            x="130" y="84"/>
     <element name="fast" region="speedFastOn" secondRegion="speedFastOff" localized="false"
-            x="321" y="84"/>
+            x="312" y="84"/>
 </screen>

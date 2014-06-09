@@ -155,7 +155,7 @@ public class Localizator {
         stringsGerman.put("touchNearby", "Tippe auf eine umliegende Zelle, um sie zu attackieren");
         stringsGerman.put("touchToPower", "Bessere ");
         stringsGerman.put("touchToEndTurn", "Tippe, um die Runde zu beenden");
-        stringsGerman.put("orTouchToEndAttack", "(oder tippe hier, um die Angriff zu beenden)");
+        stringsGerman.put("orTouchToEndAttack", "(oder tippe hier, um den Angriff zu beenden)");
         stringsGerman.put("orTouchToEndTurn", "(oder tippe hier, um die Runde zu beenden)");
         stringsGerman.put("waitYourMove", "Warte auf deinen Zug");
         stringsGerman.put("youWon", "Du hast gewonnen!");

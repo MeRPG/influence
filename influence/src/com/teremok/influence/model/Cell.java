@@ -132,6 +132,10 @@ public class Cell {
 
 
     }
+
+    public boolean hasEnemies() {
+        return enemies.size() != 0;
+    }
     // Auto-generated
 
 
