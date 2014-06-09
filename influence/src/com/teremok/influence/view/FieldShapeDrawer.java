@@ -124,7 +124,10 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
                 routes[fromCode][toCode] = true;
                 routes[toCode][fromCode] = true;
 
-                if (current.isCellVisible(cell) || current.isCellVisible(toCell)) {
+                boolean fromCellVisible = current.isCellVisible(cell);
+                boolean toCellVisible = current.isCellVisible(toCell);
+
+                if (fromCellVisible || toCellVisible) {
                     float centerX = cell.getX() + FieldController.cellWidth/2;
                     float centerY = cell.getY() + FieldController.cellHeight/2;
 
@@ -132,8 +135,8 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
                     float centerYto = toCell.getY() + FieldController.cellHeight/2;
 
                     renderer.line(centerX, centerY, centerXto, centerYto,
-                            getColor(cell),
-                            getColor(toCell));
+                            fromCellVisible ? getColor(cell) : getColor(cell).cpy().lerp(Color.BLACK, 0.9f),
+                            toCellVisible ? getColor(toCell) : getColor(toCell).cpy().lerp(Color.BLACK, 0.9f));
                 }
             }
         }

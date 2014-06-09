@@ -407,7 +407,7 @@ public class FieldController extends Group {
         tooltipX = calculateTooltipX(attack.getX());
         tooltipY = calculateTooltipY(attack.getY());
 
-        if (isTooltipVisible(tooltipX, tooltipY)) {
+        if (isCellVisible(attack)) {
             TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
         }
 
@@ -419,7 +419,7 @@ public class FieldController extends Group {
         }
         tooltipX = calculateTooltipX(defense.getX());
         tooltipY = calculateTooltipY(defense.getY());
-        if (isTooltipVisible(tooltipX, tooltipY)) {
+        if (isCellVisible(defense)) {
             TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
         }
     }
@@ -436,7 +436,7 @@ public class FieldController extends Group {
         float tooltipX = calculateTooltipX(cell.getX());
         float tooltipY = calculateTooltipY(cell.getY());
 
-        if (isTooltipVisible(tooltipX, tooltipY)) {
+        if (isCellVisible(cell)) {
             TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY));
         }
     }
@@ -449,13 +449,15 @@ public class FieldController extends Group {
     }
 
     public boolean isCellVisible(Cell cell) {
-        float absoluteCellX = cell.getX() + getX();
-        float absoluteCellY = cell.getY() + getY();
-        float actualCellWidth = cellWidth*GestureController.getZoom();
-        return  absoluteCellX > (-actualCellWidth/2)
-                && absoluteCellX < AbstractScreen.WIDTH
-                && absoluteCellY > (AbstractScreen.HEIGHT - FieldModel.HEIGHT-actualCellWidth/2)
-                && absoluteCellY < AbstractScreen.HEIGHT;
+        if (cell.getType() == 0){
+            return true;
+        }
+        for (Cell enemy : cell.getEnemies()) {
+            if (enemy.getType() == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private float calculateTooltipX(float cellX) {
