@@ -1,9 +1,9 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.Chronicle;
 import com.teremok.influence.ui.TextureNumber;
 import com.teremok.influence.util.TextureNumberFactory;
@@ -13,37 +13,37 @@ import com.teremok.influence.util.TextureNumberFactory;
  */
 public class StatisticsScreen extends StaticScreen {
 
-    public StatisticsScreen (Game game, String filename) {
+    public StatisticsScreen (Influence game, String filename) {
         super(game, filename);
     }
 
     @Override
     protected void addActors() {
         TextureNumberFactory numberFactory = new TextureNumberFactory();
-
+        Chronicle chronicle = ((Influence)game).getChronicle();
         TextureNumber number;
-        number = numberFactory.getNumber(Chronicle.played, 240, 455, false);
-        number.setColor(Chronicle.played == 0 ? numberFactory.BAD_COLOR : numberFactory.NORMAL_COLOR);
+        number = numberFactory.getNumber(chronicle.played, 240, 455, false);
+        number.setColor(chronicle.played == 0 ? numberFactory.BAD_COLOR : numberFactory.NORMAL_COLOR);
         number.centre();
         stage.addActor(number);
 
-        number = numberFactory.getNumber(Chronicle.getWinRate(), 240, 361, true);
-        number.setColor(numberFactory.getCompareColor(Chronicle.getWinRate(), 50));
+        number = numberFactory.getNumber(chronicle.getWinRate(), 240, 361, true);
+        number.setColor(numberFactory.getCompareColor(chronicle.getWinRate(), 50));
         number.centre();
         stage.addActor(number);
 
-        number = numberFactory.getNumber(Chronicle.cellsConquered, 240, 267, false);
-        number.setColor(Chronicle.cellsConquered == 0 ? numberFactory.BAD_COLOR : numberFactory.GOOD_COLOR);
+        number = numberFactory.getNumber(chronicle.cellsConquered, 240, 267, false);
+        number.setColor(chronicle.cellsConquered == 0 ? numberFactory.BAD_COLOR : numberFactory.GOOD_COLOR);
         number.centre();
         stage.addActor(number);
 
-        number = numberFactory.getNumber(Chronicle.cellsLost, 240, 173, false);
+        number = numberFactory.getNumber(chronicle.cellsLost, 240, 173, false);
         number.setColor(numberFactory.BAD_COLOR);
         number.centre();
         stage.addActor(number);
 
-        number = numberFactory.getNumber(Chronicle.influence, 240, 79, false);
-        number.setColor(Chronicle.influence < 1 ? numberFactory.BAD_COLOR : numberFactory.NORMAL_COLOR);
+        number = numberFactory.getNumber(chronicle.influence, 240, 79, false);
+        number.setColor(chronicle.influence < 1 ? numberFactory.BAD_COLOR : numberFactory.NORMAL_COLOR);
         number.centre();
         stage.addActor(number);
 

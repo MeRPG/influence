@@ -11,13 +11,13 @@ public class Calculator {
 
     private static Random rnd = new Random();
 
-    private static int a;
-    private static int b;
-    private static int delta;
-    private static int n;
-    private static int m;
+    private int a;
+    private int b;
+    private int delta;
+    private int n;
+    private int m;
 
-    public static int rollNDices(int number) {
+    public int rollNDices(int number) {
         int result = 0;
         for (int i = 0; i < number; i++) {
             result += rollDice();
@@ -25,11 +25,11 @@ public class Calculator {
         return result;
     }
 
-    public static int rollDice() {
+    public int rollDice() {
         return rnd.nextInt(6) + 1;
     }
 
-    public static int fight(int powerA, int powerB) {
+    public int fight(int powerA, int powerB) {
 
         a = powerA;
         b = powerB;
@@ -50,7 +50,7 @@ public class Calculator {
         return delta;
     }
 
-    static void calculateResults() {
+    void calculateResults() {
 
         int attackDices = countDices(n);
         int defenseDices = countDices(m);
@@ -72,7 +72,7 @@ public class Calculator {
             b = 1;
     }
 
-    static int countDices(int score) {
+    int countDices(int score) {
         int num = score/6;
         int modulo = score%6;
         if (modulo != 0) {
@@ -81,45 +81,45 @@ public class Calculator {
         return num;
     }
 
-    public static int getResultPowerA() {
+    public int getResultPowerA() {
         return a;
     }
 
-    public static int getResultPowerB() {
+    public int getResultPowerB() {
         return b;
     }
 
     // Auto-generated
 
-    public static void setA(int a) {
-        Calculator.a = a;
+    public void setA(int a) {
+        this.a = a;
     }
 
-    public static void setB(int b) {
-        Calculator.b = b;
+    public void setB(int b) {
+        this.b = b;
     }
 
-    public static void setN(int n) {
-        Calculator.n = n;
+    public void setN(int n) {
+        this.n = n;
     }
 
-    public static void setM(int m) {
-        Calculator.m = m;
+    public void setM(int m) {
+        this.m = m;
     }
 
-    public static void setDelta(int delta) {
-        Calculator.delta = delta;
+    public void setDelta(int delta) {
+        this.delta = delta;
     }
 
-    public static int getDelta() {
+    public int getDelta() {
         return delta;
     }
 
-    public static int getN() {
+    public int getN() {
         return n;
     }
 
-    public static int getM() {
+    public int getM() {
         return m;
     }
 }

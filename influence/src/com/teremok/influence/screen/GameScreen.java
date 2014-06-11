@@ -1,12 +1,12 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.teremok.influence.Influence;
 import com.teremok.influence.controller.*;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
@@ -15,7 +15,6 @@ import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.TextureNumberFactory;
-import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 
@@ -30,6 +29,8 @@ import static com.badlogic.gdx.Input.Keys;
 public class GameScreen extends StaticScreen {
 
     Match match;
+    Chronicle chronicle;
+    ChronicleController chronicleController;
     PausePanel pausePanel;
     TexturePanel backlight;
 
@@ -46,13 +47,18 @@ public class GameScreen extends StaticScreen {
 
     public static Color colorForBacklight;
 
-    public GameScreen(Game game) {
+    public GameScreen(Influence game) {
         super(game, "gameScreen");
-        match = new Match(Settings.gameSettings);
+        chronicle = game.getChronicle();
+        chronicleController = game.getChronicleController();
+        Chronicle.MatchChronicle matchChronicle = chronicleController.matchStart();
+        match = new Match(Settings.gameSettings, matchChronicle);
     }
 
-    public GameScreen(Game game, Match match) {
+    public GameScreen(Influence game, Match match) {
         super(game, "gameScreen");
+        chronicle = game.getChronicle();
+        chronicleController = game.getChronicleController();
         this.match = match;
         resumeMatch();
     }
@@ -103,9 +109,10 @@ public class GameScreen extends StaticScreen {
                 MatchSaver.clearFile();
                 endSoundPlayed = true;
                 if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
-                    int lastInfluence = Chronicle.influence;
-                    ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, true);
-                    int deltaInfluence = Chronicle.influence - lastInfluence;
+                    int lastInfluence = chronicle.influence;
+                    chronicle.match = match.getMatchChronicle();
+                    chronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, chronicle, true);
+                    int deltaInfluence = chronicle.influence - lastInfluence;
                     addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
                     showInfoMessageAnimation();
                 }
@@ -118,9 +125,10 @@ public class GameScreen extends StaticScreen {
                 MatchSaver.clearFile();
                 endSoundPlayed = true;
                 if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
-                    int lastInfluence = Chronicle.influence;
-                    ChronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, false);
-                    int deltaInfluence = Chronicle.influence - lastInfluence;
+                    int lastInfluence = chronicle.influence;
+                    chronicle.match = match.getMatchChronicle();
+                    chronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, chronicle, false);
+                    int deltaInfluence = chronicle.influence - lastInfluence;
                     addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
                     showInfoMessageAnimation();
                 }
@@ -191,11 +199,12 @@ public class GameScreen extends StaticScreen {
 
     void  startNewMatch() {
         //Logger.log("Starting new match");
+        Chronicle.MatchChronicle matchChronicle = chronicleController.matchStart();
         if (match == null) {
-            match = new Match(Settings.gameSettings);
+            match = new Match(Settings.gameSettings, matchChronicle);
             endSoundPlayed = false;
         } else {
-            match.reset(Settings.gameSettings);
+            match.reset(Settings.gameSettings, matchChronicle);
             endSoundPlayed = false;
         }
         updateMatchDependentActors();

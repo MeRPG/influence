@@ -1,6 +1,9 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.controller.*;
+import com.teremok.influence.controller.FieldController;
+import com.teremok.influence.controller.MatchSaver;
+import com.teremok.influence.controller.ScoreController;
+import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -22,21 +25,23 @@ public class Match {
     Phase phase;
     PlayerManager pm;
     ScoreController scoreController;
+    Chronicle.MatchChronicle matchChronicle;
 
     boolean paused;
 
     int turn;
 
-    public Match(GameSettings settings, List<Cell> cells, Router router) {
+    public Match(GameSettings settings, List<Cell> cells, Router router, int turn, Chronicle.MatchChronicle matchChronicle) {
+
+        this.turn = turn;
+        this.matchChronicle = matchChronicle;
+
         pm = new PlayerManager(this);
         fieldController = new FieldController(this, settings, cells, router);
+        fieldController.setMatchChronicle(matchChronicle);
         scoreController = new ScoreController(this);
 
-        turn = 0;
-
         pm.addPlayersFromMap(settings.players, fieldController);
-
-        ChronicleController.matchStart();
 
         scoreController.init();
         fieldController.updateLists();
@@ -46,11 +51,14 @@ public class Match {
         phase = Phase.ATTACK;
     }
 
-    public Match(GameSettings settings) {
-        reset(settings);
+    public Match(GameSettings settings, Chronicle.MatchChronicle matchChronicle) {
+        reset(settings, matchChronicle);
     }
 
-    public void reset(GameSettings settings) {
+    public void reset(GameSettings settings,  Chronicle.MatchChronicle matchChronicle) {
+
+        this.matchChronicle = matchChronicle;
+
         if (pm == null) {
             pm = new PlayerManager(this);
         } else {
@@ -62,6 +70,7 @@ public class Match {
         } else {
             fieldController.reset(this, settings);
         }
+        fieldController.setMatchChronicle(matchChronicle);
 
         if (scoreController == null) {
             scoreController = new ScoreController(this);
@@ -71,7 +80,6 @@ public class Match {
 
         turn = 0;
 
-        ChronicleController.matchStart();
 
         pm.addPlayersFromMap(settings.players, fieldController);
         pm.placeStartPositions();
@@ -206,5 +214,9 @@ public class Match {
 
     public int getTurn() {
         return turn;
+    }
+
+    public Chronicle.MatchChronicle getMatchChronicle() {
+        return matchChronicle;
     }
 }

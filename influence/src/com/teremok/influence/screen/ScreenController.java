@@ -1,14 +1,10 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
-import com.teremok.influence.controller.ChronicleController;
 import com.teremok.influence.controller.MatchSaver;
-import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.ResourceManager;
@@ -142,9 +138,7 @@ public class ScreenController {
     }
 
     public static void exitGame() {
-        SettingsSaver.save();
-        ChronicleController.save();
-        Gdx.app.exit();
+        game.exit();
     }
 
     public static Action createScreenAction(final StaticScreen screen) {
@@ -183,14 +177,14 @@ public class ScreenController {
     }
 
     public static class StartGameAction extends Action {
-        Game game;
+        Influence game;
         Match match;
 
-        private StartGameAction(Game game) {
+        private StartGameAction(Influence game) {
             this.game = game;
         }
 
-        private StartGameAction(Game game, Match match) {
+        private StartGameAction(Influence game, Match match) {
             this(game);
             this.match = match;
         }

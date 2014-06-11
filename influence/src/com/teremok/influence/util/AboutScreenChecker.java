@@ -32,14 +32,22 @@ public class AboutScreenChecker implements Runnable {
             int i = Integer.parseInt(new String(fileHandle.readBytes()));
             if (i != Settings.lastAboutScreen) {
                 Settings.lastAboutScreen = 0;
-                fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.png");
-                url = new URL("http://timeforlime.ru/influence/aboutScreen.png");
+
+
+                fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.pack");
+                url = new URL("http://timeforlime.ru/influence/aboutScreen.pack");
                 is = url.openStream();
                 fileHandle.write(is,false);
                 is.close();
 
-                fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.pack");
-                url = new URL("http://timeforlime.ru/influence/aboutScreen.pack");
+                fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen2.png");
+                url = new URL("http://timeforlime.ru/influence/aboutScreen2.png");
+                is = url.openStream();
+                fileHandle.write(is,false);
+                is.close();
+
+                fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.png");
+                url = new URL("http://timeforlime.ru/influence/aboutScreen.png");
                 is = url.openStream();
                 fileHandle.write(is,false);
                 is.close();

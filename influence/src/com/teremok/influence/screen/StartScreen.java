@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.teremok.influence.controller.ChronicleController;
 import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.model.Localizator;
@@ -40,7 +39,6 @@ public class StartScreen extends StaticScreen {
         super(game, filename);
         Settings.init();
         Logger.init();
-        ChronicleController.load();
         AboutScreenChecker.check();
     }
 
