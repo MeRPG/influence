@@ -152,11 +152,11 @@ public class Localizator {
         stringsGerman.put("yourCells", "deine Zellen ");
         stringsGerman.put("auf", "auf");
         stringsGerman.put("selectMoreThanOne", "Wähle eine Zelle mit 2+ Energie");
-        stringsGerman.put("touchNearby", "Tippe auf eine umliegende Zelle, um sie zu attackieren");
+        stringsGerman.put("touchNearby", "Benachbarte Zelle zum attackieren antippen");
         stringsGerman.put("touchToPower", "Bessere ");
         stringsGerman.put("touchToEndTurn", "Tippe, um die Runde zu beenden");
-        stringsGerman.put("orTouchToEndAttack", "(oder tippe hier, um den Angriff zu beenden)");
-        stringsGerman.put("orTouchToEndTurn", "(oder tippe hier, um die Runde zu beenden)");
+        stringsGerman.put("orTouchToEndAttack", "(oder tippe hier um den Angriff zu beenden)");
+        stringsGerman.put("orTouchToEndTurn", "(oder tippe hier um die Runde zu beenden)");
         stringsGerman.put("waitYourMove", "Warte auf deinen Zug");
         stringsGerman.put("youWon", "Du hast gewonnen!");
         stringsGerman.put("youLost", "Du hast verloren!");

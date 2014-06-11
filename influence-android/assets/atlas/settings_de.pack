@@ -87,25 +87,18 @@ speedSlowOff
   orig: 182, 86
   offset: 0, 0
   index: -1
-soundOn
+soundOff
   rotate: false
   xy: 483, 395
   size: 136, 130
   orig: 136, 130
   offset: 0, 0
   index: -1
-speedFastOff
+soundOn
   rotate: false
-  xy: 483, 307
-  size: 173, 86
-  orig: 173, 86
-  offset: 0, 0
-  index: -1
-speedFastOn
-  rotate: false
-  xy: 483, 219
-  size: 173, 86
-  orig: 173, 86
+  xy: 483, 263
+  size: 136, 130
+  orig: 136, 130
   offset: 0, 0
   index: -1
 speedSlowOn
@@ -113,5 +106,19 @@ speedSlowOn
   xy: 188, 4
   size: 182, 86
   orig: 182, 86
+  offset: 0, 0
+  index: -1
+speedFastOff
+  rotate: false
+  xy: 670, 726
+  size: 173, 86
+  orig: 173, 86
+  offset: 0, 0
+  index: -1
+speedFastOn
+  rotate: false
+  xy: 615, 638
+  size: 173, 86
+  orig: 173, 86
   offset: 0, 0
   index: -1
