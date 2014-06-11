@@ -13,8 +13,6 @@ import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.util.Logger;
-import com.teremok.influence.util.ResourceManager;
-import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.Drawer;
 
 import java.util.LinkedList;
@@ -70,8 +68,6 @@ public class EditorScreen extends StaticScreen {
     @Override
     protected void addActors() {
         Drawer.MIN_SIZE_FOR_TEXT = 5;
-        AbstractDrawer.setBitmapFont(getFont());
-
         switch (Settings.gameSettings.fieldSize) {
             case SMALL:
                 Settings.gameSettings.cellsCount = 18;
@@ -94,8 +90,6 @@ public class EditorScreen extends StaticScreen {
         initBorders();
         initBacklight();
         stage.addActor(field);
-        TexturePanel info = new TexturePanel(ResourceManager.getAtlas("editorInfo").findRegion("info"),0,0);
-        addInfoMessage(info);
     }
 
     @Override
@@ -199,13 +193,6 @@ public class EditorScreen extends StaticScreen {
                     stage.addActor(field);
 
                     loadHiddenCells();
-                }
-                if (keycode == Input.Keys.I) {
-                    if (isInfoMessageVisible()) {
-                        hideInfoMessageAnimation();
-                    } else {
-                        showInfoMessageAnimation();
-                    }
                 }
                 return true;
             }

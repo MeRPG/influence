@@ -305,7 +305,6 @@ public class GameScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
-        AbstractDrawer.setBitmapFont(getFont());
         initBacklight();
         initBorders();
         pausePanel = new PausePanel(this);

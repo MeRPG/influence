@@ -1,109 +1,123 @@
 
-settingsScreen_en.png
+settings_en.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 1, 278
+  xy: 1, 274
   size: 480, 720
   orig: 480, 720
   offset: 0, 0
   index: -1
-languageRussianOff
-  rotate: false
-  xy: 1, 183
-  size: 223, 93
-  orig: 223, 93
-  offset: 0, 0
-  index: -1
-languageRussianOn
-  rotate: false
-  xy: 483, 905
-  size: 223, 93
-  orig: 223, 93
-  offset: 0, 0
-  index: -1
 speedNormalOff
   rotate: false
-  xy: 1, 92
+  xy: 1, 183
   size: 210, 89
   orig: 210, 89
   offset: 0, 0
   index: -1
 speedNormalOn
   rotate: false
-  xy: 226, 187
+  xy: 483, 905
   size: 210, 89
   orig: 210, 89
   offset: 0, 0
   index: -1
+languageRussianOff
+  rotate: false
+  xy: 1, 92
+  size: 185, 89
+  orig: 185, 89
+  offset: 0, 0
+  index: -1
+languageRussianOn
+  rotate: false
+  xy: 213, 183
+  size: 185, 89
+  orig: 185, 89
+  offset: 0, 0
+  index: -1
 languageEnglishOff
   rotate: false
-  xy: 483, 814
-  size: 207, 89
-  orig: 207, 89
+  xy: 483, 817
+  size: 187, 86
+  orig: 187, 86
   offset: 0, 0
   index: -1
 languageEnglishOn
   rotate: false
-  xy: 708, 909
-  size: 207, 89
-  orig: 207, 89
+  xy: 695, 908
+  size: 187, 86
+  orig: 187, 86
+  offset: 0, 0
+  index: -1
+languageDeutschOff
+  rotate: false
+  xy: 188, 95
+  size: 186, 86
+  orig: 186, 86
+  offset: 0, 0
+  index: -1
+languageDeutschOn
+  rotate: false
+  xy: 483, 729
+  size: 186, 86
+  orig: 186, 86
   offset: 0, 0
   index: -1
 vibrationOff
   rotate: false
-  xy: 483, 672
+  xy: 483, 587
   size: 130, 140
   orig: 130, 140
   offset: 0, 0
   index: -1
 vibrationOn
   rotate: false
-  xy: 483, 530
+  xy: 483, 445
   size: 130, 140
   orig: 130, 140
   offset: 0, 0
   index: -1
+speedSlowOff
+  rotate: false
+  xy: 1, 1
+  size: 178, 89
+  orig: 178, 89
+  offset: 0, 0
+  index: -1
 soundOff
   rotate: false
-  xy: 483, 398
+  xy: 483, 313
   size: 136, 130
   orig: 136, 130
   offset: 0, 0
   index: -1
 soundOn
   rotate: false
-  xy: 483, 266
+  xy: 884, 864
   size: 136, 130
   orig: 136, 130
   offset: 0, 0
   index: -1
-speedSlowOff
-  rotate: false
-  xy: 1, 1
-  size: 160, 89
-  orig: 160, 89
-  offset: 0, 0
-  index: -1
 speedSlowOn
   rotate: false
-  xy: 438, 175
-  size: 160, 89
-  orig: 160, 89
+  xy: 188, 4
+  size: 178, 89
+  orig: 178, 89
   offset: 0, 0
   index: -1
 speedFastOff
   rotate: false
-  xy: 615, 723
+  xy: 483, 222
   size: 147, 89
   orig: 147, 89
   offset: 0, 0
   index: -1
 speedFastOn
   rotate: false
-  xy: 615, 632
+  xy: 695, 817
   size: 147, 89
   orig: 147, 89
   offset: 0, 0

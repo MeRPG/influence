@@ -3,87 +3,106 @@ mapSize.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background_en
+background_de
   rotate: false
   xy: 1, 243
   size: 480, 720
   orig: 480, 720
   offset: 0, 0
   index: -1
-background_ru
+background_en
   rotate: false
   xy: 483, 243
   size: 480, 720
   orig: 480, 720
   offset: 0, 0
   index: -1
-buttonNext_en
+buttonNext_de
   rotate: false
   xy: 1, 179
   size: 180, 62
   orig: 180, 62
   offset: 0, 0
   index: -1
-buttonNext_ru
+buttonNext_en
   rotate: false
   xy: 1, 115
   size: 180, 62
   orig: 180, 62
   offset: 0, 0
   index: -1
-sizeL_Active
+buttonNext_ru
   rotate: false
-  xy: 183, 129
-  size: 112, 112
-  orig: 112, 112
+  xy: 183, 179
+  size: 180, 62
+  orig: 180, 62
   offset: 0, 0
   index: -1
-sizeL_noActive
+sizeL_Active
   rotate: false
   xy: 1, 1
   size: 112, 112
   orig: 112, 112
   offset: 0, 0
   index: -1
+sizeL_noActive
+  rotate: false
+  xy: 115, 1
+  size: 112, 112
+  orig: 112, 112
+  offset: 0, 0
+  index: -1
 sizeM_Active
   rotate: false
-  xy: 297, 129
+  xy: 365, 129
   size: 112, 112
   orig: 112, 112
   offset: 0, 0
   index: -1
 sizeM_noActive
   rotate: false
-  xy: 411, 129
+  xy: 479, 129
   size: 112, 112
   orig: 112, 112
   offset: 0, 0
   index: -1
 sizeS_Active
   rotate: false
-  xy: 525, 129
+  xy: 593, 129
   size: 112, 112
   orig: 112, 112
   offset: 0, 0
   index: -1
 sizeS_noActive
   rotate: false
-  xy: 639, 129
+  xy: 707, 129
   size: 112, 112
   orig: 112, 112
   offset: 0, 0
   index: -1
 sizeXL_Active
   rotate: false
-  xy: 753, 129
+  xy: 821, 129
   size: 112, 112
   orig: 112, 112
   offset: 0, 0
   index: -1
 sizeXL_noActive
   rotate: false
-  xy: 867, 129
+  xy: 229, 65
   size: 112, 112
   orig: 112, 112
+  offset: 0, 0
+  index: -1
+
+mapSize2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background_ru
+  rotate: false
+  xy: 1, 1
+  size: 480, 720
+  orig: 480, 720
   offset: 0, 0
   index: -1

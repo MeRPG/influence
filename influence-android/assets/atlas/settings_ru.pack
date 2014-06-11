@@ -1,69 +1,83 @@
 
-settingsScreen_ru.png
+settings_ru.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 1, 273
+  xy: 1, 266
   size: 480, 720
   orig: 480, 720
   offset: 0, 0
   index: -1
-languageRussianOff
-  rotate: false
-  xy: 1, 178
-  size: 223, 93
-  orig: 223, 93
-  offset: 0, 0
-  index: -1
-languageRussianOn
-  rotate: false
-  xy: 483, 900
-  size: 223, 93
-  orig: 223, 93
-  offset: 0, 0
-  index: -1
 speedNormalOff
   rotate: false
-  xy: 226, 187
-  size: 226, 84
-  orig: 226, 84
+  xy: 1, 180
+  size: 222, 84
+  orig: 222, 84
   offset: 0, 0
   index: -1
 speedNormalOn
   rotate: false
-  xy: 708, 909
-  size: 226, 84
-  orig: 226, 84
+  xy: 483, 902
+  size: 222, 84
+  orig: 222, 84
   offset: 0, 0
   index: -1
-languageEnglishOff
+languageRussianOff
   rotate: false
-  xy: 1, 87
-  size: 207, 89
-  orig: 207, 89
+  xy: 1, 89
+  size: 185, 89
+  orig: 185, 89
   offset: 0, 0
   index: -1
-languageEnglishOn
+languageRussianOn
   rotate: false
-  xy: 483, 809
-  size: 207, 89
-  orig: 207, 89
+  xy: 483, 811
+  size: 185, 89
+  orig: 185, 89
   offset: 0, 0
   index: -1
 speedSlowOff
   rotate: false
-  xy: 1, 1
-  size: 206, 84
-  orig: 206, 84
+  xy: 225, 180
+  size: 189, 84
+  orig: 189, 84
+  offset: 0, 0
+  index: -1
+languageEnglishOff
+  rotate: false
+  xy: 188, 92
+  size: 187, 86
+  orig: 187, 86
   offset: 0, 0
   index: -1
 speedSlowOn
   rotate: false
+  xy: 707, 902
+  size: 189, 84
+  orig: 189, 84
+  offset: 0, 0
+  index: -1
+languageEnglishOn
+  rotate: false
+  xy: 670, 814
+  size: 187, 86
+  orig: 187, 86
+  offset: 0, 0
+  index: -1
+languageDeutschOff
+  rotate: false
+  xy: 1, 1
+  size: 186, 86
+  orig: 186, 86
+  offset: 0, 0
+  index: -1
+languageDeutschOn
+  rotate: false
   xy: 483, 723
-  size: 206, 84
-  orig: 206, 84
+  size: 186, 86
+  orig: 186, 86
   offset: 0, 0
   index: -1
 vibrationOff
@@ -87,24 +101,24 @@ soundOff
   orig: 136, 130
   offset: 0, 0
   index: -1
-soundOn
-  rotate: false
-  xy: 615, 591
-  size: 136, 130
-  orig: 136, 130
-  offset: 0, 0
-  index: -1
 speedFastOff
   rotate: false
-  xy: 615, 505
+  xy: 189, 6
   size: 168, 84
   orig: 168, 84
   offset: 0, 0
   index: -1
 speedFastOn
   rotate: false
-  xy: 621, 419
+  xy: 671, 728
   size: 168, 84
   orig: 168, 84
+  offset: 0, 0
+  index: -1
+soundOn
+  rotate: false
+  xy: 615, 591
+  size: 136, 130
+  orig: 136, 130
   offset: 0, 0
   index: -1

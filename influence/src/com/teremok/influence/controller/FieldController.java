@@ -1,8 +1,8 @@
 package com.teremok.influence.controller;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -15,10 +15,7 @@ import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.ui.Tooltip;
 import com.teremok.influence.ui.TooltipHandler;
-import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.GraphGenerator;
-import com.teremok.influence.util.Logger;
-import com.teremok.influence.util.Vibrator;
+import com.teremok.influence.util.*;
 import com.teremok.influence.view.AbstractDrawer;
 import com.teremok.influence.view.FieldShapeDrawer;
 
@@ -399,7 +396,7 @@ public class FieldController extends Group {
 
         String message;
         Color color;
-        BitmapFont font = AbstractDrawer.getBitmapFont();
+        BitmapFont font = FontFactory.getSubstatusFont();
         float tooltipX, tooltipY;
         message = Calculator.getN() + "";
         if (Calculator.getDelta() >= 0) {
@@ -433,7 +430,7 @@ public class FieldController extends Group {
             return;
         }
 
-        BitmapFont font = AbstractDrawer.getBitmapFont();
+        BitmapFont font = FontFactory.getSubstatusFont();
         Color color = Color.GREEN;
 
         float tooltipX = calculateTooltipX(cell.getX());
@@ -470,7 +467,7 @@ public class FieldController extends Group {
     }
 
     @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
+    public void draw(Batch batch, float parentAlpha) {
         drawer.draw(this, batch, parentAlpha);
         super.draw(batch, parentAlpha);
     }

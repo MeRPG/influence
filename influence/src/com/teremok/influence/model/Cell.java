@@ -130,6 +130,10 @@ public class Cell {
         return power == maxPower;
     }
 
+
+    public boolean hasEnemies() {
+        return enemies.size() != 0;
+    }
     // Auto-generated
 
 

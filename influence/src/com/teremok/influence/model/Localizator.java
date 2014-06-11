@@ -1,5 +1,7 @@
 package com.teremok.influence.model;
 
+import com.teremok.influence.util.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +12,7 @@ public class Localizator {
 
     public static final String LANGUAGE_RUSSIAN = "ru";
     public static final String LANGUAGE_ENGLISH = "en";
+    public static final String LANGUAGE_GERMAN = "de";
 
     private static String language;
 
@@ -41,24 +44,43 @@ public class Localizator {
         language = LANGUAGE_RUSSIAN;
     }
 
+    public static void setGermanLanguage() {
+        if (! dictionary.containsKey(LANGUAGE_GERMAN))
+            fillGermanStrings();
+        language = LANGUAGE_GERMAN;
+    }
+
+
     public static void setLanguage(String language) {
         if (language == null) {
             setDefaultLanguage();
             return;
         }
 
-        if (language.equals(LANGUAGE_RUSSIAN)) {
-            setRussianLanguage();
-        } else {
-            setDefaultLanguage();
+        switch (language) {
+            case LANGUAGE_ENGLISH:
+                setEnglishLanguage();
+                break;
+            case LANGUAGE_RUSSIAN:
+                setRussianLanguage();
+                break;
+            case LANGUAGE_GERMAN:
+                setGermanLanguage();
+                break;
         }
     }
 
     public static void switchLanguage() {
-        if (language.equals(LANGUAGE_ENGLISH)) {
-            setRussianLanguage();
-        } else {
-            setEnglishLanguage();
+        switch (language) {
+            case LANGUAGE_ENGLISH:
+                setRussianLanguage();
+                break;
+            case LANGUAGE_RUSSIAN:
+                setGermanLanguage();
+                break;
+            case LANGUAGE_GERMAN:
+                setEnglishLanguage();
+                break;
         }
     }
 
@@ -123,9 +145,41 @@ public class Localizator {
         dictionary.put(LANGUAGE_ENGLISH, stringsEnglish);
     }
 
+    private static void fillGermanStrings() {
+        Map<String, String> stringsGerman = new HashMap<>();
+        stringsGerman.put("selectYourCell", "Berühre eine Zelle ");
+        stringsGerman.put("ofYourColor", "deiner Farbe");
+        stringsGerman.put("yourCells", "deine Zellen ");
+        stringsGerman.put("auf", "auf");
+        stringsGerman.put("selectMoreThanOne", "Wähle eine Zelle mit 2+ Energie");
+        stringsGerman.put("touchNearby", "Tippe auf eine umliegende Zelle, um sie zu attackieren");
+        stringsGerman.put("touchToPower", "Bessere ");
+        stringsGerman.put("touchToEndTurn", "Tippe, um die Runde zu beenden");
+        stringsGerman.put("orTouchToEndAttack", "(oder tippe hier, um den Angriff zu beenden)");
+        stringsGerman.put("orTouchToEndTurn", "(oder tippe hier, um die Runde zu beenden)");
+        stringsGerman.put("waitYourMove", "Warte auf deinen Zug");
+        stringsGerman.put("youWon", "Du hast gewonnen!");
+        stringsGerman.put("youLost", "Du hast verloren!");
+        stringsGerman.put("touchForNewGame", "Tippe hier, um eine neue Runde zu starten");
+        stringsGerman.put("singleplayer", "Einzelspieler");
+        stringsGerman.put("multiplayer", "Spiele mit einem Freund");
+        stringsGerman.put("resume", "Fortsetzen");
+        stringsGerman.put("pause", "Pause");
+        stringsGerman.put("settings", "Einstellungen");
+        stringsGerman.put("quickGame", "Schnelles Spiel");
+        stringsGerman.put("chooseLanguage", "Wähle deine Sprache: ");
+        stringsGerman.put("sounds", "Ton");
+        stringsGerman.put("vibrate", "Vibration");
+        stringsGerman.put("computerPlayerSpeed", "KI-Geschwindigkeit");
+        stringsGerman.put("touchToEndAttack", "Tippe hier, um den Angriff zu beenden");
+
+        dictionary.put(LANGUAGE_GERMAN, stringsGerman);
+    }
+
     // Auto-generated
 
     public static String getLanguage() {
+        Logger.log("Get language call: " + language);
         return language;
     }
 

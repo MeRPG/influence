@@ -38,7 +38,7 @@ public class SettingsSaver {
                     .element("vibrate", vibrate)
                     .element("speed", speed)
                     .element("language", Localizator.getLanguage())
-                    .element("debug", true)
+                    .element("debug", false)
                     .element("lastAboutScreen", lastAboutScreen);
 
             saveGameSettings(root);

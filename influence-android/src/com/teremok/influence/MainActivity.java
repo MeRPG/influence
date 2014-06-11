@@ -1,13 +1,13 @@
 package com.teremok.influence;
 
 import android.os.Bundle;
-
 import android.util.Log;
 import android.widget.RelativeLayout;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.flurry.android.FlurryAgent;
 import com.teremok.influence.util.FlurryHelper;
+import com.teremok.influence.util.NotForPublicAccess;
 
 import java.util.Locale;
 
@@ -17,7 +17,6 @@ public class MainActivity extends AndroidApplication {
         super.onCreate(savedInstanceState);
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-        cfg.useGL20 = false;
         cfg.useWakelock = true;
         cfg.hideStatusBar = false;
         RelativeLayout layout = new RelativeLayout(this);

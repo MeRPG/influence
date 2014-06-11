@@ -2,17 +2,21 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.Localizator;
+import com.teremok.influence.model.ScoreModel;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.screen.AbstractScreen;
+import com.teremok.influence.util.FontFactory;
 
+import static com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import static com.teremok.influence.view.Drawer.getCellColorByNumber;
+import static com.teremok.influence.view.Drawer.getTextColor;
 
 /**
  * Created by Alexx on 24.12.13
@@ -22,7 +26,7 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     private static final float COVER_SIZE = 160;
 
     @Override
-    public void draw(ScoreController score, SpriteBatch batch, float parentAlpha) {
+    public void draw(ScoreController score, Batch batch, float parentAlpha) {
         super.draw(score, batch, parentAlpha);
 
         batch.end();
@@ -35,14 +39,111 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
 
         batch.begin();
 
-        drawStatusString(batch);
+        drawStatusBar(batch);
+
+        //drawStatusString(batch);
+    }
+
+    private void drawStatusBar(Batch batch) {
+        drawStatus(batch);
+        drawSubstatus(batch);
+    }
+
+
+    private void drawStatus(Batch batch) {
+        String statusText = current.getModel().status;
+        if (isAttackPhase(statusText)) {
+            drawStatusAttackPhase(batch, current.getModel());
+        } else if (isPowerPhase(statusText)) {
+            drawStatusPowerPhase(batch, current.getModel());
+        } else {
+            drawAnyOtherStatus(batch, current.getModel());
+        }
+    }
+
+    private boolean isAttackPhase(String statusText) {
+        return Localizator.getString("selectYourCell").equals(statusText);
+    }
+
+    private void drawStatusAttackPhase(Batch batch, ScoreModel model) {
+        BitmapFont statusFont = FontFactory.getStatusFont();
+        String colorString = Localizator.getString("ofYourColor");
+        TextBounds colorStringBounds = statusFont.getBounds(colorString, new TextBounds());
+        TextBounds statusBounds = statusFont.getBounds(model.status, new TextBounds());
+
+        float statusX = current.getWidth()/2 - statusBounds.width/2 - colorStringBounds.width/2;
+        float statusY = 16 + (current.getHeight() - 24f + statusBounds.height)/2;
+
+        float colorStringX = statusX + statusBounds.width;
+
+        statusFont.setColor(Drawer.getTextColor());
+        statusFont.draw(batch, model.status, current.getX() + statusX, current.getY() + statusY);
+        statusFont.setColor(getCellColorByNumber(current.getPm().current().getNumber()));
+        statusFont.draw(batch, colorString, current.getX() + colorStringX, current.getY() + statusY);
+    }
+
+    private boolean isPowerPhase(String statusText) {
+        return Localizator.getString("touchToPower").equals(statusText);
+    }
+
+    private void drawStatusPowerPhase(Batch batch, ScoreModel model) {
+        BitmapFont statusFont = FontFactory.getStatusFont();
+
+        String powerString = " (" + current.getPm().current().getPowerToDistribute() + ")";
+        String colorString = Localizator.getString("yourCells");
+        String appendix = Localizator.getLanguage().equals(Localizator.LANGUAGE_GERMAN) ? Localizator.getString("auf") : "";
+
+        TextBounds powerStringBounds = statusFont.getBounds(powerString, new TextBounds());
+        TextBounds statusBounds = statusFont.getBounds(model.status, new TextBounds());
+        TextBounds colorStringBounds = statusFont.getBounds(colorString, new TextBounds());
+        TextBounds appendixBounds = statusFont.getBounds(appendix, new TextBounds());
+
+        float statusX = current.getWidth()/2 - statusBounds.width/2
+                        - colorStringBounds.width/2 - appendixBounds.width/2 - powerStringBounds.width/2;
+        float statusY = current.getY() + 16 + (current.getHeight() - 24f + statusBounds.height)/2;
+
+        float colorStringX = statusX + statusBounds.width;
+        float appendixX = colorStringX + colorStringBounds.width;
+        float powerStringX = appendixX + appendixBounds.width;
+
+        statusFont.setColor(getTextColor());
+        statusFont.draw(batch, model.status, current.getX() + statusX, current.getY() + statusY);
+        statusFont.setColor(getCellColorByNumber(current.getPm().current().getNumber()));
+        statusFont.draw(batch, colorString, current.getX() + colorStringX, current.getY() + statusY);
+        statusFont.setColor(getTextColor());
+        statusFont.draw(batch, appendix, current.getX() + appendixX, current.getY() + statusY);
+        statusFont.setColor(getCellColorByNumber(current.getPm().current().getNumber()));
+        statusFont.draw(batch, powerString, current.getX() + powerStringX, current.getY() + statusY);
+    }
+
+    private void drawAnyOtherStatus(Batch batch, ScoreModel model) {
+        BitmapFont statusFont = FontFactory.getStatusFont();
+        TextBounds statusBounds = statusFont.getBounds(model.status);
+        float statusX = current.getWidth()/2 - statusBounds.width/2;
+        float statusY = current.getY() + 16 + (current.getHeight() - 24f + statusBounds.height)/2;
+        statusFont.setColor(Drawer.getTextColor());
+        statusFont.draw(batch, model.status, statusX, statusY);
+    }
+
+    private void drawSubstatus(Batch batch) {
+        ScoreModel model = current.getModel();
+        if (model.substatusExists()) {
+            BitmapFont substatusFont = FontFactory.getSubstatusFont();
+            TextBounds substatusBounds = substatusFont.getBounds(model.subStatus);
+            TextBounds statusBounds = substatusFont.getBounds(model.status, new TextBounds());
+            float substatusX = current.getWidth() / 2 - substatusBounds.width / 2;
+            float statusY = current.getY() + 16 + (current.getHeight() - 24f + statusBounds.height) / 2;
+            float substatusY = statusY - substatusBounds.height * 1.5f;
+            substatusFont.setColor(Drawer.getDimmedTextColor());
+            substatusFont.draw(batch, model.subStatus, substatusX, substatusY);
+        }
     }
 
     @Override
     protected void drawBoundingBox() {
 
-        Gdx.gl.glEnable(GL10.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
         renderer.setColor(Drawer.getBackgroundColor());
         renderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -50,58 +151,18 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
         renderer.end();
     }
 
-    private void drawStatusString(SpriteBatch batch) {
+    protected void drawBox(Batch batch, Color color, float x, float y, float w, float h) {
 
-        String colorString = Localizator.getString("ofYourColor");
-        String statusText = current.getModel().status;
-        BitmapFont.TextBounds bounds = bitmapFont.getBounds(statusText);
+        batch.end();
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        float Z = current.getWidth();
-        float X = bounds.width;
-
-        float x = current.getX() + (Z - X)/2;
-        float y = current.getY() + 16 + (current.getHeight() - 24f + bounds.height)/2;
-
-        // если ход игрок и ничего не выбрано
-        if (statusText.equals(Localizator.getString("selectYourCell"))) {
-            BitmapFont.TextBounds colorBounds = bitmapFont.getBounds(colorString);
-            float Y = colorBounds.width;
-            x = x - Y/2;
-            bitmapFont.setColor(Drawer.getTextColor());
-            bitmapFont.draw(batch, statusText, x, y);
-            bitmapFont.setColor(getCellColorByNumber(current.getPm().current().getNumber()));
-            bitmapFont.draw(batch, colorString, x + X, y);
-
-        } else if (statusText.equals(Localizator.getString("touchToPower"))) {
-            colorString = Localizator.getString("yourCells");
-            String powerString = " (" +current.getPm().current().getPowerToDistribute() + ")";
-            BitmapFont.TextBounds colorBounds = bitmapFont.getBounds(colorString);
-            float Y = colorBounds.width;
-            BitmapFont.TextBounds powerBounds = bitmapFont.getBounds(powerString);
-            float W = powerBounds.width;
-            x = x - Y/2 - W/2;
-            bitmapFont.setColor(Drawer.getTextColor());
-            bitmapFont.draw(batch, statusText, x, y);
-            bitmapFont.setColor(getCellColorByNumber(current.getPm().current().getNumber()));
-            bitmapFont.draw(batch, colorString, x + X, y);
-            bitmapFont.draw(batch, powerString, x + X + Y, y);
-
-        } else {
-
-            bitmapFont.setColor(Drawer.getTextColor());
-            bitmapFont.draw(batch, current.getModel().status, x, y);
-        }
-
-        if (current.getModel().subStatus != null) {
-            String subStatusText = current.getModel().subStatus;
-            BitmapFont.TextBounds subStatusBounds = bitmapFont.getBounds(subStatusText);
-            bitmapFont.setColor(Drawer.getDimmedTextColor());
-            x = current.getX() + (current.getWidth() - subStatusBounds.width)/2;
-            bitmapFont.draw(batch, subStatusText, x, y - subStatusBounds.height * 1.5f);
-        }
+        renderer.setColor(color);
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.rect(current.getX() + x, current.getY() + y, current.getX() + w, current.getY() + h);
+        renderer.end();
+        batch.begin();
     }
-
-
 
     protected void drawCovers() {
         renderer.begin(ShapeRenderer.ShapeType.Filled);

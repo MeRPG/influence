@@ -2,14 +2,15 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.FieldModel;
+import com.teremok.influence.util.FontFactory;
 
 import static com.teremok.influence.view.Drawer.MIN_SIZE_FOR_TEXT;
 
@@ -22,13 +23,13 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
     boolean[][] routes;
 
     @Override
-    public void draw (FieldController field, SpriteBatch batch, float parentAlpha) {
+    public void draw (FieldController field, Batch batch, float parentAlpha) {
         super.draw(field, batch, parentAlpha);
 
         FieldModel model = field.getModel();
 
         batch.end();
-        Gdx.gl.glEnable(GL10.GL_BLEND);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
         zoomedUnitSize = Drawer.getUnitSize()* GestureController.getZoom();
 
         if (routes == null){
@@ -91,15 +92,16 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
         }
     }
 
-    private void drawText(SpriteBatch batch, Cell cell) {
-        if (bitmapFont != null && current.isCellVisible(cell)) {
-            BitmapFont.TextBounds textBounds = bitmapFont.getBounds(cell.getPower()+"");
+    private void drawText(Batch batch, Cell cell) {
+        BitmapFont cellsFont = FontFactory.getCellsFont();
+        if (cellsFont != null && current.isCellVisible(cell)) {
+            BitmapFont.TextBounds textBounds = cellsFont.getBounds(cell.getPower()+"");
             if (cell.isFree()) {
-                bitmapFont.setColor(Drawer.getEmptyCellTextColor());
+                cellsFont.setColor(Drawer.getEmptyCellTextColor());
             } else {
-                bitmapFont.setColor(Drawer.getCellTextColor());
+                cellsFont.setColor(Drawer.getCellTextColor());
             }
-            bitmapFont.draw(batch, cell.getPower()+"", current.getX() + cell.getX() + FieldController.cellWidth/2 - textBounds.width/2,
+            cellsFont.draw(batch, cell.getPower()+"", current.getX() + cell.getX() + FieldController.cellWidth/2 - textBounds.width/2,
                     current.getY() + cell.getY() + FieldController.cellHeight/2 + textBounds.height/2);
         }
     }
