@@ -147,11 +147,10 @@ public class MatchSaver {
 
             int turn = root.getIntAttribute(TURN_ATTR, 0);
 
-            // TODO Статистику матча дожен загружать ChronicleController с передачей ему xml-elementa
             ChronicleController chronicleController = new ChronicleController();
-            Chronicle chronicle = chronicleController.load();
+            Chronicle.MatchChronicle matchChronicle = chronicleController.loadMatchChronicle();
 
-            match = new Match(gameSettings, cells, router, turn, chronicle.match);
+            match = new Match(gameSettings, cells, router, turn, matchChronicle);
 
         } else {
             throw new IOException("File with saved match not found " + MATCH_PATH);

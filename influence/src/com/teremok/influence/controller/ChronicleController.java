@@ -77,12 +77,7 @@ public class ChronicleController {
                 chronicle.cellsConquered = root.getInt("cellsConquered", 0);
                 chronicle.cellsLost = root.getInt("cellsLost", 0);
 
-
-                XmlReader.Element match = root.getChildByName("match");
-                chronicle.match.damage = match.getInt("damage", 0);
-                chronicle.match.damageGet = match.getInt("damageGet", 0);
-                chronicle.match.cellsConquered = match.getInt("cellsConquered", 0);
-                chronicle.match.cellsLost = match.getInt("cellsLost", 0);
+                chronicle.match = loadMatchChronicle(root.getChildByName("match"));
 
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -92,9 +87,31 @@ public class ChronicleController {
         return chronicle;
     }
 
-    public MatchChronicle matchStart() {
+    public MatchChronicle loadMatchChronicle() {
         MatchChronicle matchChronicle = new MatchChronicle();
+        try {
+
+            FileHandle handle = Gdx.files.external(CHRONICLE_PATH);
+            XmlReader reader = new XmlReader();
+            XmlReader.Element root = reader.parse(handle.reader());
+            matchChronicle = loadMatchChronicle(root.getChildByName("match"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return matchChronicle;
+    }
+
+    public MatchChronicle loadMatchChronicle(XmlReader.Element matchChronicleRoot) {
+        MatchChronicle matchChronicle = new MatchChronicle();
+        matchChronicle.damage = matchChronicleRoot.getInt("damage", 0);
+        matchChronicle.damageGet = matchChronicleRoot.getInt("damageGet", 0);
+        matchChronicle.cellsConquered = matchChronicleRoot.getInt("cellsConquered", 0);
+        matchChronicle.cellsLost = matchChronicleRoot.getInt("cellsLost", 0);
+        return matchChronicle;
+    }
+
+    public MatchChronicle matchStart() {
+        return new MatchChronicle();
     }
 
     public void matchEnd(Map<Integer, PlayerType> players, FieldSize fieldSize, Chronicle chronicle, boolean isWin) {
@@ -114,10 +131,6 @@ public class ChronicleController {
         }
 
         save(chronicle);
-    }
-
-    public void clearMatchScores(Chronicle chronicle) {
-        chronicle.match = null;
     }
 
     public int getWinInfluence(Chronicle chronicle, Collection<PlayerType> players, FieldSize fieldSize) {
