@@ -111,7 +111,7 @@ public class GameScreen extends StaticScreen {
                 if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
                     int lastInfluence = chronicle.influence;
                     chronicle.match = match.getMatchChronicle();
-                    chronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, chronicle, true);
+                    chronicleController.matchEnd(chronicle, Settings.gameSettings.players, Settings.gameSettings.fieldSize, true);
                     int deltaInfluence = chronicle.influence - lastInfluence;
                     addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
                     showInfoMessageAnimation();
@@ -127,7 +127,7 @@ public class GameScreen extends StaticScreen {
                 if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
                     int lastInfluence = chronicle.influence;
                     chronicle.match = match.getMatchChronicle();
-                    chronicleController.matchEnd(Settings.gameSettings.players, Settings.gameSettings.fieldSize, chronicle, false);
+                    chronicleController.matchEnd(chronicle, Settings.gameSettings.players, Settings.gameSettings.fieldSize, false);
                     int deltaInfluence = chronicle.influence - lastInfluence;
                     addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
                     showInfoMessageAnimation();

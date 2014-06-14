@@ -114,7 +114,7 @@ public class ChronicleController {
         return new MatchChronicle();
     }
 
-    public void matchEnd(Map<Integer, PlayerType> players, FieldSize fieldSize, Chronicle chronicle, boolean isWin) {
+    public void matchEnd(Chronicle chronicle, Map<Integer, PlayerType> players, FieldSize fieldSize, boolean isWin) {
         MatchChronicle matchChronicle = chronicle.match;
         chronicle.damage += matchChronicle.damage;
         chronicle.damageGet += matchChronicle.damageGet;
