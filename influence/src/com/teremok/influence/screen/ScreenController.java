@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
-import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.ResourceManager;
@@ -173,7 +172,7 @@ public class ScreenController {
     }
 
     private static Action createResumeGameAction() {
-        return new StartGameAction(game, MatchSaver.getNotEnded());
+        return new StartGameAction(game, game.getMatchSaver().getNotEnded());
     }
 
     public static class StartGameAction extends Action {

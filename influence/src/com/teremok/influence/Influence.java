@@ -3,6 +3,7 @@ package com.teremok.influence;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.teremok.influence.controller.ChronicleController;
+import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.Chronicle;
 import com.teremok.influence.model.Localizator;
@@ -15,6 +16,7 @@ public class Influence extends Game {
 
     private Chronicle chronicle;
     private ChronicleController chronicleController;
+    private MatchSaver matchSaver;
 
     public Influence(Locale locale) {
         String language = locale.getLanguage();
@@ -37,8 +39,11 @@ public class Influence extends Game {
 
     @Override
 	public void create() {
+        matchSaver = new MatchSaver();
+
         chronicleController = new ChronicleController();
         chronicle = chronicleController.load();
+
         ScreenController.init(this);
         ScreenController.forceShowStartScreen();
 	}
@@ -64,5 +69,13 @@ public class Influence extends Game {
 
     public void setChronicleController(ChronicleController chronicleController) {
         this.chronicleController = chronicleController;
+    }
+
+    public MatchSaver getMatchSaver() {
+        return matchSaver;
+    }
+
+    public void setMatchSaver(MatchSaver matchSaver) {
+        this.matchSaver = matchSaver;
     }
 }

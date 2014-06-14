@@ -29,8 +29,11 @@ import static com.badlogic.gdx.Input.Keys;
 public class GameScreen extends StaticScreen {
 
     Match match;
+    MatchSaver matchSaver;
+
     Chronicle chronicle;
     ChronicleController chronicleController;
+
     PausePanel pausePanel;
     TexturePanel backlight;
 
@@ -53,12 +56,15 @@ public class GameScreen extends StaticScreen {
         chronicleController = game.getChronicleController();
         Chronicle.MatchChronicle matchChronicle = chronicleController.matchStart();
         match = new Match(Settings.gameSettings, matchChronicle);
+        matchSaver = game.getMatchSaver();
+        matchSaver.save(match);
     }
 
     public GameScreen(Influence game, Match match) {
         super(game, "gameScreen");
         chronicle = game.getChronicle();
         chronicleController = game.getChronicleController();
+        matchSaver = game.getMatchSaver();
         this.match = match;
         resumeMatch();
     }
@@ -66,7 +72,17 @@ public class GameScreen extends StaticScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+
+        int turn = match.getTurn();
+
         match.act(delta);
+
+        if (match.getTurn() > turn && ! match.isEnded()) {
+            matchSaver.save(match);
+            if (match.getTurn() == 1) {
+                FlurryHelper.logMatchStartEvent();
+            }
+        }
 
         // TODO: refactor!
         if (colorForBacklight != null) {
@@ -106,7 +122,7 @@ public class GameScreen extends StaticScreen {
         if (match.isWon()) {
             if (! endSoundPlayed) {
                 FXPlayer.playWinMatch();
-                MatchSaver.clearFile();
+                matchSaver.clearFile();
                 endSoundPlayed = true;
                 if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
                     int lastInfluence = chronicle.influence;
@@ -122,7 +138,7 @@ public class GameScreen extends StaticScreen {
         } else if (match.isLost()) {
             if (! endSoundPlayed) {
                 FXPlayer.playLoseMatch();
-                MatchSaver.clearFile();
+                matchSaver.clearFile();
                 endSoundPlayed = true;
                 if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
                     int lastInfluence = chronicle.influence;
@@ -146,7 +162,6 @@ public class GameScreen extends StaticScreen {
 
     private void turnOnBorder(TexturePanel border) {
        if (!borderState.get(border)) {
-            Logger.log("border turned on");
             SequenceAction sequenceAction = Actions.sequence(
                     Actions.alpha(1f, Animation.DURATION_NORMAL)
             );
@@ -157,7 +172,6 @@ public class GameScreen extends StaticScreen {
 
     private void turnOffBorder(TexturePanel border) {
         if (borderState.get(border)) {
-            Logger.log("border turned off");
             SequenceAction sequenceAction = Actions.sequence(
                     Actions.alpha(0f, Animation.DURATION_NORMAL)
             );
@@ -198,15 +212,15 @@ public class GameScreen extends StaticScreen {
     }
 
     void  startNewMatch() {
-        //Logger.log("Starting new match");
         Chronicle.MatchChronicle matchChronicle = chronicleController.matchStart();
         if (match == null) {
             match = new Match(Settings.gameSettings, matchChronicle);
-            endSoundPlayed = false;
         } else {
             match.reset(Settings.gameSettings, matchChronicle);
-            endSoundPlayed = false;
+
         }
+        endSoundPlayed = false;
+        matchSaver.save(match);
         updateMatchDependentActors();
     }
 
@@ -273,7 +287,6 @@ public class GameScreen extends StaticScreen {
     public void flashBacklight(Color color) {
         backlight.setColor(color);
         backlight.getColor().a = 1f;
-        Logger.log("backlight : flash! " + backlight.getColor().a);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.delay(Animation.DURATION_SHORT),
                 Actions.alpha(0f, Animation.DURATION_NORMAL)
@@ -380,10 +393,10 @@ public class GameScreen extends StaticScreen {
                         match.getFieldController().resize();
                     }
                     if (keycode == Keys.S) {
-                        MatchSaver.save(match);
+                        matchSaver.save(match);
                     }
                     if (keycode == Keys.D) {
-                        match = MatchSaver.load();
+                        match = matchSaver.load();
                         updateMatchDependentActors();
                     }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {

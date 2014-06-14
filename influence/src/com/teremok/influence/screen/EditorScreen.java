@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.controller.FieldController;
-import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.util.Logger;
@@ -178,10 +177,10 @@ public class EditorScreen extends StaticScreen {
                 }
                 if (keycode == Input.Keys.S) {
                     clearRoutes();
-                    MatchSaver.save(match);
+                    game.getMatchSaver().save(match);
                 }
                 if (keycode == Input.Keys.D) {
-                    match = MatchSaver.load();
+                    match = game.getMatchSaver().load();
                     field = match.getFieldController();
                     field.setTouchable(Touchable.disabled);
                     field.setMatchChronicle(match.getMatchChronicle());

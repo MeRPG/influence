@@ -1,13 +1,11 @@
 package com.teremok.influence.model;
 
 import com.teremok.influence.controller.FieldController;
-import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
-import com.teremok.influence.util.FlurryHelper;
 
 import java.util.List;
 
@@ -91,7 +89,6 @@ public class Match {
 
         phase = Phase.ATTACK;
 
-        MatchSaver.save(this);
         SettingsSaver.save();
     }
 
@@ -120,11 +117,7 @@ public class Match {
     }
 
     private void startNewTurn() {
-        MatchSaver.save(this);
         turn++;
-        if (turn == 1) {
-            FlurryHelper.logMatchStartEvent();
-        }
     }
 
     public void switchPhase() {

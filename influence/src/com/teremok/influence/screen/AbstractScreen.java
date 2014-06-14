@@ -4,7 +4,6 @@ package com.teremok.influence.screen;
  * Created by Alexx on 22.12.13
  * */
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
@@ -16,33 +15,26 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.teremok.influence.util.FontFactory;
+import com.teremok.influence.Influence;
 
 public abstract class AbstractScreen implements Screen {
 
     public static final float WIDTH = 480f;
     public static final float HEIGHT = 720f;
 
-    protected final Game game;
+    protected final Influence game;
     protected BitmapFont font;
     protected final Stage stage;
     protected Batch batch;
     protected TextureAtlas atlas;
 
-    public AbstractScreen(Game game) {
+    public AbstractScreen(Influence game) {
         this.game = game;
         this.stage = new Stage();
         Camera camera = new OrthographicCamera();
         Viewport viewport = new FitViewport(WIDTH, HEIGHT, camera);
         camera.translate(WIDTH/2, HEIGHT/2, 0);
         stage.setViewport(viewport);
-    }
-
-    public BitmapFont getFont() {
-        if (font == null)  {
-            font = FontFactory.getCellsFont();
-        }
-        return font;
     }
 
     public Batch getBatch() {

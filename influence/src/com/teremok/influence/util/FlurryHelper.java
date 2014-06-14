@@ -1,7 +1,6 @@
 package com.teremok.influence.util;
 
 import com.flurry.android.FlurryAgent;
-import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 
@@ -53,10 +52,10 @@ public class FlurryHelper {
         }
     }
 
-    public static void logNewGameEvent() {
+    public static void logNewGameEvent(boolean notEndedMatchExists) {
         if (flurryEnabled()) {
             Map<String,String> parameters = new HashMap<>();
-            parameters.put("Has_Saved_Game", MatchSaver.hasNotEnded() ? "Yes" : "No");
+            parameters.put("Has_Saved_Game", notEndedMatchExists ? "Yes" : "No");
             FlurryAgent.logEvent("New_Game", parameters);
         }
     }
