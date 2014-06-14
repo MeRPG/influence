@@ -1,11 +1,11 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.influence.Influence;
 import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
@@ -34,7 +34,7 @@ public class StartScreen extends StaticScreen {
     private ButtonTexture newGame;
     private ButtonTexture resume;
 
-    public StartScreen(Game game, String filename) {
+    public StartScreen(Influence game, String filename) {
         super(game, filename);
         Settings.init();
         Logger.init();

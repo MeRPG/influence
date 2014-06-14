@@ -1,10 +1,10 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.influence.Influence;
 import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
@@ -37,7 +37,7 @@ public class EditorScreen extends StaticScreen {
     int fromRoute;
 
 
-    public EditorScreen(Game game, String filename) {
+    public EditorScreen(Influence game, String filename) {
         super(game, filename);
 
     }

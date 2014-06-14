@@ -1,9 +1,9 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.util.Logger;
 
@@ -11,7 +11,7 @@ import com.teremok.influence.util.Logger;
  * Created by Алексей on 01.06.2014
  */
 public class GameTypeScreen extends StaticScreen {
-    public GameTypeScreen(Game game, String filename) {
+    public GameTypeScreen(Influence game, String filename) {
         super(game, filename);
     }
 
@@ -50,7 +50,6 @@ public class GameTypeScreen extends StaticScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled() && isInfoMessageVisible()) {
                     hideInfoMessageAnimation();
-                    return;
                 }
             }
         });

@@ -1,6 +1,5 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -8,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.teremok.influence.Influence;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.UIElementParams;
@@ -32,11 +32,11 @@ public abstract class StaticScreen extends AbstractScreen {
     public ColoredPanel overlap;
     private Actor infoMessage;
 
-    private StaticScreen(Game game) {
+    private StaticScreen(Influence game) {
         super(game);
     }
 
-    public StaticScreen(Game game, String filename) {
+    public StaticScreen(Influence game, String filename) {
         this(game);
         this.filename = filename;
     }
