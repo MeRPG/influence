@@ -1,23 +1,22 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.teremok.influence.controller.GestureController;
-import com.teremok.influence.controller.MatchSaver;
-import com.teremok.influence.controller.ScoreController;
-import com.teremok.influence.controller.SettingsSaver;
+import com.teremok.influence.Influence;
+import com.teremok.influence.controller.*;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
+import com.teremok.influence.util.TextureNumberFactory;
 import com.teremok.influence.view.Animation;
+import com.teremok.influence.view.Drawer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +29,11 @@ import static com.badlogic.gdx.Input.Keys;
 public class GameScreen extends StaticScreen {
 
     Match match;
+    MatchSaver matchSaver;
+
+    Chronicle chronicle;
+    ChronicleController chronicleController;
+
     PausePanel pausePanel;
     TexturePanel backlight;
 
@@ -42,16 +46,25 @@ public class GameScreen extends StaticScreen {
     boolean backlightState;
 
     long lastBackPress = 0;
+    boolean endSoundPlayed = false;
 
     public static Color colorForBacklight;
 
-    public GameScreen(Game game) {
+    public GameScreen(Influence game) {
         super(game, "gameScreen");
-        match = new Match(Settings.gameSettings);
+        chronicle = game.getChronicle();
+        chronicleController = game.getChronicleController();
+        Chronicle.MatchChronicle matchChronicle = chronicleController.matchStart();
+        match = new Match(Settings.gameSettings, matchChronicle);
+        matchSaver = game.getMatchSaver();
+        matchSaver.save(match);
     }
 
-    public GameScreen(Game game, Match match) {
+    public GameScreen(Influence game, Match match) {
         super(game, "gameScreen");
+        chronicle = game.getChronicle();
+        chronicleController = game.getChronicleController();
+        matchSaver = game.getMatchSaver();
         this.match = match;
         resumeMatch();
     }
@@ -59,7 +72,17 @@ public class GameScreen extends StaticScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+
+        int turn = match.getTurn();
+
         match.act(delta);
+
+        if (match.getTurn() > turn && ! match.isEnded()) {
+            matchSaver.save(match);
+            if (match.getTurn() == 1) {
+                FlurryHelper.logMatchStartEvent();
+            }
+        }
 
         // TODO: refactor!
         if (colorForBacklight != null) {
@@ -95,11 +118,50 @@ public class GameScreen extends StaticScreen {
                 turnOffBorder(borderTop);
             }
         }
+
+        if (match.isWon()) {
+            if (! endSoundPlayed) {
+                FXPlayer.playWinMatch();
+                matchSaver.clearFile();
+                endSoundPlayed = true;
+                if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
+                    int lastInfluence = chronicle.influence;
+                    chronicle.match = match.getMatchChronicle();
+                    chronicleController.matchEnd(chronicle, Settings.gameSettings.players, Settings.gameSettings.fieldSize, true);
+                    int deltaInfluence = chronicle.influence - lastInfluence;
+                    addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
+                    showInfoMessageAnimation();
+                }
+                GameScreen.colorForBacklight = Drawer.getPlayerColor(match.getPm().current());
+                FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_WIN, match.getTurn());
+            }
+        } else if (match.isLost()) {
+            if (! endSoundPlayed) {
+                FXPlayer.playLoseMatch();
+                matchSaver.clearFile();
+                endSoundPlayed = true;
+                if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
+                    int lastInfluence = chronicle.influence;
+                    chronicle.match = match.getMatchChronicle();
+                    chronicleController.matchEnd(chronicle, Settings.gameSettings.players, Settings.gameSettings.fieldSize, false);
+                    int deltaInfluence = chronicle.influence - lastInfluence;
+                    addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
+                    showInfoMessageAnimation();
+                }
+
+                GameScreen.colorForBacklight = Drawer.getBacklightLoseColor();
+                FlurryHelper.logMatchEndEvent(FlurryHelper.END_REASON_LOSE, match.getTurn());
+            }
+        }
+
+        if (match.getPm().getNumberOfPlayerInGame() == 1) {
+            GameScreen.colorForBacklight = Drawer.getPlayerColor(match.getPm().current());
+        }
+
     }
 
     private void turnOnBorder(TexturePanel border) {
        if (!borderState.get(border)) {
-            Logger.log("border turned on");
             SequenceAction sequenceAction = Actions.sequence(
                     Actions.alpha(1f, Animation.DURATION_NORMAL)
             );
@@ -110,7 +172,6 @@ public class GameScreen extends StaticScreen {
 
     private void turnOffBorder(TexturePanel border) {
         if (borderState.get(border)) {
-            Logger.log("border turned off");
             SequenceAction sequenceAction = Actions.sequence(
                     Actions.alpha(0f, Animation.DURATION_NORMAL)
             );
@@ -151,12 +212,15 @@ public class GameScreen extends StaticScreen {
     }
 
     void  startNewMatch() {
-        //Logger.log("Starting new match");
+        Chronicle.MatchChronicle matchChronicle = chronicleController.matchStart();
         if (match == null) {
-            match = new Match(Settings.gameSettings);
+            match = new Match(Settings.gameSettings, matchChronicle);
         } else {
-            match.reset(Settings.gameSettings);
+            match.reset(Settings.gameSettings, matchChronicle);
+
         }
+        endSoundPlayed = false;
+        matchSaver.save(match);
         updateMatchDependentActors();
     }
 
@@ -223,7 +287,6 @@ public class GameScreen extends StaticScreen {
     public void flashBacklight(Color color) {
         backlight.setColor(color);
         backlight.getColor().a = 1f;
-        Logger.log("backlight : flash! " + backlight.getColor().a);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.delay(Animation.DURATION_SHORT),
                 Actions.alpha(0f, Animation.DURATION_NORMAL)
@@ -288,7 +351,6 @@ public class GameScreen extends StaticScreen {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Logger.log("touchDown: " + x + ", y");
                 return stage.hit(x,y,true) instanceof ScoreController;
             }
 
@@ -296,6 +358,10 @@ public class GameScreen extends StaticScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
                     FXPlayer.playClick();
+                    if (isInfoMessageVisible()) {
+                        hideInfoMessageAnimation();
+                        return;
+                    }
                     if (match.canHumanActing() && ! match.isEnded())
                         match.switchPhase();
                     if (match.isEnded())
@@ -327,14 +393,17 @@ public class GameScreen extends StaticScreen {
                         match.getFieldController().resize();
                     }
                     if (keycode == Keys.S) {
-                        MatchSaver.save(match);
+                        matchSaver.save(match);
                     }
                     if (keycode == Keys.D) {
-                        match = MatchSaver.load();
+                        match = matchSaver.load();
                         updateMatchDependentActors();
                     }
                     if (keycode == Keys.BACK || keycode == Keys.MENU || keycode == Keys.ESCAPE) {
-
+                        if (isInfoMessageVisible()) {
+                            hideInfoMessageAnimation();
+                            return true;
+                        }
                         if (keycode != Keys.MENU) {
                             long newTime = System.currentTimeMillis();
 

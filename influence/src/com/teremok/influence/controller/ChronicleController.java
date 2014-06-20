@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
-import static com.teremok.influence.model.Chronicle.*;
+import static com.teremok.influence.model.Chronicle.MatchChronicle;
 import static com.teremok.influence.util.IOConstants.CHRONICLE_PATH;
 
 /**
@@ -22,7 +22,10 @@ import static com.teremok.influence.util.IOConstants.CHRONICLE_PATH;
  */
 public class ChronicleController {
 
-    public static void save() {
+    public ChronicleController() {
+    }
+
+    public void save(Chronicle chronicle) {
         FileHandle handle = Gdx.files.external(CHRONICLE_PATH);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
@@ -30,20 +33,21 @@ public class ChronicleController {
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter root = xml.element("chronicle");
 
-            root.element("played", played)
-                .element("won", won)
-                .element("damage", damage)
-                .element("damageGet", damageGet)
-                .element("cellsConquered", cellsConquered)
-                .element("cellsLost", cellsLost)
-                .element("influence", influence);
+            root.element("played", chronicle.played)
+                .element("won", chronicle.won)
+                .element("damage", chronicle.damage)
+                .element("damageGet", chronicle.damageGet)
+                .element("cellsConquered", chronicle.cellsConquered)
+                .element("cellsLost", chronicle.cellsLost)
+                .element("influence", chronicle.influence);
+
 
             XmlWriter match = root.element("match");
-
-            match.element("damage", Chronicle.match.damage)
-                .element("damageGet", Chronicle.match.damageGet)
-                .element("cellsConquered", Chronicle.match.cellsConquered)
-                .element("cellsLost", Chronicle.match.cellsLost)
+            MatchChronicle matchChronicle = chronicle.match;
+            match.element("damage", matchChronicle == null ? 0 : matchChronicle.damage)
+                .element("damageGet", matchChronicle == null ? 0 : matchChronicle.damageGet)
+                .element("cellsConquered",  matchChronicle == null ? 0 : matchChronicle.cellsConquered)
+                .element("cellsLost",  matchChronicle == null ? 0 : matchChronicle.cellsLost)
                 .pop();
 
             root.pop();
@@ -54,69 +58,82 @@ public class ChronicleController {
         }
     }
 
-    public static void load() {
+    public Chronicle load() {
+        Chronicle chronicle = new Chronicle();
+
         FileHandle handle = Gdx.files.external(CHRONICLE_PATH);
         if (handle.exists()) {
             try{
                 XmlReader reader = new XmlReader();
                 XmlReader.Element root = reader.parse(handle.reader());
 
-                played = root.getInt("played", 0);
-                won = root.getInt("won", 0);
-                influence = root.getInt("influence", 0);
-                damage = root.getInt("damage", 0);
-                damageGet = root.getInt("damageGet", 0);
-                cellsConquered = root.getInt("cellsConquered", 0);
-                cellsLost = root.getInt("cellsLost", 0);
+                chronicle.match = new MatchChronicle();
 
+                chronicle.played = root.getInt("played", 0);
+                chronicle.won = root.getInt("won", 0);
+                chronicle.influence = root.getInt("influence", 0);
+                chronicle.damage = root.getInt("damage", 0);
+                chronicle.damageGet = root.getInt("damageGet", 0);
+                chronicle.cellsConquered = root.getInt("cellsConquered", 0);
+                chronicle.cellsLost = root.getInt("cellsLost", 0);
 
-                XmlReader.Element match = root.getChildByName("match");
-                Chronicle.match.damage = match.getInt("damage", 0);
-                Chronicle.match.damageGet = match.getInt("damageGet", 0);
-                Chronicle.match.cellsConquered = match.getInt("cellsConquered", 0);
-                Chronicle.match.cellsLost = match.getInt("cellsLost", 0);
+                chronicle.match = loadMatchChronicle(root.getChildByName("match"));
 
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
+
+        return chronicle;
     }
 
-    public static void matchStart() {
-        match.cellsLost = 0;
-        match.cellsConquered = 0;
-        match.damage = 0;
-        match.damageGet = 0;
+    public MatchChronicle loadMatchChronicle() {
+        MatchChronicle matchChronicle = new MatchChronicle();
+        try {
+
+            FileHandle handle = Gdx.files.external(CHRONICLE_PATH);
+            XmlReader reader = new XmlReader();
+            XmlReader.Element root = reader.parse(handle.reader());
+            matchChronicle = loadMatchChronicle(root.getChildByName("match"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return matchChronicle;
     }
 
-    public static void matchEnd(Map<Integer, PlayerType> players, FieldSize fieldSize, boolean isWin) {
-        damage += match.damage;
-        damageGet += match.damageGet;
-        cellsConquered += match.cellsConquered;
-        cellsLost += match.cellsLost;
+    public MatchChronicle loadMatchChronicle(XmlReader.Element matchChronicleRoot) {
+        MatchChronicle matchChronicle = new MatchChronicle();
+        matchChronicle.damage = matchChronicleRoot.getInt("damage", 0);
+        matchChronicle.damageGet = matchChronicleRoot.getInt("damageGet", 0);
+        matchChronicle.cellsConquered = matchChronicleRoot.getInt("cellsConquered", 0);
+        matchChronicle.cellsLost = matchChronicleRoot.getInt("cellsLost", 0);
+        return matchChronicle;
+    }
 
-        played++;
+    public MatchChronicle matchStart() {
+        return new MatchChronicle();
+    }
+
+    public void matchEnd(Chronicle chronicle, Map<Integer, PlayerType> players, FieldSize fieldSize, boolean isWin) {
+        MatchChronicle matchChronicle = chronicle.match;
+        chronicle.damage += matchChronicle.damage;
+        chronicle.damageGet += matchChronicle.damageGet;
+        chronicle.cellsConquered += matchChronicle.cellsConquered;
+        chronicle.cellsLost += matchChronicle.cellsLost;
+
+        chronicle.played++;
 
         if (isWin) {
-            won++;
-            Chronicle.influence += getWinInfluence(players.values(), fieldSize);
+            chronicle.won++;
+            chronicle.influence += getWinInfluence(chronicle, players.values(), fieldSize);
         } else {
-            Chronicle.influence += getLoseInfluence(players.values(), fieldSize);
+            chronicle.influence += getLoseInfluence(chronicle, players.values(), fieldSize);
         }
 
-        clearMatchScores();
-
-        ChronicleController.save();
+        save(chronicle);
     }
 
-    public static void clearMatchScores() {
-        match.damage = 0;
-        match.damageGet = 0;
-        match.cellsConquered = 0;
-        match.cellsLost = 0;
-    }
-
-    public static int getWinInfluence(Collection<PlayerType> players, FieldSize fieldSize) {
+    public int getWinInfluence(Chronicle chronicle, Collection<PlayerType> players, FieldSize fieldSize) {
         int score;
         float playerSum = 0;
         for (PlayerType player : players) {
@@ -126,14 +143,14 @@ public class ChronicleController {
 
         float fieldSum = getW(fieldSize) * (float)Math.exp(1);
 
-        float cellsSum = cellsConquered * (float)Math.exp(1);
+        float cellsSum = chronicle.cellsConquered * (float)Math.exp(1);
 
         score = (int)(playerSum + fieldSum + cellsSum);
 
         return score;
     }
 
-    public static int getLoseInfluence(Collection<PlayerType> players, FieldSize fieldSize) {
+    public int getLoseInfluence(Chronicle chronicle, Collection<PlayerType> players, FieldSize fieldSize) {
         int score;
         float playerSum = 0;
         for (PlayerType player : players) {
@@ -143,7 +160,7 @@ public class ChronicleController {
 
         float fieldSum = -getW(fieldSize) * (float) Math.exp(1) + getW(fieldSize);
 
-        float cellsSum = - (cellsConquered + cellsLost) * (float)Math.exp(1);
+        float cellsSum = - (chronicle.cellsConquered + chronicle.cellsLost) * (float)Math.exp(1);
 
 
         score = (int) (playerSum + fieldSum + cellsSum);

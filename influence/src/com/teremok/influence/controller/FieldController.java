@@ -33,15 +33,18 @@ public class FieldController extends Group {
     private Match match;
     private PlayerManager pm;
     private FieldShapeDrawer drawer;
+    private Chronicle.MatchChronicle matchChronicle;
 
     public Cell selectedCell;
     FieldModel model;
+
 
     public static float cellWidth;
     public static float cellHeight;
 
     private GraphGenerator generator;
     private Random random;
+    private Calculator calculator;
 
     public FieldController(Match match, GameSettings settings) {
         model = new FieldModel();
@@ -67,6 +70,8 @@ public class FieldController extends Group {
         cellHeight = getUnitSize() *2;
 
         model.reset(settings);
+        if (calculator == null)
+            calculator = new Calculator();
 
         setBounds(model.initialX, model.initialY, model.initialWidth, model.initialHeight);
 
@@ -82,6 +87,9 @@ public class FieldController extends Group {
 
         cellWidth = getUnitSize() *2;
         cellHeight = getUnitSize() *2;
+
+        if (calculator == null)
+            calculator = new Calculator();
 
         model.reset(settings, cells, router);
 
@@ -303,7 +311,7 @@ public class FieldController extends Group {
 
     private int fight(Cell attack, Cell defense) {
 
-        int delta = Calculator.fight(attack.getPower(), defense.getPower());
+        int delta = calculator.fight(attack.getPower(), defense.getPower());
 
         riseDiceTooltips(attack, defense);
         fastShowBacklight(attack, defense);
@@ -312,18 +320,18 @@ public class FieldController extends Group {
         if (pm.getNumberOfHumans() == 1) {
             if (attack.getType() == 0) {
                 if (defense.getType() != -1) {
-                    Chronicle.match.damage += Calculator.getResultPowerA();
-                    //Chronicle.match.damageGet += Calculator.getResultPowerB();
+                    matchChronicle.damage += calculator.getResultPowerA();
+                    //Chronicle.match.damageGet += calculator.getResultPowerB();
                 }
                 if (delta > 0)
-                    Chronicle.match.cellsConquered++;
+                    matchChronicle.cellsConquered++;
             }
 
             if (defense.getType() == 0) {
-                Chronicle.match.damageGet += Calculator.getResultPowerA();
-                //Chronicle.match.damage += Calculator.getResultPowerB();
+                matchChronicle.damageGet += calculator.getResultPowerA();
+                //Chronicle.match.damage += calculator.getResultPowerB();
                 if (delta > 0)
-                    Chronicle.match.cellsLost++;
+                    matchChronicle.cellsLost++;
             }
         }
 
@@ -331,8 +339,8 @@ public class FieldController extends Group {
     }
 
     private void setResultPower(Cell attack, Cell defense) {
-        int calcA = Calculator.getResultPowerA();
-        int calcB = Calculator.getResultPowerB();
+        int calcA = calculator.getResultPowerA();
+        int calcB = calculator.getResultPowerB();
 
         if (calcB > defense.getMaxPower()) {
             calcA += calcB - defense.getMaxPower();
@@ -353,7 +361,7 @@ public class FieldController extends Group {
 
         if (pm.isHumanActing()) {
 
-            if (Calculator.getDelta() > 0) {
+            if (calculator.getDelta() > 0) {
                 if (defence.getType() != -1) {
                     GameScreen.colorForBacklight = getBacklightWinColor();
                     FXPlayer.playWin();
@@ -368,7 +376,7 @@ public class FieldController extends Group {
         } else {
             for (Player player : pm.getPlayers()) {
                 if (player instanceof HumanPlayer && defence.getType() == player.getNumber()) {
-                    if (Calculator.getDelta() > 0) {
+                    if (calculator.getDelta() > 0) {
                         GameScreen.colorForBacklight = getBacklightLoseColor();
                         FXPlayer.playWin();
                     } else {
@@ -378,7 +386,7 @@ public class FieldController extends Group {
                     Vibrator.bzz();
                     return;
                 } else {
-                    if (Calculator.getDelta() > 0) {
+                    if (calculator.getDelta() > 0) {
                         FXPlayer.playWin();
                     }  else {
                         FXPlayer.playLose();
@@ -398,8 +406,8 @@ public class FieldController extends Group {
         Color color;
         BitmapFont font = FontFactory.getSubstatusFont();
         float tooltipX, tooltipY;
-        message = Calculator.getN() + "";
-        if (Calculator.getDelta() >= 0) {
+        message = calculator.getN() + "";
+        if (calculator.getDelta() >= 0) {
             color = Color.GREEN;
         } else {
             color = Color.RED;
@@ -411,8 +419,8 @@ public class FieldController extends Group {
             TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
         }
 
-        message = Calculator.getM() + "";
-        if (Calculator.getDelta() <= 0) {
+        message = calculator.getM() + "";
+        if (calculator.getDelta() <= 0) {
             color = Color.GREEN;
         } else {
             color = Color.RED;
@@ -556,5 +564,9 @@ public class FieldController extends Group {
 
     public FieldModel getModel() {
         return model;
+    }
+
+    public void setMatchChronicle(Chronicle.MatchChronicle matchChronicle) {
+        this.matchChronicle = matchChronicle;
     }
 }

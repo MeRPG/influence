@@ -1,10 +1,10 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.influence.Influence;
 import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
@@ -29,7 +29,7 @@ public class SettingsScreen extends StaticScreen {
     private static final int SPEED_GROUP = 2;
 
 
-    public SettingsScreen(Game game, String filename) {
+    public SettingsScreen(Influence game, String filename) {
         super(game, filename);
     }
 
@@ -123,12 +123,16 @@ public class SettingsScreen extends StaticScreen {
                             }
                         } else {
                             if (group.getCode() == LANGUAGE_GROUP) {
-                                if (code.equals(Localizator.LANGUAGE_RUSSIAN)) {
-                                    Localizator.setRussianLanguage();
-                                } else if (code.equals(Localizator.LANGUAGE_ENGLISH)) {
-                                    Localizator.setEnglishLanguage();
-                                } else {
-                                    Localizator.setGermanLanguage();
+                                switch (code) {
+                                    case Localizator.LANGUAGE_RUSSIAN:
+                                        Localizator.setRussianLanguage();
+                                        break;
+                                    case Localizator.LANGUAGE_GERMAN:
+                                        Localizator.setGermanLanguage();
+                                        break;
+                                    default:
+                                        Localizator.setEnglishLanguage();
+                                        break;
                                 }
                                 ScreenController.setLoadedAll(false);
                                 ScreenController.showSettingsScreen();

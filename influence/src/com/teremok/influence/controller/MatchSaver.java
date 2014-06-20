@@ -43,9 +43,9 @@ public class MatchSaver {
     private static final String TO="to";
     private static final String ENABLED="enabled";
 
-    private static Match notEnded;
+    private Match notEnded;
 
-    public static void save(Match match) {
+    public void save(Match match) {
         try {
             if (! match.isEnded()){
                 saveInFile(match);
@@ -56,7 +56,7 @@ public class MatchSaver {
         }
     }
 
-    public static void clearFile() {
+    public void clearFile() {
         try {
             FileHandle handle = Gdx.files.external(MATCH_PATH);
             FileWriter fileWriter = new FileWriter(handle.file());
@@ -70,7 +70,7 @@ public class MatchSaver {
         }
     }
 
-    private static void saveInFile(Match match) throws IOException {
+    private void saveInFile(Match match) throws IOException {
         FileHandle handle = Gdx.files.external(MATCH_PATH);
         FileWriter fileWriter = new FileWriter(handle.file());
         Logger.log(handle.file().getAbsolutePath());
@@ -113,9 +113,11 @@ public class MatchSaver {
 
         fieldXml.pop();
         xml.close();
+
+        Logger.log("Match saved to file" + handle.path());
     }
 
-    public static Match load() {
+    public Match load() {
         Match match = null;
         try {
             match = loadFromFile();
@@ -126,7 +128,7 @@ public class MatchSaver {
         return match;
     }
 
-    private static Match loadFromFile() throws IOException{
+    private Match loadFromFile() throws IOException{
         Match match;
         FileHandle handle = Gdx.files.external(MATCH_PATH);
         Logger.log("loading match from file " + handle.path());
@@ -145,8 +147,12 @@ public class MatchSaver {
 
             Router router = loadRoutes(root);
 
-            match = new Match(gameSettings, cells, router);
-            match.setTurn(root.getIntAttribute(TURN_ATTR, 0));
+            int turn = root.getIntAttribute(TURN_ATTR, 0);
+
+            ChronicleController chronicleController = new ChronicleController();
+            Chronicle.MatchChronicle matchChronicle = chronicleController.loadMatchChronicle();
+
+            match = new Match(gameSettings, cells, router, turn, matchChronicle);
 
         } else {
             throw new IOException("File with saved match not found " + MATCH_PATH);
@@ -154,7 +160,7 @@ public class MatchSaver {
         return match;
     }
 
-    private static void loadPlayers(XmlReader.Element root, GameSettings settings) {
+    private void loadPlayers(XmlReader.Element root, GameSettings settings) {
         Integer number;
         String type;
         Map<Integer, PlayerType> players = new HashMap<>();
@@ -164,13 +170,12 @@ public class MatchSaver {
             number = Integer.parseInt(player.getAttribute(NUMBER, "0"));
             type = player.getText();
             players.put(number, PlayerType.valueOf(type));
-            Logger.log("adding player " + type + " with number " + number);
         }
 
         settings.players = players;
     }
 
-    private static List<Cell> loadCells(XmlReader.Element root) {
+    private List<Cell> loadCells(XmlReader.Element root) {
         int number;
         int unitsX;
         int unitsY;
@@ -193,13 +198,11 @@ public class MatchSaver {
 
             cell = new Cell(number, unitsX, unitsY, power, maxPower, type);
             cells.add(cell);
-            Logger.log("adding cell " + cell);
         }
         return cells;
     }
 
-
-    private static Router loadRoutes(XmlReader.Element root) {
+    private Router loadRoutes(XmlReader.Element root) {
         int from;
         int to;
         boolean enabled;
@@ -221,13 +224,13 @@ public class MatchSaver {
         return router;
     }
 
-    public static boolean hasNotEnded() {
+    public boolean hasNotEnded() {
         return (notEnded != null && !notEnded.isEnded());
     }
 
     // Auto-generated
 
-    public static Match getNotEnded() {
+    public Match getNotEnded() {
         return notEnded;
     }
 }

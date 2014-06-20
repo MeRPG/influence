@@ -1,14 +1,9 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
-import com.teremok.influence.controller.ChronicleController;
-import com.teremok.influence.controller.MatchSaver;
-import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.ResourceManager;
@@ -29,6 +24,7 @@ public class ScreenController {
     private static PlayersScreen playersScreen;
     private static EditorScreen editorScreen;
     private static StatisticsScreen statisticsScreen;
+    private static GameTypeScreen gameTypeScreen;
 
     public static void init(Influence game) {
         ScreenController.game = game;
@@ -69,6 +65,14 @@ public class ScreenController {
         }
         FlurryHelper.logSettingsScreenEvent();
         gracefullyShowScreen(settingsScreen);
+    }
+
+    public static void showGameTypeScreen() {
+        if (gameTypeScreen == null) {
+            gameTypeScreen = new GameTypeScreen(game, "aboutScreen");
+        }
+        FlurryHelper.logGameTypeScreenEvent();
+        gracefullyShowScreen(gameTypeScreen);
     }
 
     public static void showEditorScreen() {
@@ -133,9 +137,7 @@ public class ScreenController {
     }
 
     public static void exitGame() {
-        SettingsSaver.save();
-        ChronicleController.save();
-        Gdx.app.exit();
+        game.exit();
     }
 
     public static Action createScreenAction(final StaticScreen screen) {
@@ -170,18 +172,18 @@ public class ScreenController {
     }
 
     private static Action createResumeGameAction() {
-        return new StartGameAction(game, MatchSaver.getNotEnded());
+        return new StartGameAction(game, game.getMatchSaver().getNotEnded());
     }
 
     public static class StartGameAction extends Action {
-        Game game;
+        Influence game;
         Match match;
 
-        private StartGameAction(Game game) {
+        private StartGameAction(Influence game) {
             this.game = game;
         }
 
-        private StartGameAction(Game game, Match match) {
+        private StartGameAction(Influence game, Match match) {
             this(game);
             this.match = match;
         }

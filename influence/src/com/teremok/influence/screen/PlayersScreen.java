@@ -1,12 +1,12 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.GameDifficulty;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.model.player.PlayerType;
@@ -55,7 +55,7 @@ public class PlayersScreen extends StaticScreen {
     PlayerTypeUI[] players;
     int numberOfPlayers = Settings.gameSettings.getNumberOfPlayers();
 
-    public PlayersScreen(Game game, String filename) {
+    public PlayersScreen(Influence game, String filename) {
         super(game, filename);
     }
 
@@ -83,7 +83,7 @@ public class PlayersScreen extends StaticScreen {
         players[2] = new PlayerTypeUI(uiElements.get("Dummy").region, playerRed.getX(), playerRed.getY(), RED);
         players[3] = new PlayerTypeUI(uiElements.get("Dummy").region, playerPurple.getX(), playerPurple.getY(), PURPLE);
 
-        Map<PlayerType, TextureRegion> regions = new HashMap<PlayerType, TextureRegion>();
+        Map<PlayerType, TextureRegion> regions = new HashMap<>();
         regions.put(PlayerType.Human, uiElements.get(PlayerType.Human.toString()).region);
         regions.put(PlayerType.Dummy, uiElements.get(PlayerType.Dummy.toString()).region);
         regions.put(PlayerType.Lazy, uiElements.get(PlayerType.Lazy.toString()).region);

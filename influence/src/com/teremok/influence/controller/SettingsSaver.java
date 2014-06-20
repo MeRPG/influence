@@ -57,7 +57,8 @@ public class SettingsSaver {
         gameXml
                 .element("players", gameSettings.getNumberOfPlayers())
                 .element("difficulty", gameSettings.difficulty)
-                .element("fieldSize", gameSettings.fieldSize);
+                .element("fieldSize", gameSettings.fieldSize)
+                .element("gameForInfluence", gameSettings.gameForInfluence);
         XmlWriter playersXml = gameXml.element("customPlayers");
         int num = 0;
         for (PlayerType player : gameSettings.customPlayers.values()) {
@@ -75,26 +76,14 @@ public class SettingsSaver {
         if (handle.exists()) {
             try{
                 XmlReader reader = new XmlReader();
-                String myString;
 
                 XmlReader.Element root = reader.parse(handle.reader());
-                myString = root.getChildByName("sound").getText();
-                sound = Boolean.parseBoolean(myString);
 
-                myString = root.getChildByName("vibrate").getText();
-                vibrate = Boolean.parseBoolean(myString);
-
-                myString = root.getChildByName("speed").getText();
-                speed = Float.parseFloat(myString);
-
-                myString = root.getChildByName("language").getText();
-                Localizator.setLanguage(myString);
-                   /*
-                myString = getElementText(root, "debug");
-                if (! myString.isEmpty()) {
-                    debug = Boolean.parseBoolean(myString);
-                }*/
-
+                sound = root.getBoolean("sound", true);
+                vibrate = root.getBoolean("vibrate", true);
+                speed = root.getFloat("speed", 0.5f);
+                Localizator.setLanguage(root.getChildByName("language").getText());
+                debug = root.getBoolean("debug", true);
                 lastAboutScreen = root.getInt("lastAboutScreen", 0);
 
                 loadGameSettings(root);
@@ -124,6 +113,7 @@ public class SettingsSaver {
             FieldSize size =  FieldSize.valueOf(settingsXml.getChildByName("fieldSize").getText());
             gameSettings.setSize(size);
             gameSettings.difficulty =  GameDifficulty.valueOf(settingsXml.getChildByName("difficulty").getText());
+            gameSettings.gameForInfluence = settingsXml.getBoolean("gameForInfluence", false);
             int playersNumber = settingsXml.getInt("players",5);
             if (playersNumber < 2 || playersNumber > 5)
                 playersNumber = 5;
@@ -137,7 +127,7 @@ public class SettingsSaver {
 
                 XmlReader.Element playersRoot = settingsXml.getChildByName("customPlayers");
                 for (XmlReader.Element player : playersRoot.getChildrenByName("player")) {
-                    number = Integer.parseInt(player.getAttribute("number", "0"));
+                    number = player.getIntAttribute("number", 0);
                     type = player.getText();
                     players.put(number, PlayerType.valueOf(type));
                     Logger.log("adding customPlayer " + type + " with number " + number);

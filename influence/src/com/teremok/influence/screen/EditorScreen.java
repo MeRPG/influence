@@ -1,16 +1,12 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.influence.Influence;
 import com.teremok.influence.controller.FieldController;
-import com.teremok.influence.controller.MatchSaver;
-import com.teremok.influence.model.Cell;
-import com.teremok.influence.model.FieldModel;
-import com.teremok.influence.model.Match;
-import com.teremok.influence.model.Settings;
+import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Drawer;
@@ -41,7 +37,7 @@ public class EditorScreen extends StaticScreen {
     int fromRoute;
 
 
-    public EditorScreen(Game game, String filename) {
+    public EditorScreen(Influence game, String filename) {
         super(game, filename);
 
     }
@@ -82,7 +78,7 @@ public class EditorScreen extends StaticScreen {
                 Settings.gameSettings.cellsCount = 133;
                 break;
         }
-        match = new Match(Settings.gameSettings);
+        match = new Match(Settings.gameSettings, new Chronicle.MatchChronicle());
         field = match.getFieldController();
         field.setTouchable(Touchable.disabled);
         fieldModel = field.getModel();
@@ -181,12 +177,13 @@ public class EditorScreen extends StaticScreen {
                 }
                 if (keycode == Input.Keys.S) {
                     clearRoutes();
-                    MatchSaver.save(match);
+                    game.getMatchSaver().save(match);
                 }
                 if (keycode == Input.Keys.D) {
-                    match = MatchSaver.load();
+                    match = game.getMatchSaver().load();
                     field = match.getFieldController();
                     field.setTouchable(Touchable.disabled);
+                    field.setMatchChronicle(match.getMatchChronicle());
                     fieldModel = field.getModel();
 
                     stage.getRoot().clearChildren();

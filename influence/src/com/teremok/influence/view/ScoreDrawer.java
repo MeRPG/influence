@@ -118,11 +118,14 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
 
     private void drawAnyOtherStatus(Batch batch, ScoreModel model) {
         BitmapFont statusFont = FontFactory.getStatusFont();
+        if (Localizator.getLanguage().equals(Localizator.LANGUAGE_GERMAN) && model.status.equals(Localizator.getString("touchNearby")))
+            statusFont.setScale(0.95f, 1);
         TextBounds statusBounds = statusFont.getBounds(model.status);
         float statusX = current.getWidth()/2 - statusBounds.width/2;
         float statusY = current.getY() + 16 + (current.getHeight() - 24f + statusBounds.height)/2;
         statusFont.setColor(Drawer.getTextColor());
         statusFont.draw(batch, model.status, statusX, statusY);
+        statusFont.setScale(1,1);
     }
 
     private void drawSubstatus(Batch batch) {

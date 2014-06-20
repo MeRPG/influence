@@ -1,10 +1,10 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.influence.Influence;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.FXPlayer;
 
@@ -16,7 +16,7 @@ public class AboutScreen extends StaticScreen {
 
     private ColoredPanel credits;
 
-    public AboutScreen(Game game, String filename) {
+    public AboutScreen(Influence game, String filename) {
         super(game, filename);
     }
 

@@ -1,10 +1,10 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.ButtonTexture;
@@ -33,7 +33,7 @@ public class MapSizeScreen extends StaticScreen {
     Checkbox xl;
 
 
-    public MapSizeScreen(Game game, String filename) {
+    public MapSizeScreen(Influence game, String filename) {
         super(game, filename);
     }
 
