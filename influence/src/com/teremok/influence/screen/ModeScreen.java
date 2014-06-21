@@ -1,10 +1,12 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Settings;
+import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.RadioTexture;
 import com.teremok.influence.util.Logger;
 
@@ -12,15 +14,22 @@ import com.teremok.influence.util.Logger;
  * Created by Алексей on 01.06.2014
  */
 public class ModeScreen extends StaticScreen {
+
+    private final String DARKNESS = "darkness";
+    private final String NEXT = "next";
+
     public ModeScreen(Influence game, String filename) {
         super(game, filename);
     }
 
     @Override
     protected void addActors() {
-        RadioTexture darknessRadio = new RadioTexture(uiElements.get("darkness"));
+        RadioTexture darknessRadio = new RadioTexture(uiElements.get(DARKNESS));
         darknessRadio.check();
         stage.addActor(darknessRadio);
+
+        ButtonTexture next = new ButtonTexture(uiElements.get(NEXT));
+        stage.addActor(next);
     }
 
     @Override
@@ -45,7 +54,8 @@ public class ModeScreen extends StaticScreen {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return stage.hit(x,y,true) instanceof RadioTexture;
+                Actor target = stage.hit(x,y,true);
+                return target instanceof RadioTexture || target instanceof ButtonTexture;
             }
 
             @Override
@@ -53,13 +63,19 @@ public class ModeScreen extends StaticScreen {
                 if (! event.isHandled() && isInfoMessageVisible()) {
                     hideInfoMessageAnimation();
                 }
-                RadioTexture touchedRadio = (RadioTexture)event.getTarget();
-                switch (touchedRadio.getCode()) {
-                    case "darkness":
-                        Settings.gameSettings.darkness = !Settings.gameSettings.darkness;
-                        touchedRadio.setChecked(Settings.gameSettings.darkness);
-                        break;
-                    default:
+                Actor target = event.getTarget();
+
+                if (target instanceof RadioTexture) {
+                    RadioTexture touchedRadio = (RadioTexture)target;
+                    switch (touchedRadio.getCode()) {
+                        case "darkness":
+                            Settings.gameSettings.darkness = !Settings.gameSettings.darkness;
+                            touchedRadio.setChecked(Settings.gameSettings.darkness);
+                            break;
+                        default:
+                    }
+                } else if (target instanceof ButtonTexture) {
+                    ScreenController.showMapSizeScreen();
                 }
             }
         });
