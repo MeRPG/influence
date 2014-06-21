@@ -213,6 +213,8 @@ public class ScreenController {
             mapSizeScreen.loaded = loaded;
         if (playersScreen!=null)
             playersScreen.loaded = loaded;
+        if (modeScreen!=null)
+            modeScreen.loaded = loaded;
     }
 
 }

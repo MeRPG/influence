@@ -3,6 +3,6 @@
         atlas="modeScreen" localized="false" localizedBackground="true">
     <element name="darkness" region="on" secondRegion="off" localized="true"
             x="170" y="410"/>
-    <element name="next" region="on" localized="true"
-             x="143" y="85"/>
+    <element name="next" region="buttonNext" localized="true"
+             x="150" y="107"/>
 </screen>
