@@ -78,6 +78,12 @@ public class FlurryHelper {
         }
     }
 
+    public static void logModeScreenEvent() {
+        if (flurryEnabled()) {
+            FlurryAgent.logEvent("Mode_Screen");
+        }
+    }
+
     public static void logAboutScreenEvent() {
         if (flurryEnabled()) {
             FlurryAgent.logEvent("About_Screen");
@@ -99,12 +105,6 @@ public class FlurryHelper {
     public static void logStatisticsScreenEvent() {
         if (flurryEnabled()) {
             FlurryAgent.logEvent("Statistics_Screen");
-        }
-    }
-
-    public static void logGameTypeScreenEvent() {
-        if (flurryEnabled()) {
-            FlurryAgent.logEvent("GameType_Screen");
         }
     }
 

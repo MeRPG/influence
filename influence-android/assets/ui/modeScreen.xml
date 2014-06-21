@@ -1,0 +1,6 @@
+<?xml version="1.0"  standalone="no"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
+        atlas="modeScreen" localized="false" localizedBackground="true">
+    <element name="darkness" region="on" secondRegion="off" localized="true"
+            x="170" y="410"/>
+</screen>

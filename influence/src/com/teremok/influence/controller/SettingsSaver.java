@@ -38,7 +38,7 @@ public class SettingsSaver {
                     .element("vibrate", vibrate)
                     .element("speed", speed)
                     .element("language", Localizator.getLanguage())
-                    .element("debug", false)
+                    .element("debug", debug)
                     .element("lastAboutScreen", lastAboutScreen);
 
             saveGameSettings(root);
@@ -58,6 +58,7 @@ public class SettingsSaver {
                 .element("players", gameSettings.getNumberOfPlayers())
                 .element("difficulty", gameSettings.difficulty)
                 .element("fieldSize", gameSettings.fieldSize)
+                .element("darkness", gameSettings.darkness)
                 .element("gameForInfluence", gameSettings.gameForInfluence);
         XmlWriter playersXml = gameXml.element("customPlayers");
         int num = 0;
@@ -114,6 +115,7 @@ public class SettingsSaver {
             gameSettings.setSize(size);
             gameSettings.difficulty =  GameDifficulty.valueOf(settingsXml.getChildByName("difficulty").getText());
             gameSettings.gameForInfluence = settingsXml.getBoolean("gameForInfluence", false);
+            gameSettings.darkness = settingsXml.getBoolean("darkness", false);
             int playersNumber = settingsXml.getInt("players",5);
             if (playersNumber < 2 || playersNumber > 5)
                 playersNumber = 5;

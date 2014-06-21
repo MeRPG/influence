@@ -24,7 +24,7 @@ public class ScreenController {
     private static PlayersScreen playersScreen;
     private static EditorScreen editorScreen;
     private static StatisticsScreen statisticsScreen;
-    private static GameTypeScreen gameTypeScreen;
+    private static ModeScreen modeScreen;
 
     public static void init(Influence game) {
         ScreenController.game = game;
@@ -67,12 +67,12 @@ public class ScreenController {
         gracefullyShowScreen(settingsScreen);
     }
 
-    public static void showGameTypeScreen() {
-        if (gameTypeScreen == null) {
-            gameTypeScreen = new GameTypeScreen(game, "aboutScreen");
+    public static void showModeScreen() {
+        if (modeScreen == null) {
+            modeScreen = new ModeScreen(game, "modeScreen");
         }
-        FlurryHelper.logGameTypeScreenEvent();
-        gracefullyShowScreen(gameTypeScreen);
+        FlurryHelper.logModeScreenEvent();
+        gracefullyShowScreen(modeScreen);
     }
 
     public static void showEditorScreen() {

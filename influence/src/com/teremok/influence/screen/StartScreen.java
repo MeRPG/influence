@@ -97,7 +97,7 @@ public class StartScreen extends StaticScreen {
                             break;
                         case NEWGAME:
                             FlurryHelper.logNewGameEvent(game.getMatchSaver().hasNotEnded());
-                            ScreenController.showMapSizeScreen();
+                            ScreenController.showModeScreen();
                             break;
                         case SETTINGS:
                             ScreenController.showSettingsScreen();

@@ -18,6 +18,7 @@ public class GameSettings {
     public int cellsCount;
 
     public boolean gameForInfluence;
+    public boolean darkness;
 
     public Map<Integer, PlayerType> customPlayers;
 
@@ -27,6 +28,7 @@ public class GameSettings {
         settings.customPlayers = getPlayersByDifficulty(GameDifficulty.NORMAL, 5);
         settings.setSize(FieldSize.NORMAL);
         settings.difficulty = GameDifficulty.NORMAL;
+        settings.darkness = true;
         return settings;
     }
 
