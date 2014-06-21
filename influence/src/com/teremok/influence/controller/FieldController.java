@@ -449,19 +449,25 @@ public class FieldController extends Group {
         }
     }
 
-    public boolean isTooltipVisible (float tooltipX, float tooltipY) {
-        return  tooltipX > -5
-                && tooltipX < AbstractScreen.WIDTH
-                && tooltipY > (AbstractScreen.HEIGHT - FieldModel.HEIGHT-5)
-                && tooltipY < AbstractScreen.HEIGHT;
-    }
-
     public boolean isCellVisible(Cell cell) {
-        if (cell.getType() == 0){
-            return true;
-        }
-        for (Cell enemy : cell.getEnemies()) {
-            if (enemy.getType() == 0) {
+
+        float absoluteCellX = cell.getX() + getX();
+        float absoluteCellY = cell.getY() + getY();
+        float actualCellWidth = cellWidth*GestureController.getZoom();
+        if (absoluteCellX > (-actualCellWidth/2)
+                && absoluteCellX < AbstractScreen.WIDTH
+                && absoluteCellY > (AbstractScreen.HEIGHT - FieldModel.HEIGHT-actualCellWidth/2)
+                && absoluteCellY < AbstractScreen.HEIGHT ) {
+            if (Settings.gameSettings.darkness) {
+                if (cell.getType() == 0) {
+                    return true;
+                }
+                for (Cell enemy : cell.getEnemies()) {
+                    if (enemy.getType() == 0) {
+                        return true;
+                    }
+                }
+            } else {
                 return true;
             }
         }
