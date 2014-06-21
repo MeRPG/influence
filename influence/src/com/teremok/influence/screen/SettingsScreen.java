@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
-import com.teremok.influence.controller.SettingsSaver;
+import com.teremok.influence.controller.SettingsController;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
@@ -158,7 +158,7 @@ public class SettingsScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    SettingsSaver.save();
+                    SettingsController.save();
                     FlurryHelper.logSettingsChangeEvent();
                     ScreenController.showStartScreen();
                     return true;

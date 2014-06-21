@@ -379,10 +379,10 @@ public class GameScreen extends StaticScreen {
                         Localizator.switchLanguage();
                     }
                     if (keycode == Keys.I) {
-                        SettingsSaver.load();
+                        SettingsController.load();
                     }
                     if (keycode == Keys.O) {
-                        SettingsSaver.save();
+                        SettingsController.save();
                     }
                     if (keycode == Keys.PLUS && gestureController.bigField() && !match.isPaused()) {
                         GestureController.addZoom();

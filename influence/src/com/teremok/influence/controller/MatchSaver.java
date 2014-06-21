@@ -88,7 +88,7 @@ public class MatchSaver {
         }
         playersXml.pop();
 
-        SettingsSaver.saveGameSettings(xmlMatch);
+        SettingsController.saveGameSettings(xmlMatch);
 
         XmlWriter fieldXml = xml.element(FIELD);
         FieldModel fieldModel = match.getFieldController().getModel();
@@ -137,7 +137,7 @@ public class MatchSaver {
 
             XmlReader.Element root = reader.parse(handle.reader());
 
-            SettingsSaver.loadGameSettings(root);
+            SettingsController.loadGameSettings(root);
 
             GameSettings gameSettings = Settings.gameSettings;
 

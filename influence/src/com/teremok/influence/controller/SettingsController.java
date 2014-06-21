@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
-import com.teremok.influence.model.FieldSize;
-import com.teremok.influence.model.GameDifficulty;
-import com.teremok.influence.model.GameSettings;
-import com.teremok.influence.model.Localizator;
+import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.util.Logger;
 
@@ -16,17 +13,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.teremok.influence.model.Settings.*;
 import static com.teremok.influence.util.IOConstants.DIR;
 import static com.teremok.influence.util.IOConstants.SETTINGS_PATH;
 
 /**
  * Created by Алексей on 19.05.2014
  */
-public class SettingsSaver {
+public class SettingsController {
 
 
-    public static void save() {
+    public void save(Settings settings) {
         FileHandle handle = Gdx.files.external(SETTINGS_PATH);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
@@ -34,14 +30,14 @@ public class SettingsSaver {
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter root = xml.element("settings");
 
-            root.element("sound", sound)
-                    .element("vibrate", vibrate)
-                    .element("speed", speed)
+            root.element("sound", settings.sound)
+                    .element("vibrate", settings.vibrate)
+                    .element("speed", settings.speed)
                     .element("language", Localizator.getLanguage())
-                    .element("debug", false)
-                    .element("lastAboutScreen", lastAboutScreen);
+                    .element("debug", settings.debug)
+                    .element("lastAboutScreen", settings.lastAboutScreen);
 
-            saveGameSettings(root);
+            saveGameSettings(settings.gameSettings, root);
 
             root.pop();
 
@@ -52,7 +48,7 @@ public class SettingsSaver {
         }
     }
 
-    public static void saveGameSettings(XmlWriter root) throws IOException{
+    public void saveGameSettings(GameSettings gameSettings, XmlWriter root) throws IOException{
         XmlWriter gameXml = root.element("game");
         gameXml
                 .element("players", gameSettings.getNumberOfPlayers())
@@ -71,45 +67,51 @@ public class SettingsSaver {
         gameXml.pop();
     }
 
-    public static boolean load() {
+    public Settings load() {
+        return load(new Settings());
+    }
+
+    public Settings load(Settings settings) {
+        SettingsController.checkDirs();
         FileHandle handle = Gdx.files.external(SETTINGS_PATH);
         if (handle.exists()) {
             try{
                 XmlReader reader = new XmlReader();
-
                 XmlReader.Element root = reader.parse(handle.reader());
 
-                sound = root.getBoolean("sound", true);
-                vibrate = root.getBoolean("vibrate", true);
-                speed = root.getFloat("speed", 0.5f);
+                settings.sound = root.getBoolean("sound", true);
+                settings.vibrate = root.getBoolean("vibrate", true);
+                settings.speed = root.getFloat("speed", 0.5f);
                 Localizator.setLanguage(root.getChildByName("language").getText());
-                debug = root.getBoolean("debug", true);
-                lastAboutScreen = root.getInt("lastAboutScreen", 0);
+                settings.debug = root.getBoolean("debug", true);
+                settings.lastAboutScreen = root.getInt("lastAboutScreen", 0);
 
-                loadGameSettings(root);
+                loadGameSettings(settings, root);
 
-                return true;
+                return settings;
             } catch (IOException exception) {
                 exception.printStackTrace();
-                return false;
+                return settings.reset();
             } catch (RuntimeException exception) {
                 exception.printStackTrace();
-                return false;
+                return settings.reset();
             }
         } else {
-            return false;
+            return settings.reset();
         }
     }
 
-    public static void loadGameSettings(XmlReader.Element root) {
+    public void loadGameSettings(Settings settings, XmlReader.Element root) {
+
+        GameSettings gameSettings = settings.gameSettings;
         try {
 
             if (root.toString().equals("<match/>")){
                 return;
             }
 
+
             XmlReader.Element settingsXml = root.getChildByName("game");
-            gameSettings = new GameSettings();
             FieldSize size =  FieldSize.valueOf(settingsXml.getChildByName("fieldSize").getText());
             gameSettings.setSize(size);
             gameSettings.difficulty =  GameDifficulty.valueOf(settingsXml.getChildByName("difficulty").getText());
@@ -145,7 +147,7 @@ public class SettingsSaver {
         }
 
         if (gameSettings == null || gameSettings.players == null || gameSettings.difficulty == null || gameSettings.fieldSize == null) {
-            gameSettings = GameSettings.getDefault();
+            settings.gameSettings = GameSettings.getDefault();
         }
 
     }
