@@ -68,7 +68,7 @@ public class MapSizeScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    ScreenController.showStartScreen();
+                    ScreenController.showModeScreen();
                     return true;
                 }
                 return false;
