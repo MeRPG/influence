@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
-import com.teremok.influence.model.Settings;
+import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.Checkbox;
 import com.teremok.influence.ui.RadioTexture;
@@ -21,17 +21,19 @@ public class ModeScreen extends StaticScreen {
     private static final String NEXT = "next";
 
     Checkbox darkness;
+    GameSettings gameSettings;
 
 
     public ModeScreen(Influence game, String filename) {
         super(game, filename);
+        gameSettings = game.getSettings().gameSettings;
     }
 
     @Override
     protected void addActors() {
 
         darkness = new RadioTexture(uiElements.get(DARKNESS));
-        darkness.setChecked(Settings.gameSettings.darkness);
+        darkness.setChecked(gameSettings.darkness);
 
         ButtonTexture next = new ButtonTexture(uiElements.get(NEXT));
 
@@ -54,11 +56,7 @@ public class ModeScreen extends StaticScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Actor hit = stage.hit(x, y, true);
-                if (hit != null) {
-                    return hit instanceof Checkbox || hit instanceof ButtonTexture;
-                } else {
-                    return false;
-                }
+                return hit != null && (hit instanceof Checkbox || hit instanceof ButtonTexture);
             }
 
             @Override
@@ -74,11 +72,11 @@ public class ModeScreen extends StaticScreen {
                         Checkbox selectedSize = (Checkbox) target;
                         switch (selectedSize.getCode()) {
                             case DARKNESS:
-                                Settings.gameSettings.darkness = !Settings.gameSettings.darkness;
-                                darkness.setChecked(Settings.gameSettings.darkness);
+                                gameSettings.darkness = !gameSettings.darkness;
+                                darkness.setChecked(gameSettings.darkness);
                                 break;
                         }
-                        Logger.log("Darkness: " + Settings.gameSettings.darkness);
+                        Logger.log("Darkness: " + gameSettings.darkness);
                     }
                 }
             }

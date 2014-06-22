@@ -108,7 +108,7 @@ public class MapSizeScreen extends StaticScreen {
                                 settings.gameSettings.setSize(FieldSize.XLARGE);
                                 break;
                         }
-                        Logger.log("Field size: " + Settings.gameSettings.fieldSize);
+                        Logger.log("Field size: " + settings.gameSettings.fieldSize);
                         checkSelectedSize();
                     }
                 }

@@ -398,7 +398,7 @@ public class FieldController extends Group {
         float tooltipX = calculateTooltipX(cell.getX());
         float tooltipY = calculateTooltipY(cell.getY());
 
-        if (isCellVisible(cell)) {{
+        if (isCellVisible(cell)) {
             TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY), Drawer.getUnitSize(model.maxCellsY));
         }
     }
