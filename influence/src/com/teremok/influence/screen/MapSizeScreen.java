@@ -12,6 +12,7 @@ import com.teremok.influence.ui.Checkbox;
 import com.teremok.influence.ui.RadioGroup;
 import com.teremok.influence.ui.RadioTexture;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.Logger;
 
 /**
  * Created by Алексей on 29.03.14
@@ -109,6 +110,7 @@ public class MapSizeScreen extends StaticScreen {
                                 Settings.gameSettings.setSize(FieldSize.XLARGE);
                                 break;
                         }
+                        Logger.log("Field size: " + Settings.gameSettings.fieldSize);
                         checkSelectedSize();
                     }
                 }
