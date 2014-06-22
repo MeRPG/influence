@@ -39,6 +39,7 @@ public class ScreenController {
             mapSizeScreen = null;
             playersScreen = null;
             statisticsScreen = null;
+            modeScreen = null;
             ResourceManager.disposeAll();
         }
         startScreen = new StartScreen(game, "startScreen");
