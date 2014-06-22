@@ -12,12 +12,15 @@ import java.net.URL;
  */
 public class AboutScreenChecker implements Runnable {
 
-    public static void check() {
-        Thread thread = new Thread( new AboutScreenChecker());
+    public static void check(Settings settings) {
+        Thread thread = new Thread( new AboutScreenChecker(settings));
         thread.start();
     }
 
-    private AboutScreenChecker() {
+    Settings settings;
+
+    private AboutScreenChecker(Settings settings) {
+        this.settings = settings;
     }
 
     @Override
@@ -30,8 +33,8 @@ public class AboutScreenChecker implements Runnable {
             is.close();
 
             int i = Integer.parseInt(new String(fileHandle.readBytes()));
-            if (i != Settings.lastAboutScreen) {
-                Settings.lastAboutScreen = 0;
+            if (i != settings.lastAboutScreen) {
+                settings.lastAboutScreen = 0;
 
 
                 fileHandle = Gdx.files.external("/.influence/atlas/aboutScreen.pack");
@@ -52,7 +55,7 @@ public class AboutScreenChecker implements Runnable {
                 fileHandle.write(is,false);
                 is.close();
 
-                Settings.lastAboutScreen = i;
+                settings.lastAboutScreen = i;
 
                 Logger.log("new about screen: " + i);
             } else {

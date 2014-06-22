@@ -1,5 +1,7 @@
 package com.teremok.influence.model.player;
 
+import com.badlogic.gdx.Gdx;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.model.Settings;
@@ -15,6 +17,7 @@ public class ComputerPlayer extends Player {
     protected Move nextMove;
     protected Random rnd = new Random();
     protected float turnTime;
+    protected Settings settings;
 
     protected class Move {
         protected Cell cell;
@@ -29,6 +32,7 @@ public class ComputerPlayer extends Player {
     public ComputerPlayer(int type, Match match) {
         super(type, match);
         this.type = PlayerType.Dummy;
+        settings = ((Influence)Gdx.app.getApplicationListener()).getSettings();
     }
 
     protected void actLogic(float delta) {
@@ -47,7 +51,7 @@ public class ComputerPlayer extends Player {
                 match.switchPhase();
             }
         } else {
-            if (turnTime > Settings.speed) {
+            if (turnTime > settings.speed) {
                 doNextMove();
                 turnTime = 0;
             }

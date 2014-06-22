@@ -30,7 +30,8 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
 
         batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
-        zoomedUnitSize = Drawer.getUnitSize()* GestureController.getZoom();
+        int maxCellsY = field.getModel().maxCellsY;
+        zoomedUnitSize = Drawer.getUnitSize(maxCellsY)* GestureController.getZoom();
 
         if (routes == null){
             routes = new boolean[140][140];

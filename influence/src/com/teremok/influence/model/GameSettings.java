@@ -63,7 +63,7 @@ public class GameSettings {
     }
 
     public static Map<Integer, PlayerType> singlePlayerEasy(int playersNumber) {
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
         switch (playersNumber) {
             case 5:
                 players.put(4, PlayerType.Lazy);
@@ -82,7 +82,7 @@ public class GameSettings {
     }
 
     public static Map<Integer, PlayerType>   singlePlayerNormal(int playersNumber) {
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
 
         switch (playersNumber) {
             case 5:
@@ -100,7 +100,7 @@ public class GameSettings {
     }
 
     public static Map<Integer, PlayerType> singlePlayerHard(int playersNumber) {
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
 
         switch (playersNumber) {
             case 5:
@@ -118,7 +118,7 @@ public class GameSettings {
     }
 
     public static Map<Integer, PlayerType> singlePlayerInsane(int playersNumber) {
-        Map<Integer, PlayerType> players = new HashMap<Integer, PlayerType>();
+        Map<Integer, PlayerType> players = new HashMap<>();
 
         switch (playersNumber) {
             case 5:
@@ -185,5 +185,41 @@ public class GameSettings {
         } else {
             return 0;
         }
+    }
+
+    // Auto-generated
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GameSettings)) return false;
+
+        GameSettings that = (GameSettings) o;
+
+        if (cellsCount != that.cellsCount) return false;
+        if (gameForInfluence != that.gameForInfluence) return false;
+        if (maxCellsX != that.maxCellsX) return false;
+        if (maxCellsY != that.maxCellsY) return false;
+        if (customPlayers != null ? !customPlayers.equals(that.customPlayers) : that.customPlayers != null)
+            return false;
+        if (difficulty != that.difficulty) return false;
+        if (fieldSize != that.fieldSize) return false;
+        if (!players.equals(that.players)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = players.hashCode();
+        result = 31 * result + difficulty.hashCode();
+        result = 31 * result + fieldSize.hashCode();
+        result = 31 * result + maxCellsX;
+        result = 31 * result + maxCellsY;
+        result = 31 * result + cellsCount;
+        result = 31 * result + (gameForInfluence ? 1 : 0);
+        result = 31 * result + (customPlayers != null ? customPlayers.hashCode() : 0);
+        return result;
     }
 }

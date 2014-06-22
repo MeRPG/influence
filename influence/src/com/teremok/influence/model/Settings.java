@@ -1,38 +1,30 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.controller.SettingsSaver;
-
 /**
  * Created by Alexx on 07.02.14
  */
 public class Settings {
 
-    public static final float FAST = 0.25f;
-    public static final float NORMAL = 0.4f;
-    public static final float SLOW = 0.6f;
+    public final float FAST = 0.25f;
+    public final float NORMAL = 0.4f;
+    public final float SLOW = 0.6f;
 
-    public static boolean sound;
-    public static boolean vibrate;
-    public static float speed;
+    public boolean sound = true;
+    public boolean vibrate = true;
+    public float speed = NORMAL;
 
-    public static int lastAboutScreen = 1;
+    public int lastAboutScreen = 1;
 
-    public static boolean debug = true;
+    public boolean debug = true;
 
-    public static GameSettings gameSettings;
+    public GameSettings gameSettings = GameSettings.getDefault();
 
-    public static void reset() {
+    public Settings reset() {
         sound = true;
         vibrate = true;
         speed = NORMAL;
         debug = true;
         gameSettings = GameSettings.getDefault();
-    }
-
-    public static void init() {
-        SettingsSaver.checkDirs();
-        reset();
-        if (! SettingsSaver.load())
-            reset();
+        return this;
     }
 }

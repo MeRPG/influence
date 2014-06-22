@@ -29,6 +29,8 @@ public class EditorScreen extends StaticScreen {
     Match match;
     FieldController field;
 
+    GameSettings gameSettings;
+
     FieldModel fieldModel;
 
     public List<Cell> hiddenCells;
@@ -39,7 +41,7 @@ public class EditorScreen extends StaticScreen {
 
     public EditorScreen(Influence game, String filename) {
         super(game, filename);
-
+        gameSettings = game.getSettings().gameSettings;
     }
 
     void initBorders() {
@@ -64,21 +66,21 @@ public class EditorScreen extends StaticScreen {
     @Override
     protected void addActors() {
         Drawer.MIN_SIZE_FOR_TEXT = 5;
-        switch (Settings.gameSettings.fieldSize) {
+        switch (gameSettings.fieldSize) {
             case SMALL:
-                Settings.gameSettings.cellsCount = 18;
+                gameSettings.cellsCount = 18;
                 break;
             case NORMAL:
-                Settings.gameSettings.cellsCount = 32;
+                gameSettings.cellsCount = 32;
                 break;
             case LARGE:
-                Settings.gameSettings.cellsCount = 65;
+                gameSettings.cellsCount = 65;
                 break;
             case XLARGE:
-                Settings.gameSettings.cellsCount = 133;
+                gameSettings.cellsCount = 133;
                 break;
         }
-        match = new Match(Settings.gameSettings, new Chronicle.MatchChronicle());
+        match = new Match(gameSettings, new Chronicle.MatchChronicle());
         field = match.getFieldController();
         field.setTouchable(Touchable.disabled);
         fieldModel = field.getModel();
@@ -146,7 +148,7 @@ public class EditorScreen extends StaticScreen {
 
                             int type = target.getType();
                             type++;
-                            if (type >= Settings.gameSettings.getNumberOfPlayers()) {
+                            if (type >= gameSettings.getNumberOfPlayers()) {
                                 type = -1;
                             }
                             target.setType(type);

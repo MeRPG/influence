@@ -33,9 +33,11 @@ public class MapSizeScreen extends StaticScreen {
     Checkbox l;
     Checkbox xl;
 
+    Settings settings;
 
     public MapSizeScreen(Influence game, String filename) {
         super(game, filename);
+        settings = game.getSettings();
     }
 
     @Override
@@ -78,11 +80,7 @@ public class MapSizeScreen extends StaticScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Actor hit = stage.hit(x, y, true);
-                if (hit != null) {
-                    return hit instanceof Checkbox || hit instanceof ButtonTexture;
-                } else {
-                    return false;
-                }
+                return hit != null && (hit instanceof Checkbox || hit instanceof ButtonTexture);
             }
 
             @Override
@@ -98,16 +96,16 @@ public class MapSizeScreen extends StaticScreen {
                         Checkbox selectedSize = (Checkbox) target;
                         switch (selectedSize.getCode()) {
                             case S:
-                                Settings.gameSettings.setSize(FieldSize.SMALL);
+                                settings.gameSettings.setSize(FieldSize.SMALL);
                                 break;
                             case M:
-                                Settings.gameSettings.setSize(FieldSize.NORMAL);
+                                settings.gameSettings.setSize(FieldSize.NORMAL);
                                 break;
                             case L:
-                                Settings.gameSettings.setSize(FieldSize.LARGE);
+                                settings.gameSettings.setSize(FieldSize.LARGE);
                                 break;
                             case XL:
-                                Settings.gameSettings.setSize(FieldSize.XLARGE);
+                                settings.gameSettings.setSize(FieldSize.XLARGE);
                                 break;
                         }
                         Logger.log("Field size: " + Settings.gameSettings.fieldSize);
@@ -119,7 +117,7 @@ public class MapSizeScreen extends StaticScreen {
     }
 
     private void checkSelectedSize() {
-        switch (Settings.gameSettings.fieldSize) {
+        switch (settings.gameSettings.fieldSize) {
             case SMALL:
                 s.check();
                 break;

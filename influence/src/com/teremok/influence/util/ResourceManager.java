@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.Settings;
 
 import java.util.HashMap;
@@ -12,6 +13,9 @@ import java.util.Map;
 /**
  * Created by Alexx on 24.02.14
  */
+
+//TODO избавиться от статичности
+@SuppressWarnings("unused")
 public class ResourceManager {
 
 
@@ -30,7 +34,8 @@ public class ResourceManager {
         String externalPath = ATLAS_PATH_EXTERNAL + atlasName + ATLAS_EXT;
         TextureAtlas atlas;
         Logger.log("Load atlas " + atlasName);
-        if ((Settings.debug || Settings.lastAboutScreen != 0 && atlasName.equals("aboutScreen")) && Gdx.files.external(externalPath).exists()) {
+        Settings settings = ((Influence)Gdx.app.getApplicationListener()).getSettings();
+        if ((settings.debug || settings.lastAboutScreen != 0 && atlasName.equals("aboutScreen")) && Gdx.files.external(externalPath).exists()) {
             atlas= new TextureAtlas(Gdx.files.external(externalPath));
             Logger.log("use external path: " + externalPath);
         } else {
@@ -51,7 +56,7 @@ public class ResourceManager {
                 loadAtlas(atlasName);
             }
         } else {
-            atlases = new HashMap<String, TextureAtlas>();
+            atlases = new HashMap<>();
             loadAtlas(atlasName);
         }
         return atlases.get(atlasName);
@@ -78,7 +83,8 @@ public class ResourceManager {
     public static FileHandle getScreenUi(String screenName) {
         String internalPath = UI_PATH_INTERNAL + screenName + UI_EXT;
         String externalPath = UI_PATH_EXTERNAL + screenName + UI_EXT;
-        if (Settings.debug && Gdx.files.external(externalPath).exists()) {
+        Settings settings = ((Influence)Gdx.app.getApplicationListener()).getSettings();
+        if (settings.debug && Gdx.files.external(externalPath).exists()) {
             return Gdx.files.external(externalPath);
         } else {
             return Gdx.files.internal(internalPath);

@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
-import com.teremok.influence.controller.SettingsSaver;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
@@ -28,18 +27,20 @@ public class SettingsScreen extends StaticScreen {
     private static final int LANGUAGE_GROUP = 1;
     private static final int SPEED_GROUP = 2;
 
+    Settings settings;
 
     public SettingsScreen(Influence game, String filename) {
         super(game, filename);
+        settings = game.getSettings();
     }
 
     @Override
     protected void addActors() {
         Checkbox sounds = new CheckboxTexture(uiElements.get(SOUNDS));
-        sounds.setChecked(Settings.sound);
+        sounds.setChecked(settings.sound);
 
         Checkbox vibrate = new CheckboxTexture(uiElements.get(VIBRATE));
-        vibrate.setChecked(Settings.vibrate);
+        vibrate.setChecked(settings.vibrate);
 
         RadioGroup languageGroup = new RadioGroup(LANGUAGE_GROUP);
         Checkbox russian = new RadioTexture(uiElements.get(Localizator.LANGUAGE_RUSSIAN));
@@ -69,11 +70,11 @@ public class SettingsScreen extends StaticScreen {
         normal.addToGroup(speedGroup);
         fast.addToGroup(speedGroup);
 
-        if (Settings.speed == Settings.NORMAL) {
+        if (settings.speed == settings.NORMAL) {
             normal.check();
-        } else if (Settings.speed == Settings.SLOW) {
+        } else if (settings.speed == settings.SLOW) {
             slow.check();
-        } else if (Settings.speed == Settings.FAST) {
+        } else if (settings.speed == settings.FAST) {
             fast.check();
         }
 
@@ -116,10 +117,10 @@ public class SettingsScreen extends StaticScreen {
                         RadioGroup group = (RadioGroup)checkbox.getGroup();
                         if (group == null) {
                             if (code.equals(VIBRATE)) {
-                                Settings.vibrate = checkbox.isChecked();
+                                settings.vibrate = checkbox.isChecked();
                                 Vibrator.bzz();
                             } else if (code.equals(SOUNDS)) {
-                                Settings.sound = checkbox.isChecked();
+                                settings.sound = checkbox.isChecked();
                             }
                         } else {
                             if (group.getCode() == LANGUAGE_GROUP) {
@@ -139,13 +140,13 @@ public class SettingsScreen extends StaticScreen {
                             } else {
                                 switch (code) {
                                     case SPEED_NORMAL:
-                                        Settings.speed = Settings.NORMAL;
+                                        settings.speed = settings.NORMAL;
                                         break;
                                     case SPEED_FAST:
-                                        Settings.speed = Settings.FAST;
+                                        settings.speed = settings.FAST;
                                         break;
                                     case SPEED_SLOW:
-                                        Settings.speed = Settings.SLOW;
+                                        settings.speed = settings.SLOW;
                                         break;
                                 }
                             }
@@ -158,8 +159,8 @@ public class SettingsScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    SettingsSaver.save();
-                    FlurryHelper.logSettingsChangeEvent();
+                    game.getSettingsController().save(settings);
+                    FlurryHelper.logSettingsChangeEvent(settings);
                     ScreenController.showStartScreen();
                     return true;
                 }

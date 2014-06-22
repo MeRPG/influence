@@ -15,10 +15,10 @@ public class TooltipHandler extends Group {
         return instance;
     }
 
-    public static void addTooltip(Tooltip tooltip) {
+    public static void addTooltip(Tooltip tooltip, float offset) {
         int nextId = getInstance().getChildren().size+1;
         tooltip.setId(nextId);
-        tooltip.addActions();
+        tooltip.addActions(offset);
         getInstance().addActor(tooltip);
     }
 }

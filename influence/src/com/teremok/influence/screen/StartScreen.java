@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
-import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.model.Localizator;
-import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
@@ -36,9 +34,7 @@ public class StartScreen extends StaticScreen {
 
     public StartScreen(Influence game, String filename) {
         super(game, filename);
-        Settings.init();
-        Logger.init();
-        AboutScreenChecker.check();
+        AboutScreenChecker.check(game.getSettings());
     }
 
     @Override
@@ -93,7 +89,6 @@ public class StartScreen extends StaticScreen {
                         case CONTINUE:
                             FlurryHelper.logContinueGameEvent();
                             ScreenController.continueGame();
-                            GestureController.resetZoom();
                             break;
                         case NEWGAME:
                             FlurryHelper.logNewGameEvent(game.getMatchSaver().hasNotEnded());

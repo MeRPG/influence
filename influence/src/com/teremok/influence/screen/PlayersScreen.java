@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.GameDifficulty;
-import com.teremok.influence.model.Settings;
+import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FXPlayer;
@@ -39,6 +39,8 @@ public class PlayersScreen extends StaticScreen {
 
     private static final int DIFFICULTY_GROUP = 13;
 
+    GameSettings gameSettings;
+
     Checkbox easy;
     Checkbox normal;
     Checkbox hard;
@@ -53,10 +55,12 @@ public class PlayersScreen extends StaticScreen {
     TexturePanel playerPurple;
 
     PlayerTypeUI[] players;
-    int numberOfPlayers = Settings.gameSettings.getNumberOfPlayers();
+    int numberOfPlayers;
 
     public PlayersScreen(Influence game, String filename) {
         super(game, filename);
+        gameSettings = game.getSettings().gameSettings;
+        numberOfPlayers = gameSettings.getNumberOfPlayers();
     }
 
     @Override
@@ -132,14 +136,14 @@ public class PlayersScreen extends StaticScreen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
                     ScreenController.showMapSizeScreen();
-                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
-                        Settings.gameSettings.customPlayers.putAll(Settings.gameSettings.players);
+                    if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                        gameSettings.customPlayers.putAll(gameSettings.players);
                     }
                     return true;
                 }
                 if (! event.isHandled() && (keycode == Input.Keys.E)) {
-                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
-                        Settings.gameSettings.customPlayers.putAll(Settings.gameSettings.players);
+                    if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                        gameSettings.customPlayers.putAll(gameSettings.players);
                     }
                     ScreenController.showEditorScreen();
                 }
@@ -160,42 +164,42 @@ public class PlayersScreen extends StaticScreen {
                         return;
                     FXPlayer.playClick();
                     if (target instanceof PlayerTypeUI) {
-                        if (Settings.gameSettings.difficulty != GameDifficulty.CUSTOM) {
-                            Settings.gameSettings.customPlayers = Settings.gameSettings.getPlayers(Settings.gameSettings.difficulty, 5);
-                            Settings.gameSettings.difficulty = GameDifficulty.CUSTOM;
+                        if (gameSettings.difficulty != GameDifficulty.CUSTOM) {
+                            gameSettings.customPlayers = gameSettings.getPlayers(gameSettings.difficulty, 5);
+                            gameSettings.difficulty = GameDifficulty.CUSTOM;
                         }
                         PlayerTypeUI type = (PlayerTypeUI)target;
                         type.next();
                         switch (type.getCode()) {
                             case GREEN:
                                 if (playerGreen.isVisible()) {
-                                    Settings.gameSettings.players.put(1, type.getType());
-                                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
-                                        Settings.gameSettings.customPlayers.put(1, type.getType());
+                                    gameSettings.players.put(1, type.getType());
+                                    if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                        gameSettings.customPlayers.put(1, type.getType());
                                     }
                                 }
                                 break;
                             case YELLOW:
                                 if (playerGreen.isVisible()) {
-                                    Settings.gameSettings.players.put(2, type.getType());
-                                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
-                                        Settings.gameSettings.customPlayers.put(2, type.getType());
+                                    gameSettings.players.put(2, type.getType());
+                                    if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                        gameSettings.customPlayers.put(2, type.getType());
                                     }
                                 }
                                 break;
                             case RED:
                                 if (playerGreen.isVisible()) {
-                                    Settings.gameSettings.players.put(3, type.getType());
-                                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
-                                        Settings.gameSettings.customPlayers.put(3, type.getType());
+                                    gameSettings.players.put(3, type.getType());
+                                    if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                        gameSettings.customPlayers.put(3, type.getType());
                                     }
                                 }
                                 break;
                             case PURPLE:
                                 if (playerGreen.isVisible()) {
-                                    Settings.gameSettings.players.put(4, type.getType());
-                                    if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
-                                        Settings.gameSettings.customPlayers.put(4, type.getType());
+                                    gameSettings.players.put(4, type.getType());
+                                    if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                        gameSettings.customPlayers.put(4, type.getType());
                                     }
                                 }
                                 break;
@@ -205,15 +209,15 @@ public class PlayersScreen extends StaticScreen {
                         switch (clicked.getCode()) {
                             case START:
                                 ScreenController.startSingleplayerGame();
-                                if (Settings.gameSettings.difficulty == GameDifficulty.CUSTOM) {
-                                    Settings.gameSettings.customPlayers.putAll(Settings.gameSettings.players);
+                                if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
+                                    gameSettings.customPlayers.putAll(gameSettings.players);
                                 }
                                 break;
                             case DELETE:
                                 numberOfPlayers--;
                                 break;
                             case ADD:
-                                Settings.gameSettings.players.put(numberOfPlayers, Settings.gameSettings.customPlayers.get(numberOfPlayers));
+                                gameSettings.players.put(numberOfPlayers, gameSettings.customPlayers.get(numberOfPlayers));
                                 numberOfPlayers++;
                                 break;
                         }
@@ -221,17 +225,17 @@ public class PlayersScreen extends StaticScreen {
                         Checkbox selectedSize = (Checkbox) target;
                         switch (selectedSize.getCode()) {
                             case EASY:
-                                Settings.gameSettings.difficulty = GameDifficulty.EASY;
+                                gameSettings.difficulty = GameDifficulty.EASY;
                                 break;
                             case NORMAL:
-                                Settings.gameSettings.difficulty = GameDifficulty.NORMAL;
+                                gameSettings.difficulty = GameDifficulty.NORMAL;
                                 break;
                             case HARD:
-                                Settings.gameSettings.difficulty = GameDifficulty.HARD;
+                                gameSettings.difficulty = GameDifficulty.HARD;
                                 break;
                             case CUSTOM:
-                                Settings.gameSettings.customPlayers = Settings.gameSettings.getPlayers(Settings.gameSettings.difficulty, 5);
-                                Settings.gameSettings.difficulty = GameDifficulty.CUSTOM;
+                                gameSettings.customPlayers = gameSettings.getPlayers(gameSettings.difficulty, 5);
+                                gameSettings.difficulty = GameDifficulty.CUSTOM;
                                 break;
                         }
                     }
@@ -242,7 +246,7 @@ public class PlayersScreen extends StaticScreen {
     }
 
     private void checkSelectedDifficulty() {
-        switch (Settings.gameSettings.difficulty) {
+        switch (gameSettings.difficulty) {
             case EASY:
                 easy.check();
                 break;
@@ -256,9 +260,9 @@ public class PlayersScreen extends StaticScreen {
 
                 for (int i = 0; i < 5; i++) {
                     if (i < numberOfPlayers) {
-                        Settings.gameSettings.players.put(i, Settings.gameSettings.customPlayers.get(i));
+                        gameSettings.players.put(i, gameSettings.customPlayers.get(i));
                     } else {
-                        Settings.gameSettings.players.remove(i);
+                        gameSettings.players.remove(i);
                     }
                 }
 
@@ -266,7 +270,7 @@ public class PlayersScreen extends StaticScreen {
                 custom.check();
                 break;
         }
-        Settings.gameSettings.players = Settings.gameSettings.getPlayers(Settings.gameSettings.difficulty, numberOfPlayers);
+        gameSettings.players = gameSettings.getPlayers(gameSettings.difficulty, numberOfPlayers);
 
         delete.setY(174+50*(5-numberOfPlayers));
         add.setY(122 + 50 * (5 - numberOfPlayers));
@@ -276,7 +280,7 @@ public class PlayersScreen extends StaticScreen {
                 delete.setVisible(false);
                 add.setVisible(true);
 
-                players[0].setType(Settings.gameSettings.players.get(1));
+                players[0].setType(gameSettings.players.get(1));
 
                 players[0].setVisible(true);
                 players[1].setVisible(false);
@@ -292,8 +296,8 @@ public class PlayersScreen extends StaticScreen {
                 delete.setVisible(true);
                 add.setVisible(true);
 
-                players[0].setType(Settings.gameSettings.players.get(1));
-                players[1].setType(Settings.gameSettings.players.get(2));
+                players[0].setType(gameSettings.players.get(1));
+                players[1].setType(gameSettings.players.get(2));
 
                 players[0].setVisible(true);
                 players[1].setVisible(true);
@@ -309,9 +313,9 @@ public class PlayersScreen extends StaticScreen {
                 delete.setVisible(true);
                 add.setVisible(true);
 
-                players[0].setType(Settings.gameSettings.players.get(1));
-                players[1].setType(Settings.gameSettings.players.get(2));
-                players[2].setType(Settings.gameSettings.players.get(3));
+                players[0].setType(gameSettings.players.get(1));
+                players[1].setType(gameSettings.players.get(2));
+                players[2].setType(gameSettings.players.get(3));
 
                 players[0].setVisible(true);
                 players[1].setVisible(true);
@@ -327,10 +331,10 @@ public class PlayersScreen extends StaticScreen {
                 delete.setVisible(true);
                 add.setVisible(false);
 
-                players[0].setType(Settings.gameSettings.players.get(1));
-                players[1].setType(Settings.gameSettings.players.get(2));
-                players[2].setType(Settings.gameSettings.players.get(3));
-                players[3].setType(Settings.gameSettings.players.get(4));
+                players[0].setType(gameSettings.players.get(1));
+                players[1].setType(gameSettings.players.get(2));
+                players[2].setType(gameSettings.players.get(3));
+                players[3].setType(gameSettings.players.get(4));
 
                 players[0].setVisible(true);
                 players[1].setVisible(true);
