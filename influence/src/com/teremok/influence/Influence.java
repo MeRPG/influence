@@ -27,7 +27,6 @@ public class Influence extends Game {
 
     public Influence(Locale locale) {
         String language = locale.getLanguage();
-        Logger.log("Use language: " + language);
         switch (language) {
             case "ru":
             case "uk":
@@ -50,6 +49,10 @@ public class Influence extends Game {
 
         chronicleController = new ChronicleController();
         chronicle = chronicleController.load();
+
+
+        Logger.init(true);
+        Logger.log("Use language: " + Localizator.getLanguage());
 
         settingsController = new SettingsController();
         settings = settingsController.load();

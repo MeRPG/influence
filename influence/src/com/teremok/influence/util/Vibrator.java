@@ -1,6 +1,7 @@
 package com.teremok.influence.util;
 
 import com.badlogic.gdx.Gdx;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.Settings;
 
 /**
@@ -11,12 +12,14 @@ public class Vibrator {
     private static final int NORMAL_DURATION = 200;
 
     public static void bzz() {
-        if (Settings.vibrate)
+        Settings settings = ((Influence)Gdx.app.getApplicationListener()).getSettings();
+        if (settings.vibrate)
             Gdx.input.vibrate(NORMAL_DURATION);
     }
 
     public static void bzz(int mills) {
-        if (Settings.vibrate)
+        Settings settings = ((Influence)Gdx.app.getApplicationListener()).getSettings();
+        if (settings.vibrate)
             Gdx.input.vibrate(mills);
     }
 }

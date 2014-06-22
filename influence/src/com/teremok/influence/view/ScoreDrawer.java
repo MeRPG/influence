@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.model.FieldSize;
+import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.ScoreModel;
-import com.teremok.influence.model.Settings;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.util.FontFactory;
 
@@ -31,8 +31,10 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
 
         batch.end();
 
-        if (! (Settings.gameSettings.fieldSize == FieldSize.SMALL
-                || Settings.gameSettings.fieldSize == FieldSize.NORMAL)) {
+        GameSettings gameSettings = score.getMatch().getGameSettings();
+
+        if (! (gameSettings.fieldSize == FieldSize.SMALL
+                || gameSettings.fieldSize == FieldSize.NORMAL)) {
 
            drawCovers();
         }

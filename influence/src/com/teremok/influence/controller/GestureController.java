@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.FieldModel;
 import com.teremok.influence.model.FieldSize;
-import com.teremok.influence.model.Settings;
+import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Vibrator;
@@ -24,11 +24,13 @@ public class GestureController extends ActorGestureListener{
 
     private static boolean acting;
 
+    private GameSettings gameSettings;
     private GameScreen screen;
     private static float zoom = ZOOM_MIN;
 
-    public GestureController(GameScreen screen) {
+    public GestureController(GameSettings gameSettings, GameScreen screen) {
         this.screen = screen;
+        this.gameSettings = gameSettings;
         zoom = 1.0f;
         getGestureDetector().setLongPressSeconds(0.5f);
     }
@@ -67,8 +69,8 @@ public class GestureController extends ActorGestureListener{
     }
 
     public boolean bigField() {
-        return !(Settings.gameSettings.fieldSize.equals(FieldSize.NORMAL) ||
-                Settings.gameSettings.fieldSize.equals(FieldSize.SMALL));
+        return !(gameSettings.fieldSize.equals(FieldSize.NORMAL) ||
+                gameSettings.fieldSize.equals(FieldSize.SMALL));
     }
 
     @Override
@@ -86,20 +88,19 @@ public class GestureController extends ActorGestureListener{
         }
     }
 
-    public static void changeZoomBySteps(int steps) {
+    public void changeZoomBySteps(int steps) {
         changeZoom(ZOOM_STEP * steps);
     }
 
-    public static void addZoom() {
+    public void addZoom() {
         changeZoom(ZOOM_STEP);
     }
 
-
-    public static void subZoom() {
+    public void subZoom() {
         changeZoom(-ZOOM_STEP);
     }
 
-    public static void changeZoom(float delta) {
+    public void changeZoom(float delta) {
         if (delta > 0) {
            if (zoom + delta > getZoomMax()) {
                zoom = getZoomMax();
@@ -115,15 +116,15 @@ public class GestureController extends ActorGestureListener{
         }
     }
 
-    private static float getZoomMax() {
-        return 48f / Drawer.getUnitSize();
+    private float getZoomMax() {
+        return 48f / Drawer.getUnitSize(gameSettings.maxCellsY);
     }
 
     private FieldController getField() {
         return screen.getMatch().getFieldController();
     }
 
-    public static void resetZoom() {
+    public void resetZoom() {
         changeZoom(ZOOM_DEFAULT);
     }
 

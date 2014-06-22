@@ -2,7 +2,6 @@ package com.teremok.influence.model;
 
 import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.controller.ScoreController;
-import com.teremok.influence.controller.SettingsController;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
@@ -24,22 +23,24 @@ public class Match {
     PlayerManager pm;
     ScoreController scoreController;
     Chronicle.MatchChronicle matchChronicle;
+    GameSettings gameSettings;
 
     boolean paused;
 
     int turn;
 
-    public Match(GameSettings settings, List<Cell> cells, Router router, int turn, Chronicle.MatchChronicle matchChronicle) {
+    public Match(GameSettings gameSettings, List<Cell> cells, Router router, int turn, Chronicle.MatchChronicle matchChronicle) {
 
         this.turn = turn;
         this.matchChronicle = matchChronicle;
+        this.gameSettings = gameSettings;
 
         pm = new PlayerManager(this);
-        fieldController = new FieldController(this, settings, cells, router);
+        fieldController = new FieldController(this, gameSettings, cells, router);
         fieldController.setMatchChronicle(matchChronicle);
         scoreController = new ScoreController(this);
 
-        pm.addPlayersFromMap(settings.players, fieldController);
+        pm.addPlayersFromMap(gameSettings.players, fieldController);
 
         scoreController.init();
         fieldController.updateLists();
@@ -49,13 +50,14 @@ public class Match {
         phase = Phase.ATTACK;
     }
 
-    public Match(GameSettings settings, Chronicle.MatchChronicle matchChronicle) {
-        reset(settings, matchChronicle);
+    public Match(GameSettings gameSettings, Chronicle.MatchChronicle matchChronicle) {
+        reset(gameSettings, matchChronicle);
     }
 
-    public void reset(GameSettings settings,  Chronicle.MatchChronicle matchChronicle) {
+    public void reset(GameSettings gameSettings,  Chronicle.MatchChronicle matchChronicle) {
 
         this.matchChronicle = matchChronicle;
+        this.gameSettings = gameSettings;
 
         if (pm == null) {
             pm = new PlayerManager(this);
@@ -64,9 +66,9 @@ public class Match {
         }
 
         if (fieldController == null) {
-            fieldController = new FieldController(this, settings);
+            fieldController = new FieldController(this, gameSettings);
         } else {
-            fieldController.reset(this, settings);
+            fieldController.reset(this, gameSettings);
         }
         fieldController.setMatchChronicle(matchChronicle);
 
@@ -79,7 +81,7 @@ public class Match {
         turn = 0;
 
 
-        pm.addPlayersFromMap(settings.players, fieldController);
+        pm.addPlayersFromMap(gameSettings.players, fieldController);
         pm.placeStartPositions();
 
         scoreController.init();
@@ -88,8 +90,6 @@ public class Match {
         fieldController.resize();
 
         phase = Phase.ATTACK;
-
-        SettingsController.save();
     }
 
     public void act(float delta) {
@@ -211,5 +211,13 @@ public class Match {
 
     public Chronicle.MatchChronicle getMatchChronicle() {
         return matchChronicle;
+    }
+
+    public GameSettings getGameSettings() {
+        return gameSettings;
+    }
+
+    public void setGameSettings(GameSettings gameSettings) {
+        this.gameSettings = gameSettings;
     }
 }

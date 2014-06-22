@@ -1,7 +1,5 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.util.Logger;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -179,7 +177,6 @@ public class Localizator {
     // Auto-generated
 
     public static String getLanguage() {
-        Logger.log("Get language call: " + language);
         return language;
     }
 

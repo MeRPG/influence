@@ -1,6 +1,7 @@
 package com.teremok.influence.util;
 
 import com.flurry.android.FlurryAgent;
+import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 
@@ -126,24 +127,24 @@ public class FlurryHelper {
         }
     }
 
-    public static void logSettingsChangeEvent() {
+    public static void logSettingsChangeEvent(Settings settings) {
         if (flurryEnabled()) {
             Map<String,String> parameters = new HashMap<>();
-            parameters.put("Sound", Settings.sound ? "On" : "Off");
-            parameters.put("Vibration", Settings.vibrate ? "On" : "Off");
+            parameters.put("Sound", settings.sound ? "On" : "Off");
+            parameters.put("Vibration", settings.vibrate ? "On" : "Off");
             parameters.put("Language", Localizator.getLanguage());
-            parameters.put("Game_Speed", Settings.speed+"");
+            parameters.put("Game_Speed", settings.speed+"");
             FlurryAgent.logEvent("Settings_Change", parameters);
         }
     }
 
-    public static void logMatchStartEvent() {
+    public static void logMatchStartEvent(GameSettings gameSettings) {
         if (flurryEnabled()) {
             Map<String,String> parameters = new HashMap<>();
-            parameters.put("Field_Size", Settings.gameSettings.fieldSize.toString());
-            parameters.put("Game_Difficulty", Settings.gameSettings.difficulty.toString());
-            parameters.put("Enemies", Settings.gameSettings.getNumberOfPlayers()+"");
-            parameters.put("Humans", Settings.gameSettings.getNumberOfHumans()+"");
+            parameters.put("Field_Size", gameSettings.fieldSize.toString());
+            parameters.put("Game_Difficulty", gameSettings.difficulty.toString());
+            parameters.put("Enemies", gameSettings.getNumberOfPlayers()+"");
+            parameters.put("Humans", gameSettings.getNumberOfHumans()+"");
             FlurryAgent.logEvent("Match_Start", parameters);
         }
     }

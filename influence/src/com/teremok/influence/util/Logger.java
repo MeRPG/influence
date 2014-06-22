@@ -2,7 +2,6 @@ package com.teremok.influence.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.teremok.influence.model.Settings;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,18 +13,22 @@ import static com.teremok.influence.util.IOConstants.LOG_PATH;
 /**
  * Created by Alexx on 10.02.14
  */
+//TODO заменить либгдх-логгером
 public class Logger {
 
     private static final String CODE = "INF_LOG -- ";
 
     private static PrintStream printer;
 
-    public static void init() {
+    private static boolean enabled;
+
+    public static void init(boolean enabled) {
         openFile();
+        Logger.enabled = enabled;
     }
 
     public static void log(String message) {
-        if (Settings.debug) {
+        if (enabled) {
             System.out.println(CODE + message);
             if (printer!=null) {
                 printer.println(message);
@@ -33,17 +36,8 @@ public class Logger {
         }
     }
 
-    public static void append(String message) {
-        if (Settings.debug) {
-            System.out.print(message);
-            if (printer!=null) {
-                printer.print(message);
-            }
-        }
-    }
-
     private static void openFile() {
-        if (! Settings.debug)
+        if (! enabled)
             return;
         FileHandle logFile = Gdx.files.external(LOG_PATH);
         try {

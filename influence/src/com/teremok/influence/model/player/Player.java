@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Created by Alexx on 26.12.13
  */
+@SuppressWarnings("unused")
 public abstract class Player {
 
     protected int number;
@@ -24,7 +25,7 @@ public abstract class Player {
         this.number = number;
         this.match = match;
         this.field = match.getFieldController();
-        cells = new LinkedList<Cell>();
+        this.cells = new LinkedList<>();
     }
 
     public void subtractPowerToDistribute() {

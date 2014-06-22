@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.teremok.influence.view.Animation;
-import com.teremok.influence.view.Drawer;
 
 /**
  * Created by Alexx on 27.12.13
@@ -31,10 +30,10 @@ public class Tooltip extends Actor {
         setTouchable(Touchable.disabled);
     }
 
-    public void addActions() {
+    public void addActions(float offset) {
         ParallelAction parallelAction = Actions.parallel(
             fadeOutAfterDelay(),
-            Actions.moveBy(0, Drawer.getUnitSize(), Animation.DURATION_LONG)
+            Actions.moveBy(0, offset, Animation.DURATION_LONG)
         );
         addAction(parallelAction);
     }

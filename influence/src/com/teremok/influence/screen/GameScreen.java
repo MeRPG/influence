@@ -26,6 +26,8 @@ import static com.badlogic.gdx.Input.Keys;
 /**
  * Created by Alexx on 11.12.13
  */
+
+@SuppressWarnings("unused")
 public class GameScreen extends StaticScreen {
 
     Match match;
@@ -33,6 +35,10 @@ public class GameScreen extends StaticScreen {
 
     Chronicle chronicle;
     ChronicleController chronicleController;
+
+    SettingsController settingsController;
+
+    GestureController gestureController;
 
     PausePanel pausePanel;
     TexturePanel backlight;
@@ -52,10 +58,14 @@ public class GameScreen extends StaticScreen {
 
     public GameScreen(Influence game) {
         super(game, "gameScreen");
+
         chronicle = game.getChronicle();
         chronicleController = game.getChronicleController();
+
+        settingsController = game.getSettingsController();
+
         Chronicle.MatchChronicle matchChronicle = chronicleController.matchStart();
-        match = new Match(Settings.gameSettings, matchChronicle);
+        match = new Match(game.getSettings().gameSettings, matchChronicle);
         matchSaver = game.getMatchSaver();
         matchSaver.save(match);
     }
@@ -74,13 +84,14 @@ public class GameScreen extends StaticScreen {
         super.render(delta);
 
         int turn = match.getTurn();
+        GameSettings gameSettings = match.getGameSettings();
 
         match.act(delta);
 
         if (match.getTurn() > turn && ! match.isEnded()) {
             matchSaver.save(match);
             if (match.getTurn() == 1) {
-                FlurryHelper.logMatchStartEvent();
+                FlurryHelper.logMatchStartEvent(match.getGameSettings());
             }
         }
 
@@ -124,10 +135,10 @@ public class GameScreen extends StaticScreen {
                 FXPlayer.playWinMatch();
                 matchSaver.clearFile();
                 endSoundPlayed = true;
-                if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
+                if (match.getPm().getNumberOfHumans() == 1 && gameSettings.gameForInfluence) {
                     int lastInfluence = chronicle.influence;
                     chronicle.match = match.getMatchChronicle();
-                    chronicleController.matchEnd(chronicle, Settings.gameSettings.players, Settings.gameSettings.fieldSize, true);
+                    chronicleController.matchEnd(chronicle, gameSettings.players, gameSettings.fieldSize, true);
                     int deltaInfluence = chronicle.influence - lastInfluence;
                     addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
                     showInfoMessageAnimation();
@@ -140,10 +151,10 @@ public class GameScreen extends StaticScreen {
                 FXPlayer.playLoseMatch();
                 matchSaver.clearFile();
                 endSoundPlayed = true;
-                if (match.getPm().getNumberOfHumans() == 1 && Settings.gameSettings.gameForInfluence) {
+                if (match.getPm().getNumberOfHumans() == 1 && gameSettings.gameForInfluence) {
                     int lastInfluence = chronicle.influence;
                     chronicle.match = match.getMatchChronicle();
-                    chronicleController.matchEnd(chronicle, Settings.gameSettings.players, Settings.gameSettings.fieldSize, false);
+                    chronicleController.matchEnd(chronicle, gameSettings.players, gameSettings.fieldSize, false);
                     int deltaInfluence = chronicle.influence - lastInfluence;
                     addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
                     showInfoMessageAnimation();
@@ -212,15 +223,16 @@ public class GameScreen extends StaticScreen {
     }
 
     void  startNewMatch() {
+        Settings settings = game.getSettings();
         Chronicle.MatchChronicle matchChronicle = chronicleController.matchStart();
         if (match == null) {
-            match = new Match(Settings.gameSettings, matchChronicle);
+            match = new Match(settings.gameSettings, matchChronicle);
         } else {
-            match.reset(Settings.gameSettings, matchChronicle);
-
+            match.reset(settings.gameSettings, matchChronicle);
         }
         endSoundPlayed = false;
         matchSaver.save(match);
+        settingsController.save(settings);
         updateMatchDependentActors();
     }
 
@@ -245,7 +257,8 @@ public class GameScreen extends StaticScreen {
     }
 
     private boolean fieldIsScrollable() {
-        return Settings.gameSettings.fieldSize == FieldSize.LARGE || Settings.gameSettings.fieldSize == FieldSize.XLARGE;
+        GameSettings gameSettings = game.getSettings().gameSettings;
+        return gameSettings.fieldSize == FieldSize.LARGE || gameSettings.fieldSize == FieldSize.XLARGE;
     }
 
     void pauseMatch() {
@@ -336,14 +349,14 @@ public class GameScreen extends StaticScreen {
     @Override
     protected void addListeners() {
 
-        final GestureController gestureController = new GestureController(this);
+        gestureController = new GestureController(game.getSettings().gameSettings, this);
 
         stage.addListener(new ClickListener() {
 
             @Override
             public boolean scrolled(InputEvent event, float x, float y, int amount) {
                 if (! event.isHandled() && gestureController.bigField() && !match.isPaused()) {
-                    GestureController.changeZoomBySteps(-amount);
+                    gestureController.changeZoomBySteps(-amount);
                     match.getFieldController().resize();
                 }
                 return true;
@@ -378,18 +391,12 @@ public class GameScreen extends StaticScreen {
                     if (keycode == Keys.L) {
                         Localizator.switchLanguage();
                     }
-                    if (keycode == Keys.I) {
-                        SettingsController.load();
-                    }
-                    if (keycode == Keys.O) {
-                        SettingsController.save();
-                    }
                     if (keycode == Keys.PLUS && gestureController.bigField() && !match.isPaused()) {
-                        GestureController.addZoom();
+                        gestureController.addZoom();
                         match.getFieldController().resize();
                     }
                     if (keycode == Keys.MINUS && gestureController.bigField() && !match.isPaused()) {
-                        GestureController.subZoom();
+                        gestureController.subZoom();
                         match.getFieldController().resize();
                     }
                     if (keycode == Keys.S) {

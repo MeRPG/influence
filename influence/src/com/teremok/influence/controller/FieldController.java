@@ -17,6 +17,7 @@ import com.teremok.influence.ui.Tooltip;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.*;
 import com.teremok.influence.view.AbstractDrawer;
+import com.teremok.influence.view.Drawer;
 import com.teremok.influence.view.FieldShapeDrawer;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class FieldController extends Group {
     public Cell selectedCell;
     FieldModel model;
 
+    GameSettings gameSettings;
 
     public static float cellWidth;
     public static float cellHeight;
@@ -46,30 +48,31 @@ public class FieldController extends Group {
     private Random random;
     private Calculator calculator;
 
-    public FieldController(Match match, GameSettings settings) {
+    public FieldController(Match match, GameSettings gameSettings) {
         model = new FieldModel();
-        reset(match, settings);
+        reset(match, gameSettings);
         addListener();
     }
 
-    public FieldController(Match match, GameSettings settings, List<Cell> cells, Router router) {
+    public FieldController(Match match, GameSettings gameSettings, List<Cell> cells, Router router) {
         model = new FieldModel();
-        reset(match, settings, cells, router);
+        reset(match, gameSettings, cells, router);
         addListener();
     }
 
-    public void reset(Match match, GameSettings settings) {
+    public void reset(Match match, GameSettings gameSettings) {
         this.match = match;
         this.pm = match.getPm();
+        this.gameSettings = gameSettings;
 
         drawer = AbstractDrawer.getFieldShapeDrawer();
 
         selectedCell = null;
 
-        cellWidth = getUnitSize() *2;
-        cellHeight = getUnitSize() *2;
+        cellWidth = getUnitSize(gameSettings.maxCellsY) *2;
+        cellHeight = getUnitSize(gameSettings.maxCellsY) *2;
 
-        model.reset(settings);
+        model.reset(gameSettings);
         if (calculator == null)
             calculator = new Calculator();
 
@@ -78,20 +81,21 @@ public class FieldController extends Group {
         generate();
     }
 
-    public void reset(Match match, GameSettings settings, List<Cell> cells, Router router) {
+    public void reset(Match match, GameSettings gameSettings, List<Cell> cells, Router router) {
         this.match = match;
         this.pm = match.getPm();
+        this.gameSettings = gameSettings;
         drawer = AbstractDrawer.getFieldShapeDrawer();
 
         selectedCell = null;
 
-        cellWidth = getUnitSize() *2;
-        cellHeight = getUnitSize() *2;
+        cellWidth = getUnitSize(gameSettings.maxCellsY) *2;
+        cellHeight = getUnitSize(gameSettings.maxCellsY) *2;
 
         if (calculator == null)
             calculator = new Calculator();
 
-        model.reset(settings, cells, router);
+        model.reset(gameSettings, cells, router);
 
         setBounds(model.initialX, model.initialY, model.initialWidth, model.initialHeight);
     }
@@ -100,11 +104,6 @@ public class FieldController extends Group {
         if (generator == null || ! generator.matchModel(model))
             generator = new GraphGenerator(model);
         generator.generate(model);
-    }
-
-    public void regenerate() {
-        generate();
-        updateLists();
     }
 
     public void placeStartPosition(int type) {
@@ -123,54 +122,9 @@ public class FieldController extends Group {
         target.setType(type);
     }
 
-    public void placeStartPositionFromRange(int type, int startNumber, int endNumber) {
-        if (startNumber < 0 || startNumber >= model.maxCellsY * model.maxCellsX -1) {
-            startNumber = 0;
-        }
-
-        if (endNumber <= 0 || endNumber >= model.maxCellsY * model.maxCellsX -1) {
-            endNumber = model.maxCellsY * model.maxCellsX -1;
-        }
-
-        if (endNumber < startNumber) {
-            int tmp = startNumber;
-            startNumber = endNumber;
-            endNumber = tmp;
-        }
-
-        int firstInRange = 0;
-        int range = 0;
-        for (Cell cell : model.cells) {
-            if (cell.getNumber() >= endNumber)
-                break;
-            if (cell.getNumber() < startNumber) {
-                firstInRange++;
-            } else {
-                range++;
-            }
-        }
-
-        if (random == null)
-            random = new Random();
-
-        int number;
-        Cell target;
-
-        do {
-            number = firstInRange + random.nextInt(range);
-            target = model.cells.get(number);
-            if (isValidForStartPosition(target)) {
-                break;
-            }
-        } while (true);
-
-        target.setPower(INITIAL_CELL_POWER);
-        target.setType(type);
-    }
-
     private boolean isValidForStartPosition(Cell target) {
 
-        if (Settings.gameSettings.fieldSize == FieldSize.SMALL)
+        if (gameSettings.fieldSize == FieldSize.SMALL)
             return target.isFree();
 
         if (target.isValid() && target.isFree()) {
@@ -398,7 +352,7 @@ public class FieldController extends Group {
 
     public void riseDiceTooltips(Cell attack, Cell defense) {
 
-        if (defense.isFree() || getUnitSize() * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
+        if (defense.isFree() || getUnitSize(gameSettings.maxCellsY) * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
             return;
         }
 
@@ -416,7 +370,7 @@ public class FieldController extends Group {
         tooltipY = calculateTooltipY(attack.getY());
 
         if (isTooltipVisible(tooltipX, tooltipY)) {
-            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
+            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY), Drawer.getUnitSize(model.maxCellsY));
         }
 
         message = calculator.getM() + "";
@@ -428,13 +382,13 @@ public class FieldController extends Group {
         tooltipX = calculateTooltipX(defense.getX());
         tooltipY = calculateTooltipY(defense.getY());
         if (isTooltipVisible(tooltipX, tooltipY)) {
-            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY));
+            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY), Drawer.getUnitSize(model.maxCellsY));
         }
     }
 
     public void riseAddPowerTooltip(Cell cell, String tooltip) {
 
-        if (getUnitSize() * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
+        if (getUnitSize(gameSettings.maxCellsY) * GestureController.getZoom() <= MIN_SIZE_FOR_TEXT ) {
             return;
         }
 
@@ -445,7 +399,7 @@ public class FieldController extends Group {
         float tooltipY = calculateTooltipY(cell.getY());
 
         if (isTooltipVisible(tooltipX, tooltipY)) {
-            TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY));
+            TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY), Drawer.getUnitSize(model.maxCellsY));
         }
     }
 
@@ -467,11 +421,11 @@ public class FieldController extends Group {
     }
 
     private float calculateTooltipX(float cellX) {
-        return getX() + cellX + getUnitSize() /2;
+        return getX() + cellX + getUnitSize(gameSettings.maxCellsY) /2;
     }
 
     private float calculateTooltipY(float cellY) {
-        return getY() + cellY + getUnitSize() /2;
+        return getY() + cellY + getUnitSize(gameSettings.maxCellsY) /2;
     }
 
     @Override
