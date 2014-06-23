@@ -5,13 +5,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
 import com.teremok.influence.model.*;
-import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.util.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.teremok.influence.util.IOConstants.DIR;
 import static com.teremok.influence.util.IOConstants.SETTINGS_PATH;
@@ -37,7 +34,8 @@ public class SettingsController {
                     .element("debug", settings.debug)
                     .element("lastAboutScreen", settings.lastAboutScreen);
 
-            saveGameSettings(settings.gameSettings, root);
+            GameSettingsController controller = new GameSettingsController();
+            controller.saveGameSettings(settings.gameSettings, root);
 
             root.pop();
 
@@ -46,25 +44,6 @@ public class SettingsController {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-    }
-
-    public void saveGameSettings(GameSettings gameSettings, XmlWriter root) throws IOException{
-        XmlWriter gameXml = root.element("game");
-        gameXml
-                .element("players", gameSettings.getNumberOfPlayers())
-                .element("difficulty", gameSettings.difficulty)
-                .element("fieldSize", gameSettings.fieldSize)
-                .element("gameForInfluence", gameSettings.gameForInfluence);
-        XmlWriter playersXml = gameXml.element("customPlayers");
-        int num = 0;
-        for (PlayerType player : gameSettings.customPlayers.values()) {
-            playersXml.element("player")
-                    .attribute("number", num++)
-                    .text(player)
-                    .pop();
-        }
-        playersXml.pop();
-        gameXml.pop();
     }
 
     public Settings load() {
@@ -86,7 +65,8 @@ public class SettingsController {
                 settings.debug = root.getBoolean("debug", true);
                 settings.lastAboutScreen = root.getInt("lastAboutScreen", 0);
 
-                loadGameSettings(settings, root);
+                GameSettingsController controller = new GameSettingsController();
+                settings.gameSettings = controller.loadGameSettings(root);
 
                 return settings;
             } catch (IOException exception) {
@@ -99,57 +79,6 @@ public class SettingsController {
         } else {
             return settings.reset();
         }
-    }
-
-    public void loadGameSettings(Settings settings, XmlReader.Element root) {
-
-        GameSettings gameSettings = settings.gameSettings;
-        try {
-
-            if (root.toString().equals("<match/>")){
-                return;
-            }
-
-
-            XmlReader.Element settingsXml = root.getChildByName("game");
-            FieldSize size =  FieldSize.valueOf(settingsXml.getChildByName("fieldSize").getText());
-            gameSettings.setSize(size);
-            gameSettings.difficulty =  GameDifficulty.valueOf(settingsXml.getChildByName("difficulty").getText());
-            gameSettings.gameForInfluence = settingsXml.getBoolean("gameForInfluence", false);
-            int playersNumber = settingsXml.getInt("players",5);
-            if (playersNumber < 2 || playersNumber > 5)
-                playersNumber = 5;
-            gameSettings.players = GameSettings.getPlayersByDifficulty(gameSettings.difficulty, playersNumber);
-
-
-            try {
-                Integer number;
-                String type;
-                Map<Integer, PlayerType> players = new HashMap<>();
-
-                XmlReader.Element playersRoot = settingsXml.getChildByName("customPlayers");
-                for (XmlReader.Element player : playersRoot.getChildrenByName("player")) {
-                    number = player.getIntAttribute("number", 0);
-                    type = player.getText();
-                    players.put(number, PlayerType.valueOf(type));
-                    Logger.log("adding customPlayer " + type + " with number " + number);
-                }
-
-                gameSettings.customPlayers = players;
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                gameSettings.difficulty = GameDifficulty.NORMAL;
-                gameSettings.customPlayers = gameSettings.getPlayers(GameDifficulty.CUSTOM, 5);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        if (gameSettings == null || gameSettings.players == null || gameSettings.difficulty == null || gameSettings.fieldSize == null) {
-            settings.gameSettings = GameSettings.getDefault();
-        }
-
     }
 
     public static void checkDirs() {
