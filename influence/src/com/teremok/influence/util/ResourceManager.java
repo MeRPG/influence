@@ -40,7 +40,7 @@ public class ResourceManager {
         this.game = game;
         assetManager = new AssetManager(new ResourcesResolver());
         assetManager.setLoader(BitmapFont.class, new FontGenerateLoader(new ResourcesResolver()));
-        assetManager.getLogger().setLevel(Logger.DEBUG);
+        assetManager.getLogger().setLevel(Gdx.app.getLogLevel());
         preload();
     }
 
