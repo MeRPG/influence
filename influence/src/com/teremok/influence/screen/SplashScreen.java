@@ -27,8 +27,6 @@ public class SplashScreen extends AbstractScreen {
 
         Gdx.app.debug(getClass().getSimpleName(), "Loading resources: " + resourceManager.getPercentsProgress());
         if (resourceManager.update()){
-            //TODO читерство
-            game.getFontFactory().load();
             Gdx.app.debug(getClass().getSimpleName(), "Loading resources: Done!");
             game.getScreenController().showStartScreen();
         }

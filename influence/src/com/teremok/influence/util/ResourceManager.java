@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Logger;
 import com.teremok.influence.Influence;
@@ -14,7 +15,6 @@ import com.teremok.influence.model.Settings;
  * Created by Alexx on 24.02.14
  */
 
-//TODO избавиться от статичности
 @SuppressWarnings("unused")
 public class ResourceManager {
 
@@ -22,9 +22,15 @@ public class ResourceManager {
     private static final String UI_PATH_EXTERNAL = ".influence/ui/";
     private static final String UI_EXT = ".xml";
 
-    private static final String ATLAS_PATH_INTERNAL = "atlas/";
-    private static final String ATLAS_PATH_EXTERNAL = ".influence/atlas/";
-    private static final String ATLAS_EXT = ".pack";
+    static public final int STATUS_FONT_SIZE = 25;
+    static public final int SUBSTATUS_FONT_SIZE = 22;
+    static public final int CELLS_FONT_SIZE = 25;
+    static public final int RATING_FONT_SIZE = 48;
+
+    static public final String STATUS_FONT_NAME = "myriadprosemibold";
+    static public final String SUBSTATUS_FONT_NAME = "myriadprosemibold";
+    static public final String CELLS_FONT_NAME = "arialbd";
+    static public final String RATING_FONT_NAME = "myriadprosemibold";
 
 
     private Influence game;
@@ -33,6 +39,7 @@ public class ResourceManager {
     public ResourceManager(Influence game) {
         this.game = game;
         assetManager = new AssetManager(new ResourcesResolver());
+        assetManager.setLoader(BitmapFont.class, new FontGenerateLoader(new ResourcesResolver()));
         assetManager.getLogger().setLevel(Logger.DEBUG);
         preload();
     }
@@ -49,6 +56,15 @@ public class ResourceManager {
         assetManager.load("sound/lose.mp3", Sound.class);
         assetManager.load("sound/winMatch.mp3", Sound.class);
         assetManager.load("sound/loseMatch.mp3", Sound.class);
+
+        assetManager.load("statusFont", BitmapFont.class,
+                new FontGenerateLoader.FontParameter(STATUS_FONT_SIZE, STATUS_FONT_NAME));
+        assetManager.load("substatusFont", BitmapFont.class,
+                new FontGenerateLoader.FontParameter(SUBSTATUS_FONT_SIZE, SUBSTATUS_FONT_NAME));
+        assetManager.load("cellsFont", BitmapFont.class,
+                new FontGenerateLoader.FontParameter(CELLS_FONT_SIZE, CELLS_FONT_NAME));
+        assetManager.load("ratingFont", BitmapFont.class,
+                new FontGenerateLoader.FontParameter(RATING_FONT_SIZE, RATING_FONT_NAME));
     }
 
     public TextureAtlas getAtlas(String atlasName) {
@@ -79,8 +95,8 @@ public class ResourceManager {
         }
     }
 
-    private String getFullAtlasName(String atlasName) {
-        return "atlas/" + atlasName + ".pack";
+    public BitmapFont getFont(String fontName) {
+        return assetManager.get(fontName);
     }
 
     public Sound getSound(String soundName) {
@@ -90,6 +106,10 @@ public class ResourceManager {
 
     private String getFullSoundName(String soundName) {
         return "sound/" + soundName + ".mp3";
+    }
+
+    private String getFullAtlasName(String atlasName) {
+        return "atlas/" + atlasName + ".pack";
     }
 
     public void dispose() {

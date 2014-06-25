@@ -28,8 +28,6 @@ public class Influence extends Game {
 
     private MatchSaver matchSaver;
 
-    private FontFactory fontFactory;
-
     private FXPlayer fxPlayer;
 
     private ScreenController screenController;
@@ -64,8 +62,6 @@ public class Influence extends Game {
 
         fxPlayer = new FXPlayer(this);
 
-        fontFactory = new FontFactory();
-
         Logger.init(true);
         Logger.log("Use language: " + Localizator.getLanguage());
 
@@ -83,7 +79,6 @@ public class Influence extends Game {
     @Override
     public void dispose() {
         super.dispose();
-        fontFactory.dispose();
         resourceManager.dispose();
     }
 
@@ -133,14 +128,6 @@ public class Influence extends Game {
 
     public void setSettingsController(SettingsController settingsController) {
         this.settingsController = settingsController;
-    }
-
-    public FontFactory getFontFactory() {
-        return fontFactory;
-    }
-
-    public void setFontFactory(FontFactory fontFactory) {
-        this.fontFactory = fontFactory;
     }
 
     public ScreenController getScreenController() {
