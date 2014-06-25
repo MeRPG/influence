@@ -10,7 +10,6 @@ import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.FieldModel;
-import com.teremok.influence.util.FontFactory;
 
 import static com.teremok.influence.view.Drawer.MIN_SIZE_FOR_TEXT;
 
@@ -94,7 +93,7 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
     }
 
     private void drawText(Batch batch, Cell cell) {
-        BitmapFont cellsFont = FontFactory.getCellsFont();
+        BitmapFont cellsFont = fontFactory.getCellsFont();
         if (cellsFont != null && current.isCellVisible(cell)) {
             BitmapFont.TextBounds textBounds = cellsFont.getBounds(cell.getPower()+"");
             if (cell.isFree()) {

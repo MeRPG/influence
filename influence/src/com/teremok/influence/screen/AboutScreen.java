@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
 import com.teremok.influence.ui.ColoredPanel;
-import com.teremok.influence.util.FXPlayer;
 
 /**
  * Created by Alexx on 25.02.14
@@ -34,7 +33,7 @@ public class AboutScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    ScreenController.showStartScreen();
+                    screenController.showStartScreen();
                     return true;
                 }
                 return false;
@@ -52,8 +51,8 @@ public class AboutScreen extends StaticScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (!event.isHandled()) {
-                    FXPlayer.playClick();
-                    ScreenController.showStartScreen();
+                    game.getFXPlayer().playClick();
+                    screenController.showStartScreen();
                 }
             }
         });

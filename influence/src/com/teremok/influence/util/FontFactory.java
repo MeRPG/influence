@@ -9,11 +9,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
  * Created by Алексей on 08.06.2014
  */
 public class FontFactory {
-
-    static private final String english = "";
     static private final String russian = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщьЫыЪъЭэЮюЯя";
-    static private final String german = "";
-    static private final String misc = "";
 
     static public final int STATUS_FONT_SIZE = 25;
     static public final int SUBSTATUS_FONT_SIZE = 22;
@@ -25,41 +21,20 @@ public class FontFactory {
     static public final String CELLS_FONT_NAME = "arialbd";
     static public final String RATING_FONT_NAME = "myriadprosemibold";
 
-    static private BitmapFont statusFont;
-    static private BitmapFont substatusFont;
-    static private BitmapFont cellsFont;
-    static private BitmapFont ratingFont;
+    private BitmapFont statusFont;
+    private BitmapFont substatusFont;
+    private BitmapFont cellsFont;
+    private BitmapFont ratingFont;
 
-    static public BitmapFont getStatusFont() {
-        if (statusFont == null) {
-            statusFont = getFont(STATUS_FONT_SIZE, STATUS_FONT_NAME);
-        }
-        return statusFont;
+    public void load() {
+        Gdx.app.debug(this.getClass().getSimpleName(), "Loading fonts...");
+        ratingFont = loadFont(RATING_FONT_SIZE, RATING_FONT_NAME);
+        statusFont = loadFont(STATUS_FONT_SIZE, STATUS_FONT_NAME);
+        substatusFont = loadFont(SUBSTATUS_FONT_SIZE, SUBSTATUS_FONT_NAME);
+        cellsFont = loadFont(CELLS_FONT_SIZE, CELLS_FONT_NAME);
     }
 
-    static public BitmapFont getSubstatusFont() {
-        if (substatusFont == null) {
-            substatusFont = getFont(SUBSTATUS_FONT_SIZE, SUBSTATUS_FONT_NAME);
-        }
-        return substatusFont;
-    }
-
-    static public BitmapFont getCellsFont() {
-        if (cellsFont == null) {
-            cellsFont = getFont(CELLS_FONT_SIZE, CELLS_FONT_NAME);
-        }
-        return cellsFont;
-    }
-
-    static public BitmapFont getRatingFont() {
-        if (ratingFont == null) {
-            ratingFont = getFont(RATING_FONT_SIZE, RATING_FONT_NAME);
-        }
-        return ratingFont;
-    }
-
-    static private BitmapFont getFont(int size, String fontName) {
-
+    private BitmapFont loadFont(int size, String fontName) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/" + fontName + ".ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.characters += russian;
@@ -72,5 +47,29 @@ public class FontFactory {
         return font;
     }
 
+    public void dispose() {
+        statusFont.dispose();
+        substatusFont.dispose();
+        cellsFont.dispose();
+        ratingFont.dispose();
+        Gdx.app.debug(this.getClass().getSimpleName(), "Disposing fonts...");
+    }
 
+    // Auto-generated
+
+    public BitmapFont getStatusFont() {
+        return statusFont;
+    }
+
+    public BitmapFont getSubstatusFont() {
+        return substatusFont;
+    }
+
+    public BitmapFont getCellsFont() {
+        return cellsFont;
+    }
+
+    public BitmapFont getRatingFont() {
+        return ratingFont;
+    }
 }

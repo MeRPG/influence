@@ -1,5 +1,6 @@
 package com.teremok.influence.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -26,6 +27,9 @@ public abstract class StaticScreen extends AbstractScreen {
     private String filename;
     private String atlasName;
     protected boolean loaded;
+    protected boolean keepInMemory;
+
+    protected ScreenController screenController;
 
     protected Map<String, UIElementParams> uiElements;
     protected Image background;
@@ -34,6 +38,7 @@ public abstract class StaticScreen extends AbstractScreen {
 
     private StaticScreen(Influence game) {
         super(game);
+        this.screenController = game.getScreenController();
     }
 
     public StaticScreen(Influence game, String filename) {
@@ -56,7 +61,7 @@ public abstract class StaticScreen extends AbstractScreen {
 
     private void loadScreen() throws IOException {
 
-        UIElementsXMLLoader loader = new UIElementsXMLLoader(filename);
+        UIElementsXMLLoader loader = new UIElementsXMLLoader(game.getResourceManager(), filename);
 
         atlasName = loader.getAtlasName();
         atlas = loader.getAtlas();
@@ -186,22 +191,33 @@ public abstract class StaticScreen extends AbstractScreen {
 
     @Override
     public void hide() {
-        //super.hide();
+        super.hide();
+        dispose();
         Logger.log("hide");
     }
 
     @Override
     public void dispose() {
         super.dispose();
+        if (! keepInMemory) {
+            game.getResourceManager().disposeAtlas(atlasName);
+        }
+        Gdx.app.debug(this.getClass().getSimpleName(), "dispose called");
         loaded = false;
-        //ResourceManager.disposeAtlas(atlasName);
     }
 
     // Auto-generated
 
-
     public String getAtlasName() {
         return atlasName;
+    }
+
+    public boolean isKeepInMemory() {
+        return keepInMemory;
+    }
+
+    public void setKeepInMemory(boolean keepInMemory) {
+        this.keepInMemory = keepInMemory;
     }
 }
 

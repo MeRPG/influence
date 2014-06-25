@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.ResourceManager;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -14,42 +13,21 @@ import com.teremok.influence.view.Animation;
  */
 public class ScreenController {
 
-    private static Influence game;
+    private Influence game;
 
-    private static AboutScreen aboutScreen;
-    private static StartScreen startScreen;
-    private static SettingsScreen settingsScreen;
-    private static StaticScreen currentScreen;
-    private static MapSizeScreen mapSizeScreen;
-    private static PlayersScreen playersScreen;
-    private static EditorScreen editorScreen;
-    private static StatisticsScreen statisticsScreen;
-    private static GameTypeScreen gameTypeScreen;
+    private StaticScreen currentScreen;
 
-    public static void init(Influence game) {
-        ScreenController.game = game;
+    public ScreenController(Influence game) {
+        this.game = game;
     }
 
-    public static void forceShowStartScreen() {
-        if (startScreen != null) {
-            aboutScreen = null;
-            startScreen = null;
-            settingsScreen = null;
-            currentScreen = null;
-            mapSizeScreen = null;
-            playersScreen = null;
-            statisticsScreen = null;
-            ResourceManager.disposeAll();
-        }
-        startScreen = new StartScreen(game, "startScreen");
-        currentScreen = startScreen;
-        game.setScreen(startScreen);
+    public void showSplashScreen() {
+        game.setScreen(new SplashScreen(game));
     }
 
-    public static void showStartScreen() {
-        if (startScreen == null) {
-            startScreen = new StartScreen(game, "startScreen");
-        }
+    public void showStartScreen() {
+        StartScreen startScreen = new StartScreen(game, "startScreen");
+        startScreen.setKeepInMemory(true);
         FlurryHelper.logStartScreenEvent();
         if (currentScreen == null) {
             currentScreen = startScreen;
@@ -59,60 +37,50 @@ public class ScreenController {
         }
     }
 
-    public static void showSettingsScreen() {
-        if (settingsScreen == null) {
-            settingsScreen = new SettingsScreen(game, "settingsScreen");
-        }
+    public void showSettingsScreen() {
+        SettingsScreen settingsScreen = new SettingsScreen(game, "settingsScreen");
         FlurryHelper.logSettingsScreenEvent();
         gracefullyShowScreen(settingsScreen);
     }
 
-    public static void showGameTypeScreen() {
-        if (gameTypeScreen == null) {
-            gameTypeScreen = new GameTypeScreen(game, "aboutScreen");
-        }
+    public void showGameTypeScreen() {
+        GameTypeScreen gameTypeScreen = new GameTypeScreen(game, "aboutScreen");
         FlurryHelper.logGameTypeScreenEvent();
         gracefullyShowScreen(gameTypeScreen);
     }
 
-    public static void showEditorScreen() {
-        if (editorScreen == null) {
-            editorScreen = new EditorScreen(game, "gameScreen");
-        }
+    public void showEditorScreen() {
+        EditorScreen editorScreen = new EditorScreen(game, "gameScreen");
         gracefullyShowScreen(editorScreen);
     }
 
-    public static void showStatisticsScreen() {
-        statisticsScreen = new StatisticsScreen(game, "statisticsScreen");
+    public void showStatisticsScreen() {
+        StatisticsScreen statisticsScreen = new StatisticsScreen(game, "statisticsScreen");
         FlurryHelper.logStatisticsScreenEvent();
         gracefullyShowScreen(statisticsScreen);
     }
 
-    public static void showMapSizeScreen() {
-        if (mapSizeScreen == null) {
-            mapSizeScreen = new MapSizeScreen(game, "mapSize");
-        }
+    public void showMapSizeScreen() {
+        MapSizeScreen mapSizeScreen = new MapSizeScreen(game, "mapSize");
+        mapSizeScreen.setKeepInMemory(true);
         FlurryHelper.logMapSizeScreenEvent();
         gracefullyShowScreen(mapSizeScreen);
     }
 
-    public static void showPlayersScreen() {
-        if (playersScreen == null) {
-            playersScreen = new PlayersScreen(game, "players");
-        }
+    public void showPlayersScreen() {
+        PlayersScreen playersScreen = new PlayersScreen(game, "players");
+        playersScreen.setKeepInMemory(true);
         FlurryHelper.logPlayersScreenEvent();
         gracefullyShowScreen(playersScreen);
     }
 
-    public static void showAboutScreen() {
-        if (aboutScreen == null) {
-            aboutScreen = new AboutScreen(game, "aboutScreen");
-        }
+    public void showAboutScreen() {
+        AboutScreen aboutScreen = new AboutScreen(game, "aboutScreen");
         FlurryHelper.logAboutScreenEvent();
         gracefullyShowScreen(aboutScreen);
     }
 
-    private static void gracefullyShowScreen(StaticScreen screen) {
+    private void gracefullyShowScreen(StaticScreen screen) {
         currentScreen.initOverlap(true);
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
@@ -122,7 +90,7 @@ public class ScreenController {
         currentScreen.overlap.addAction(sequenceAction);
     }
 
-    public static void  gracefullyExitGame() {
+    public void  gracefullyExitGame() {
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.alpha(1f, Animation.DURATION_NORMAL),
                 new Action() {
@@ -136,11 +104,11 @@ public class ScreenController {
         currentScreen.overlap.addAction(sequenceAction);
     }
 
-    public static void exitGame() {
+    public void exitGame() {
         game.exit();
     }
 
-    public static Action createScreenAction(final StaticScreen screen) {
+    public Action createScreenAction(final StaticScreen screen) {
         return new Action() {
             @Override
             public boolean act(float delta) {
@@ -151,7 +119,7 @@ public class ScreenController {
         };
     }
 
-    public static void continueGame() {
+    public void continueGame() {
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
                 createResumeGameAction()
@@ -159,7 +127,7 @@ public class ScreenController {
         currentScreen.overlap.addAction(sequenceAction);
     }
 
-    public static void startSingleplayerGame () {
+    public void startSingleplayerGame () {
         SequenceAction sequenceAction = Actions.sequence(
                 Actions.fadeIn(Animation.DURATION_NORMAL),
                 createStartGameAction()
@@ -167,11 +135,11 @@ public class ScreenController {
         currentScreen.overlap.addAction(sequenceAction);
     }
 
-    private static Action createStartGameAction() {
+    private Action createStartGameAction() {
         return new StartGameAction(game);
     }
 
-    private static Action createResumeGameAction() {
+    private Action createResumeGameAction() {
         return new StartGameAction(game, game.getMatchSaver().getNotEnded());
     }
 
@@ -190,29 +158,16 @@ public class ScreenController {
 
         @Override
         public boolean act(float delta) {
+            GameScreen gameScreen;
             if (match == null){
-                currentScreen  =  new GameScreen(game);
+                gameScreen = new GameScreen(game);
             } else {
-                currentScreen  =  new GameScreen(game, match);
+                gameScreen =  new GameScreen(game, match);
             }
-            game.setScreen(currentScreen);
+            gameScreen.setKeepInMemory(true);
+            game.getScreenController().currentScreen = gameScreen;
+            game.setScreen(game.getScreenController().currentScreen);
             return true;
         }
     }
-
-    public static void setLoadedAll(boolean loaded) {
-        if (aboutScreen!=null)
-            aboutScreen.loaded = loaded;
-        if (startScreen!=null)
-            startScreen.loaded = loaded;
-        if (settingsScreen!=null)
-            settingsScreen.loaded = loaded;
-        if (currentScreen!=null)
-            currentScreen.loaded = loaded;
-        if (mapSizeScreen!=null)
-            mapSizeScreen.loaded = loaded;
-        if (playersScreen!=null)
-            playersScreen.loaded = loaded;
-    }
-
 }

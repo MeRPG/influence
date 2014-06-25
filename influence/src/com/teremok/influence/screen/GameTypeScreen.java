@@ -34,16 +34,16 @@ public class GameTypeScreen extends StaticScreen {
                         hideInfoMessageAnimation();
                         return true;
                     }
-                    ScreenController.showStartScreen();
+                    screenController.showStartScreen();
                     return true;
                 }
                 if (! event.isHandled() && (keycode == Input.Keys.SPACE)) {
-                    ScreenController.showMapSizeScreen();
+                    screenController.showMapSizeScreen();
                     gameSettings.gameForInfluence = false;
                     Logger.log("Average game started.");
                 }
                 if (! event.isHandled() && (keycode == Input.Keys.ENTER)) {
-                    ScreenController.showMapSizeScreen();
+                    screenController.showMapSizeScreen();
                     gameSettings.gameForInfluence = true;
                     Logger.log("Game for Influence started.");
                 }

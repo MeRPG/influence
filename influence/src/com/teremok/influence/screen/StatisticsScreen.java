@@ -55,7 +55,7 @@ public class StatisticsScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    ScreenController.showStartScreen();
+                    screenController.showStartScreen();
                     return true;
                 }
                 return false;

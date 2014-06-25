@@ -40,10 +40,14 @@ public class UIElementsXMLLoader {
     private Map<String, UIElementParams> uiElementsParams;
     private Image background;
 
-    public UIElementsXMLLoader(String filename) throws IOException {
+    private ResourceManager resourceManager;
+
+    public UIElementsXMLLoader(ResourceManager resourceManager, String filename) throws IOException {
+
+        this.resourceManager = resourceManager;
 
         uiElementsParams = new HashMap<>();
-        FileHandle handle = ResourceManager.getScreenUi(filename);
+        FileHandle handle = resourceManager.getScreenUi(filename);
         XmlReader reader = new XmlReader();
         XmlReader.Element root = reader.parse(handle.reader());
 
@@ -57,9 +61,9 @@ public class UIElementsXMLLoader {
 
         atlasName = root.getAttribute(ATLAS_ATTR);
         if (localizedAtlas) {
-            atlas = ResourceManager.getAtlas(atlasName + "_" + Localizator.getLanguage());
+            atlas = resourceManager.getAtlas(atlasName + "_" + Localizator.getLanguage());
         } else {
-            atlas = ResourceManager.getAtlas(atlasName);
+            atlas = resourceManager.getAtlas(atlasName);
         }
     }
 

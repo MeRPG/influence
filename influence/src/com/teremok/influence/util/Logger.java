@@ -24,7 +24,7 @@ public class Logger {
 
     public static void init(boolean enabled) {
         openFile();
-        Logger.enabled = enabled;
+        Logger.enabled = false;
     }
 
     public static void log(String message) {

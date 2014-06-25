@@ -11,7 +11,6 @@ import com.teremok.influence.controller.*;
 import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
-import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.TextureNumberFactory;
@@ -74,6 +73,7 @@ public class GameScreen extends StaticScreen {
         super(game, "gameScreen");
         chronicle = game.getChronicle();
         chronicleController = game.getChronicleController();
+        settingsController = game.getSettingsController();
         matchSaver = game.getMatchSaver();
         this.match = match;
         resumeMatch();
@@ -132,7 +132,7 @@ public class GameScreen extends StaticScreen {
 
         if (match.isWon()) {
             if (! endSoundPlayed) {
-                FXPlayer.playWinMatch();
+                game.getFXPlayer().playWinMatch();
                 matchSaver.clearFile();
                 endSoundPlayed = true;
                 if (match.getPm().getNumberOfHumans() == 1 && gameSettings.gameForInfluence) {
@@ -148,7 +148,7 @@ public class GameScreen extends StaticScreen {
             }
         } else if (match.isLost()) {
             if (! endSoundPlayed) {
-                FXPlayer.playLoseMatch();
+                game.getFXPlayer().playLoseMatch();
                 matchSaver.clearFile();
                 endSoundPlayed = true;
                 if (match.getPm().getNumberOfHumans() == 1 && gameSettings.gameForInfluence) {
@@ -275,7 +275,7 @@ public class GameScreen extends StaticScreen {
 
     void backToStartScreen() {
         pausePanel.hide();
-        ScreenController.showStartScreen();
+        screenController.showStartScreen();
     }
 
     void gracefullyStartNewMatch() {
@@ -295,6 +295,10 @@ public class GameScreen extends StaticScreen {
         );
 
         overlap.addAction(sequenceAction);
+    }
+
+    public void exitGame() {
+        game.exit();
     }
 
     public void flashBacklight(Color color) {
@@ -324,7 +328,6 @@ public class GameScreen extends StaticScreen {
     @Override
     public void pause() {
         super.pause();
-        FXPlayer.dispose();
         pauseMatch();
         Logger.log("GameScreen: show;");
     }
@@ -332,7 +335,6 @@ public class GameScreen extends StaticScreen {
     @Override
     public void resume() {
         super.resume();
-        FXPlayer.load();
         if (match.isPaused())
             pausePanel.show();
         Logger.log("GameScreen: show;");
@@ -370,7 +372,7 @@ public class GameScreen extends StaticScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
-                    FXPlayer.playClick();
+                    game.getFXPlayer().playClick();
                     if (isInfoMessageVisible()) {
                         hideInfoMessageAnimation();
                         return;

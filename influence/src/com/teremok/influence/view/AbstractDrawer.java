@@ -1,8 +1,11 @@
 package com.teremok.influence.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.teremok.influence.Influence;
+import com.teremok.influence.util.FontFactory;
 
 /**
  * Created by Alexx on 24.12.13
@@ -12,8 +15,11 @@ public class AbstractDrawer <T extends Actor> {
     protected T current;
     protected ShapeRenderer renderer;
 
+    protected FontFactory fontFactory;
+
     protected AbstractDrawer () {
         renderer = new ShapeRenderer();
+        fontFactory = ((Influence)Gdx.app.getApplicationListener()).getFontFactory();
     }
 
     public void draw(T actor, Batch batch, float parentAlpha) {

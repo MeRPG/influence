@@ -1,19 +1,19 @@
 package com.teremok.influence.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.screen.AbstractScreen;
 import com.teremok.influence.screen.GameScreen;
-import com.teremok.influence.ui.Tooltip;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.*;
 import com.teremok.influence.view.AbstractDrawer;
@@ -48,14 +48,19 @@ public class FieldController extends Group {
     private Random random;
     private Calculator calculator;
 
+    // TODO Не должно тут быть этого класса...
+    private FXPlayer fxPlayer;
+
     public FieldController(Match match, GameSettings gameSettings) {
         model = new FieldModel();
+        fxPlayer = ((Influence) Gdx.app.getApplicationListener()).getFXPlayer();
         reset(match, gameSettings);
         addListener();
     }
 
     public FieldController(Match match, GameSettings gameSettings, List<Cell> cells, Router router) {
         model = new FieldModel();
+        fxPlayer = ((Influence) Gdx.app.getApplicationListener()).getFXPlayer();
         reset(match, gameSettings, cells, router);
         addListener();
     }
@@ -160,8 +165,10 @@ public class FieldController extends Group {
                         if (target == null)
                             return;
 
-                        if (target.getType() == pm.current().getNumber() || connectedToSelected(target) && selectedCell.getPower() > 1)
-                            FXPlayer.playClick();
+
+                        if (target.getType() == pm.current().getNumber() || connectedToSelected(target) && selectedCell.getPower() > 1) {
+                            fxPlayer.playClick();
+                        }
                         if (match.isInAttackPhase()) {
                             setSelectedCell(target);
                         } else {
@@ -318,11 +325,11 @@ public class FieldController extends Group {
             if (calculator.getDelta() > 0) {
                 if (defence.getType() != -1) {
                     GameScreen.colorForBacklight = getBacklightWinColor();
-                    FXPlayer.playWin();
+                    fxPlayer.playWin();
                 }
             } else {
                 GameScreen.colorForBacklight = getBacklightLoseColor();
-                FXPlayer.playLose();
+                fxPlayer.playLose();
             }
             if (defence.getPower() != 0) {
                 Vibrator.bzz();
@@ -332,18 +339,18 @@ public class FieldController extends Group {
                 if (player instanceof HumanPlayer && defence.getType() == player.getNumber()) {
                     if (calculator.getDelta() > 0) {
                         GameScreen.colorForBacklight = getBacklightLoseColor();
-                        FXPlayer.playWin();
+                        fxPlayer.playWin();
                     } else {
                         GameScreen.colorForBacklight = getBacklightWinColor();
-                        FXPlayer.playLose();
+                        fxPlayer.playLose();
                     }
                     Vibrator.bzz();
                     return;
                 } else {
                     if (calculator.getDelta() > 0) {
-                        FXPlayer.playWin();
+                        fxPlayer.playWin();
                     }  else {
-                        FXPlayer.playLose();
+                        fxPlayer.playLose();
                     }
                 }
             }
@@ -358,7 +365,6 @@ public class FieldController extends Group {
 
         String message;
         Color color;
-        BitmapFont font = FontFactory.getSubstatusFont();
         float tooltipX, tooltipY;
         message = calculator.getN() + "";
         if (calculator.getDelta() >= 0) {
@@ -370,7 +376,7 @@ public class FieldController extends Group {
         tooltipY = calculateTooltipY(attack.getY());
 
         if (isTooltipVisible(tooltipX, tooltipY)) {
-            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY), Drawer.getUnitSize(model.maxCellsY));
+            TooltipHandler.getInstance().addTooltip(message, color, tooltipX, tooltipY, Drawer.getUnitSize(model.maxCellsY));
         }
 
         message = calculator.getM() + "";
@@ -382,7 +388,7 @@ public class FieldController extends Group {
         tooltipX = calculateTooltipX(defense.getX());
         tooltipY = calculateTooltipY(defense.getY());
         if (isTooltipVisible(tooltipX, tooltipY)) {
-            TooltipHandler.addTooltip(new Tooltip(message, font, color, tooltipX, tooltipY), Drawer.getUnitSize(model.maxCellsY));
+            TooltipHandler.getInstance().addTooltip(message, color, tooltipX, tooltipY, Drawer.getUnitSize(model.maxCellsY));
         }
     }
 
@@ -392,14 +398,13 @@ public class FieldController extends Group {
             return;
         }
 
-        BitmapFont font = FontFactory.getSubstatusFont();
         Color color = Color.GREEN;
 
         float tooltipX = calculateTooltipX(cell.getX());
         float tooltipY = calculateTooltipY(cell.getY());
 
         if (isTooltipVisible(tooltipX, tooltipY)) {
-            TooltipHandler.addTooltip(new Tooltip(tooltip, font, color, tooltipX, tooltipY), Drawer.getUnitSize(model.maxCellsY));
+            TooltipHandler.getInstance().addTooltip(tooltip, color, tooltipX, tooltipY, Drawer.getUnitSize(model.maxCellsY));
         }
     }
 
