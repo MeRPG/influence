@@ -1,5 +1,6 @@
 package com.teremok.influence.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,12 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
-import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.ResourceManager;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -42,10 +42,13 @@ public class PausePanel extends Group {
 
     TextureRegion background;
 
+    Influence game;
     GameScreen gameScreen;
 
     PausePanel(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+
+        game = ((Influence) Gdx.app.getApplicationListener());
 
         getColor().a = 0f;
         setTouchable(Touchable.disabled);
@@ -55,7 +58,7 @@ public class PausePanel extends Group {
     }
 
     private void loadAndMakeButtons() {
-        atlas = ResourceManager.getAtlas("pausePanel");
+        atlas = gameScreen.getGame().getResourceManager().getAtlas("pausePanel");
 
         background = atlas.findRegion("background");
         Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );
@@ -96,7 +99,7 @@ public class PausePanel extends Group {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (! event.isHandled()) {
-                    FXPlayer.playClick();
+                    game.getFXPlayer().playClick();
                     Button target = (Button)event.getTarget();
                     if (target.getCode().equals(RESUME_CODE)) {
                         resume();
@@ -130,12 +133,6 @@ public class PausePanel extends Group {
         setTouchable(Touchable.disabled);
     }
 
-    public void dispose() {
-        if (atlas != null)
-            atlas.dispose();
-        loaded = false;
-    }
-
     private void  resume() {
         gameScreen.resumeMatch();
     }
@@ -151,9 +148,7 @@ public class PausePanel extends Group {
     }
 
     private void  exitGame() {
-        FlurryHelper.logPauseExitGameEvent();
-        hide();
-        ScreenController.gracefullyExitGame();
+        gameScreen.exitGame();
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.teremok.influence.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
+import com.teremok.influence.Influence;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.TextureNumber;
 
@@ -59,7 +61,8 @@ public class TextureNumberFactory {
     public TextureNumber getNumber(int number, float x, float y, boolean percents) {
 
         if (numbers == null) {
-            TextureAtlas atlas = ResourceManager.getAtlas("numbers");
+            ResourceManager resourceManager = ((Influence) Gdx.app.getApplicationListener()).getResourceManager();
+            TextureAtlas atlas = resourceManager.getAtlas("numbers");
             numbers = atlas.findRegions("number");
         }
         String stringNumber = Integer.toString(Math.abs(number));
@@ -73,10 +76,10 @@ public class TextureNumberFactory {
                 }
                 numberWithQuotes += stringNumber.charAt(i);
             }
-            Logger.log("Number, string: " + stringNumber);
+            Gdx.app.debug(getClass().getSimpleName(), "Number, string: " + stringNumber);
             stringNumber = numberWithQuotes;
-            Logger.log("Number, quoted: " + stringNumber);
-            Logger.log("Quotes: " + quotes);
+            Gdx.app.debug(getClass().getSimpleName(), "Number, quoted: " + stringNumber);
+            Gdx.app.debug(getClass().getSimpleName(), "Quotes: " + quotes);
         }
 
         char[] chars = stringNumber.toCharArray();

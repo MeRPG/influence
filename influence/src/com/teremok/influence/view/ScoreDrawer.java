@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.influence.Influence;
 import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.ScoreModel;
 import com.teremok.influence.screen.AbstractScreen;
-import com.teremok.influence.util.FontFactory;
+import com.teremok.influence.util.ResourceManager;
 
 import static com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import static com.teremok.influence.view.Drawer.getCellColorByNumber;
@@ -25,9 +26,19 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
 
     private static final float COVER_SIZE = 160;
 
+    BitmapFont statusFont;
+    BitmapFont substatusFont;
+
+    public ScoreDrawer() {
+        super();
+        statusFont = resourceManager.getFont("statusFont");
+        substatusFont = resourceManager.getFont("substatusFont");
+    }
+
     @Override
     public void draw(ScoreController score, Batch batch, float parentAlpha) {
         super.draw(score, batch, parentAlpha);
+
 
         batch.end();
 
@@ -68,7 +79,6 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawStatusAttackPhase(Batch batch, ScoreModel model) {
-        BitmapFont statusFont = FontFactory.getStatusFont();
         String colorString = Localizator.getString("ofYourColor");
         TextBounds colorStringBounds = statusFont.getBounds(colorString, new TextBounds());
         TextBounds statusBounds = statusFont.getBounds(model.status, new TextBounds());
@@ -89,8 +99,6 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawStatusPowerPhase(Batch batch, ScoreModel model) {
-        BitmapFont statusFont = FontFactory.getStatusFont();
-
         String powerString = " (" + current.getPm().current().getPowerToDistribute() + ")";
         String colorString = Localizator.getString("yourCells");
         String appendix = Localizator.getLanguage().equals(Localizator.LANGUAGE_GERMAN) ? Localizator.getString("auf") : "";
@@ -119,7 +127,6 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawAnyOtherStatus(Batch batch, ScoreModel model) {
-        BitmapFont statusFont = FontFactory.getStatusFont();
         if (Localizator.getLanguage().equals(Localizator.LANGUAGE_GERMAN) && model.status.equals(Localizator.getString("touchNearby")))
             statusFont.setScale(0.95f, 1);
         TextBounds statusBounds = statusFont.getBounds(model.status);
@@ -133,7 +140,6 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     private void drawSubstatus(Batch batch) {
         ScoreModel model = current.getModel();
         if (model.substatusExists()) {
-            BitmapFont substatusFont = FontFactory.getSubstatusFont();
             TextBounds substatusBounds = substatusFont.getBounds(model.subStatus);
             TextBounds statusBounds = substatusFont.getBounds(model.status, new TextBounds());
             float substatusX = current.getWidth() / 2 - substatusBounds.width / 2;
@@ -154,19 +160,6 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.rect(0,0,current.getWidth(), current.getHeight());
         renderer.end();
-    }
-
-    protected void drawBox(Batch batch, Color color, float x, float y, float w, float h) {
-
-        batch.end();
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        renderer.setColor(color);
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(current.getX() + x, current.getY() + y, current.getX() + w, current.getY() + h);
-        renderer.end();
-        batch.begin();
     }
 
     protected void drawCovers() {

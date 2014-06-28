@@ -1,5 +1,6 @@
 package com.teremok.influence.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,8 +12,6 @@ import com.teremok.influence.model.GameDifficulty;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.ui.*;
-import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +65,7 @@ public class PlayersScreen extends StaticScreen {
     @Override
     protected void addActors() {
 
-        Logger.log("number of players: " + numberOfPlayers);
+        Gdx.app.debug(getClass().getSimpleName(), "number of players: " + numberOfPlayers);
 
         playerGreen = new TexturePanel(uiElements.get(GREEN));
         playerGreen.setTouchable(Touchable.disabled);
@@ -135,7 +134,7 @@ public class PlayersScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    ScreenController.showMapSizeScreen();
+                    screenController.showMapSizeScreen();
                     if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
                         gameSettings.customPlayers.putAll(gameSettings.players);
                     }
@@ -145,7 +144,7 @@ public class PlayersScreen extends StaticScreen {
                     if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
                         gameSettings.customPlayers.putAll(gameSettings.players);
                     }
-                    ScreenController.showEditorScreen();
+                    screenController.showEditorScreen();
                 }
                 return false;
             }
@@ -162,7 +161,7 @@ public class PlayersScreen extends StaticScreen {
                     Actor target = stage.hit(x, y, true);
                     if (target == null)
                         return;
-                    FXPlayer.playClick();
+                    game.getFXPlayer().playClick();
                     if (target instanceof PlayerTypeUI) {
                         if (gameSettings.difficulty != GameDifficulty.CUSTOM) {
                             gameSettings.customPlayers = gameSettings.getPlayers(gameSettings.difficulty, 5);
@@ -208,7 +207,7 @@ public class PlayersScreen extends StaticScreen {
                         ButtonTexture clicked = (ButtonTexture) target;
                         switch (clicked.getCode()) {
                             case START:
-                                ScreenController.startSingleplayerGame();
+                                screenController.startSingleplayerGame();
                                 if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
                                     gameSettings.customPlayers.putAll(gameSettings.players);
                                 }

@@ -1,11 +1,11 @@
 package com.teremok.influence.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.GameSettings;
-import com.teremok.influence.util.Logger;
 
 /**
  * Created by Алексей on 01.06.2014
@@ -34,18 +34,18 @@ public class GameTypeScreen extends StaticScreen {
                         hideInfoMessageAnimation();
                         return true;
                     }
-                    ScreenController.showStartScreen();
+                    screenController.showStartScreen();
                     return true;
                 }
                 if (! event.isHandled() && (keycode == Input.Keys.SPACE)) {
-                    ScreenController.showMapSizeScreen();
+                    screenController.showMapSizeScreen();
                     gameSettings.gameForInfluence = false;
-                    Logger.log("Average game started.");
+                    Gdx.app.debug(getClass().getSimpleName(), "Average game started.");
                 }
                 if (! event.isHandled() && (keycode == Input.Keys.ENTER)) {
-                    ScreenController.showMapSizeScreen();
+                    screenController.showMapSizeScreen();
                     gameSettings.gameForInfluence = true;
-                    Logger.log("Game for Influence started.");
+                    Gdx.app.debug(getClass().getSimpleName(), "Game for Influence started.");
                 }
                 return false;
             }

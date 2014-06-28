@@ -1,5 +1,6 @@
 package com.teremok.influence.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -12,7 +13,6 @@ import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.UIElementParams;
 import com.teremok.influence.ui.UIElementsXMLLoader;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Animation;
 
 import java.io.IOException;
@@ -26,6 +26,9 @@ public abstract class StaticScreen extends AbstractScreen {
     private String filename;
     private String atlasName;
     protected boolean loaded;
+    protected boolean keepInMemory;
+
+    protected ScreenController screenController;
 
     protected Map<String, UIElementParams> uiElements;
     protected Image background;
@@ -34,6 +37,7 @@ public abstract class StaticScreen extends AbstractScreen {
 
     private StaticScreen(Influence game) {
         super(game);
+        this.screenController = game.getScreenController();
     }
 
     public StaticScreen(Influence game, String filename) {
@@ -56,7 +60,7 @@ public abstract class StaticScreen extends AbstractScreen {
 
     private void loadScreen() throws IOException {
 
-        UIElementsXMLLoader loader = new UIElementsXMLLoader(filename);
+        UIElementsXMLLoader loader = new UIElementsXMLLoader(game.getResourceManager(), filename);
 
         atlasName = loader.getAtlasName();
         atlas = loader.getAtlas();
@@ -74,7 +78,7 @@ public abstract class StaticScreen extends AbstractScreen {
         for (UIElementParams params : uiElements.values()) {
             if (! params.parsed) {
                 stage.addActor(new TexturePanel(params));
-                Logger.log("add non parsed element as TexturePanel: " + params.name);
+                Gdx.app.debug(getClass().getSimpleName(), "add non parsed element as TexturePanel: " + params.name);
             }
         }
     }
@@ -128,21 +132,21 @@ public abstract class StaticScreen extends AbstractScreen {
     protected void showInfoMessageAnimation() {
         infoMessage.getColor().a = 0.0f;
         showInfoMessage();
-        Logger.log("infoMessage alpha: " + infoMessage.getColor().a);
+        Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha: " + infoMessage.getColor().a);
         infoMessage.addAction(Actions.fadeIn(Animation.DURATION_SHORT));
-        Logger.log("infoMessage alpha after fadeIn: " + infoMessage.getColor().a);
+        Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha after fadeIn: " + infoMessage.getColor().a);
     }
 
     protected void hideInfoMessageAnimation() {
         infoMessage.getColor().a = 1.0f;
-        Logger.log("infoMessage alpha: " + infoMessage.getColor().a);
+        Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha: " + infoMessage.getColor().a);
         infoMessage.addAction(
                 Actions.sequence(
                         Actions.fadeOut(Animation.DURATION_SHORT),
                         new Action() {
                             @Override
                             public boolean act(float v) {
-                                Logger.log("infoMessage alpha after fadeOut: " + infoMessage.getColor().a);
+                                Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha after fadeOut: " + infoMessage.getColor().a);
                                 hideInfoMessage();
                                 return true;
                             }
@@ -174,34 +178,45 @@ public abstract class StaticScreen extends AbstractScreen {
         super.resize(width, height);
         addNonparsed();
         fadeOutOverlap();
-        Logger.log("resize");
+        Gdx.app.debug(getClass().getSimpleName(), "resize");
     }
 
     @Override
     public void show() {
         super.show();
-        Logger.log("show - loading textures from " + filename);
+        Gdx.app.debug(getClass().getSimpleName(), "show - loading textures from " + filename);
         loadScreenCatchEx();
     }
 
     @Override
     public void hide() {
-        //super.hide();
-        Logger.log("hide");
+        super.hide();
+        dispose();
+        Gdx.app.debug(getClass().getSimpleName(), "hide");
     }
 
     @Override
     public void dispose() {
         super.dispose();
+        if (! keepInMemory) {
+            game.getResourceManager().disposeAtlas(atlasName);
+        }
+        Gdx.app.debug(this.getClass().getSimpleName(), "dispose called");
         loaded = false;
-        //ResourceManager.disposeAtlas(atlasName);
     }
 
     // Auto-generated
 
-
     public String getAtlasName() {
         return atlasName;
+    }
+
+    public boolean isKeepInMemory() {
+        return keepInMemory;
+    }
+
+    public void setKeepInMemory(boolean keepInMemory) {
+        this.keepInMemory = keepInMemory;
     }
 }
 

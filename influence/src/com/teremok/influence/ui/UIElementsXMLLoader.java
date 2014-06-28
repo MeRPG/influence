@@ -1,5 +1,6 @@
 package com.teremok.influence.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +12,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.XmlReader;
 import com.teremok.influence.model.Localizator;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.ResourceManager;
 
 import java.io.IOException;
@@ -40,10 +40,14 @@ public class UIElementsXMLLoader {
     private Map<String, UIElementParams> uiElementsParams;
     private Image background;
 
-    public UIElementsXMLLoader(String filename) throws IOException {
+    private ResourceManager resourceManager;
+
+    public UIElementsXMLLoader(ResourceManager resourceManager, String filename) throws IOException {
+
+        this.resourceManager = resourceManager;
 
         uiElementsParams = new HashMap<>();
-        FileHandle handle = ResourceManager.getScreenUi(filename);
+        FileHandle handle = resourceManager.getScreenUi(filename);
         XmlReader reader = new XmlReader();
         XmlReader.Element root = reader.parse(handle.reader());
 
@@ -57,9 +61,9 @@ public class UIElementsXMLLoader {
 
         atlasName = root.getAttribute(ATLAS_ATTR);
         if (localizedAtlas) {
-            atlas = ResourceManager.getAtlas(atlasName + "_" + Localizator.getLanguage());
+            atlas = resourceManager.getAtlas(atlasName + "_" + Localizator.getLanguage());
         } else {
-            atlas = ResourceManager.getAtlas(atlasName);
+            atlas = resourceManager.getAtlas(atlasName);
         }
     }
 
@@ -98,17 +102,17 @@ public class UIElementsXMLLoader {
 
         if (params.localized) {
             params.region = atlas.findRegion(region + "_" + Localizator.getLanguage());
-            Logger.log("finding localized region: " + region + "_" + Localizator.getLanguage() + " : " + params.region);
+            Gdx.app.debug(getClass().getSimpleName(), "finding localized region: " + region + "_" + Localizator.getLanguage() + " : " + params.region);
             if (! secondRegion.isEmpty()) {
                 params.region2 = atlas.findRegion(secondRegion + "_" + Localizator.getLanguage());
-                Logger.log("finding localized region: " + secondRegion + "_" + Localizator.getLanguage() + " : " + params.region2);
+                Gdx.app.debug(getClass().getSimpleName(), "finding localized region: " + secondRegion + "_" + Localizator.getLanguage() + " : " + params.region2);
             }
         } else {
             params.region = atlas.findRegion(region);
-            Logger.log("finding region: " + region + " : " + params.region);
+            Gdx.app.debug(getClass().getSimpleName(), "finding region: " + region + " : " + params.region);
             if (! secondRegion.isEmpty()) {
                 params.region2 = atlas.findRegion(secondRegion);
-                Logger.log("finding region: " + secondRegion + " : " + params.region2);
+                Gdx.app.debug(getClass().getSimpleName(), "finding region: " + secondRegion + " : " + params.region2);
             }
         }
 

@@ -11,8 +11,6 @@ import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.Checkbox;
 import com.teremok.influence.ui.RadioGroup;
 import com.teremok.influence.ui.RadioTexture;
-import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.Logger;
 
 /**
  * Created by Алексей on 29.03.14
@@ -71,7 +69,7 @@ public class MapSizeScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    ScreenController.showModeScreen();
+                    screenController.showModeScreen();
                     return true;
                 }
                 return false;
@@ -89,9 +87,9 @@ public class MapSizeScreen extends StaticScreen {
                     Actor target = stage.hit(x, y, true);
                     if (target == null)
                         return;
-                    FXPlayer.playClick();
+                    game.getFXPlayer().playClick();
                     if (target instanceof ButtonTexture) {
-                        ScreenController.showPlayersScreen();
+                        screenController.showPlayersScreen();
                     } else {
                         Checkbox selectedSize = (Checkbox) target;
                         switch (selectedSize.getCode()) {
@@ -108,7 +106,6 @@ public class MapSizeScreen extends StaticScreen {
                                 settings.gameSettings.setSize(FieldSize.XLARGE);
                                 break;
                         }
-                        Logger.log("Field size: " + settings.gameSettings.fieldSize);
                         checkSelectedSize();
                     }
                 }

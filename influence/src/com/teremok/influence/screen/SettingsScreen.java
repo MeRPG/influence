@@ -8,9 +8,7 @@ import com.teremok.influence.Influence;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
-import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 
 /**
@@ -124,6 +122,7 @@ public class SettingsScreen extends StaticScreen {
                             }
                         } else {
                             if (group.getCode() == LANGUAGE_GROUP) {
+                                String oldLanguage = Localizator.getLanguage();
                                 switch (code) {
                                     case Localizator.LANGUAGE_RUSSIAN:
                                         Localizator.setRussianLanguage();
@@ -135,8 +134,9 @@ public class SettingsScreen extends StaticScreen {
                                         Localizator.setEnglishLanguage();
                                         break;
                                 }
-                                ScreenController.setLoadedAll(false);
-                                ScreenController.showSettingsScreen();
+                                if (! oldLanguage.equals(Localizator.getLanguage())) {
+                                    screenController.showSettingsScreen();
+                                }
                             } else {
                                 switch (code) {
                                     case SPEED_NORMAL:
@@ -152,7 +152,7 @@ public class SettingsScreen extends StaticScreen {
                             }
                         }
                     }
-                    FXPlayer.playClick();
+                    game.getFXPlayer().playClick();
                 }
             }
 
@@ -161,18 +161,11 @@ public class SettingsScreen extends StaticScreen {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
                     game.getSettingsController().save(settings);
                     FlurryHelper.logSettingsChangeEvent(settings);
-                    ScreenController.showStartScreen();
+                    screenController.showStartScreen();
                     return true;
                 }
                 return false;
             }
         });
-    }
-
-    @Override
-    public void show() {
-        super.show();
-        FXPlayer.load();
-        Logger.log("SettingsScreen: show;");
     }
 }

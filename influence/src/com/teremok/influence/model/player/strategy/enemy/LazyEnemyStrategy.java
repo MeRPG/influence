@@ -19,7 +19,7 @@ public class LazyEnemyStrategy implements EnemyStrategy {
         int number = 0;
         int minimalPower = 0;
 
-        //Logger.log("Lazy -- Cells to attack: ");
+        //Gdx.app.debug(getClass().getSimpleName(), "Lazy -- Cells to attack: ");
 
         int[] powers = new int[6];
 
@@ -30,7 +30,7 @@ public class LazyEnemyStrategy implements EnemyStrategy {
                 number = i;
                 minimalPower = c.getPower();
             }
-            //Logger.log("Lazy -- " + i + " " + c);
+            //Gdx.app.debug(getClass().getSimpleName(), "Lazy -- " + i + " " + c);
             powers[i] = c.getPower();
         }
 
@@ -47,8 +47,8 @@ public class LazyEnemyStrategy implements EnemyStrategy {
             number = numbersOfMinimal[rnd.nextInt(cellsWithMinimal)];
         }
 
-        //Logger.log("Lazy -- cell number to attack: " + 0);
-        //Logger.log("Lazy -- cell: " + number);
+        //Gdx.app.debug(getClass().getSimpleName(), "Lazy -- cell number to attack: " + 0);
+        //Gdx.app.debug(getClass().getSimpleName(), "Lazy -- cell: " + number);
         return cells.get(number);
     }
 

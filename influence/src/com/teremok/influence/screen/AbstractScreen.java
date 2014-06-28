@@ -23,7 +23,6 @@ public abstract class AbstractScreen implements Screen {
     public static final float HEIGHT = 720f;
 
     protected final Influence game;
-    protected BitmapFont font;
     protected final Stage stage;
     protected Batch batch;
     protected TextureAtlas atlas;
@@ -68,7 +67,6 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
     }
 
     @Override
@@ -82,7 +80,11 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        if (atlas != null) atlas.dispose();
-        if (font  != null) font.dispose();
+        //if (atlas != null) atlas.dispose();
+        //if (batch != null) batch.dispose();
+    }
+
+    public Influence getGame() {
+        return game;
     }
 }

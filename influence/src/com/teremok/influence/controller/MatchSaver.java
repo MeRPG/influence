@@ -8,7 +8,6 @@ import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.PlayerType;
-import com.teremok.influence.util.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -60,7 +59,7 @@ public class MatchSaver {
         try {
             FileHandle handle = Gdx.files.external(MATCH_PATH);
             FileWriter fileWriter = new FileWriter(handle.file());
-            Logger.log("Game save cleared: " + handle.file().getAbsolutePath());
+            Gdx.app.debug(getClass().getSimpleName(), "Game save cleared: " + handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter xmlMatch = xml.element(ROOT);
             xmlMatch.pop();
@@ -73,7 +72,7 @@ public class MatchSaver {
     private void saveInFile(Match match) throws IOException {
         FileHandle handle = Gdx.files.external(MATCH_PATH);
         FileWriter fileWriter = new FileWriter(handle.file());
-        Logger.log(handle.file().getAbsolutePath());
+        Gdx.app.debug(getClass().getSimpleName(), handle.file().getAbsolutePath());
         XmlWriter xml = new XmlWriter(fileWriter);
         XmlWriter xmlMatch = xml.element(ROOT).attribute(TURN_ATTR, match.getTurn());
 
@@ -88,7 +87,9 @@ public class MatchSaver {
         }
         playersXml.pop();
 
-        saveGameSettings(match.getGameSettings(),xmlMatch);
+
+        GameSettingsController controller = new GameSettingsController();
+        controller.saveGameSettings(match.getGameSettings(),xmlMatch);
 
         XmlWriter fieldXml = xml.element(FIELD);
         FieldModel fieldModel = match.getFieldController().getModel();
@@ -114,7 +115,7 @@ public class MatchSaver {
         fieldXml.pop();
         xml.close();
 
-        Logger.log("Match saved to file" + handle.path());
+        Gdx.app.debug(getClass().getSimpleName(), "Match saved to file" + handle.path());
     }
 
     public Match load() {
@@ -131,15 +132,16 @@ public class MatchSaver {
     private Match loadFromFile() throws IOException{
         Match match;
         FileHandle handle = Gdx.files.external(MATCH_PATH);
-        Logger.log("loading match from file " + handle.path());
+        Gdx.app.debug(getClass().getSimpleName(), "loading match from file " + handle.path());
         if (handle.exists()) {
             XmlReader reader = new XmlReader();
 
             XmlReader.Element root = reader.parse(handle.reader());
 
-            GameSettings gameSettings = loadGameSettings(root);
+            GameSettingsController controller = new GameSettingsController();
+            GameSettings gameSettings = controller.loadGameSettings(root);
 
-            Logger.log("loading players");
+            Gdx.app.debug(getClass().getSimpleName(), "loading players");
             loadPlayers(root, gameSettings);
             List<Cell> cells = loadCells(root);
 
@@ -218,80 +220,7 @@ public class MatchSaver {
             route = new Route(from, to, enabled);
             router.add(route);
         }
-        router.print();
         return router;
-    }
-
-    // TODO дубликат из SettingsController
-    private void saveGameSettings(GameSettings gameSettings, XmlWriter root) throws IOException{
-        XmlWriter gameXml = root.element("game");
-        gameXml
-                .element("players", gameSettings.getNumberOfPlayers())
-                .element("difficulty", gameSettings.difficulty)
-                .element("fieldSize", gameSettings.fieldSize)
-                .element("gameForInfluence", gameSettings.gameForInfluence);
-        XmlWriter playersXml = gameXml.element("customPlayers");
-        int num = 0;
-        for (PlayerType player : gameSettings.customPlayers.values()) {
-            playersXml.element("player")
-                    .attribute("number", num++)
-                    .text(player)
-                    .pop();
-        }
-        playersXml.pop();
-        gameXml.pop();
-    }
-
-    // TODO дубликат из SettingsController
-    public GameSettings loadGameSettings(XmlReader.Element root) {
-
-        GameSettings gameSettings = GameSettings.getDefault();
-        try {
-
-            if (root.toString().equals("<match/>")){
-                return gameSettings;
-            }
-
-
-            XmlReader.Element settingsXml = root.getChildByName("game");
-            FieldSize size =  FieldSize.valueOf(settingsXml.getChildByName("fieldSize").getText());
-            gameSettings.setSize(size);
-            gameSettings.difficulty =  GameDifficulty.valueOf(settingsXml.getChildByName("difficulty").getText());
-            gameSettings.gameForInfluence = settingsXml.getBoolean("gameForInfluence", false);
-            int playersNumber = settingsXml.getInt("players",5);
-            if (playersNumber < 2 || playersNumber > 5)
-                playersNumber = 5;
-            gameSettings.players = GameSettings.getPlayersByDifficulty(gameSettings.difficulty, playersNumber);
-
-
-            try {
-                Integer number;
-                String type;
-                Map<Integer, PlayerType> players = new HashMap<>();
-
-                XmlReader.Element playersRoot = settingsXml.getChildByName("customPlayers");
-                for (XmlReader.Element player : playersRoot.getChildrenByName("player")) {
-                    number = player.getIntAttribute("number", 0);
-                    type = player.getText();
-                    players.put(number, PlayerType.valueOf(type));
-                    Logger.log("adding customPlayer " + type + " with number " + number);
-                }
-
-                gameSettings.customPlayers = players;
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                gameSettings.difficulty = GameDifficulty.NORMAL;
-                gameSettings.customPlayers = gameSettings.getPlayers(GameDifficulty.CUSTOM, 5);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        if (gameSettings == null || gameSettings.players == null || gameSettings.difficulty == null || gameSettings.fieldSize == null) {
-            gameSettings = GameSettings.getDefault();
-        }
-        return gameSettings;
     }
 
     public boolean hasNotEnded() {

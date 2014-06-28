@@ -11,9 +11,7 @@ import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.AboutScreenChecker;
-import com.teremok.influence.util.FXPlayer;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Logger;
 
 /**
  * Created by Alexx on 20.12.13
@@ -35,12 +33,6 @@ public class StartScreen extends StaticScreen {
     public StartScreen(Influence game, String filename) {
         super(game, filename);
         AboutScreenChecker.check(game.getSettings());
-    }
-
-    @Override
-    public void show() {
-        super.show();
-        FXPlayer.load();
     }
 
     @Override
@@ -82,23 +74,23 @@ public class StartScreen extends StaticScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (! event.isHandled()) {
-                    FXPlayer.playClick();
+                    game.getFXPlayer().playClick();
                     Button target = (Button)event.getTarget();
                     String code = target.getCode();
                     switch (code) {
                         case CONTINUE:
                             FlurryHelper.logContinueGameEvent();
-                            ScreenController.continueGame();
+                            screenController.continueGame();
                             break;
                         case NEWGAME:
                             FlurryHelper.logNewGameEvent(game.getMatchSaver().hasNotEnded());
-                            ScreenController.showModeScreen();
+                            screenController.showModeScreen();
                             break;
                         case SETTINGS:
-                            ScreenController.showSettingsScreen();
+                            screenController.showSettingsScreen();
                             break;
                         case STATISTICS:
-                            ScreenController.showStatisticsScreen();
+                            screenController.showStatisticsScreen();
                             break;
                         case F:
                             FlurryHelper.logFacebookClickEvent();
@@ -119,11 +111,11 @@ public class StartScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    ScreenController.gracefullyExitGame();
+                    screenController.gracefullyExitGame();
                     return true;
                 }
                 if (keycode == Input.Keys.S) {
-                    ScreenController.showStatisticsScreen();
+                    screenController.showStatisticsScreen();
                 }
                 return false;
             }
@@ -139,8 +131,8 @@ public class StartScreen extends StaticScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (!event.isHandled()) {
-                    FXPlayer.playClick();
-                    ScreenController.showAboutScreen();
+                    game.getFXPlayer().playClick();
+                    screenController.showAboutScreen();
                 }
             }
         });
@@ -167,8 +159,7 @@ public class StartScreen extends StaticScreen {
     @Override
     public void resume() {
         super.resume();
-        FXPlayer.load();
-        Logger.log("StartScreen: resume;");
+        Gdx.app.debug(getClass().getSimpleName(), "StartScreen: resume;");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.teremok.influence;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.teremok.influence.controller.ChronicleController;
@@ -9,7 +10,8 @@ import com.teremok.influence.model.Chronicle;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.screen.ScreenController;
-import com.teremok.influence.util.Logger;
+import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.ResourceManager;
 
 import java.util.Locale;
 
@@ -24,6 +26,11 @@ public class Influence extends Game {
 
     private MatchSaver matchSaver;
 
+    private FXPlayer fxPlayer;
+
+    private ScreenController screenController;
+
+    private ResourceManager resourceManager;
 
     public Influence(Locale locale) {
         String language = locale.getLanguage();
@@ -45,23 +52,33 @@ public class Influence extends Game {
 
     @Override
 	public void create() {
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
         matchSaver = new MatchSaver();
 
         chronicleController = new ChronicleController();
         chronicle = chronicleController.load();
 
+        fxPlayer = new FXPlayer(this);
 
-        Logger.init(true);
-        Logger.log("Use language: " + Localizator.getLanguage());
+        Gdx.app.debug(getClass().getSimpleName(), "Use language: " + Localizator.getLanguage());
 
         settingsController = new SettingsController();
         settings = settingsController.load();
 
-        ScreenController.init(this);
-        ScreenController.forceShowStartScreen();
+        resourceManager = new ResourceManager(this);
+
+        screenController = new ScreenController(this);
+        screenController.showSplashScreen();
 	}
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        resourceManager.dispose();
+    }
+
     public void exit() {
+        Gdx.app.debug(getClass().getSimpleName(), "exiting game");
         settingsController.save(settings);
         chronicleController.save(chronicle);
         Gdx.app.exit();
@@ -106,5 +123,29 @@ public class Influence extends Game {
 
     public void setSettingsController(SettingsController settingsController) {
         this.settingsController = settingsController;
+    }
+
+    public ScreenController getScreenController() {
+        return screenController;
+    }
+
+    public void setScreenController(ScreenController screenController) {
+        this.screenController = screenController;
+    }
+
+    public ResourceManager getResourceManager() {
+        return resourceManager;
+    }
+
+    public void setResourceManager(ResourceManager resourceManager) {
+        this.resourceManager = resourceManager;
+    }
+
+    public FXPlayer getFXPlayer() {
+        return fxPlayer;
+    }
+
+    public void setFXPlayer(FXPlayer fxPlayer) {
+        this.fxPlayer = fxPlayer;
     }
 }
