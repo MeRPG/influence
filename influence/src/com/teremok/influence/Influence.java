@@ -41,9 +41,6 @@ public class Influence extends Game {
             case "kk":
                 Localizator.setRussianLanguage();
                 break;
-            case "de":
-                Localizator.setGermanLanguage();
-                break;
             default:
                 Localizator.setEnglishLanguage();
                 break;

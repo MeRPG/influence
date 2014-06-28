@@ -101,7 +101,7 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     private void drawStatusPowerPhase(Batch batch, ScoreModel model) {
         String powerString = " (" + current.getPm().current().getPowerToDistribute() + ")";
         String colorString = Localizator.getString("yourCells");
-        String appendix = Localizator.getLanguage().equals(Localizator.LANGUAGE_GERMAN) ? Localizator.getString("auf") : "";
+        String appendix = "";
 
         TextBounds powerStringBounds = statusFont.getBounds(powerString, new TextBounds());
         TextBounds statusBounds = statusFont.getBounds(model.status, new TextBounds());
@@ -127,8 +127,6 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawAnyOtherStatus(Batch batch, ScoreModel model) {
-        if (Localizator.getLanguage().equals(Localizator.LANGUAGE_GERMAN) && model.status.equals(Localizator.getString("touchNearby")))
-            statusFont.setScale(0.95f, 1);
         TextBounds statusBounds = statusFont.getBounds(model.status);
         float statusX = current.getWidth()/2 - statusBounds.width/2;
         float statusY = current.getY() + 16 + (current.getHeight() - 24f + statusBounds.height)/2;

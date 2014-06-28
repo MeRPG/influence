@@ -43,18 +43,14 @@ public class SettingsScreen extends StaticScreen {
         RadioGroup languageGroup = new RadioGroup(LANGUAGE_GROUP);
         Checkbox russian = new RadioTexture(uiElements.get(Localizator.LANGUAGE_RUSSIAN));
         Checkbox english = new RadioTexture(uiElements.get(Localizator.LANGUAGE_ENGLISH));
-        Checkbox german = new RadioTexture(uiElements.get(Localizator.LANGUAGE_GERMAN));
 
         russian.addToGroup(languageGroup);
         english.addToGroup(languageGroup);
-        german.addToGroup(languageGroup);
 
         if (Localizator.getLanguage().equals(Localizator.LANGUAGE_RUSSIAN)) {
             russian.check();
-        } else if (Localizator.getLanguage().equals(Localizator.LANGUAGE_ENGLISH)){
-            english.check();
         } else {
-            german.check();
+            english.check();
         }
 
         RadioGroup speedGroup = new RadioGroup(SPEED_GROUP);
@@ -83,7 +79,6 @@ public class SettingsScreen extends StaticScreen {
 
         stage.addActor(russian);
         stage.addActor(english);
-        stage.addActor(german);
 
         stage.addActor(slow);
         stage.addActor(normal);
@@ -126,9 +121,6 @@ public class SettingsScreen extends StaticScreen {
                                 switch (code) {
                                     case Localizator.LANGUAGE_RUSSIAN:
                                         Localizator.setRussianLanguage();
-                                        break;
-                                    case Localizator.LANGUAGE_GERMAN:
-                                        Localizator.setGermanLanguage();
                                         break;
                                     default:
                                         Localizator.setEnglishLanguage();
