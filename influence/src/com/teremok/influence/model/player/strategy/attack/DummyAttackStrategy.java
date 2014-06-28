@@ -37,7 +37,7 @@ public class DummyAttackStrategy implements AttackStrategy {
                 cell = cells.get(i);
             } while (cell.getPower()==1 || cell.getEnemies().isEmpty());
         }
-        //Logger.log("attacker: " + i);
+        //Gdx.app.debug(getClass().getSimpleName(), "attacker: " + i);
         return cell;
     }
 

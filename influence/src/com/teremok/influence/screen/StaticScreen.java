@@ -13,7 +13,6 @@ import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.UIElementParams;
 import com.teremok.influence.ui.UIElementsXMLLoader;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.view.Animation;
 
 import java.io.IOException;
@@ -79,7 +78,7 @@ public abstract class StaticScreen extends AbstractScreen {
         for (UIElementParams params : uiElements.values()) {
             if (! params.parsed) {
                 stage.addActor(new TexturePanel(params));
-                Logger.log("add non parsed element as TexturePanel: " + params.name);
+                Gdx.app.debug(getClass().getSimpleName(), "add non parsed element as TexturePanel: " + params.name);
             }
         }
     }
@@ -133,21 +132,21 @@ public abstract class StaticScreen extends AbstractScreen {
     protected void showInfoMessageAnimation() {
         infoMessage.getColor().a = 0.0f;
         showInfoMessage();
-        Logger.log("infoMessage alpha: " + infoMessage.getColor().a);
+        Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha: " + infoMessage.getColor().a);
         infoMessage.addAction(Actions.fadeIn(Animation.DURATION_SHORT));
-        Logger.log("infoMessage alpha after fadeIn: " + infoMessage.getColor().a);
+        Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha after fadeIn: " + infoMessage.getColor().a);
     }
 
     protected void hideInfoMessageAnimation() {
         infoMessage.getColor().a = 1.0f;
-        Logger.log("infoMessage alpha: " + infoMessage.getColor().a);
+        Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha: " + infoMessage.getColor().a);
         infoMessage.addAction(
                 Actions.sequence(
                         Actions.fadeOut(Animation.DURATION_SHORT),
                         new Action() {
                             @Override
                             public boolean act(float v) {
-                                Logger.log("infoMessage alpha after fadeOut: " + infoMessage.getColor().a);
+                                Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha after fadeOut: " + infoMessage.getColor().a);
                                 hideInfoMessage();
                                 return true;
                             }
@@ -179,13 +178,13 @@ public abstract class StaticScreen extends AbstractScreen {
         super.resize(width, height);
         addNonparsed();
         fadeOutOverlap();
-        Logger.log("resize");
+        Gdx.app.debug(getClass().getSimpleName(), "resize");
     }
 
     @Override
     public void show() {
         super.show();
-        Logger.log("show - loading textures from " + filename);
+        Gdx.app.debug(getClass().getSimpleName(), "show - loading textures from " + filename);
         loadScreenCatchEx();
     }
 
@@ -193,7 +192,7 @@ public abstract class StaticScreen extends AbstractScreen {
     public void hide() {
         super.hide();
         dispose();
-        Logger.log("hide");
+        Gdx.app.debug(getClass().getSimpleName(), "hide");
     }
 
     @Override

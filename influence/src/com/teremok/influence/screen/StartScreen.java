@@ -12,7 +12,6 @@ import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
 import com.teremok.influence.util.AboutScreenChecker;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Logger;
 
 /**
  * Created by Alexx on 20.12.13
@@ -160,7 +159,7 @@ public class StartScreen extends StaticScreen {
     @Override
     public void resume() {
         super.resume();
-        Logger.log("StartScreen: resume;");
+        Gdx.app.debug(getClass().getSimpleName(), "StartScreen: resume;");
     }
 
     @Override

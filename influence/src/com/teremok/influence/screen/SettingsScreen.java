@@ -9,7 +9,6 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.Vibrator;
 
 /**
@@ -136,7 +135,6 @@ public class SettingsScreen extends StaticScreen {
                                         break;
                                 }
                                 if (! oldLanguage.equals(Localizator.getLanguage())) {
-                                    game.getResourceManager().reloadLocalizedAtlas(getAtlasName(), oldLanguage, Localizator.getLanguage());
                                     screenController.showSettingsScreen();
                                 }
                             } else {
@@ -169,11 +167,5 @@ public class SettingsScreen extends StaticScreen {
                 return false;
             }
         });
-    }
-
-    @Override
-    public void show() {
-        super.show();
-        Logger.log("SettingsScreen: show;");
     }
 }

@@ -6,7 +6,6 @@ import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.GameDifficulty;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.player.PlayerType;
-import com.teremok.influence.util.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -66,7 +65,6 @@ public class GameSettingsController {
                     number = player.getIntAttribute("number", 0);
                     type = player.getText();
                     players.put(number, PlayerType.valueOf(type));
-                    Logger.log("adding customPlayer " + type + " with number " + number);
                 }
 
                 gameSettings.customPlayers = players;

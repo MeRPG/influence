@@ -1,5 +1,6 @@
 package com.teremok.influence.util;
 
+import com.badlogic.gdx.Gdx;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.FieldModel;
 import com.teremok.influence.model.Route;
@@ -73,15 +74,9 @@ public class GraphGenerator {
         }
 
         router.clear();
-        router.print();
 
         constructMatrix();
-
-        router.print();
-
         minimizeMatrix();
-
-        router.print();
     }
 
     public void parse(List<Cell> cells) {
@@ -105,7 +100,7 @@ public class GraphGenerator {
             for (int i = 1; i < maxCellsY; i += 2) {
                 mask[i][maxCellsX -1] = Byte.MAX_VALUE;
 
-                Logger.log("add forbidden " + i + " : "+ (maxCellsX -1));
+                Gdx.app.debug(getClass().getSimpleName(), "add forbidden " + i + " : " + (maxCellsX - 1));
             }
         }
     }
@@ -198,29 +193,29 @@ public class GraphGenerator {
     }
 
     private void printMatrix() {
-        //Logger.log("Matrix for graph: ");
+        //Gdx.app.debug(getClass().getSimpleName(), "Matrix for graph: ");
         int ones = 0;
         for (int i = 0; i < cellsCount; i++) {
             for (int j = 0; j < cellsCount; j++) {
                 //Logger.append(matrix[i][j] + "\t");
                 if (matrix[i][j] == 1) ones++;
             }
-            //Logger.log("");
+            //Gdx.app.debug(getClass().getSimpleName(), "");
         }
-        //Logger.log("Percents: " + ((float)ones * 100 )/(cellsCount*cellsCount) + "%");
-        //Logger.log(" - - - ");
+        //Gdx.app.debug(getClass().getSimpleName(), "Percents: " + ((float)ones * 100 )/(cellsCount*cellsCount) + "%");
+        //Gdx.app.debug(getClass().getSimpleName(), " - - - ");
 
     }
 
     private void printMatrix(String desc, int[][] matrix, int sizeX, int sizeY) {
-        //Logger.log(desc);
+        //Gdx.app.debug(getClass().getSimpleName(), desc);
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 //Logger.append(matrix[i][j] + "\t");
             }
-            //Logger.log("");
+            //Gdx.app.debug(getClass().getSimpleName(), "");
         }
-        //Logger.log(" - - - ");
+        //Gdx.app.debug(getClass().getSimpleName(), " - - - ");
 
     }
 
@@ -273,7 +268,7 @@ public class GraphGenerator {
     }
 
     private void printMask() {
-        //Logger.log(" - - - - - - - - ");
+        //Gdx.app.debug(getClass().getSimpleName(), " - - - - - - - - ");
         for (int i = 0; i < maxCellsY; i++) {
             for (int j = 0; j < maxCellsX; j++) {
                 if (mask[i][j] == Byte.MAX_VALUE) {
@@ -282,9 +277,9 @@ public class GraphGenerator {
                     //Logger.append(mask[i][j] + "\t");
                 }
             }
-            //Logger.log("");
+            //Gdx.app.debug(getClass().getSimpleName(), "");
         }
-        //Logger.log(" - - - Cycles: " + cycles);
+        //Gdx.app.debug(getClass().getSimpleName(), " - - - Cycles: " + cycles);
     }
 
     private boolean[] markedVertexes = null;

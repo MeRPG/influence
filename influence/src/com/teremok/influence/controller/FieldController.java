@@ -152,7 +152,7 @@ public class FieldController extends Group {
                     if (target != null) {
                         return true;
                     }
-                    Logger.log("Field - touchDown");
+                    Gdx.app.debug(getClass().getSimpleName(), "Field - touchDown");
                     return event.getType().equals(InputEvent.Type.touchDown);
                 }
 
@@ -178,7 +178,7 @@ public class FieldController extends Group {
                                 addPower(target);
                             }
                         }
-                        Logger.log("Field - touchUp ");
+                        Gdx.app.debug(getClass().getSimpleName(), "Field - touchUp ");
                     }
                 }
         });
@@ -187,7 +187,7 @@ public class FieldController extends Group {
     }
 
     public Cell hit(float x, float y) {
-        Logger.log("hit field on " + x + "; " + y);
+        Gdx.app.debug(getClass().getSimpleName(), "hit field on " + x + "; " + y);
         int unitsY = (int)(y/cellHeight);
 
         if (unitsY%2 == 1) {
@@ -196,7 +196,7 @@ public class FieldController extends Group {
 
         int unitsX = (int)(x/cellWidth);
 
-        Logger.log("hit: " + unitsX + "; " + unitsY + "; " + model.getNum(unitsX, unitsY));
+        Gdx.app.debug(getClass().getSimpleName(), "hit: " + unitsX + "; " + unitsY + "; " + model.getNum(unitsX, unitsY));
 
         if (unitsX < 0 || unitsX > model.maxCellsX -1 || unitsY < 0 || unitsY > model.maxCellsY -1) {
             model.cells.get(0);
@@ -249,7 +249,7 @@ public class FieldController extends Group {
         cell.setPower(powerToAdd + cell.getPower());
         riseAddPowerTooltip(cell, "+"+powerToAdd);
         pm.current().subtractPowerToDistribute(powerToAdd);
-        Logger.log("Add " + powerToAdd + " power to " + cell);
+        Gdx.app.debug(getClass().getSimpleName(), "Add " + powerToAdd + " power to " + cell);
     }
 
 
@@ -495,7 +495,7 @@ public class FieldController extends Group {
 
     public void updateLists() {
 
-        Logger.log("update lists called.");
+        Gdx.app.debug(getClass().getSimpleName(), "update lists called.");
 
         Player[] players = pm.getPlayers();
         if (players != null) {

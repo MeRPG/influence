@@ -33,7 +33,7 @@ public class CheckboxColored extends Checkbox {
         super.check();
         color = colorOn;
         setColor(color);
-        //Logger.log(code + " checked!");
+        //Gdx.app.debug(getClass().getSimpleName(), code + " checked!");
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CheckboxColored extends Checkbox {
         super.unCheck();
         color = colorOff;
         setColor(color);
-        //Logger.log(code + " unchecked!");
+        //Gdx.app.debug(getClass().getSimpleName(), code + " unchecked!");
     }
 
     @Override

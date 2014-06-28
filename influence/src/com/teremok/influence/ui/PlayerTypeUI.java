@@ -1,8 +1,8 @@
 package com.teremok.influence.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.teremok.influence.model.player.PlayerType;
-import com.teremok.influence.util.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class PlayerTypeUI extends ButtonTexture {
     int currentNum = 0;
 
     static {
-        map = new HashMap<Integer, PlayerType>();
+        map = new HashMap<>();
         map.put(0, PlayerType.Human);
         map.put(1, PlayerType.Random);
         map.put(2, PlayerType.Dummy);
@@ -45,7 +45,7 @@ public class PlayerTypeUI extends ButtonTexture {
 
     public void setType(PlayerType playerType) {
         currentNum = playerType.ordinal();
-        Logger.log("PlayerTypeUI - playerType.ordinal = " + playerType.ordinal());
+        Gdx.app.debug(getClass().getSimpleName(), "PlayerTypeUI - playerType.ordinal = " + playerType.ordinal());
         region =  regions.get(map.get(currentNum));
     }
 
@@ -54,7 +54,7 @@ public class PlayerTypeUI extends ButtonTexture {
     }
 
     public void next() {
-        Logger.log("PlayerTypeUI - next, code:" + code);
+        Gdx.app.debug(getClass().getSimpleName(), "PlayerTypeUI - next, code:" + code);
         if (currentNum < map.size()-1) {
             currentNum++;
         } else {

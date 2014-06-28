@@ -1,6 +1,6 @@
 package com.teremok.influence.model.player;
 
-import com.teremok.influence.util.Logger;
+import com.badlogic.gdx.Gdx;
 
 /**
  * Created by Alexx on 07.02.14
@@ -16,6 +16,6 @@ public enum PlayerType {
 
 
     PlayerType(String s) {
-        Logger.log("player type " + s + " created.");
+        Gdx.app.debug(getClass().getSimpleName(), "player type " + s + " created.");
     }
 }

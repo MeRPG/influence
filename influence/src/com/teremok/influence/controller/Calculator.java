@@ -1,6 +1,6 @@
 package com.teremok.influence.controller;
 
-import com.teremok.influence.util.Logger;
+import com.badlogic.gdx.Gdx;
 
 import java.util.Random;
 
@@ -34,19 +34,19 @@ public class Calculator {
         a = powerA;
         b = powerB;
 
-        Logger.log("Attack:\t" + powerA + " \t->\t " + powerB);
+        Gdx.app.debug(getClass().getSimpleName(), "Attack:\t" + powerA + " \t->\t " + powerB);
 
         n = rollNDices(powerA);
         m = rollNDices(powerB);
 
-        Logger.log("Delta:\t" + n + " \t->\t " + m);
+        Gdx.app.debug(getClass().getSimpleName(), "Delta:\t" + n + " \t->\t " + m);
 
         delta = n - m;
 
         calculateResults();
 
-        Logger.log("Result:\t" + a + " \t->\t " + b);
-        Logger.log("-\t-\t-\t-\t-");
+        Gdx.app.debug(getClass().getSimpleName(), "Result:\t" + a + " \t->\t " + b);
+        Gdx.app.debug(getClass().getSimpleName(), "-\t-\t-\t-\t-");
         return delta;
     }
 

@@ -57,13 +57,13 @@ public class AboutScreenChecker implements Runnable {
 
                 settings.lastAboutScreen = i;
 
-                Logger.log("new about screen: " + i);
+                Gdx.app.debug(getClass().getSimpleName(), "new about screen: " + i);
             } else {
-                Logger.log("no new about screen :( ");
+                Gdx.app.debug(getClass().getSimpleName(), "no new about screen :( ");
             }
 
         } catch (Exception ex) {
-            Logger.log("Exception: " + ex.getMessage());
+            Gdx.app.debug(getClass().getSimpleName(), "Exception: " + ex.getMessage());
             ex.printStackTrace();
         }
     }

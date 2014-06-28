@@ -5,7 +5,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
 import com.teremok.influence.model.*;
-import com.teremok.influence.util.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class SettingsController {
         FileHandle handle = Gdx.files.external(SETTINGS_PATH);
         try {
             FileWriter fileWriter = new FileWriter(handle.file());
-            Logger.log(handle.file().getAbsolutePath());
+            Gdx.app.debug(getClass().getSimpleName(), handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter root = xml.element("settings");
 
@@ -83,9 +82,9 @@ public class SettingsController {
 
     public static void checkDirs() {
         FileHandle setting = Gdx.files.external(DIR);
-        Logger.log("checkDirs...");
+        Gdx.app.debug("SettingsController", "checkDirs...");
         if (! setting.exists()) {
-            Logger.log("creating new root directory");
+            Gdx.app.debug("SettingsController", "creating new root directory");
 
             setting.mkdirs();
             Gdx.files.external(DIR+"/atlas").mkdirs();

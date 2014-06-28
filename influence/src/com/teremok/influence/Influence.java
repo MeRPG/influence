@@ -11,8 +11,6 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.screen.ScreenController;
 import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.FontFactory;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.ResourceManager;
 
 import java.util.Locale;
@@ -62,8 +60,7 @@ public class Influence extends Game {
 
         fxPlayer = new FXPlayer(this);
 
-        Logger.init(true);
-        Logger.log("Use language: " + Localizator.getLanguage());
+        Gdx.app.debug(getClass().getSimpleName(), "Use language: " + Localizator.getLanguage());
 
         settingsController = new SettingsController();
         settings = settingsController.load();
@@ -72,8 +69,6 @@ public class Influence extends Game {
 
         screenController = new ScreenController(this);
         screenController.showSplashScreen();
-
-        //fontFactory.load();
 	}
 
     @Override

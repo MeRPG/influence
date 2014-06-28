@@ -8,7 +8,6 @@ import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.Player;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.influence.model.player.PlayerType;
-import com.teremok.influence.util.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -60,7 +59,7 @@ public class MatchSaver {
         try {
             FileHandle handle = Gdx.files.external(MATCH_PATH);
             FileWriter fileWriter = new FileWriter(handle.file());
-            Logger.log("Game save cleared: " + handle.file().getAbsolutePath());
+            Gdx.app.debug(getClass().getSimpleName(), "Game save cleared: " + handle.file().getAbsolutePath());
             XmlWriter xml = new XmlWriter(fileWriter);
             XmlWriter xmlMatch = xml.element(ROOT);
             xmlMatch.pop();
@@ -73,7 +72,7 @@ public class MatchSaver {
     private void saveInFile(Match match) throws IOException {
         FileHandle handle = Gdx.files.external(MATCH_PATH);
         FileWriter fileWriter = new FileWriter(handle.file());
-        Logger.log(handle.file().getAbsolutePath());
+        Gdx.app.debug(getClass().getSimpleName(), handle.file().getAbsolutePath());
         XmlWriter xml = new XmlWriter(fileWriter);
         XmlWriter xmlMatch = xml.element(ROOT).attribute(TURN_ATTR, match.getTurn());
 
@@ -116,7 +115,7 @@ public class MatchSaver {
         fieldXml.pop();
         xml.close();
 
-        Logger.log("Match saved to file" + handle.path());
+        Gdx.app.debug(getClass().getSimpleName(), "Match saved to file" + handle.path());
     }
 
     public Match load() {
@@ -133,7 +132,7 @@ public class MatchSaver {
     private Match loadFromFile() throws IOException{
         Match match;
         FileHandle handle = Gdx.files.external(MATCH_PATH);
-        Logger.log("loading match from file " + handle.path());
+        Gdx.app.debug(getClass().getSimpleName(), "loading match from file " + handle.path());
         if (handle.exists()) {
             XmlReader reader = new XmlReader();
 
@@ -142,7 +141,7 @@ public class MatchSaver {
             GameSettingsController controller = new GameSettingsController();
             GameSettings gameSettings = controller.loadGameSettings(root);
 
-            Logger.log("loading players");
+            Gdx.app.debug(getClass().getSimpleName(), "loading players");
             loadPlayers(root, gameSettings);
             List<Cell> cells = loadCells(root);
 
@@ -221,7 +220,6 @@ public class MatchSaver {
             route = new Route(from, to, enabled);
             router.add(route);
         }
-        router.print();
         return router;
     }
 

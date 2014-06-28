@@ -61,7 +61,7 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
         }
         renderer.end();
 
-        ////Logger.log("routes: " + counter + "(" + allCounter + ")");
+        ////Gdx.app.debug(getClass().getSimpleName(), "routes: " + counter + "(" + allCounter + ")");
 
         batch.begin();
         if (zoomedUnitSize > MIN_SIZE_FOR_TEXT) {

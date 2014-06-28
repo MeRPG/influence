@@ -1,5 +1,6 @@
 package com.teremok.influence.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,7 +13,6 @@ import com.teremok.influence.model.*;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Logger;
 import com.teremok.influence.util.TextureNumberFactory;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
@@ -195,7 +195,7 @@ public class GameScreen extends StaticScreen {
     @Override
     public void show() {
         super.show();
-        Logger.log("GameScreen: show;");
+        Gdx.app.debug(getClass().getSimpleName(), "GameScreen: show;");
     }
 
     void initBacklight() {
@@ -329,7 +329,7 @@ public class GameScreen extends StaticScreen {
     public void pause() {
         super.pause();
         pauseMatch();
-        Logger.log("GameScreen: show;");
+        Gdx.app.debug(getClass().getSimpleName(), "GameScreen: show;");
     }
 
     @Override
@@ -337,7 +337,7 @@ public class GameScreen extends StaticScreen {
         super.resume();
         if (match.isPaused())
             pausePanel.show();
-        Logger.log("GameScreen: show;");
+        Gdx.app.debug(getClass().getSimpleName(), "GameScreen: show;");
     }
 
     @Override
@@ -442,19 +442,19 @@ public class GameScreen extends StaticScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        Logger.log("GameScreen: resize;");
+        Gdx.app.debug(getClass().getSimpleName(), "GameScreen: resize;");
     }
 
     @Override
     public void hide() {
         super.hide();
-        Logger.log("GameScreen: hide;");
+        Gdx.app.debug(getClass().getSimpleName(), "GameScreen: hide;");
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        Logger.log("GameScreen: dispose;");
+        Gdx.app.debug(getClass().getSimpleName(), "GameScreen: dispose;");
     }
 
 

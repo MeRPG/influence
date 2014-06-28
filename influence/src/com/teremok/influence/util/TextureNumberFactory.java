@@ -76,10 +76,10 @@ public class TextureNumberFactory {
                 }
                 numberWithQuotes += stringNumber.charAt(i);
             }
-            Logger.log("Number, string: " + stringNumber);
+            Gdx.app.debug(getClass().getSimpleName(), "Number, string: " + stringNumber);
             stringNumber = numberWithQuotes;
-            Logger.log("Number, quoted: " + stringNumber);
-            Logger.log("Quotes: " + quotes);
+            Gdx.app.debug(getClass().getSimpleName(), "Number, quoted: " + stringNumber);
+            Gdx.app.debug(getClass().getSimpleName(), "Quotes: " + quotes);
         }
 
         char[] chars = stringNumber.toCharArray();

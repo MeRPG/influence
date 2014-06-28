@@ -1,6 +1,6 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.util.Logger;
+import com.badlogic.gdx.Gdx;
 
 import java.util.*;
 
@@ -92,11 +92,11 @@ public class Router {
         Route route;
         for (Integer routeKey : routeMap.keySet()) {
             route = routeMap.get(routeKey);
-            Logger.log("route: " + route);
+            Gdx.app.debug(getClass().getSimpleName(), "route: " + route);
             if (route.enabled)
                 enableCount++;
         }
-        Logger.log("route count: " + routeMap.size() +"; enabled: " + enableCount);
+        Gdx.app.debug(getClass().getSimpleName(), "route count: " + routeMap.size() +"; enabled: " + enableCount);
 
     }
 

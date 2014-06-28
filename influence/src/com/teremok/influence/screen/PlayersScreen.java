@@ -1,5 +1,6 @@
 package com.teremok.influence.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,7 +12,6 @@ import com.teremok.influence.model.GameDifficulty;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.player.PlayerType;
 import com.teremok.influence.ui.*;
-import com.teremok.influence.util.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +65,7 @@ public class PlayersScreen extends StaticScreen {
     @Override
     protected void addActors() {
 
-        Logger.log("number of players: " + numberOfPlayers);
+        Gdx.app.debug(getClass().getSimpleName(), "number of players: " + numberOfPlayers);
 
         playerGreen = new TexturePanel(uiElements.get(GREEN));
         playerGreen.setTouchable(Touchable.disabled);
