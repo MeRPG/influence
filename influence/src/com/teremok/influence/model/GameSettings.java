@@ -17,8 +17,6 @@ public class GameSettings {
     public int maxCellsY;
     public int cellsCount;
 
-    public boolean gameForInfluence;
-
     public Map<Integer, PlayerType> customPlayers;
 
     public static GameSettings getDefault() {
@@ -196,7 +194,6 @@ public class GameSettings {
         GameSettings that = (GameSettings) o;
 
         if (cellsCount != that.cellsCount) return false;
-        if (gameForInfluence != that.gameForInfluence) return false;
         if (maxCellsX != that.maxCellsX) return false;
         if (maxCellsY != that.maxCellsY) return false;
         if (customPlayers != null ? !customPlayers.equals(that.customPlayers) : that.customPlayers != null)
@@ -216,7 +213,6 @@ public class GameSettings {
         result = 31 * result + maxCellsX;
         result = 31 * result + maxCellsY;
         result = 31 * result + cellsCount;
-        result = 31 * result + (gameForInfluence ? 1 : 0);
         result = 31 * result + (customPlayers != null ? customPlayers.hashCode() : 0);
         return result;
     }

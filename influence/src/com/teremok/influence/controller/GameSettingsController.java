@@ -20,8 +20,7 @@ public class GameSettingsController {
         gameXml
                 .element("players", gameSettings.getNumberOfPlayers())
                 .element("difficulty", gameSettings.difficulty)
-                .element("fieldSize", gameSettings.fieldSize)
-                .element("gameForInfluence", gameSettings.gameForInfluence);
+                .element("fieldSize", gameSettings.fieldSize);
         XmlWriter playersXml = gameXml.element("customPlayers");
         int num = 0;
         for (PlayerType player : gameSettings.customPlayers.values()) {
@@ -48,7 +47,6 @@ public class GameSettingsController {
             FieldSize size =  FieldSize.valueOf(settingsXml.getChildByName("fieldSize").getText());
             gameSettings.setSize(size);
             gameSettings.difficulty =  GameDifficulty.valueOf(settingsXml.getChildByName("difficulty").getText());
-            gameSettings.gameForInfluence = settingsXml.getBoolean("gameForInfluence", false);
             int playersNumber = settingsXml.getInt("players",5);
             if (playersNumber < 2 || playersNumber > 5)
                 playersNumber = 5;
