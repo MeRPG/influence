@@ -1,5 +1,6 @@
 package com.teremok.influence.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -9,8 +10,6 @@ import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.Checkbox;
 import com.teremok.influence.ui.RadioTexture;
-import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.Logger;
 
 /**
  * Created by Алексей on 29.03.14
@@ -47,7 +46,7 @@ public class ModeScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (!event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE)) {
-                    ScreenController.showStartScreen();
+                    screenController.showStartScreen();
                     return true;
                 }
                 return false;
@@ -65,9 +64,9 @@ public class ModeScreen extends StaticScreen {
                     Actor target = stage.hit(x, y, true);
                     if (target == null)
                         return;
-                    FXPlayer.playClick();
+                    game.getFXPlayer().playClick();
                     if (target instanceof ButtonTexture) {
-                        ScreenController.showMapSizeScreen();
+                        screenController.showMapSizeScreen();
                     } else {
                         Checkbox selectedSize = (Checkbox) target;
                         switch (selectedSize.getCode()) {
@@ -76,7 +75,7 @@ public class ModeScreen extends StaticScreen {
                                 darkness.setChecked(gameSettings.darkness);
                                 break;
                         }
-                        Logger.log("Darkness: " + gameSettings.darkness);
+                        Gdx.app.debug(getClass().getSimpleName(), "Darkness: " + gameSettings.darkness);
                     }
                 }
             }

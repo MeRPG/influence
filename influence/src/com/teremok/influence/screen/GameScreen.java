@@ -135,7 +135,7 @@ public class GameScreen extends StaticScreen {
                 game.getFXPlayer().playWinMatch();
                 matchSaver.clearFile();
                 endSoundPlayed = true;
-                if (match.getPm().getNumberOfHumans() == 1 && gameSettings.gameForInfluence) {
+                if (match.getPm().getNumberOfHumans() == 1) {
                     int lastInfluence = chronicle.influence;
                     chronicle.match = match.getMatchChronicle();
                     chronicleController.matchEnd(chronicle, gameSettings.players, gameSettings.fieldSize, true);
@@ -151,7 +151,7 @@ public class GameScreen extends StaticScreen {
                 game.getFXPlayer().playLoseMatch();
                 matchSaver.clearFile();
                 endSoundPlayed = true;
-                if (match.getPm().getNumberOfHumans() == 1 && gameSettings.gameForInfluence) {
+                if (match.getPm().getNumberOfHumans() == 1) {
                     int lastInfluence = chronicle.influence;
                     chronicle.match = match.getMatchChronicle();
                     chronicleController.matchEnd(chronicle, gameSettings.players, gameSettings.fieldSize, false);

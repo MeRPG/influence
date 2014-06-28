@@ -43,8 +43,8 @@ public class ScreenController {
         gracefullyShowScreen(settingsScreen);
     }
 
-    public void showGameTypeScreen() {
-        GameTypeScreen gameTypeScreen = new GameTypeScreen(game, "aboutScreen");
+    public void showModeScreen() {
+        ModeScreen gameTypeScreen = new ModeScreen(game, "modeScreen");
         FlurryHelper.logModeScreenEvent();
         gracefullyShowScreen(gameTypeScreen);
     }
