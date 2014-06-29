@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -33,6 +32,7 @@ public abstract class AbstractScreen implements Screen {
         Camera camera = new OrthographicCamera();
         Viewport viewport = new FitViewport(WIDTH, HEIGHT, camera);
         camera.translate(WIDTH/2, HEIGHT/2, 0);
+        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.setViewport(viewport);
     }
 
