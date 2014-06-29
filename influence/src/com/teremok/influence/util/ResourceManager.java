@@ -27,10 +27,10 @@ public class ResourceManager {
     static public final int CELLS_FONT_SIZE = 25;
     static public final int RATING_FONT_SIZE = 48;
 
-    static public final String STATUS_FONT_NAME = "myriadprosemibold";
-    static public final String SUBSTATUS_FONT_NAME = "myriadprosemibold";
+    static public final String STATUS_FONT_NAME = "magistralcbold";
+    static public final String SUBSTATUS_FONT_NAME = "magistralcbold";
     static public final String CELLS_FONT_NAME = "arialbd";
-    static public final String RATING_FONT_NAME = "myriadprosemibold";
+    static public final String RATING_FONT_NAME = "magistralcbold";
 
 
     private Influence game;

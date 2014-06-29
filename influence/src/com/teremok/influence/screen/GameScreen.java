@@ -140,7 +140,7 @@ public class GameScreen extends StaticScreen {
                     chronicle.match = match.getMatchChronicle();
                     chronicleController.matchEnd(chronicle, gameSettings.players, gameSettings.fieldSize, true);
                     int deltaInfluence = chronicle.influence - lastInfluence;
-                    addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
+                    addInfoMessage(new MatchStatsPanel(this, chronicle.match, deltaInfluence));
                     showInfoMessageAnimation();
                 }
                 GameScreen.colorForBacklight = Drawer.getPlayerColor(match.getPm().current());
@@ -156,7 +156,7 @@ public class GameScreen extends StaticScreen {
                     chronicle.match = match.getMatchChronicle();
                     chronicleController.matchEnd(chronicle, gameSettings.players, gameSettings.fieldSize, false);
                     int deltaInfluence = chronicle.influence - lastInfluence;
-                    addInfoMessage(new TextureNumberFactory().getNumber(deltaInfluence, 300, 300, false));
+                    addInfoMessage(new MatchStatsPanel(this, chronicle.match, deltaInfluence));
                     showInfoMessageAnimation();
                 }
 
