@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teremok.influence.Influence;
 import com.teremok.influence.controller.*;
 import com.teremok.influence.model.*;
+import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.TextureNumberFactory;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 
@@ -26,7 +26,6 @@ import static com.badlogic.gdx.Input.Keys;
  * Created by Alexx on 11.12.13
  */
 
-@SuppressWarnings("unused")
 public class GameScreen extends StaticScreen {
 
     Match match;
@@ -82,8 +81,9 @@ public class GameScreen extends StaticScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
+        Match.Phase phase = match.getPhase();
         int turn = match.getTurn();
+
         GameSettings gameSettings = match.getGameSettings();
 
         match.act(delta);
@@ -92,6 +92,29 @@ public class GameScreen extends StaticScreen {
             matchSaver.save(match);
             if (match.getTurn() == 1) {
                 FlurryHelper.logMatchStartEvent(match.getGameSettings());
+            }
+        }
+
+        // TODO вынести сюда переключение игрока на следующего
+
+        if (!match.getPhase().equals(phase)) {
+            if (match.getPhase() == Match.Phase.ATTACK) {
+                if (match.getPm().getNumberOfHumansInGame() > 1 && match.getPm().getNextPlayer() instanceof HumanPlayer) {
+                    match.setPaused(true);
+                    addInfoMessage(new PassPhonePanel(this, match.getPm().getNextPlayerNumber()));
+                    showInfoMessageAnimation(
+                            new Action() {
+                                @Override
+                                public boolean act(float delta) {
+                                    match.getPm().nextCurrentPlayer();
+                                    match.setPaused(false);
+                                    return true;
+                                }
+                            }
+                    );
+                } else {
+                    match.getPm().nextCurrentPlayer();
+                }
             }
         }
 

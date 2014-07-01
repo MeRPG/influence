@@ -16,6 +16,7 @@ public class PlayerManager {
     private int numberOfPlayers = 0;
     private FieldController field;
     private Match match;
+    private Player lastHumanPlayer;
 
     public PlayerManager(Match match) {
         reset(match);
@@ -43,6 +44,9 @@ public class PlayerManager {
                 currentNum = 0;
             }
         } while (players[currentNum].getScore() == 0 );
+        if (players[currentNum] instanceof HumanPlayer) {
+            lastHumanPlayer = players[currentNum];
+        }
         return players[currentNum];
     }
 
@@ -63,6 +67,7 @@ public class PlayerManager {
             addPlayer(PlayerFactory.getByType(map.get(i), i, match), i);
             Gdx.app.debug(getClass().getSimpleName(), "PM adding player in match");
         }
+        lastHumanPlayer = players[0];
     }
 
     private void resetPlayersArray(int number) {
@@ -72,7 +77,7 @@ public class PlayerManager {
 
     public void placeStartPositions() {
         for (Player player : players) {
-            field.placeStartPosition(player.getNumber());
+            field.placeStartPosition(player);
             field.updateLists();
         }
     }
@@ -118,6 +123,30 @@ public class PlayerManager {
         return humans;
     }
 
+    public int getNumberOfHumansInGame() {
+        int humans = 0;
+        for (Player player : players) {
+            if (player instanceof HumanPlayer && player.score > 0)
+                humans++;
+        }
+        return humans;
+    }
+
+    public int getNextPlayerNumber() {
+        int nextNum = currentNum;
+        do {
+            nextNum++;
+            if (nextNum == numberOfPlayers) {
+                nextNum = 0;
+            }
+        } while (players[nextNum].score == 0);
+        return nextNum;
+    }
+
+    public Player getNextPlayer() {
+        return players[getNextPlayerNumber()];
+    }
+
     // Auto-generated
 
     public int getNumberOfPlayers() {
@@ -130,5 +159,9 @@ public class PlayerManager {
 
     public FieldController getField() {
         return field;
+    }
+
+    public Player getLastHumanPlayer() {
+        return lastHumanPlayer;
     }
 }

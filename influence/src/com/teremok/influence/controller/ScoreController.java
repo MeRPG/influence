@@ -146,7 +146,7 @@ public class ScoreController extends Group {
     }
 
     private void updateBackground() {
-        Color scoreBackground = Drawer.getCellColorByNumber(pm.current().getNumber()).cpy();
+        Color scoreBackground = Drawer.getCellColorByNumber(pm.current().getNumber());
         model.background.addAction(
                 Actions.color( scoreBackground, Animation.DURATION_SHORT)
         );

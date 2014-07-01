@@ -35,8 +35,8 @@ public class Cell {
     boolean selected;
 
     private Cell() {
-        enemies = new LinkedList<Cell>();
-        neighbors = new LinkedList<Cell>();
+        enemies = new LinkedList<>();
+        neighbors = new LinkedList<>();
     }
 
     public Cell(int number, int unitsX, int unitsY, int power, int maxPower, int type) {
@@ -129,7 +129,6 @@ public class Cell {
     public boolean isFull() {
         return power == maxPower;
     }
-
 
     public boolean hasEnemies() {
         return enemies.size() != 0;

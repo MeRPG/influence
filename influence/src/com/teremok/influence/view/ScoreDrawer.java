@@ -75,7 +75,7 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawStatusAttackPhase(Batch batch, ScoreModel model) {
-        BitmapFont statusFont = fontFactory.getFont(STATUS_FONT);
+        BitmapFont statusFont = fontFactory.getFont(STATUS);
         String colorString = Localizator.getString("ofYourColor");
         TextBounds colorStringBounds = statusFont.getBounds(colorString, new TextBounds());
         TextBounds statusBounds = statusFont.getBounds(model.status, new TextBounds());
@@ -96,7 +96,7 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawStatusPowerPhase(Batch batch, ScoreModel model) {
-        BitmapFont statusFont = fontFactory.getFont(STATUS_FONT);
+        BitmapFont statusFont = fontFactory.getFont(STATUS);
 
         String powerString = " (" + current.getPm().current().getPowerToDistribute() + ")";
         String colorString = Localizator.getString("yourCells");
@@ -126,7 +126,7 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawAnyOtherStatus(Batch batch, ScoreModel model) {
-        BitmapFont statusFont = fontFactory.getFont(STATUS_FONT);
+        BitmapFont statusFont = fontFactory.getFont(STATUS);
         TextBounds statusBounds = statusFont.getBounds(model.status);
         float statusX = current.getWidth()/2 - statusBounds.width/2;
         float statusY = current.getY() + 16 + (current.getHeight() - 24f + statusBounds.height)/2;
@@ -135,7 +135,7 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawSubstatus(Batch batch) {
-        BitmapFont substatusFont = fontFactory.getFont(SUBSTATUS_FONT);
+        BitmapFont substatusFont = fontFactory.getFont(SUBSTATUS);
         ScoreModel model = current.getModel();
         if (model.substatusExists()) {
             TextBounds substatusBounds = substatusFont.getBounds(model.subStatus);

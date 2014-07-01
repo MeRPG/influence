@@ -2,17 +2,11 @@ package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Scaling;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
@@ -23,14 +17,12 @@ import com.teremok.influence.view.Animation;
 /**
  * Created by Alexx on 08.01.14
  */
-public class PausePanel extends Group {
+public class PausePanel extends Popup<GameScreen> {
 
     private static final String RESUME_CODE = "resume";
     private static final String MENU_CODE = "menu";
     private static final String F5_CODE = "f5";
     private static final String EXIT_CODE = "exit";
-
-    TextureAtlas atlas;
 
     ButtonTexture resume;
     ButtonTexture menu;
@@ -40,35 +32,13 @@ public class PausePanel extends Group {
 
     boolean loaded;
 
-    TextureRegion background;
-
-    Influence game;
-    GameScreen gameScreen;
-
     PausePanel(GameScreen gameScreen) {
-        this.gameScreen = gameScreen;
-
-        game = ((Influence) Gdx.app.getApplicationListener());
-
-        getColor().a = 0f;
-        setTouchable(Touchable.disabled);
-        setBounds(0,0, AbstractScreen.WIDTH, AbstractScreen.HEIGHT);
-
+        super(gameScreen, "pausePanel");
         loaded = false;
     }
 
-    private void loadAndMakeButtons() {
-        atlas = gameScreen.getGame().getResourceManager().getAtlas("pausePanel");
-
-        background = atlas.findRegion("background");
-        Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );
-        this.addActor(backImage);
-                                /*
-        resume = new ButtonColored(RESUME_CODE, gameScreen.getFont(),
-                Drawer.getTextColor(), Drawer.getCellColorByNumber(0),
-                112f, 320f, 256f, 64f);
-        this.addActor(resume);*/
-
+    @Override
+    protected void addActors() {
         TextureRegion menuRegion = atlas.findRegion("menu");
         menu = new ButtonTexture(MENU_CODE, menuRegion, 82f, 389f);
         this.addActor(menu);
@@ -88,7 +58,11 @@ public class PausePanel extends Group {
         TextureRegion pauseRegion = atlas.findRegion("pause_" + Localizator.getLanguage());
         pause = new ButtonTexture("-1", pauseRegion, 191f, 493f);
         this.addActor(pause);
+    }
 
+    @Override
+    protected void addListeners() {
+        this.clearListeners();
         this.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -118,7 +92,8 @@ public class PausePanel extends Group {
     public void show() {
 
         if (! loaded) {
-            loadAndMakeButtons();
+            addActors();
+            addListeners();
             loaded = true;
         }
 
@@ -134,21 +109,21 @@ public class PausePanel extends Group {
     }
 
     private void  resume() {
-        gameScreen.resumeMatch();
+        currentScreen.resumeMatch();
     }
 
     private void  menu() {
         FlurryHelper.logPauseExitMenuEvent();
-        gameScreen.backToStartScreen();
+        currentScreen.backToStartScreen();
     }
 
     private void  f5() {
         FlurryHelper.logPauseRestartEvent();
-        gameScreen.gracefullyStartNewMatch();
+        currentScreen.gracefullyStartNewMatch();
     }
 
     private void  exitGame() {
-        gameScreen.exitGame();
+        currentScreen.exitGame();
     }
 
     @Override

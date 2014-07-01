@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Localizator;
+import com.teremok.influence.model.Match;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
@@ -39,7 +40,9 @@ public class StartScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
-        game.getMatchSaver().load();
+        Match match = game.getMatchSaver().load();
+        if (match != null)
+            game.getSettings().gameSettings = match.getGameSettings();
 
         newGame = new ButtonTexture(uiElements.get(NEWGAME));
         resume = new ButtonTexture(uiElements.get(CONTINUE));
@@ -56,7 +59,7 @@ public class StartScreen extends StaticScreen {
             stage.addActor(credits);
         }
 
-        Label label = new Label("Developer preview v1.3", fontFactory.getFont(FontFactory.DEBUG_FONT),
+        Label label = new Label("Developer preview v1.3", fontFactory.getFont(FontFactory.DEBUG),
                 Color.RED.cpy(), 0, HEIGHT-20f, false);
 
         stage.addActor(newGame);

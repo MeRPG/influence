@@ -124,7 +124,7 @@ public class MatchSaver {
             match = loadFromFile();
             notEnded = match;
         } catch (Exception e) {
-            e.printStackTrace();
+            Gdx.app.debug(getClass().getSimpleName(), "Can't load match from file or no match save found.");
         }
         return match;
     }

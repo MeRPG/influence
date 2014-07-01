@@ -62,7 +62,7 @@ public abstract class StaticScreen extends AbstractScreen {
     }
 
     private void addFps() {
-        fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFont(FontFactory.DEBUG_FONT),
+        fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFont(FontFactory.DEBUG),
                 Color.RED.cpy(), WIDTH - 90f, HEIGHT-20f, false);
         stage.addActor(fps);
     }
@@ -151,11 +151,23 @@ public abstract class StaticScreen extends AbstractScreen {
     }
 
     protected void showInfoMessageAnimation() {
+        showInfoMessageAnimation(null);
+    }
+
+    protected void showInfoMessageAnimation(Action endShowAction) {
         infoMessage.getColor().a = 0.0f;
         showInfoMessage();
         Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha: " + infoMessage.getColor().a);
-        infoMessage.addAction(Actions.fadeIn(Animation.DURATION_SHORT));
-        Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha after fadeIn: " + infoMessage.getColor().a);
+        if (endShowAction == null) {
+            infoMessage.addAction(Actions.fadeIn(Animation.DURATION_NORMAL));
+            Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha after fadeIn: " + infoMessage.getColor().a);
+        } else {
+            infoMessage.addAction(Actions.sequence(
+                    Actions.fadeIn(Animation.DURATION_NORMAL),
+                    endShowAction
+            ));
+            Gdx.app.debug(getClass().getSimpleName(), "infoMessage sequence action");
+        }
     }
 
     protected void hideInfoMessageAnimation() {
@@ -163,7 +175,7 @@ public abstract class StaticScreen extends AbstractScreen {
         Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha: " + infoMessage.getColor().a);
         infoMessage.addAction(
                 Actions.sequence(
-                        Actions.fadeOut(Animation.DURATION_SHORT),
+                        Actions.fadeOut(Animation.DURATION_NORMAL),
                         new Action() {
                             @Override
                             public boolean act(float v) {

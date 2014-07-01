@@ -94,7 +94,7 @@ public class FieldShapeDrawer extends AbstractDrawer<FieldController> {
     }
 
     private void drawText(Batch batch, Cell cell) {
-        BitmapFont cellsFont = fontFactory.getFont(FontFactory.CELLS_FONT);
+        BitmapFont cellsFont = fontFactory.getFont(FontFactory.CELLS);
         if (cellsFont != null && current.isCellVisible(cell)) {
             BitmapFont.TextBounds textBounds = cellsFont.getBounds(cell.getPower()+"");
             if (cell.isFree()) {

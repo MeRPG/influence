@@ -8,13 +8,11 @@ import com.teremok.influence.Influence;
  */
 public class FontFactory {
 
-    public static final String STATUS_FONT = "statusFont";
-
-    public static final String CELLS_FONT = "cellsFont";
-
-    public static final String SUBSTATUS_FONT = "substatusFont";
-
-    public static final String DEBUG_FONT = "debugFont";
+    public static final String STATUS = "statusFont";
+    public static final String CELLS = "cellsFont";
+    public static final String SUBSTATUS = "substatusFont";
+    public static final String DEBUG = "debugFont";
+    public static final String POPUP = "popupFont";
 
     private Influence game;
 
@@ -25,17 +23,21 @@ public class FontFactory {
     public BitmapFont getFont(String fontName) {
         BitmapFont font;
         switch (fontName) {
-            case STATUS_FONT:
-                font = game.getResourceManager().getFont(STATUS_FONT);
+            case STATUS:
+                font = game.getResourceManager().getFont(STATUS);
                 break;
-            case SUBSTATUS_FONT:
-                font = game.getResourceManager().getFont(SUBSTATUS_FONT);
+            case SUBSTATUS:
+                font = game.getResourceManager().getFont(SUBSTATUS);
                 break;
-            case CELLS_FONT:
-                font = game.getResourceManager().getFont(CELLS_FONT);
+            case CELLS:
+                font = game.getResourceManager().getFont(CELLS);
                 break;
-            case DEBUG_FONT:
-                font = game.getResourceManager().getFont(SUBSTATUS_FONT);
+            case DEBUG:
+                font = game.getResourceManager().getFont(SUBSTATUS);
+                font.setScale(0.9f);
+                break;
+            case POPUP:
+                font = game.getResourceManager().getFont(STATUS);
                 font.setScale(0.9f);
                 break;
             default:

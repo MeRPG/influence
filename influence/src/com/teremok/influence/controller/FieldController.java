@@ -111,7 +111,7 @@ public class FieldController extends Group {
         generator.generate(model);
     }
 
-    public void placeStartPosition(int type) {
+    public void placeStartPosition(Player player) {
         if (random == null)
             random = new Random();
         int number;
@@ -124,7 +124,7 @@ public class FieldController extends Group {
             }
         } while (true);
         target.setPower(INITIAL_CELL_POWER);
-        target.setType(type);
+        target.setType(player.getNumber());
     }
 
     private boolean isValidForStartPosition(Cell target) {
@@ -418,11 +418,11 @@ public class FieldController extends Group {
                 && absoluteCellY > (AbstractScreen.HEIGHT - FieldModel.HEIGHT-actualCellWidth/2)
                 && absoluteCellY < AbstractScreen.HEIGHT ) {
             if (gameSettings.darkness) {
-                if (cell.getType() == 0) {
+                if (isCellOwnedByActingHuman(cell)) {
                     return true;
                 }
                 for (Cell enemy : cell.getEnemies()) {
-                    if (enemy.getType() == 0) {
+                    if (isCellOwnedByActingHuman(enemy)) {
                         return true;
                     }
                 }
@@ -431,6 +431,15 @@ public class FieldController extends Group {
             }
         }
         return false;
+    }
+
+    private boolean isCellOwnedByActingHuman(Cell cell) {
+        Player owner = getCellOwner(cell);
+        return owner instanceof HumanPlayer && owner == pm.getLastHumanPlayer();
+    }
+
+    private Player getCellOwner(Cell cell) {
+        return cell.getType() == -1 ? null : pm.getPlayers()[cell.getType()];
     }
 
     private float calculateTooltipX(float cellX) {

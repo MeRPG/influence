@@ -150,7 +150,6 @@ public class Match {
     }
 
     public void setAttackPhase() {
-        pm.nextCurrentPlayer();
         phase = Phase.ATTACK;
     }
 
@@ -219,5 +218,9 @@ public class Match {
 
     public void setGameSettings(GameSettings gameSettings) {
         this.gameSettings = gameSettings;
+    }
+
+    public Phase getPhase() {
+        return phase;
     }
 }

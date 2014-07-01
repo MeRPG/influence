@@ -86,34 +86,34 @@ public class Drawer {
         Color color;
         switch (number) {
             case 0:
-                color = colors.get("CYAN");
+                color = colors.get("CYAN").cpy();
                 break;
             case 1:
-                color = colors.get("GREEN");
+                color = colors.get("GREEN").cpy();
                 break;
             case 2:
-                color = colors.get("ORANGE");
+                color = colors.get("ORANGE").cpy();
                 break;
             case 3:
-                color = colors.get("PINK");
+                color = colors.get("PINK").cpy();
                 break;
             case 4:
-                color = colors.get("MAGENTA");
+                color = colors.get("MAGENTA").cpy();
                 break;
             case 5:
-                color = colors.get("RED");
+                color = colors.get("RED").cpy();
                 break;
             case 6:
-                color = colors.get("BLUE");
+                color = colors.get("BLUE").cpy();
                 break;
             case 7:
-                color = colors.get("YELLOW");
+                color = colors.get("YELLOW").cpy();
                 break;
             case 8:
-                color = colors.get("AFJIK");
+                color = colors.get("AFJIK").cpy();
                 break;
             default:
-                color = colors.get("GREY");
+                color = colors.get("GREY").cpy();
                 break;
         }
         return color;
@@ -123,22 +123,22 @@ public class Drawer {
         Color color;
         switch (number) {
             case 0:
-                color = colors.get("CYAN_SELECTED");
+                color = colors.get("CYAN_SELECTED").cpy();
                 break;
             case 1:
-                color = colors.get("GREEN_SELECTED");
+                color = colors.get("GREEN_SELECTED").cpy();
                 break;
             case 2:
-                color = colors.get("ORANGE_SELECTED");
+                color = colors.get("ORANGE_SELECTED").cpy();
                 break;
             case 3:
-                color = colors.get("PINK_SELECTED");
+                color = colors.get("PINK_SELECTED").cpy();
                 break;
             case 4:
-                color = colors.get("MAGENTA_SELECTED");
+                color = colors.get("MAGENTA_SELECTED").cpy();
                 break;
             default:
-                color = colors.get("GREY_SELECTED");
+                color = colors.get("GREY_SELECTED").cpy();
                 break;
         }
         return color;
