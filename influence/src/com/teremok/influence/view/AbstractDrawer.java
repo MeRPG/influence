@@ -16,11 +16,12 @@ public class AbstractDrawer <T extends Actor> {
     protected T current;
     protected ShapeRenderer renderer;
 
-    protected ResourceManager resourceManager;
+    protected FontFactory fontFactory;
+
 
     protected AbstractDrawer () {
         renderer = new ShapeRenderer();
-        resourceManager = ((Influence)Gdx.app.getApplicationListener()).getResourceManager();
+        fontFactory = new FontFactory((Influence)Gdx.app.getApplicationListener());
     }
 
     public void draw(T actor, Batch batch, float parentAlpha) {

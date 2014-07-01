@@ -36,11 +36,9 @@ public class Label extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        font.setScale(0.5f, 0.4f);
         labelColor.a = getColor().a < parentAlpha ? getColor().a : parentAlpha;
         font.setColor(labelColor);
         font.draw(batch, getText(), getX(), getY());
-        font.setScale(1f, 1f);
     }
 
     public BitmapFont.TextBounds getTextBounds() {

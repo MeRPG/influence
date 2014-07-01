@@ -7,7 +7,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.Logger;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Settings;
 
@@ -25,13 +24,10 @@ public class ResourceManager {
     static public final int STATUS_FONT_SIZE = 25;
     static public final int SUBSTATUS_FONT_SIZE = 22;
     static public final int CELLS_FONT_SIZE = 25;
-    static public final int RATING_FONT_SIZE = 48;
 
     static public final String STATUS_FONT_NAME = "magistralcbold";
     static public final String SUBSTATUS_FONT_NAME = "magistralcbold";
     static public final String CELLS_FONT_NAME = "arialbd";
-    static public final String RATING_FONT_NAME = "magistralcbold";
-
 
     private Influence game;
     private AssetManager assetManager;
@@ -39,7 +35,7 @@ public class ResourceManager {
     public ResourceManager(Influence game) {
         this.game = game;
         assetManager = new AssetManager(new ResourcesResolver());
-        assetManager.setLoader(BitmapFont.class, new FontGenerateLoader(new ResourcesResolver()));
+//        assetManager.setLoader(BitmapFont.class, new FontGenerateLoader(new ResourcesResolver()));
         assetManager.getLogger().setLevel(Gdx.app.getLogLevel());
         preload();
     }
@@ -57,22 +53,23 @@ public class ResourceManager {
         assetManager.load("sound/winMatch.mp3", Sound.class);
         assetManager.load("sound/loseMatch.mp3", Sound.class);
 
-        assetManager.load("statusFont", BitmapFont.class,
-                new FontGenerateLoader.FontParameter(STATUS_FONT_SIZE, STATUS_FONT_NAME));
-        assetManager.load("substatusFont", BitmapFont.class,
-                new FontGenerateLoader.FontParameter(SUBSTATUS_FONT_SIZE, SUBSTATUS_FONT_NAME));
-        assetManager.load("cellsFont", BitmapFont.class,
-                new FontGenerateLoader.FontParameter(CELLS_FONT_SIZE, CELLS_FONT_NAME));
-        assetManager.load("ratingFont", BitmapFont.class,
-                new FontGenerateLoader.FontParameter(RATING_FONT_SIZE, RATING_FONT_NAME));
+        assetManager.load("font/cellsFont.fnt", BitmapFont.class);
+        assetManager.load("font/statusFont.fnt", BitmapFont.class);
+        assetManager.load("font/substatusFont.fnt", BitmapFont.class);
+
+//        assetManager.load("statusFont", BitmapFont.class,
+//                new FontGenerateLoader.FontParameter(STATUS_FONT_SIZE, STATUS_FONT_NAME));
+//        assetManager.load("substatusFont", BitmapFont.class,
+//                new FontGenerateLoader.FontParameter(SUBSTATUS_FONT_SIZE, SUBSTATUS_FONT_NAME));
+//        assetManager.load("cellsFont", BitmapFont.class,
+//                new FontGenerateLoader.FontParameter(CELLS_FONT_SIZE, CELLS_FONT_NAME));
     }
 
     public TextureAtlas getAtlas(String atlasName) {
         String fullAtlasName = getFullAtlasName(atlasName);
         if (! assetManager.isLoaded(fullAtlasName)) {
             assetManager.load(fullAtlasName, TextureAtlas.class);
-            while(!assetManager.update()) {
-            }
+            assetManager.finishLoading();
         }
         TextureAtlas atlas = assetManager.get(fullAtlasName);
         for (Texture texture : atlas.getTextures()) {
@@ -96,7 +93,11 @@ public class ResourceManager {
     }
 
     public BitmapFont getFont(String fontName) {
-        return assetManager.get(fontName);
+        if (fontName.equals("substatusFont"))
+            fontName = "statusFont";
+        BitmapFont font = assetManager.get(getFullFontName(fontName));
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        return font;
     }
 
     public Sound getSound(String soundName) {
@@ -110,6 +111,10 @@ public class ResourceManager {
 
     private String getFullAtlasName(String atlasName) {
         return "atlas/" + atlasName + ".pack";
+    }
+
+    private String getFullFontName(String fontName) {
+        return "font/" + fontName + ".fnt";
     }
 
     public void dispose() {

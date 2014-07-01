@@ -6,18 +6,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.teremok.influence.Influence;
 import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.ScoreModel;
 import com.teremok.influence.screen.AbstractScreen;
-import com.teremok.influence.util.ResourceManager;
+
 
 import static com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import static com.teremok.influence.view.Drawer.getCellColorByNumber;
 import static com.teremok.influence.view.Drawer.getTextColor;
+
+import static com.teremok.influence.util.FontFactory.*;
 
 /**
  * Created by Alexx on 24.12.13
@@ -26,13 +27,8 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
 
     private static final float COVER_SIZE = 160;
 
-    BitmapFont statusFont;
-    BitmapFont substatusFont;
-
     public ScoreDrawer() {
         super();
-        statusFont = resourceManager.getFont("statusFont");
-        substatusFont = resourceManager.getFont("substatusFont");
     }
 
     @Override
@@ -79,6 +75,7 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawStatusAttackPhase(Batch batch, ScoreModel model) {
+        BitmapFont statusFont = fontFactory.getFont(STATUS_FONT);
         String colorString = Localizator.getString("ofYourColor");
         TextBounds colorStringBounds = statusFont.getBounds(colorString, new TextBounds());
         TextBounds statusBounds = statusFont.getBounds(model.status, new TextBounds());
@@ -99,6 +96,8 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawStatusPowerPhase(Batch batch, ScoreModel model) {
+        BitmapFont statusFont = fontFactory.getFont(STATUS_FONT);
+
         String powerString = " (" + current.getPm().current().getPowerToDistribute() + ")";
         String colorString = Localizator.getString("yourCells");
         String appendix = "";
@@ -127,15 +126,16 @@ public class ScoreDrawer extends AbstractDrawer<ScoreController> {
     }
 
     private void drawAnyOtherStatus(Batch batch, ScoreModel model) {
+        BitmapFont statusFont = fontFactory.getFont(STATUS_FONT);
         TextBounds statusBounds = statusFont.getBounds(model.status);
         float statusX = current.getWidth()/2 - statusBounds.width/2;
         float statusY = current.getY() + 16 + (current.getHeight() - 24f + statusBounds.height)/2;
         statusFont.setColor(Drawer.getTextColor());
         statusFont.draw(batch, model.status, statusX, statusY);
-        statusFont.setScale(1,1);
     }
 
     private void drawSubstatus(Batch batch) {
+        BitmapFont substatusFont = fontFactory.getFont(SUBSTATUS_FONT);
         ScoreModel model = current.getModel();
         if (model.substatusExists()) {
             TextBounds substatusBounds = substatusFont.getBounds(model.subStatus);

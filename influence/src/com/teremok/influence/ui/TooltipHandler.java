@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.teremok.influence.Influence;
+import com.teremok.influence.util.FontFactory;
 import com.teremok.influence.util.ResourceManager;
 
 /**
@@ -13,7 +14,7 @@ public class TooltipHandler extends Group {
 
     private static TooltipHandler instance;
 
-    private ResourceManager resourceManager;
+    private FontFactory fontFactory;
 
     public static TooltipHandler getInstance() {
         if (instance == null)
@@ -22,12 +23,12 @@ public class TooltipHandler extends Group {
     }
 
     private TooltipHandler() {
-        resourceManager = ((Influence) Gdx.app.getApplicationListener()).getResourceManager();
+        fontFactory = new FontFactory((Influence) Gdx.app.getApplicationListener());
     }
 
     public void addTooltip(String message, Color color, float x, float y, float offset) {
         int nextId = getInstance().getChildren().size+1;
-        Tooltip tooltip = new Tooltip(message, resourceManager.getFont("substatusFont"), color, x, y);
+        Tooltip tooltip = new Tooltip(message, fontFactory.getFont(FontFactory.SUBSTATUS_FONT), color, x, y);
         tooltip.setId(nextId);
         tooltip.addActions(offset);
         this.addActor(tooltip);
