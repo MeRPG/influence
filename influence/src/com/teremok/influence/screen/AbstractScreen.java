@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teremok.influence.Influence;
+import com.teremok.influence.util.FontFactory;
 
 public abstract class AbstractScreen implements Screen {
 
@@ -25,10 +26,12 @@ public abstract class AbstractScreen implements Screen {
     protected final Stage stage;
     protected Batch batch;
     protected TextureAtlas atlas;
+    protected FontFactory fontFactory;
 
     public AbstractScreen(Influence game) {
         this.game = game;
         this.stage = new Stage();
+        fontFactory = new FontFactory(game);
         Camera camera = new OrthographicCamera();
         Viewport viewport = new FitViewport(WIDTH, HEIGHT, camera);
         camera.translate(WIDTH/2, HEIGHT/2, 0);

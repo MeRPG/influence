@@ -9,13 +9,12 @@ import com.teremok.influence.Influence;
 public class FontFactory {
 
     public static final String STATUS_FONT = "statusFont";
-    private static final float STATUS_FONT_SCALE = 0.78f;
 
     public static final String CELLS_FONT = "cellsFont";
-    private static final float CELLS_FONT_SCALE = 0.78f;
 
     public static final String SUBSTATUS_FONT = "substatusFont";
-    private static final float SUBSTATUS_FONT_SCALE = 0.69f;
+
+    public static final String DEBUG_FONT = "debugFont";
 
     private Influence game;
 
@@ -28,15 +27,16 @@ public class FontFactory {
         switch (fontName) {
             case STATUS_FONT:
                 font = game.getResourceManager().getFont(STATUS_FONT);
-                //font.setScale(STATUS_FONT_SCALE);
                 break;
             case SUBSTATUS_FONT:
                 font = game.getResourceManager().getFont(SUBSTATUS_FONT);
-                //font.setScale(SUBSTATUS_FONT_SCALE);
                 break;
             case CELLS_FONT:
                 font = game.getResourceManager().getFont(CELLS_FONT);
-                //font.setScale(CELLS_FONT_SCALE);
+                break;
+            case DEBUG_FONT:
+                font = game.getResourceManager().getFont(SUBSTATUS_FONT);
+                font.setScale(0.9f);
                 break;
             default:
                 font = null;

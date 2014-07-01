@@ -9,10 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.teremok.influence.Influence;
-import com.teremok.influence.ui.ColoredPanel;
-import com.teremok.influence.ui.TexturePanel;
-import com.teremok.influence.ui.UIElementParams;
-import com.teremok.influence.ui.UIElementsXMLLoader;
+import com.teremok.influence.ui.*;
+import com.teremok.influence.util.FontFactory;
 import com.teremok.influence.view.Animation;
 
 import java.io.IOException;
@@ -35,6 +33,8 @@ public abstract class StaticScreen extends AbstractScreen {
     public ColoredPanel overlap;
     private Actor infoMessage;
 
+    Label fps;
+
     private StaticScreen(Influence game) {
         super(game);
         this.screenController = game.getScreenController();
@@ -50,11 +50,32 @@ public abstract class StaticScreen extends AbstractScreen {
             try {
                 loadScreen();
                 addActors();
+                if (game.getSettings().debug) {
+                    addFps();
+                }
                 addListeners();
                 addNonparsed();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    private void addFps() {
+        fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFont(FontFactory.DEBUG_FONT),
+                Color.RED.cpy(), WIDTH - 90f, HEIGHT-20f, false);
+        stage.addActor(fps);
+    }
+
+    private void updateFps() {
+        fps.setCode("fps: \t" + Gdx.graphics.getFramesPerSecond());
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        if (game.getSettings().debug) {
+            updateFps();
         }
     }
 

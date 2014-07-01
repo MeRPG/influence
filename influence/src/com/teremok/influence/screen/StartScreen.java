@@ -10,8 +10,10 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.ColoredPanel;
+import com.teremok.influence.ui.Label;
 import com.teremok.influence.util.AboutScreenChecker;
 import com.teremok.influence.util.FlurryHelper;
+import com.teremok.influence.util.FontFactory;
 
 /**
  * Created by Alexx on 20.12.13
@@ -54,6 +56,9 @@ public class StartScreen extends StaticScreen {
             stage.addActor(credits);
         }
 
+        Label label = new Label("Developer preview v1.3", fontFactory.getFont(FontFactory.DEBUG_FONT),
+                Color.RED.cpy(), 0, HEIGHT-20f, false);
+
         stage.addActor(newGame);
         stage.addActor(resume);
         stage.addActor(settings);
@@ -61,6 +66,7 @@ public class StartScreen extends StaticScreen {
         stage.addActor(vk);
         stage.addActor(f);
         stage.addActor(googleplay);
+        stage.addActor(label);
     }
 
     @Override

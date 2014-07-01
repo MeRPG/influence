@@ -1,5 +1,7 @@
 package com.teremok.influence.util;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.flurry.android.FlurryAgent;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.Localizator;
@@ -170,7 +172,6 @@ public class FlurryHelper {
     }
 
     private static boolean flurryEnabled() {
-        return false;
+        return Gdx.app.getType().equals(Application.ApplicationType.Android) && enabled ;
     }
-
 }
