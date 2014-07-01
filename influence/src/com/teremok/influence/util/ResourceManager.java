@@ -35,7 +35,6 @@ public class ResourceManager {
     public ResourceManager(Influence game) {
         this.game = game;
         assetManager = new AssetManager(new ResourcesResolver());
-//        assetManager.setLoader(BitmapFont.class, new FontGenerateLoader(new ResourcesResolver()));
         assetManager.getLogger().setLevel(Gdx.app.getLogLevel());
         preload();
     }
@@ -46,6 +45,7 @@ public class ResourceManager {
         assetManager.load("atlas/pausePanel.pack", TextureAtlas.class);
         assetManager.load("atlas/screenPlayers.pack", TextureAtlas.class);
         assetManager.load("atlas/startScreen.pack", TextureAtlas.class);
+        assetManager.load("atlas/modeScreen.pack", TextureAtlas.class);
 
         assetManager.load("sound/click.mp3", Sound.class);
         assetManager.load("sound/win.mp3", Sound.class);
@@ -56,13 +56,6 @@ public class ResourceManager {
         assetManager.load("font/cellsFont.fnt", BitmapFont.class);
         assetManager.load("font/statusFont.fnt", BitmapFont.class);
         assetManager.load("font/substatusFont.fnt", BitmapFont.class);
-
-//        assetManager.load("statusFont", BitmapFont.class,
-//                new FontGenerateLoader.FontParameter(STATUS_FONT_SIZE, STATUS_FONT_NAME));
-//        assetManager.load("substatusFont", BitmapFont.class,
-//                new FontGenerateLoader.FontParameter(SUBSTATUS_FONT_SIZE, SUBSTATUS_FONT_NAME));
-//        assetManager.load("cellsFont", BitmapFont.class,
-//                new FontGenerateLoader.FontParameter(CELLS_FONT_SIZE, CELLS_FONT_NAME));
     }
 
     public TextureAtlas getAtlas(String atlasName) {
@@ -93,9 +86,12 @@ public class ResourceManager {
     }
 
     public BitmapFont getFont(String fontName) {
-        if (fontName.equals("substatusFont"))
-            fontName = "statusFont";
-        BitmapFont font = assetManager.get(getFullFontName(fontName));
+        String fullFontName = getFullFontName(fontName);
+        if (! assetManager.isLoaded(fullFontName)) {
+            assetManager.load(fullFontName, BitmapFont.class);
+            assetManager.finishLoading();
+        }
+        BitmapFont font = assetManager.get(fullFontName);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         return font;
     }
@@ -118,7 +114,7 @@ public class ResourceManager {
     }
 
     public void dispose() {
-        assetManager.dispose();
+        assetManager.clear();
     }
 
     public boolean update() {

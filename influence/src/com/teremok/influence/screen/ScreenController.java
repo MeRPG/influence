@@ -45,6 +45,7 @@ public class ScreenController {
 
     public void showModeScreen() {
         ModeScreen gameTypeScreen = new ModeScreen(game, "modeScreen");
+        gameTypeScreen.setKeepInMemory(true);
         FlurryHelper.logModeScreenEvent();
         gracefullyShowScreen(gameTypeScreen);
     }
