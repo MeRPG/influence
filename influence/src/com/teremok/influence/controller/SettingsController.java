@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
 import com.teremok.influence.model.*;
+import com.teremok.influence.view.Animation;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,6 +33,12 @@ public class SettingsController {
                     .element("language", Localizator.getLanguage())
                     .element("debug", settings.debug)
                     .element("lastAboutScreen", settings.lastAboutScreen);
+
+            XmlWriter animation = root.element("animation");
+            animation.element("short", Animation.DURATION_SHORT)
+                        .element("normal", Animation.DURATION_NORMAL)
+                        .element("long", Animation.DURATION_LONG);
+            animation.pop();
 
             GameSettingsController controller = new GameSettingsController();
             controller.saveGameSettings(settings.gameSettings, root);
@@ -63,6 +70,10 @@ public class SettingsController {
                 Localizator.setLanguage(root.getChildByName("language").getText());
                 settings.debug = root.getBoolean("debug", true);
                 settings.lastAboutScreen = root.getInt("lastAboutScreen", 0);
+
+                Animation.DURATION_SHORT = root.getChildByName("animation").getFloat("short", Animation.DEFAULT_DURATION_SHORT);
+                Animation.DURATION_NORMAL = root.getChildByName("animation").getFloat("normal", Animation.DEFAULT_DURATION_NORMAL);
+                Animation.DURATION_LONG = root.getChildByName("animation").getFloat("long", Animation.DEFAULT_DURATION_LONG);
 
                 GameSettingsController controller = new GameSettingsController();
                 settings.gameSettings = controller.loadGameSettings(root);
