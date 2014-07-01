@@ -20,6 +20,7 @@ public class GameSettingsController {
         gameXml
                 .element("players", gameSettings.getNumberOfPlayers())
                 .element("difficulty", gameSettings.difficulty)
+                .element("darkness", gameSettings.darkness)
                 .element("fieldSize", gameSettings.fieldSize);
         XmlWriter playersXml = gameXml.element("customPlayers");
         int num = 0;
@@ -47,6 +48,7 @@ public class GameSettingsController {
             FieldSize size =  FieldSize.valueOf(settingsXml.getChildByName("fieldSize").getText());
             gameSettings.setSize(size);
             gameSettings.difficulty =  GameDifficulty.valueOf(settingsXml.getChildByName("difficulty").getText());
+            gameSettings.darkness =  settingsXml.getBoolean("darkness", true);
             int playersNumber = settingsXml.getInt("players",5);
             if (playersNumber < 2 || playersNumber > 5)
                 playersNumber = 5;
