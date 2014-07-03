@@ -3,29 +3,17 @@ statScreen.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background_de
+statText_en
   rotate: false
   xy: 1, 1
-  size: 480, 720
-  orig: 480, 720
+  size: 284, 35
+  orig: 284, 35
   offset: 0, 0
   index: -1
-background_en
+statText_ru
   rotate: false
-  xy: 483, 1
-  size: 480, 720
-  orig: 480, 720
-  offset: 0, 0
-  index: -1
-
-statScreen2.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-background_ru
-  rotate: false
-  xy: 1, 1
-  size: 480, 720
-  orig: 480, 720
+  xy: 287, 1
+  size: 284, 35
+  orig: 284, 35
   offset: 0, 0
   index: -1

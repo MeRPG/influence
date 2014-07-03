@@ -1,4 +1,10 @@
 <?xml version="1.0"  standalone="no"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
-        atlas="aboutScreen" localized="false" localizedBackground="true">
+        atlas="aboutScreen" localized="false" defaultBackground="true">
+    <element name="aboutText" region="aboutText" localized="true"
+             x="166" y="613"/>
+    <element name="team" region="team" localized="true"
+             x="61" y="335"/>
+    <element name="fans" region="fans" localized="true"
+             x="48" y="120"/>
 </screen>

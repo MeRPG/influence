@@ -3,87 +3,73 @@ startScreen.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background
+logo
   rotate: false
-  xy: 1, 293
-  size: 480, 720
-  orig: 480, 720
-  offset: 0, 0
-  index: -1
-continue_de
-  rotate: false
-  xy: 1, 229
-  size: 254, 62
-  orig: 254, 62
+  xy: 1, 129
+  size: 480, 339
+  orig: 480, 339
   offset: 0, 0
   index: -1
 continue_en
   rotate: false
-  xy: 257, 229
+  xy: 1, 65
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
 continue_ru
   rotate: false
-  xy: 1, 165
-  size: 254, 62
-  orig: 254, 62
-  offset: 0, 0
-  index: -1
-newGame_de
-  rotate: false
-  xy: 257, 165
+  xy: 483, 406
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
 newGame_en
   rotate: false
-  xy: 1, 101
+  xy: 1, 1
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
 newGame_ru
   rotate: false
-  xy: 257, 101
+  xy: 483, 342
   size: 254, 62
   orig: 254, 62
   offset: 0, 0
   index: -1
 settings
   rotate: false
-  xy: 1, 50
+  xy: 257, 78
   size: 68, 49
   orig: 68, 49
   offset: 0, 0
   index: -1
 f
   rotate: false
-  xy: 1, 1
+  xy: 739, 421
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 vk
   rotate: false
-  xy: 71, 52
+  xy: 483, 293
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
-stat
-  rotate: false
-  xy: 120, 54
-  size: 47, 45
-  orig: 47, 45
-  offset: 0, 0
-  index: -1
 google_play
   rotate: false
-  xy: 169, 51
+  xy: 257, 28
   size: 44, 48
   orig: 44, 48
+  offset: 0, 0
+  index: -1
+stat
+  rotate: false
+  xy: 327, 82
+  size: 47, 45
+  orig: 47, 45
   offset: 0, 0
   index: -1

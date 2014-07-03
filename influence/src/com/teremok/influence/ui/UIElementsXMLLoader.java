@@ -28,7 +28,7 @@ public class UIElementsXMLLoader {
     private static final String REGION_ATTR = "region";
     private static final String SECOND_REGION_ATTR = "secondRegion";
     private static final String LOCALE_ATTR = "localized";
-    private static final String LOCALE_BACK_ATTR = "localizedBackground";
+    private static final String DEFAULT_BACK_ATTR = "defaultBackground";
     private static final String X_ATTR = "x";
     private static final String Y_ATTR = "y";
 
@@ -37,6 +37,7 @@ public class UIElementsXMLLoader {
 
     private String atlasName;
     private TextureAtlas atlas;
+    private TextureAtlas backgroundAtlas;
     private Map<String, UIElementParams> uiElementsParams;
     private Image background;
 
@@ -45,7 +46,7 @@ public class UIElementsXMLLoader {
     public UIElementsXMLLoader(ResourceManager resourceManager, String filename) throws IOException {
 
         this.resourceManager = resourceManager;
-
+        this.backgroundAtlas = resourceManager.getAtlas("background");
         uiElementsParams = new HashMap<>();
         FileHandle handle = resourceManager.getScreenUi(filename);
         XmlReader reader = new XmlReader();
@@ -68,10 +69,10 @@ public class UIElementsXMLLoader {
     }
 
     private void loadBackground(XmlReader.Element root) {
-        boolean localized = root.getBoolean(LOCALE_BACK_ATTR, false);
+        boolean defaultBackground = root.getBoolean(DEFAULT_BACK_ATTR, false);
         TextureRegion textureRegion;
-        if (localized) {
-            textureRegion = atlas.findRegion("background_" + Localizator.getLanguage());
+        if (defaultBackground) {
+            textureRegion = backgroundAtlas.findRegion("background");
         } else {
             textureRegion = atlas.findRegion("background");
         }
@@ -80,7 +81,6 @@ public class UIElementsXMLLoader {
             background.setScaling(Scaling.fit);
             background.setAlign(Align.center);
             background.setTouchable(Touchable.disabled);
-
         }
     }
 

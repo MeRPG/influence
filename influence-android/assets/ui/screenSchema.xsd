@@ -18,7 +18,7 @@
         </xs:sequence>
         <xs:attribute name="atlas" type="xs:string" use="required"/>
         <xs:attribute name="localized" type="xs:boolean" use="required"/>
-        <xs:attribute name="localizedBackground" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="defaultBackground" type="xs:boolean" use="optional" default="false"/>
     </xs:complexType>
 
 

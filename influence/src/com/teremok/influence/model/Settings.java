@@ -13,7 +13,7 @@ public class Settings {
     public boolean vibrate = true;
     public float speed = NORMAL;
 
-    public int lastAboutScreen = 1;
+    public int lastAboutScreen = 2;
 
     public boolean debug = true;
 

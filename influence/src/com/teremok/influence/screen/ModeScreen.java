@@ -2,6 +2,7 @@ package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -9,7 +10,9 @@ import com.teremok.influence.Influence;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.ui.Checkbox;
+import com.teremok.influence.ui.Label;
 import com.teremok.influence.ui.RadioTexture;
+import com.teremok.influence.util.FontFactory;
 
 /**
  * Created by Алексей on 29.03.14
@@ -30,6 +33,23 @@ public class ModeScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
+
+        Label gameModesLabel = new Label("Game modes", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 516f, false, Label.Align.CENTER);
+
+        Label darknessLabel = new Label("Darkness", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                WIDTH/2, 463f, false, Label.Align.CENTER);
+
+        Label onlineRatingLabel = new Label("Online rating", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0x676767ff),
+                WIDTH/2, 359f, false, Label.Align.CENTER);
+
+        Label capitalsLabel = new Label("Capitals", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0x676767ff),
+                WIDTH/2, 255, false, Label.Align.CENTER);
+
+        stage.addActor(gameModesLabel);
+        stage.addActor(darknessLabel);
+        stage.addActor(onlineRatingLabel);
+        stage.addActor(capitalsLabel);
 
         darkness = new RadioTexture(uiElements.get(DARKNESS));
         darkness.setChecked(gameSettings.darkness);

@@ -10,8 +10,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Influence";
 		cfg.useGL30 = false;
-		cfg.width = 320;
-		cfg.height = 550;
+		cfg.width = 480;
+		cfg.height = 720;
 
         Locale locale = Locale.getDefault(Locale.Category.DISPLAY);
 

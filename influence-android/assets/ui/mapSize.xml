@@ -1,6 +1,6 @@
 <?xml version="1.0"  standalone="no"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
-        atlas="mapSize" localized="false" localizedBackground="true">	
+        atlas="mapSize" localized="false" defaultBackground="true">
 	<element name="s" region="sizeS_Active" secondRegion="sizeS_noActive" localized="false"
 				x="121" y="358"/>	
 	<element name="m" region="sizeM_Active" secondRegion="sizeM_noActive" localized="false"
@@ -10,5 +10,7 @@
 	<element name="xl" region="sizeXL_Active" secondRegion="sizeXL_noActive" localized="false"
 				x="247" y="232"/>	
 	<element name="next" region="buttonNext" localized="true"
-				x="150" y="119"/>				
+				x="150" y="119"/>
+    <element name="newgameText" region="newgameText" localized="true"
+             x="101" y="605"/>
 </screen>

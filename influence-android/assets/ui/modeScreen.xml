@@ -1,8 +1,12 @@
 <?xml version="1.0"  standalone="no"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
-        atlas="modeScreen" localized="false" localizedBackground="true">
+        atlas="modeScreen" localized="false" defaultBackground="true">
     <element name="darkness" region="on" secondRegion="off" localized="true"
             x="170" y="410"/>
     <element name="next" region="buttonNext" localized="true"
              x="150" y="107"/>
+    <element name="newgameText" region="newgameText" localized="true"
+             x="101" y="605"/>
+    <element name="note" region="note" localized="true"
+             x="0" y="69"/>
 </screen>

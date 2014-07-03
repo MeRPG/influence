@@ -3,29 +3,45 @@ aboutScreen.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background_de
+fans_en
   rotate: false
-  xy: 1, 1
-  size: 480, 720
-  orig: 480, 720
+  xy: 1, 216
+  size: 384, 177
+  orig: 384, 177
   offset: 0, 0
   index: -1
-background_en
+fans_ru
   rotate: false
-  xy: 483, 1
-  size: 480, 720
-  orig: 480, 720
+  xy: 1, 37
+  size: 384, 177
+  orig: 384, 177
   offset: 0, 0
   index: -1
-
-aboutScreen2.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-background_ru
+team_en
+  rotate: false
+  xy: 387, 200
+  size: 357, 193
+  orig: 357, 193
+  offset: 0, 0
+  index: -1
+team_ru
+  rotate: false
+  xy: 387, 5
+  size: 357, 193
+  orig: 357, 193
+  offset: 0, 0
+  index: -1
+aboutText_en
+  rotate: false
+  xy: 746, 359
+  size: 146, 34
+  orig: 146, 34
+  offset: 0, 0
+  index: -1
+aboutText_ru
   rotate: false
   xy: 1, 1
-  size: 480, 720
-  orig: 480, 720
+  size: 146, 34
+  orig: 146, 34
   offset: 0, 0
   index: -1

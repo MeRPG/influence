@@ -1,6 +1,6 @@
 <?xml version="1.0"  standalone="no"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="screenSchema.xsd"
-        atlas="startScreen" localized="false">
+        atlas="startScreen" localized="false" defaultBackground="true">
     <element name="newgame" region="newGame" localized="true"
             x="115" y="233"/>
     <element name="continue" region="continue" localized="true"
@@ -15,4 +15,6 @@
              x="76" y="68"/>
     <element name="google_play" region="google_play" localized="false"
              x="138" y="68"/>
+    <element name="logo" region="logo" localized="false"
+             x="0" y="381"/>
 </screen>

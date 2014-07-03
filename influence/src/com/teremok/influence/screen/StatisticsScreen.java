@@ -1,11 +1,14 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Chronicle;
+import com.teremok.influence.ui.Label;
 import com.teremok.influence.ui.TextureNumber;
+import com.teremok.influence.util.FontFactory;
 import com.teremok.influence.util.TextureNumberFactory;
 
 /**
@@ -19,8 +22,30 @@ public class StatisticsScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
+
+        Label gamesPlayedLabel = new Label("GAMES PLAYED", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 520f, false, Label.Align.CENTER);
+
+        Label winRateLabel = new Label("WIN RATE", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 426f, false, Label.Align.CENTER);
+
+        Label cellsConqueredLabel = new Label("CELLS CONQUERED", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 332f, false, Label.Align.CENTER);
+
+        Label cellsLostLabel = new Label("CELLS LOST", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 238f, false, Label.Align.CENTER);
+
+        Label influenceLabel = new Label("INFLUENCE", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 144f, false, Label.Align.CENTER);
+
+        stage.addActor(gamesPlayedLabel);
+        stage.addActor(winRateLabel);
+        stage.addActor(cellsConqueredLabel);
+        stage.addActor(cellsLostLabel);
+        stage.addActor(influenceLabel);
+
         TextureNumberFactory numberFactory = new TextureNumberFactory();
-        Chronicle chronicle = ((Influence)game).getChronicle();
+        Chronicle chronicle = game.getChronicle();
         TextureNumber number;
         number = numberFactory.getNumber(chronicle.played, 240, 455, false);
         number.setColor(chronicle.played == 0 ? numberFactory.BAD_COLOR : numberFactory.NORMAL_COLOR);

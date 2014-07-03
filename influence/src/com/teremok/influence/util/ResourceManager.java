@@ -40,10 +40,11 @@ public class ResourceManager {
     }
 
     public void preload() {
+        assetManager.load("atlas/background.pack", TextureAtlas.class);
         assetManager.load("atlas/gameScreen.pack", TextureAtlas.class);
         assetManager.load("atlas/mapSize.pack", TextureAtlas.class);
         assetManager.load("atlas/pausePanel.pack", TextureAtlas.class);
-        assetManager.load("atlas/screenPlayers.pack", TextureAtlas.class);
+        assetManager.load("atlas/players.pack", TextureAtlas.class);
         assetManager.load("atlas/startScreen.pack", TextureAtlas.class);
         assetManager.load("atlas/modeScreen.pack", TextureAtlas.class);
 

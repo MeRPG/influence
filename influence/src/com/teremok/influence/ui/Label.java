@@ -11,9 +11,14 @@ import com.teremok.influence.model.Localizator;
  */
 public class Label extends Actor {
 
+    public enum Align {
+        LEFT, CENTER, RIGHT
+    }
+
     private BitmapFont font;
     private String code;
     private Color labelColor;
+    private Align align;
 
     boolean localized = false;
 
@@ -21,6 +26,7 @@ public class Label extends Actor {
         this.code = code;
         this.labelColor = labelColor;
         this.font = font;
+        this.align = Align.LEFT;
 
         setX(x);
         setY(y);
@@ -33,12 +39,36 @@ public class Label extends Actor {
         this.localized = localized;
     }
 
+    public Label(String text, BitmapFont font, Color color, float x, float y, boolean localized, Align align) {
+        this(text, font, color, x, y, localized);
+        this.align = align;
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         labelColor.a = getColor().a < parentAlpha ? getColor().a : parentAlpha;
         font.setColor(labelColor);
-        font.draw(batch, getText(), getX(), getY());
+
+        float x = getX();
+        float y = getY();
+        BitmapFont.TextBounds textBounds;
+
+        switch (align) {
+            case LEFT:
+                x = getX();
+                break;
+            case CENTER:
+                textBounds = getTextBounds();
+                x = getX() - textBounds.width /2;
+                break;
+            case RIGHT:
+                textBounds = getTextBounds();
+                x = getX() - textBounds.width;
+                break;
+        }
+
+        font.draw(batch, getText(), x, y);
     }
 
     public BitmapFont.TextBounds getTextBounds() {
@@ -85,5 +115,13 @@ public class Label extends Actor {
             text = code;
         }
         return text;
+    }
+
+    public Align getAlign() {
+        return align;
+    }
+
+    public void setAlign(Align align) {
+        this.align = align;
     }
 }

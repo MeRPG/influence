@@ -1,6 +1,7 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -9,6 +10,7 @@ import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FlurryHelper;
+import com.teremok.influence.util.FontFactory;
 import com.teremok.influence.util.Vibrator;
 
 /**
@@ -34,6 +36,24 @@ public class SettingsScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
+
+        Label soundLabel = new Label("Sound", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                147.5f, 513f, false, Label.Align.CENTER);
+
+        Label vibrationLabel = new Label("Vibration", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                331f, 513f, false, Label.Align.CENTER);
+
+        Label languageLabel = new Label("Language", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                WIDTH/2, 318f, false, Label.Align.CENTER);
+
+        Label gameSpeedLabel = new Label("Game speed", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                WIDTH/2, 171f, false, Label.Align.CENTER);
+
+        stage.addActor(soundLabel);
+        stage.addActor(vibrationLabel);
+        stage.addActor(languageLabel);
+        stage.addActor(gameSpeedLabel);
+
         Checkbox sounds = new CheckboxTexture(uiElements.get(SOUNDS));
         sounds.setChecked(settings.sound);
 
@@ -72,7 +92,6 @@ public class SettingsScreen extends StaticScreen {
             fast.check();
         }
 
-        stage.addActor(background);
         stage.addActor(sounds);
 
         stage.addActor(vibrate);
