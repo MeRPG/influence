@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.XmlReader;
-import com.teremok.influence.model.Localizator;
+import com.teremok.influence.util.Localizator;
 import com.teremok.influence.util.ResourceManager;
 
 import java.io.IOException;

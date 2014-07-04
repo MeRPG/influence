@@ -6,11 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
-import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.FontFactory;
+import com.teremok.influence.util.Localizator;
 import com.teremok.influence.util.Vibrator;
 
 /**
@@ -37,17 +37,17 @@ public class SettingsScreen extends StaticScreen {
     @Override
     protected void addActors() {
 
-        Label soundLabel = new Label("Sound", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                147.5f, 513f, false, Label.Align.CENTER);
+        Label soundLabel = new Label("sound", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                147.5f, 513f, true, Label.Align.CENTER);
 
-        Label vibrationLabel = new Label("Vibration", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                331f, 513f, false, Label.Align.CENTER);
+        Label vibrationLabel = new Label("vibration", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                331f, 513f, true, Label.Align.CENTER);
 
-        Label languageLabel = new Label("Language", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 318f, false, Label.Align.CENTER);
+        Label languageLabel = new Label("language", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                WIDTH/2, 318f, true, Label.Align.CENTER);
 
-        Label gameSpeedLabel = new Label("Game speed", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 171f, false, Label.Align.CENTER);
+        Label gameSpeedLabel = new Label("gameSpeed", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                WIDTH/2, 171f, true, Label.Align.CENTER);
 
         stage.addActor(soundLabel);
         stage.addActor(vibrationLabel);

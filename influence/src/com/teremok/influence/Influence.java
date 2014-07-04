@@ -7,16 +7,18 @@ import com.teremok.influence.controller.ChronicleController;
 import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.controller.SettingsController;
 import com.teremok.influence.model.Chronicle;
-import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.screen.ScreenController;
 import com.teremok.influence.util.FXPlayer;
+import com.teremok.influence.util.Localizator;
 import com.teremok.influence.util.ResourceManager;
 
 import java.util.Locale;
 
 @SuppressWarnings("unused")
 public class Influence extends Game {
+
+    private String language;
 
     private Chronicle chronicle;
     private ChronicleController chronicleController;
@@ -33,18 +35,7 @@ public class Influence extends Game {
     private ResourceManager resourceManager;
 
     public Influence(Locale locale) {
-        String language = locale.getLanguage();
-        switch (language) {
-            case "ru":
-            case "uk":
-            case "lt":
-            case "kk":
-                Localizator.setRussianLanguage();
-                break;
-            default:
-                Localizator.setEnglishLanguage();
-                break;
-        }
+        this.language = locale.getLanguage();
     }
 
     @Override
@@ -57,12 +48,12 @@ public class Influence extends Game {
 
         fxPlayer = new FXPlayer(this);
 
-        Gdx.app.debug(getClass().getSimpleName(), "Use language: " + Localizator.getLanguage());
-
         settingsController = new SettingsController();
         settings = settingsController.load();
 
         resourceManager = new ResourceManager(this);
+
+        Localizator.init(this);
 
         screenController = new ScreenController(this);
         screenController.showSplashScreen();
@@ -144,5 +135,13 @@ public class Influence extends Game {
 
     public void setFXPlayer(FXPlayer fxPlayer) {
         this.fxPlayer = fxPlayer;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

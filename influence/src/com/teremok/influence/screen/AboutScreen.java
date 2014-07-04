@@ -23,17 +23,17 @@ public class AboutScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
-        Label fansLabel = new Label("Fans of the month", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 298f, false, Label.Align.CENTER);
+        Label fansLabel = new Label("fansOfTheMonth", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                WIDTH/2, 298f, true, Label.Align.CENTER);
 
-        Label teamLabel = new Label("Team", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 529f, false, Label.Align.CENTER);
+        Label teamLabel = new Label("team", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                WIDTH/2, 529f, true, Label.Align.CENTER);
 
-        Label reviewFirst = new Label("Leave the best review on Google Play.", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0xbababaff),
-                WIDTH/2, 131f, false, Label.Align.CENTER);
+        Label reviewFirst = new Label("reviewFirst", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0xbababaff),
+                WIDTH/2, 131f, true, Label.Align.CENTER);
 
-        Label reviewSecond = new Label("Become a fan of the month!", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0xbababaff),
-                WIDTH/2, 102f, false, Label.Align.CENTER);
+        Label reviewSecond = new Label("reviewSecond", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0xbababaff),
+                WIDTH/2, 102f, true, Label.Align.CENTER);
 
         stage.addActor(fansLabel);
         stage.addActor(teamLabel);

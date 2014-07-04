@@ -1,17 +1,15 @@
 package com.teremok.influence.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.teremok.influence.Influence;
-import com.teremok.influence.model.Localizator;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.util.FlurryHelper;
+import com.teremok.influence.util.Localizator;
 import com.teremok.influence.view.Animation;
 
 /**

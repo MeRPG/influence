@@ -9,16 +9,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teremok.influence.controller.ScoreController;
 import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.GameSettings;
-import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.ScoreModel;
 import com.teremok.influence.screen.AbstractScreen;
-
+import com.teremok.influence.util.Localizator;
 
 import static com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import static com.teremok.influence.util.FontFactory.STATUS;
+import static com.teremok.influence.util.FontFactory.SUBSTATUS;
 import static com.teremok.influence.view.Drawer.getCellColorByNumber;
 import static com.teremok.influence.view.Drawer.getTextColor;
-
-import static com.teremok.influence.util.FontFactory.*;
 
 /**
  * Created by Alexx on 24.12.13

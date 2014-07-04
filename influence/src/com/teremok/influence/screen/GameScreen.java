@@ -14,6 +14,7 @@ import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.influence.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FlurryHelper;
+import com.teremok.influence.util.Localizator;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 

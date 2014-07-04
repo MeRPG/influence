@@ -23,20 +23,20 @@ public class StatisticsScreen extends StaticScreen {
     @Override
     protected void addActors() {
 
-        Label gamesPlayedLabel = new Label("GAMES PLAYED", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 520f, false, Label.Align.CENTER);
+        Label gamesPlayedLabel = new Label("gamesPlayed", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 520f, true, Label.Align.CENTER);
 
-        Label winRateLabel = new Label("WIN RATE", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 426f, false, Label.Align.CENTER);
+        Label winRateLabel = new Label("winRate", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 426f, true, Label.Align.CENTER);
 
-        Label cellsConqueredLabel = new Label("CELLS CONQUERED", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 332f, false, Label.Align.CENTER);
+        Label cellsConqueredLabel = new Label("cellsConquered", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 332f, true, Label.Align.CENTER);
 
-        Label cellsLostLabel = new Label("CELLS LOST", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 238f, false, Label.Align.CENTER);
+        Label cellsLostLabel = new Label("cellsLost", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 238f, true, Label.Align.CENTER);
 
-        Label influenceLabel = new Label("INFLUENCE", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 144f, false, Label.Align.CENTER);
+        Label influenceLabel = new Label("influence", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 144f, true, Label.Align.CENTER);
 
         stage.addActor(gamesPlayedLabel);
         stage.addActor(winRateLabel);

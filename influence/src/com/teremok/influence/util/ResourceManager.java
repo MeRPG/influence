@@ -102,6 +102,23 @@ public class ResourceManager {
         return assetManager.get(fullSoundName);
     }
 
+    public FileHandle getBundleFile(String language) {
+        String fullBundleName = getFullBundleName(language);
+        String externalPath = ".influence/" + fullBundleName;
+        Settings settings = game.getSettings();
+        if (settings.debug && Gdx.files.external(fullBundleName).exists()) {
+            return Gdx.files.external(externalPath);
+        } else {
+            FileHandle fileHandle = Gdx.files.internal(fullBundleName);
+            Gdx.app.debug(getClass().getSimpleName(), "Base bundle file: " + fileHandle.path() + " : exists " + fileHandle.exists());
+            return fileHandle;
+        }
+    }
+
+    private String getFullBundleName(String language) {
+        return "locale/messages";
+    }
+
     private String getFullSoundName(String soundName) {
         return "sound/" + soundName + ".mp3";
     }
@@ -133,7 +150,7 @@ public class ResourceManager {
     public FileHandle getScreenUi(String screenName) {
         String internalPath = UI_PATH_INTERNAL + screenName + UI_EXT;
         String externalPath = UI_PATH_EXTERNAL + screenName + UI_EXT;
-        Settings settings = ((Influence)Gdx.app.getApplicationListener()).getSettings();
+        Settings settings = game.getSettings();
         if (settings.debug && Gdx.files.external(externalPath).exists()) {
             return Gdx.files.external(externalPath);
         } else {

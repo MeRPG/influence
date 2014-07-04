@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
-import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
@@ -15,6 +14,7 @@ import com.teremok.influence.ui.Label;
 import com.teremok.influence.util.AboutScreenChecker;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.influence.util.FontFactory;
+import com.teremok.influence.util.Localizator;
 
 /**
  * Created by Alexx on 20.12.13

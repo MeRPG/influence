@@ -34,17 +34,17 @@ public class ModeScreen extends StaticScreen {
     @Override
     protected void addActors() {
 
-        Label gameModesLabel = new Label("Game modes", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 516f, false, Label.Align.CENTER);
+        Label gameModesLabel = new Label("gameModes", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
+                WIDTH/2, 516f, true, Label.Align.CENTER);
 
-        Label darknessLabel = new Label("Darkness", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 463f, false, Label.Align.CENTER);
+        Label darknessLabel = new Label("darkness", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
+                WIDTH/2, 463f, true, Label.Align.CENTER);
 
-        Label onlineRatingLabel = new Label("Online rating", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0x676767ff),
-                WIDTH/2, 359f, false, Label.Align.CENTER);
+        Label onlineRatingLabel = new Label("onlineRating", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0x676767ff),
+                WIDTH/2, 359f, true, Label.Align.CENTER);
 
-        Label capitalsLabel = new Label("Capitals", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0x676767ff),
-                WIDTH/2, 255, false, Label.Align.CENTER);
+        Label capitalsLabel = new Label("capitals", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0x676767ff),
+                WIDTH/2, 255, true, Label.Align.CENTER);
 
         stage.addActor(gameModesLabel);
         stage.addActor(darknessLabel);

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.flurry.android.FlurryAgent;
 import com.teremok.influence.model.GameSettings;
-import com.teremok.influence.model.Localizator;
 import com.teremok.influence.model.Settings;
 
 import java.util.HashMap;

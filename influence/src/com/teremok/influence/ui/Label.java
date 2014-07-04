@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.teremok.influence.model.Localizator;
+import com.teremok.influence.util.Localizator;
 
 /**
  * Created by Alexx on 31.01.14
