@@ -12,10 +12,27 @@
 
     </xs:complexType>
 
+    <xs:complexType name="label" xml:base="xs:string">
+
+        <xs:complexContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="font" type="xs:string" use="required"/>
+                <xs:attribute name="color" type="xs:string" use="required"/>
+                <xs:attribute name="alpha" type="xs:float" use="optional"/>
+                <xs:attribute name="x" type="xs:float" use="required"/>
+                <xs:attribute name="y" type="xs:float" use="required"/>
+                <xs:attribute name="localized" type="xs:boolean" use="optional"/>
+                <xs:attribute name="align" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="screen">
-        <xs:sequence maxOccurs="unbounded" minOccurs="0">
-            <xs:element name="element" type="element" />
+        <xs:sequence maxOccurs="unbounded" minOccurs="0" >
+            <xs:element name="element" type="element" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="label" type="label"  minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
+
         <xs:attribute name="atlas" type="xs:string" use="required"/>
         <xs:attribute name="localized" type="xs:boolean" use="required"/>
         <xs:attribute name="defaultBackground" type="xs:boolean" use="optional" default="false"/>
