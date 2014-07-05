@@ -38,16 +38,16 @@ public class SettingsScreen extends StaticScreen {
     protected void addActors() {
 
         Label soundLabel = new Label("sound", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                147.5f, 513f, true, Label.Align.CENTER);
+                147.5f, 529, true, Label.Align.CENTER);
 
         Label vibrationLabel = new Label("vibration", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                331f, 513f, true, Label.Align.CENTER);
+                331f, 529, true, Label.Align.CENTER);
 
         Label languageLabel = new Label("language", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 318f, true, Label.Align.CENTER);
+                WIDTH/2, 334, true, Label.Align.CENTER);
 
         Label gameSpeedLabel = new Label("gameSpeed", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 171f, true, Label.Align.CENTER);
+                WIDTH/2, 187, true, Label.Align.CENTER);
 
         stage.addActor(soundLabel);
         stage.addActor(vibrationLabel);

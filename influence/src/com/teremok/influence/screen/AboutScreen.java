@@ -24,16 +24,16 @@ public class AboutScreen extends StaticScreen {
     @Override
     protected void addActors() {
         Label fansLabel = new Label("fansOfTheMonth", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 298f, true, Label.Align.CENTER);
+                WIDTH/2, 314, true, Label.Align.CENTER);
 
         Label teamLabel = new Label("team", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 529f, true, Label.Align.CENTER);
+                WIDTH/2, 545, true, Label.Align.CENTER);
 
         Label reviewFirst = new Label("reviewFirst", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0xbababaff),
-                WIDTH/2, 131f, true, Label.Align.CENTER);
+                WIDTH/2, 147, true, Label.Align.CENTER);
 
         Label reviewSecond = new Label("reviewSecond", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0xbababaff),
-                WIDTH/2, 102f, true, Label.Align.CENTER);
+                WIDTH/2, 118, true, Label.Align.CENTER);
 
         stage.addActor(fansLabel);
         stage.addActor(teamLabel);

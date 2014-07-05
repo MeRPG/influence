@@ -41,7 +41,7 @@ public class MapSizeScreen extends StaticScreen {
     protected void addActors() {
 
         Label mapSizeLabel = new Label("mapSize", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 499f, true, Label.Align.CENTER);
+                WIDTH/2, 515, true, Label.Align.CENTER);
 
         RadioGroup sizeGroup = new RadioGroup(SIZE_GROUP);
         s = new RadioTexture(uiElements.get(S));

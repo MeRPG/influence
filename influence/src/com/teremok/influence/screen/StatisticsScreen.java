@@ -24,19 +24,19 @@ public class StatisticsScreen extends StaticScreen {
     protected void addActors() {
 
         Label gamesPlayedLabel = new Label("gamesPlayed", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 520f, true, Label.Align.CENTER);
+                WIDTH/2, 543, true, Label.Align.CENTER);
 
         Label winRateLabel = new Label("winRate", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 426f, true, Label.Align.CENTER);
+                WIDTH/2, 449, true, Label.Align.CENTER);
 
         Label cellsConqueredLabel = new Label("cellsConquered", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 332f, true, Label.Align.CENTER);
+                WIDTH/2, 355, true, Label.Align.CENTER);
 
         Label cellsLostLabel = new Label("cellsLost", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 238f, true, Label.Align.CENTER);
+                WIDTH/2, 261, true, Label.Align.CENTER);
 
         Label influenceLabel = new Label("influence", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 144f, true, Label.Align.CENTER);
+                WIDTH/2, 167, true, Label.Align.CENTER);
 
         stage.addActor(gamesPlayedLabel);
         stage.addActor(winRateLabel);

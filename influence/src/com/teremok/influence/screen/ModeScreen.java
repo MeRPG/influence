@@ -35,16 +35,16 @@ public class ModeScreen extends StaticScreen {
     protected void addActors() {
 
         Label gameModesLabel = new Label("gameModes", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 516f, true, Label.Align.CENTER);
+                WIDTH/2, 539, true, Label.Align.CENTER);
 
         Label darknessLabel = new Label("darkness", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 463f, true, Label.Align.CENTER);
+                WIDTH/2, 479, true, Label.Align.CENTER);
 
         Label onlineRatingLabel = new Label("onlineRating", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0x676767ff),
-                WIDTH/2, 359f, true, Label.Align.CENTER);
+                WIDTH/2, 375, true, Label.Align.CENTER);
 
         Label capitalsLabel = new Label("capitals", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0x676767ff),
-                WIDTH/2, 255, true, Label.Align.CENTER);
+                WIDTH/2, 271, true, Label.Align.CENTER);
 
         stage.addActor(gameModesLabel);
         stage.addActor(darknessLabel);

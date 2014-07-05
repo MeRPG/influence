@@ -68,10 +68,10 @@ public class PlayersScreen extends StaticScreen {
     protected void addActors() {
 
         Label enemiesLabel = new Label("enemies", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 387f, true, Label.Align.CENTER);
+                WIDTH/2, 403, true, Label.Align.CENTER);
 
         Label difficultyLabel = new Label("difficulty", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 534, true, Label.Align.CENTER);
+                WIDTH/2, 550, true, Label.Align.CENTER);
 
         stage.addActor(enemiesLabel);
         stage.addActor(difficultyLabel);
