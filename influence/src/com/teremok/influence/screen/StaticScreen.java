@@ -14,6 +14,7 @@ import com.teremok.influence.util.FontFactory;
 import com.teremok.influence.view.Animation;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +30,7 @@ public abstract class StaticScreen extends AbstractScreen {
     protected ScreenController screenController;
 
     protected Map<String, UIElementParams> uiElements;
+    protected List<Label> labels;
     protected Image background;
     public ColoredPanel overlap;
     private Actor infoMessage;
@@ -55,6 +57,7 @@ public abstract class StaticScreen extends AbstractScreen {
                 }
                 addListeners();
                 addNonparsed();
+                addLabels();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -81,7 +84,7 @@ public abstract class StaticScreen extends AbstractScreen {
 
     private void loadScreen() throws IOException {
 
-        UIElementsXMLLoader loader = new UIElementsXMLLoader(game.getResourceManager(), filename);
+        UIElementsXMLLoader loader = new UIElementsXMLLoader(game, filename);
 
         atlasName = loader.getAtlasName();
         atlas = loader.getAtlas();
@@ -91,6 +94,7 @@ public abstract class StaticScreen extends AbstractScreen {
             stage.addActor(background);
 
         uiElements = loader.getUiElementsParams();
+        labels = loader.getLabels();
 
         loaded = true;
     }
@@ -101,6 +105,13 @@ public abstract class StaticScreen extends AbstractScreen {
                 stage.addActor(new TexturePanel(params));
                 Gdx.app.debug(getClass().getSimpleName(), "add non parsed element as TexturePanel: " + params.name);
             }
+        }
+    }
+
+    protected void addLabels() {
+        for (Label label : labels) {
+            stage.addActor(label);
+            Gdx.app.debug(getClass().getSimpleName(), "add label on screen : " + label.getText());
         }
     }
 
