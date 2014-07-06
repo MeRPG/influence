@@ -1,7 +1,6 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -9,7 +8,6 @@ import com.teremok.influence.Influence;
 import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
-import com.teremok.influence.util.FontFactory;
 
 /**
  * Created by Алексей on 29.03.14
@@ -40,9 +38,6 @@ public class MapSizeScreen extends StaticScreen {
     @Override
     protected void addActors() {
 
-        Label mapSizeLabel = new Label("mapSize", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 515, true, Label.Align.CENTER);
-
         RadioGroup sizeGroup = new RadioGroup(SIZE_GROUP);
         s = new RadioTexture(uiElements.get(S));
         m = new RadioTexture(uiElements.get(M));
@@ -58,7 +53,6 @@ public class MapSizeScreen extends StaticScreen {
 
         ButtonTexture next = new ButtonTexture(uiElements.get(NEXT));
 
-        stage.addActor(mapSizeLabel);
         stage.addActor(s);
         stage.addActor(m);
         stage.addActor(l);

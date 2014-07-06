@@ -6,8 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
 import com.teremok.influence.ui.ColoredPanel;
-import com.teremok.influence.ui.Label;
-import com.teremok.influence.util.FontFactory;
 
 /**
  * Created by Alexx on 25.02.14
@@ -23,23 +21,6 @@ public class AboutScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
-        Label fansLabel = new Label("fansOfTheMonth", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 314, true, Label.Align.CENTER);
-
-        Label teamLabel = new Label("team", fontFactory.getFont(FontFactory.SUBSTATUS), Color.WHITE,
-                WIDTH/2, 545, true, Label.Align.CENTER);
-
-        Label reviewFirst = new Label("reviewFirst", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0xbababaff),
-                WIDTH/2, 147, true, Label.Align.CENTER);
-
-        Label reviewSecond = new Label("reviewSecond", fontFactory.getFont(FontFactory.SUBSTATUS), new Color(0xbababaff),
-                WIDTH/2, 118, true, Label.Align.CENTER);
-
-        stage.addActor(fansLabel);
-        stage.addActor(teamLabel);
-        stage.addActor(reviewFirst);
-        stage.addActor(reviewSecond);
-
         if (credits == null) {
             credits = new ColoredPanel(new Color(0x00000000), 0f, 0f, WIDTH, 54f);
             stage.addActor(credits);

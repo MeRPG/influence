@@ -3,4 +3,9 @@
         atlas="statScreen" localized="false" defaultBackground="true">
     <element name="statText" region="statText" localized="true"
              x="92" y="612"/>
+    <label font="statusFont" color="ffffff" x="240" y="543" localized="true" align="CENTER" >gamesPlayed</label>
+    <label font="statusFont" color="ffffff" x="240" y="449" localized="true" align="CENTER" >winRate</label>
+    <label font="statusFont" color="ffffff" x="240" y="355" localized="true" align="CENTER" >cellsConquered</label>
+    <label font="statusFont" color="ffffff" x="240" y="261" localized="true" align="CENTER" >cellsLost</label>
+    <label font="statusFont" color="ffffff" x="240" y="167" localized="true" align="CENTER" >influence</label>
 </screen>

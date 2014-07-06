@@ -147,8 +147,11 @@ public class UIElementsXMLLoader {
 
         String string = element.getText();
         BitmapFont font = fontFactory.getFont(element.getAttribute(FONT_ATTR, FontFactory.STATUS));
-        Color color = new Color(Integer.parseInt(element.getAttribute(COLOR_ATTR, "0xFFFFFF"), 16));
+        Color color = Color.valueOf(element.getAttribute(COLOR_ATTR, "FFFFFF"));
+
+        Gdx.app.debug(getClass().getSimpleName(), "Color parsed, r: " + color.r + " g: " + color.g + " b: " + color.b);
         color.a = element.getFloat(ALPHA_ATTR, 1.0f);
+        Gdx.app.debug(getClass().getSimpleName(), "Color alpha: " + color.a);
         float x = element.getFloatAttribute(X_ATTR, 0);
         float y = element.getFloatAttribute(Y_ATTR, 0);
         boolean localized = element.getBooleanAttribute(LOCALE_ATTR, false);

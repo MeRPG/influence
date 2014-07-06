@@ -13,4 +13,5 @@
 				x="150" y="119"/>
     <element name="newgameText" region="newgameText" localized="true"
              x="101" y="605"/>
+    <label font="substatusFont" color="ffffff" x="240" y="515" localized="true" align="CENTER" >mapSize</label>
 </screen>

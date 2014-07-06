@@ -1,14 +1,11 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Chronicle;
-import com.teremok.influence.ui.Label;
 import com.teremok.influence.ui.TextureNumber;
-import com.teremok.influence.util.FontFactory;
 import com.teremok.influence.util.TextureNumberFactory;
 
 /**
@@ -22,27 +19,6 @@ public class StatisticsScreen extends StaticScreen {
 
     @Override
     protected void addActors() {
-
-        Label gamesPlayedLabel = new Label("gamesPlayed", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 543, true, Label.Align.CENTER);
-
-        Label winRateLabel = new Label("winRate", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 449, true, Label.Align.CENTER);
-
-        Label cellsConqueredLabel = new Label("cellsConquered", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 355, true, Label.Align.CENTER);
-
-        Label cellsLostLabel = new Label("cellsLost", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 261, true, Label.Align.CENTER);
-
-        Label influenceLabel = new Label("influence", fontFactory.getFont(FontFactory.STATUS), Color.WHITE,
-                WIDTH/2, 167, true, Label.Align.CENTER);
-
-        stage.addActor(gamesPlayedLabel);
-        stage.addActor(winRateLabel);
-        stage.addActor(cellsConqueredLabel);
-        stage.addActor(cellsLostLabel);
-        stage.addActor(influenceLabel);
 
         TextureNumberFactory numberFactory = new TextureNumberFactory();
         Chronicle chronicle = game.getChronicle();

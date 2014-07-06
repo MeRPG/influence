@@ -17,4 +17,8 @@
             x="312" y="84"/>
     <element name="settingsText" region="settingsText" localized="true"
              x="108" y="605"/>
+    <label font="substatusFont" color="ffffff" x="147.5" y="529" localized="true" align="CENTER" >sound</label>
+    <label font="substatusFont" color="ffffff" x="331" y="529" localized="true" align="CENTER" >vibration</label>
+    <label font="substatusFont" color="ffffff" x="240" y="334" localized="true" align="CENTER" >language</label>
+    <label font="substatusFont" color="ffffff" x="240" y="187" localized="true" align="CENTER" >gameSpeed</label>
 </screen>
