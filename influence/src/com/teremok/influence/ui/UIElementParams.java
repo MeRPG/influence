@@ -13,6 +13,7 @@ public class UIElementParams {
     public float x;
     public float y;
     public boolean parsed;
+    public boolean sendToBack;
 
     @Override
     public boolean equals(Object o) {

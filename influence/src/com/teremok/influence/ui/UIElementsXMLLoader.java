@@ -41,6 +41,7 @@ public class UIElementsXMLLoader {
     private static final String COLOR_ATTR = "color";
     private static final String ALIGN_ATTR = "align";
     private static final String ALPHA_ATTR = "alpha";
+    private static final String SENDTOBACK_ATTR = "sendToBack";
 
     private static final String ROOT_NODE = "screen";
     private static final String ELEMENT_NODE = "element";
@@ -113,7 +114,7 @@ public class UIElementsXMLLoader {
         String region = element.getAttribute(REGION_ATTR);
         String secondRegion = element.getAttribute(SECOND_REGION_ATTR, "");
 
-        params.localized = Boolean.parseBoolean(element.getAttribute(LOCALE_ATTR));
+        params.localized = element.getBooleanAttribute(LOCALE_ATTR);
 
         if (params.localized) {
             params.region = atlas.findRegion(region + "_" + Localizator.getLanguage());
@@ -131,8 +132,9 @@ public class UIElementsXMLLoader {
             }
         }
 
-        params.x = Float.parseFloat(element.getAttribute(X_ATTR));
-        params.y = Float.parseFloat(element.getAttribute(Y_ATTR));
+        params.x = element.getFloatAttribute(X_ATTR);
+        params.y = element.getFloatAttribute(Y_ATTR);
+        params.sendToBack = element.getBoolean(SENDTOBACK_ATTR, false);
         uiElementsParams.put(params.name, params);
     }
 

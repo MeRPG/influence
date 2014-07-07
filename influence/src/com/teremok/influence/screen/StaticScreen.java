@@ -96,7 +96,18 @@ public abstract class StaticScreen extends AbstractScreen {
         uiElements = loader.getUiElementsParams();
         labels = loader.getLabels();
 
+        addSentToBack();
+
         loaded = true;
+    }
+
+    protected void addSentToBack(){
+        for (UIElementParams params : uiElements.values()) {
+            if (params.sendToBack) {
+                stage.addActor(new TexturePanel(params));
+                Gdx.app.debug(getClass().getSimpleName(), "add sent to back element as TexturePanel: " + params.name);
+            }
+        }
     }
 
     protected void addNonparsed() {

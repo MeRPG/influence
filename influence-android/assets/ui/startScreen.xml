@@ -16,5 +16,5 @@
     <element name="google_play" region="google_play" localized="false"
              x="138" y="68"/>
     <element name="logo" region="logo" localized="false"
-             x="0" y="381"/>
+             x="0" y="381" sendToBack="true"/>
 </screen>
