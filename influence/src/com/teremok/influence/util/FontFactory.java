@@ -13,6 +13,8 @@ public class FontFactory {
     public static final String SUBSTATUS = "substatusFont";
     public static final String DEBUG = "debugFont";
     public static final String POPUP = "popupFont";
+    public static final String TITLE = "titleFont";
+    public static final String LABEL = "labelFont";
 
     private Influence game;
 
@@ -29,9 +31,11 @@ public class FontFactory {
                 break;
             case SUBSTATUS:
                 font = game.getResourceManager().getFont(SUBSTATUS);
+                font.setScale(1);
                 break;
             case CELLS:
                 font = game.getResourceManager().getFont(CELLS);
+                font.setScale(1);
                 break;
             case DEBUG:
                 font = game.getResourceManager().getFont(SUBSTATUS);
@@ -40,6 +44,14 @@ public class FontFactory {
             case POPUP:
                 font = game.getResourceManager().getFont(STATUS);
                 font.setScale(0.9f);
+                break;
+            case TITLE:
+                font = game.getResourceManager().getFont(STATUS);
+                font.setScale(1);
+                break;
+            case LABEL:
+                font = game.getResourceManager().getFont(SUBSTATUS);
+                font.setScale(1);
                 break;
             default:
                 font = null;

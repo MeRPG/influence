@@ -146,7 +146,7 @@ public class UIElementsXMLLoader {
     private void loadLabel(XmlReader.Element element) {
 
         String string = element.getText();
-        BitmapFont font = fontFactory.getFont(element.getAttribute(FONT_ATTR, FontFactory.STATUS));
+        BitmapFont font = fontFactory.getFont(element.getAttribute(FONT_ATTR, null));
         Color color = Color.valueOf(element.getAttribute(COLOR_ATTR, "FFFFFF"));
 
         Gdx.app.debug(getClass().getSimpleName(), "Color parsed, r: " + color.r + " g: " + color.g + " b: " + color.b);

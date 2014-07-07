@@ -10,7 +10,7 @@ import com.teremok.influence.util.FontFactory;
  */
 public class MatchStatsPanel extends Popup<GameScreen> {
     
-    static final String FONT = FontFactory.STATUS;
+    static final String FONT = FontFactory.POPUP;
 
     Chronicle.MatchChronicle matchChronicle;
     int influenceDiff;
