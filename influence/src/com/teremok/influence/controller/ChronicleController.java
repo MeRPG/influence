@@ -124,15 +124,15 @@ public class ChronicleController {
 
         if (isWin) {
             chronicle.won++;
-            chronicle.influence += getWinInfluence(chronicle, players.values(), fieldSize);
+            chronicle.influence += getWinInfluence(matchChronicle, players.values(), fieldSize);
         } else {
-            chronicle.influence += getLoseInfluence(chronicle, players.values(), fieldSize);
+            chronicle.influence += getLoseInfluence(matchChronicle, players.values(), fieldSize);
         }
 
         save(chronicle);
     }
 
-    public int getWinInfluence(Chronicle chronicle, Collection<PlayerType> players, FieldSize fieldSize) {
+    public int getWinInfluence(MatchChronicle chronicle, Collection<PlayerType> players, FieldSize fieldSize) {
         int score;
         float playerSum = 0;
         for (PlayerType player : players) {
@@ -149,7 +149,7 @@ public class ChronicleController {
         return score;
     }
 
-    public int getLoseInfluence(Chronicle chronicle, Collection<PlayerType> players, FieldSize fieldSize) {
+    public int getLoseInfluence(MatchChronicle chronicle, Collection<PlayerType> players, FieldSize fieldSize) {
         int score;
         float playerSum = 0;
         for (PlayerType player : players) {
