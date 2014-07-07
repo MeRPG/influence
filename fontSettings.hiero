@@ -1,10 +1,10 @@
-font.name=Constantia
-font.size=22
-font.bold=true
+font.name=MagistralC
+font.size=30
+font.bold=false
 font.italic=false
 
-pad.top=2
-pad.right=2
+pad.top=0
+pad.right=0
 pad.bottom=0
 pad.left=0
 pad.advance.x=0
@@ -13,7 +13,7 @@ pad.advance.y=0
 glyph.native.rendering=false
 glyph.page.width=512
 glyph.page.height=512
-glyph.text=ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n1234567890\n"!`?'.,;:()[]{}<>|/@\^$-%+=#_&~*\n??????????????????????????\n????????????????????????\n????????????????
+glyph.text=ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n1234567890\n"!`?'.,;:()[]{}<>|/@\^$-%+=#_&~*\nÀàÁáÂâÃãÄäÅå¨¸ÆæÇçÈèÉéÊêËë\nÌìÍíÎîÏïĞğÑñÒòÓóÔôÕõÖö×÷Øø\nÙùÚüÛûÚúİıŞşßÿ
 
 effect.class=com.badlogic.gdx.tools.hiero.unicodefont.effects.ColorEffect
 effect.Color=ffffff

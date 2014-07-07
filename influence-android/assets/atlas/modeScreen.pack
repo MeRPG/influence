@@ -3,73 +3,87 @@ modeScreen.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+note_en
+  rotate: false
+  xy: 1, 221
+  size: 480, 22
+  orig: 480, 22
+  offset: 0, 0
+  index: -1
+note_ru
+  rotate: false
+  xy: 1, 197
+  size: 480, 22
+  orig: 480, 22
+  offset: 0, 0
+  index: -1
+newgameText_en
+  rotate: false
+  xy: 1, 153
+  size: 278, 42
+  orig: 278, 42
+  offset: 0, 0
+  index: -1
+newgameText_ru
+  rotate: false
+  xy: 1, 109
+  size: 278, 42
+  orig: 278, 42
+  offset: 0, 0
+  index: -1
 buttonNext_en
   rotate: false
-  xy: 1, 49
+  xy: 281, 133
   size: 180, 62
   orig: 180, 62
   offset: 0, 0
   index: -1
 buttonNext_ru
   rotate: false
-  xy: 183, 49
+  xy: 1, 45
   size: 180, 62
   orig: 180, 62
   offset: 0, 0
   index: -1
-newgameText_en
+noActive_en
   rotate: false
-  xy: 365, 69
-  size: 278, 42
-  orig: 278, 42
+  xy: 1, 1
+  size: 140, 42
+  orig: 140, 42
   offset: 0, 0
   index: -1
-note_en
+noActive_ru
   rotate: false
-  xy: 365, 45
-  size: 480, 22
-  orig: 480, 22
-  offset: 0, 0
-  index: -1
-newgameText_ru
-  rotate: false
-  xy: 1, 5
-  size: 278, 42
-  orig: 278, 42
+  xy: 281, 89
+  size: 140, 42
+  orig: 140, 42
   offset: 0, 0
   index: -1
 off_en
   rotate: false
-  xy: 847, 69
+  xy: 183, 45
   size: 140, 42
   orig: 140, 42
   offset: 0, 0
   index: -1
 off_ru
   rotate: false
-  xy: 847, 25
+  xy: 143, 1
   size: 140, 42
   orig: 140, 42
   offset: 0, 0
   index: -1
 on_en
   rotate: false
-  xy: 645, 69
+  xy: 325, 45
   size: 140, 42
   orig: 140, 42
   offset: 0, 0
   index: -1
 on_ru
   rotate: false
-  xy: 281, 1
+  xy: 285, 1
   size: 140, 42
   orig: 140, 42
-  offset: 0, 0
-  index: -1
-note_ru
-  rotate: false
-  xy: 423, 1
-  size: 480, 22
-  orig: 480, 22
   offset: 0, 0
   index: -1

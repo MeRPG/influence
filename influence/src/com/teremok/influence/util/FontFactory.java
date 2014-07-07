@@ -25,6 +25,7 @@ public class FontFactory {
         switch (fontName) {
             case STATUS:
                 font = game.getResourceManager().getFont(STATUS);
+                font.setScale(0.87f);
                 break;
             case SUBSTATUS:
                 font = game.getResourceManager().getFont(SUBSTATUS);
