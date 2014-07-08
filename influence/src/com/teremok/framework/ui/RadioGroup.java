@@ -60,7 +60,7 @@ public class RadioGroup implements UIGroup<Checkbox>  {
         return code;
     }
 
-    public Checkbox getChecked() {
+    public Checkbox isChecked() {
         return checked;
     }
 }

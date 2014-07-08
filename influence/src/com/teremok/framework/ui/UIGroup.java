@@ -1,7 +1,5 @@
 package com.teremok.framework.ui;
 
-import com.teremok.framework.ui.UIElement;
-
 import java.util.List;
 
 /**
@@ -12,5 +10,4 @@ public interface UIGroup<E extends UIElement> {
     void remove(E element);
     void select(E element);
     List<E> getElements();
-
 }

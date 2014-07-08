@@ -8,7 +8,6 @@ import com.teremok.framework.util.ResourceManager;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,12 +26,10 @@ public class FontsLoader {
     private static final String BITMAP_ATTR = "bitmap";
 
     private String filePath;
-    private TeremokGame game;
     private ResourceManager resourceManager;
     private Map<String, FontInfo> fonts;
 
     public FontsLoader(TeremokGame game) {
-        this.game = game;
         this.filePath = DEFAULT_FONT_FILE;
         this.resourceManager = game.getResourceManager();
         fonts = new HashMap<>();

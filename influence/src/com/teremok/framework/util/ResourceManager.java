@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
  * Created by Алексей on 08.07.2014
  */
 public interface ResourceManager {
+
     void preload();
 
     TextureAtlas getAtlas(String atlasName);
