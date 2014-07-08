@@ -3,6 +3,7 @@ package com.teremok.influence.ui;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.teremok.framework.ui.UIElementParams;
 
 /**
  * Created by Alexx on 03.01.14

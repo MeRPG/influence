@@ -10,7 +10,7 @@ import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.controller.GestureController;
 import com.teremok.influence.model.Cell;
 import com.teremok.influence.model.FieldModel;
-import com.teremok.influence.util.FontFactory;
+import com.teremok.framework.util.FontFactory;
 
 import static com.teremok.influence.view.Drawer.MIN_SIZE_FOR_TEXT;
 

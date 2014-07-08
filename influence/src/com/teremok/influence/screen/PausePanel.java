@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.teremok.influence.ui.Button;
 import com.teremok.influence.ui.ButtonTexture;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Localizator;
+import com.teremok.framework.util.Localizator;
 import com.teremok.influence.view.Animation;
 
 /**
@@ -121,6 +121,7 @@ public class PausePanel extends Popup<GameScreen> {
     }
 
     private void  exitGame() {
+        FlurryHelper.logPauseExitGameEvent();
         currentScreen.exitGame();
     }
 

@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.teremok.influence.Influence;
-import com.teremok.influence.util.FontFactory;
-import com.teremok.influence.util.ResourceManager;
+import com.teremok.framework.util.FontFactory;
 
 /**
  * Created by Alexx on 24.12.13

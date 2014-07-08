@@ -3,7 +3,8 @@ package com.teremok.influence.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.teremok.influence.util.Localizator;
+import com.teremok.framework.ui.ColoredPanel;
+import com.teremok.framework.util.Localizator;
 
 /**
  * Created by Alexx on 19.01.14

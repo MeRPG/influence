@@ -4,17 +4,20 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.framework.screen.StaticScreen;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Localizator;
-import com.teremok.influence.util.Vibrator;
+import com.teremok.framework.util.Localizator;
+import com.teremok.framework.util.Vibrator;
+
+import static com.teremok.influence.screen.InfluenceScreenController.*;
 
 /**
  * Created by Alexx on 24.02.14
  */
-public class SettingsScreen extends StaticScreen {
+public class SettingsScreen extends StaticScreen <Influence> {
 
     private static final String SOUNDS = "sounds";
     private static final String VIBRATE = "vibrate";
@@ -127,7 +130,7 @@ public class SettingsScreen extends StaticScreen {
                                         break;
                                 }
                                 if (! oldLanguage.equals(Localizator.getLanguage())) {
-                                    screenController.showSettingsScreen();
+                                    screenController.setScreen(SETTINGS_SCREEN);
                                 }
                             } else {
                                 switch (code) {
@@ -153,7 +156,7 @@ public class SettingsScreen extends StaticScreen {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
                     game.getSettingsController().save(settings);
                     FlurryHelper.logSettingsChangeEvent(settings);
-                    screenController.showStartScreen();
+                    screenController.setScreen(START_SCREEN);
                     return true;
                 }
                 return false;

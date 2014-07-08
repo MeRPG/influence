@@ -1,4 +1,4 @@
-package com.teremok.influence.util;
+package com.teremok.framework.util;
 
 import com.badlogic.gdx.Gdx;
 import com.teremok.influence.Influence;

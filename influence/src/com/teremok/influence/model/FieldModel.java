@@ -1,6 +1,6 @@
 package com.teremok.influence.model;
 
-import com.teremok.influence.screen.AbstractScreen;
+import com.teremok.framework.screen.AbstractScreen;
 
 import java.util.List;
 

@@ -3,15 +3,18 @@ package com.teremok.influence.screen;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.framework.screen.StaticScreen;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Chronicle;
 import com.teremok.influence.ui.TextureNumber;
 import com.teremok.influence.util.TextureNumberFactory;
 
+import static com.teremok.influence.screen.InfluenceScreenController.*;
+
 /**
  * Created by Алексей on 26.05.2014
  */
-public class StatisticsScreen extends StaticScreen {
+public class StatisticsScreen extends StaticScreen <Influence> {
 
     public StatisticsScreen (Influence game, String filename) {
         super(game, filename);
@@ -56,7 +59,7 @@ public class StatisticsScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    screenController.showStartScreen();
+                    screenController.setScreen(START_SCREEN);
                     return true;
                 }
                 return false;

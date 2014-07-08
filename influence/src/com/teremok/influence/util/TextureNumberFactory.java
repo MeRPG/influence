@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
+import com.teremok.framework.util.Localizator;
+import com.teremok.framework.util.ResourceManager;
 import com.teremok.influence.Influence;
 import com.teremok.influence.ui.TextureNumber;
 

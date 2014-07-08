@@ -2,8 +2,8 @@ package com.teremok.influence.screen;
 
 import com.badlogic.gdx.graphics.Color;
 import com.teremok.influence.model.Chronicle;
-import com.teremok.influence.ui.Label;
-import com.teremok.influence.util.FontFactory;
+import com.teremok.framework.ui.Label;
+import com.teremok.framework.util.FontFactory;
 
 /**
  * Created by Алексей on 29.06.2014

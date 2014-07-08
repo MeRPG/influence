@@ -1,4 +1,4 @@
-package com.teremok.influence.screen;
+package com.teremok.framework.screen;
 
 /**
  * Created by Alexx on 22.12.13
@@ -14,24 +14,18 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.teremok.influence.Influence;
-import com.teremok.influence.util.FontFactory;
 
 public abstract class AbstractScreen implements Screen {
 
     public static final float WIDTH = 480f;
     public static final float HEIGHT = 720f;
 
-    protected final Influence game;
     protected final Stage stage;
     protected Batch batch;
     protected TextureAtlas atlas;
-    protected FontFactory fontFactory;
 
-    public AbstractScreen(Influence game) {
-        this.game = game;
+    public AbstractScreen() {
         this.stage = new Stage();
-        fontFactory = new FontFactory(game);
         Camera camera = new OrthographicCamera();
         Viewport viewport = new FitViewport(WIDTH, HEIGHT, camera);
         camera.translate(WIDTH/2, HEIGHT/2, 0);
@@ -83,11 +77,5 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        //if (atlas != null) atlas.dispose();
-        //if (batch != null) batch.dispose();
-    }
-
-    public Influence getGame() {
-        return game;
     }
 }

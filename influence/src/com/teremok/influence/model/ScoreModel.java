@@ -1,8 +1,8 @@
 package com.teremok.influence.model;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.teremok.influence.ui.ColoredPanel;
-import com.teremok.influence.util.Localizator;
+import com.teremok.framework.ui.ColoredPanel;
+import com.teremok.framework.util.Localizator;
 import com.teremok.influence.view.Drawer;
 
 /**

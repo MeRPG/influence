@@ -7,14 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.teremok.framework.screen.AbstractScreen;
+import com.teremok.framework.screen.StaticScreen;
 import com.teremok.influence.Influence;
 import com.teremok.influence.controller.*;
 import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.HumanPlayer;
-import com.teremok.influence.ui.TexturePanel;
+import com.teremok.framework.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.util.Localizator;
+import com.teremok.framework.util.Localizator;
 import com.teremok.influence.view.Animation;
 import com.teremok.influence.view.Drawer;
 
@@ -22,12 +24,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.badlogic.gdx.Input.Keys;
+import static com.teremok.influence.screen.InfluenceScreenController.*;
 
 /**
  * Created by Alexx on 11.12.13
  */
 
-public class GameScreen extends StaticScreen {
+public class GameScreen extends StaticScreen <Influence> {
 
     Match match;
     MatchSaver matchSaver;
@@ -56,7 +59,7 @@ public class GameScreen extends StaticScreen {
     public static Color colorForBacklight;
 
     public GameScreen(Influence game) {
-        super(game, "gameScreen");
+        super(game, GAME_SCREEN);
 
         chronicle = game.getChronicle();
         chronicleController = game.getChronicleController();
@@ -70,7 +73,7 @@ public class GameScreen extends StaticScreen {
     }
 
     public GameScreen(Influence game, Match match) {
-        super(game, "gameScreen");
+        super(game, GAME_SCREEN);
         chronicle = game.getChronicle();
         chronicleController = game.getChronicleController();
         settingsController = game.getSettingsController();
@@ -299,7 +302,7 @@ public class GameScreen extends StaticScreen {
 
     void backToStartScreen() {
         pausePanel.hide();
-        screenController.showStartScreen();
+        screenController.setScreen(START_SCREEN);
     }
 
     void gracefullyStartNewMatch() {

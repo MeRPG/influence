@@ -4,15 +4,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.framework.screen.StaticScreen;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.Settings;
 import com.teremok.influence.ui.*;
 
+import static com.teremok.influence.screen.InfluenceScreenController.*;
+
 /**
  * Created by Алексей on 29.03.14
  */
-public class MapSizeScreen extends StaticScreen {
+public class MapSizeScreen extends StaticScreen <Influence> {
 
     private static final String S = "s";
     private static final String M = "m";
@@ -66,7 +69,7 @@ public class MapSizeScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    screenController.showModeScreen();
+                    screenController.setScreen(MODE_SCREEN);
                     return true;
                 }
                 return false;
@@ -86,7 +89,7 @@ public class MapSizeScreen extends StaticScreen {
                         return;
                     game.getFXPlayer().playClick();
                     if (target instanceof ButtonTexture) {
-                        screenController.showPlayersScreen();
+                        screenController.setScreen(PLAYERS_SCREEN);
                     } else {
                         Checkbox selectedSize = (Checkbox) target;
                         switch (selectedSize.getCode()) {

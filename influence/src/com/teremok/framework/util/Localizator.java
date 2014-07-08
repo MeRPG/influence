@@ -1,4 +1,4 @@
-package com.teremok.influence.util;
+package com.teremok.framework.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.I18NBundle;
@@ -94,12 +94,12 @@ public class Localizator {
     }
 
     private static void fillEnglishStrings() {
-        I18NBundle bundleEnglish = I18NBundle.createBundle(game.getResourceManager().getBundleFile(LANGUAGE_ENGLISH), new Locale(LANGUAGE_ENGLISH));
+        I18NBundle bundleEnglish = I18NBundle.createBundle(game.getResourceManager().getBasicBundleFile(), new Locale(LANGUAGE_ENGLISH));
         dictionary.put(LANGUAGE_ENGLISH, bundleEnglish);
     }
 
     private static void fillRussianStrings() {
-        I18NBundle bundleRussian = I18NBundle.createBundle(game.getResourceManager().getBundleFile(LANGUAGE_RUSSIAN), new Locale(LANGUAGE_RUSSIAN));
+        I18NBundle bundleRussian = I18NBundle.createBundle(game.getResourceManager().getBasicBundleFile(), new Locale(LANGUAGE_RUSSIAN));
         dictionary.put(LANGUAGE_RUSSIAN, bundleRussian);
     }
 

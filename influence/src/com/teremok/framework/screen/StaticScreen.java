@@ -1,4 +1,4 @@
-package com.teremok.influence.screen;
+package com.teremok.framework.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -8,9 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.teremok.influence.Influence;
-import com.teremok.influence.ui.*;
-import com.teremok.influence.util.FontFactory;
+import com.teremok.framework.TeremokGame;
+import com.teremok.framework.ui.*;
+import com.teremok.framework.ui.UIElementParams;
+import com.teremok.framework.ui.UIElementsXMLLoader;
+import com.teremok.framework.util.FontFactory;
 import com.teremok.influence.view.Animation;
 
 import java.io.IOException;
@@ -20,14 +22,16 @@ import java.util.Map;
 /**
  * Created by Alexx on 23.02.14
  */
-public abstract class StaticScreen extends AbstractScreen {
+public abstract class StaticScreen <TG extends TeremokGame> extends AbstractScreen {
 
     private String filename;
     private String atlasName;
     protected boolean loaded;
     protected boolean keepInMemory;
 
+    protected TG game;
     protected ScreenController screenController;
+    protected FontFactory fontFactory;
 
     protected Map<String, UIElementParams> uiElements;
     protected List<Label> labels;
@@ -35,14 +39,17 @@ public abstract class StaticScreen extends AbstractScreen {
     public ColoredPanel overlap;
     private Actor infoMessage;
 
+/*    TODO: вынести в gameScreen в Influence
     Label fps;
+*/
 
-    private StaticScreen(Influence game) {
-        super(game);
+    private StaticScreen(TG game) {
+        this.game = game;
+        this.fontFactory = new FontFactory(game);
         this.screenController = game.getScreenController();
     }
 
-    public StaticScreen(Influence game, String filename) {
+    public StaticScreen(TG game, String filename) {
         this(game);
         this.filename = filename;
     }
@@ -52,9 +59,10 @@ public abstract class StaticScreen extends AbstractScreen {
             try {
                 loadScreen();
                 addActors();
+/*              TODO: вынести в gameScreen в Influence
                 if (game.getSettings().debug) {
                     addFps();
-                }
+                }*/
                 addListeners();
                 addNonparsed();
                 addLabels();
@@ -63,7 +71,7 @@ public abstract class StaticScreen extends AbstractScreen {
             }
         }
     }
-
+/*              TODO: вынести в gameScreen в Influence
     private void addFps() {
         fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFont(FontFactory.DEBUG),
                 Color.RED.cpy(), WIDTH - 90f, HEIGHT-20f, false);
@@ -73,13 +81,15 @@ public abstract class StaticScreen extends AbstractScreen {
     private void updateFps() {
         fps.setCode("fps: \t" + Gdx.graphics.getFramesPerSecond());
     }
-
+*/
     @Override
     public void render(float delta) {
         super.render(delta);
+/*
+        TODO: вынести в gameScreen в Influence
         if (game.getSettings().debug) {
             updateFps();
-        }
+        }*/
     }
 
     private void loadScreen() throws IOException {
@@ -126,8 +136,7 @@ public abstract class StaticScreen extends AbstractScreen {
         }
     }
 
-
-    protected void initOverlap(boolean transparent) {
+    public void initOverlap(boolean transparent) {
 
         Color color;
 
@@ -192,7 +201,7 @@ public abstract class StaticScreen extends AbstractScreen {
         }
     }
 
-    protected void hideInfoMessageAnimation() {
+    public void hideInfoMessageAnimation() {
         infoMessage.getColor().a = 1.0f;
         Gdx.app.debug(getClass().getSimpleName(), "infoMessage alpha: " + infoMessage.getColor().a);
         infoMessage.addAction(
@@ -261,6 +270,22 @@ public abstract class StaticScreen extends AbstractScreen {
     }
 
     // Auto-generated
+
+    public TG getGame() {
+        return game;
+    }
+
+    public void setGame(TG game) {
+        this.game = game;
+    }
+
+    public FontFactory getFontFactory() {
+        return fontFactory;
+    }
+
+    public void setFontFactory(FontFactory fontFactory) {
+        this.fontFactory = fontFactory;
+    }
 
     public String getAtlasName() {
         return atlasName;

@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.teremok.influence.ui.Label;
-import com.teremok.influence.util.FontFactory;
+import com.teremok.framework.ui.Label;
+import com.teremok.framework.util.FontFactory;
 import com.teremok.influence.view.Drawer;
 
 /**
@@ -28,7 +28,7 @@ public class PassPhonePanel extends Popup<GameScreen> {
 
     @Override
     protected void addActors() {
-        FontFactory fontFactory = currentScreen.fontFactory;
+        FontFactory fontFactory = currentScreen.getFontFactory();
         Label passPhone = new Label("Pass your phone to the ", fontFactory.getFont(FontFactory.POPUP),
                 Color.LIGHT_GRAY.cpy(), 64, 510, false);
         this.addActor(passPhone);

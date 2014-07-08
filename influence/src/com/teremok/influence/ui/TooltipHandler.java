@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.teremok.influence.Influence;
-import com.teremok.influence.util.FontFactory;
+import com.teremok.framework.util.FontFactory;
 
 /**
  * Created by Alexx on 27.12.13

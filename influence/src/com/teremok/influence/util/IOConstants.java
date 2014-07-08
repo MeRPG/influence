@@ -11,9 +11,6 @@ public class IOConstants {
     public static final String MATCH_FILENAME = "match.xml";
     public static final String MATCH_PATH = DIR+MATCH_FILENAME;
 
-    public static final String LOG_FILENAME = "process.log";
-    public static final String LOG_PATH = DIR+LOG_FILENAME;
-
     public static final String CHRONICLE_FILENAME = "chronicle.xml";
     public static final String CHRONICLE_PATH = DIR+CHRONICLE_FILENAME;
 }

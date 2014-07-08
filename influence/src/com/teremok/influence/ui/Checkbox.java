@@ -37,9 +37,7 @@ public abstract class Checkbox extends Actor implements UIElement {
 
         Checkbox checkbox = (Checkbox) o;
 
-        if (!code.equals(checkbox.code)) return false;
-
-        return true;
+        return code.equals(checkbox.code);
     }
 
     @Override

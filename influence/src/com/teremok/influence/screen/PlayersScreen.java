@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.framework.screen.StaticScreen;
+import com.teremok.framework.ui.TexturePanel;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.GameDifficulty;
 import com.teremok.influence.model.GameSettings;
@@ -16,10 +18,12 @@ import com.teremok.influence.ui.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.teremok.influence.screen.InfluenceScreenController.*;
+
 /**
  * Created by Alexx on 25.02.14
  */
-public class PlayersScreen extends StaticScreen {
+public class PlayersScreen extends StaticScreen <Influence> {
 
 
     private static final String EASY = "easy";
@@ -133,7 +137,7 @@ public class PlayersScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    screenController.showMapSizeScreen();
+                    screenController.setScreen(MAP_SIZE_SCREEN);
                     if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
                         gameSettings.customPlayers.putAll(gameSettings.players);
                     }
@@ -143,7 +147,7 @@ public class PlayersScreen extends StaticScreen {
                     if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
                         gameSettings.customPlayers.putAll(gameSettings.players);
                     }
-                    screenController.showEditorScreen();
+                    screenController.setScreen(EDITOR_SCREEN);
                 }
                 return false;
             }
@@ -206,7 +210,7 @@ public class PlayersScreen extends StaticScreen {
                         ButtonTexture clicked = (ButtonTexture) target;
                         switch (clicked.getCode()) {
                             case START:
-                                screenController.startSingleplayerGame();
+                                ((InfluenceScreenController) screenController).startSingleplayerGame();
                                 if (gameSettings.difficulty == GameDifficulty.CUSTOM) {
                                     gameSettings.customPlayers.putAll(gameSettings.players);
                                 }

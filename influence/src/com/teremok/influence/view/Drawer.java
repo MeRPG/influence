@@ -2,7 +2,7 @@ package com.teremok.influence.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.teremok.influence.model.player.Player;
-import com.teremok.influence.screen.AbstractScreen;
+import com.teremok.framework.screen.AbstractScreen;
 
 import java.util.HashMap;
 import java.util.Map;

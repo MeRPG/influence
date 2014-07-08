@@ -1,4 +1,4 @@
-package com.teremok.influence.ui;
+package com.teremok.framework.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -13,10 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.XmlReader;
-import com.teremok.influence.Influence;
-import com.teremok.influence.util.FontFactory;
-import com.teremok.influence.util.Localizator;
-import com.teremok.influence.util.ResourceManager;
+import com.teremok.framework.TeremokGame;
+import com.teremok.framework.util.ResourceManager;
+import com.teremok.framework.util.FontFactory;
+import com.teremok.framework.util.Localizator;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class UIElementsXMLLoader {
     private FontFactory fontFactory;
     private ResourceManager resourceManager;
 
-    public UIElementsXMLLoader(Influence game, String filename) throws IOException {
+    public UIElementsXMLLoader(TeremokGame game, String filename) throws IOException {
         fontFactory = new FontFactory(game);
         this.resourceManager = game.getResourceManager();
         this.backgroundAtlas = resourceManager.getAtlas("background");

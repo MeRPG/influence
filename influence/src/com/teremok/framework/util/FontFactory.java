@@ -1,13 +1,14 @@
-package com.teremok.influence.util;
+package com.teremok.framework.util;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.teremok.influence.Influence;
+import com.teremok.framework.TeremokGame;
 
 /**
  * Created by Алексей on 08.06.2014
  */
 public class FontFactory {
 
+    // TODO: зависит от реализации
     public static final String STATUS = "statusFont";
     public static final String CELLS = "cellsFont";
     public static final String SUBSTATUS = "substatusFont";
@@ -16,9 +17,9 @@ public class FontFactory {
     public static final String TITLE = "titleFont";
     public static final String LABEL = "labelFont";
 
-    private Influence game;
+    private TeremokGame game;
 
-    public FontFactory(Influence game) {
+    public FontFactory(TeremokGame game) {
         this.game = game;
     }
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
 import com.teremok.influence.model.Settings;
-import com.teremok.influence.util.Localizator;
+import com.teremok.framework.util.Localizator;
 import com.teremok.influence.view.Animation;
 
 import java.io.FileWriter;

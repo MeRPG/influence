@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
+import com.teremok.framework.screen.AbstractScreen;
+import com.teremok.framework.screen.StaticScreen;
 import com.teremok.influence.Influence;
 
 /**

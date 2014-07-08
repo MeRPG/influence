@@ -4,13 +4,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.teremok.framework.screen.StaticScreen;
 import com.teremok.influence.Influence;
-import com.teremok.influence.ui.ColoredPanel;
+import com.teremok.framework.ui.ColoredPanel;
+
+import static com.teremok.influence.screen.InfluenceScreenController.*;
 
 /**
  * Created by Alexx on 25.02.14
  */
-public class AboutScreen extends StaticScreen {
+public class AboutScreen extends StaticScreen <Influence> {
 
 
     private ColoredPanel credits;
@@ -33,7 +36,7 @@ public class AboutScreen extends StaticScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (! event.isHandled() && (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) ){
-                    screenController.showStartScreen();
+                    screenController.setScreen(START_SCREEN);
                     return true;
                 }
                 return false;
@@ -52,7 +55,7 @@ public class AboutScreen extends StaticScreen {
                 super.touchUp(event, x, y, pointer, button);
                 if (!event.isHandled()) {
                     game.getFXPlayer().playClick();
-                    screenController.showStartScreen();
+                    screenController.setScreen(START_SCREEN);
                 }
             }
         });

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
-import com.teremok.influence.screen.AbstractScreen;
+import com.teremok.framework.screen.AbstractScreen;
 
 /**
  * Created by Алексей on 26.05.2014

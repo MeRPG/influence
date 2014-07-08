@@ -5,10 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.teremok.framework.screen.StaticScreen;
 import com.teremok.influence.Influence;
 import com.teremok.influence.controller.FieldController;
 import com.teremok.influence.model.*;
-import com.teremok.influence.ui.TexturePanel;
+import com.teremok.framework.ui.TexturePanel;
 import com.teremok.influence.view.Drawer;
 
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by Алексей on 17.05.2014
  */
-public class EditorScreen extends StaticScreen {
+public class EditorScreen extends StaticScreen <Influence> {
 
     TexturePanel borderTop;
     TexturePanel borderRight;

@@ -39,7 +39,7 @@ public class RadioGroup implements UIGroup<Checkbox>  {
     @Override
     public void add(Checkbox element) {
         if (set == null)
-            set = new HashSet<Checkbox>();
+            set = new HashSet<>();
         set.add(element);
     }
 
@@ -51,7 +51,7 @@ public class RadioGroup implements UIGroup<Checkbox>  {
 
     @Override
     public List<Checkbox> getElements() {
-        return new LinkedList<Checkbox>(set);
+        return new LinkedList<>(set);
     }
 
     // Auto-generated

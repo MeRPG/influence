@@ -3,6 +3,7 @@ package com.teremok.influence.util;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.flurry.android.FlurryAgent;
+import com.teremok.framework.util.Localizator;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.model.Settings;
 

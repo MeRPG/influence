@@ -1,22 +1,24 @@
 package com.teremok.influence;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.teremok.framework.TeremokGame;
+import com.teremok.framework.util.ResourceManager;
 import com.teremok.influence.controller.ChronicleController;
 import com.teremok.influence.controller.MatchSaver;
 import com.teremok.influence.controller.SettingsController;
 import com.teremok.influence.model.Chronicle;
 import com.teremok.influence.model.Settings;
-import com.teremok.influence.screen.ScreenController;
+import com.teremok.influence.screen.InfluenceScreenController;
+import com.teremok.influence.screen.SplashScreen;
 import com.teremok.influence.util.FXPlayer;
-import com.teremok.influence.util.Localizator;
-import com.teremok.influence.util.ResourceManager;
+import com.teremok.influence.util.InfluenceResourceManager;
+import com.teremok.framework.util.Localizator;
 
 import java.util.Locale;
 
 @SuppressWarnings("unused")
-public class Influence extends Game {
+public class Influence extends TeremokGame {
 
     private String language;
 
@@ -29,10 +31,6 @@ public class Influence extends Game {
     private MatchSaver matchSaver;
 
     private FXPlayer fxPlayer;
-
-    private ScreenController screenController;
-
-    private ResourceManager resourceManager;
 
     public Influence(Locale locale) {
         this.language = locale.getLanguage();
@@ -51,20 +49,15 @@ public class Influence extends Game {
         settingsController = new SettingsController();
         settings = settingsController.load();
 
-        resourceManager = new ResourceManager(this);
+        resourceManager = new InfluenceResourceManager(this);
 
         Localizator.init(this);
 
-        screenController = new ScreenController(this);
-        screenController.showSplashScreen();
+        screenController = new InfluenceScreenController(this);
+        setScreen(new SplashScreen(this));
 	}
 
     @Override
-    public void dispose() {
-        super.dispose();
-        resourceManager.dispose();
-    }
-
     public void exit() {
         Gdx.app.debug(getClass().getSimpleName(), "exiting game");
         settingsController.save(settings);
@@ -111,14 +104,6 @@ public class Influence extends Game {
 
     public void setSettingsController(SettingsController settingsController) {
         this.settingsController = settingsController;
-    }
-
-    public ScreenController getScreenController() {
-        return screenController;
-    }
-
-    public void setScreenController(ScreenController screenController) {
-        this.screenController = screenController;
     }
 
     public ResourceManager getResourceManager() {

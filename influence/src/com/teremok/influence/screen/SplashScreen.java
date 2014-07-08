@@ -2,22 +2,26 @@ package com.teremok.influence.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.framework.screen.AbstractScreen;
+import com.teremok.framework.util.ResourceManager;
 import com.teremok.influence.Influence;
-import com.teremok.influence.util.ResourceManager;
+
+import static com.teremok.influence.screen.InfluenceScreenController.*;
+
 
 /**
  * Created by Алексей on 26.06.2014
  */
 public class SplashScreen extends AbstractScreen {
 
+    Influence game;
     ShapeRenderer renderer;
     ResourceManager resourceManager;
     Color color = new Color(0x35b7deff);
 
     public SplashScreen(Influence game) {
-        super(game);
+        this.game = game;
         resourceManager = game.getResourceManager();
         renderer = new ShapeRenderer();
         renderer.setColor(color);
@@ -31,7 +35,7 @@ public class SplashScreen extends AbstractScreen {
         Gdx.app.debug(getClass().getSimpleName(), "Loading resources: " + resourceManager.getPercentsProgress());
         if (resourceManager.update()){
             Gdx.app.debug(getClass().getSimpleName(), "Loading resources: Done!");
-            game.getScreenController().showStartScreen();
+            game.getScreenController().setScreen(START_SCREEN);
         }
 
         Gdx.gl.glLineWidth(2);
