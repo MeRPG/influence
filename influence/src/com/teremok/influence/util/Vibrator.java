@@ -7,7 +7,6 @@ import com.teremok.influence.model.Settings;
 /**
  * Created by Alexx on 10.02.14
  */
-// TODO зависимость от настроек
 public class Vibrator {
 
     private static final int NORMAL_DURATION = 200;

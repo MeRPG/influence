@@ -8,8 +8,7 @@ import com.teremok.framework.TeremokGame;
  */
 public class FontFactory {
 
-    // TODO: зависит от реализации Influence, подумать над динамической
-    // TODO: загрузкой параметров шрифтов
+    // TODO: зависит от реализации Influence, подумать над динамической загрузкой параметров шрифтов
     public static final String STATUS = "statusFont";
     public static final String CELLS = "cellsFont";
     public static final String SUBSTATUS = "substatusFont";

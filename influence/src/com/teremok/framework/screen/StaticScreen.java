@@ -39,10 +39,6 @@ public abstract class StaticScreen <TG extends TeremokGame> extends AbstractScre
     public ColoredPanel overlap;
     private Actor infoMessage;
 
-/*    TODO: вынести в gameScreen в Influence
-    Label fps;
-*/
-
     private StaticScreen(TG game) {
         this.game = game;
         this.fontFactory = new FontFactory(game);
@@ -59,10 +55,6 @@ public abstract class StaticScreen <TG extends TeremokGame> extends AbstractScre
             try {
                 loadScreen();
                 addActors();
-/*              TODO: вынести в gameScreen в Influence
-                if (game.getSettings().debug) {
-                    addFps();
-                }*/
                 addListeners();
                 addNonparsed();
                 addLabels();
@@ -70,26 +62,6 @@ public abstract class StaticScreen <TG extends TeremokGame> extends AbstractScre
                 ex.printStackTrace();
             }
         }
-    }
-/*              TODO: вынести в gameScreen в Influence
-    private void addFps() {
-        fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFont(FontFactory.DEBUG),
-                Color.RED.cpy(), WIDTH - 90f, HEIGHT-20f, false);
-        stage.addActor(fps);
-    }
-
-    private void updateFps() {
-        fps.setCode("fps: \t" + Gdx.graphics.getFramesPerSecond());
-    }
-*/
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-/*
-        TODO: вынести в gameScreen в Influence
-        if (game.getSettings().debug) {
-            updateFps();
-        }*/
     }
 
     private void loadScreen() throws IOException {

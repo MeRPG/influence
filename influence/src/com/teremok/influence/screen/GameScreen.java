@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teremok.framework.screen.AbstractScreen;
 import com.teremok.framework.screen.StaticScreen;
+import com.teremok.framework.ui.Label;
+import com.teremok.framework.util.FontFactory;
 import com.teremok.influence.Influence;
 import com.teremok.influence.controller.*;
 import com.teremok.influence.model.*;
@@ -41,6 +43,8 @@ public class GameScreen extends StaticScreen <Influence> {
     SettingsController settingsController;
 
     GestureController gestureController;
+
+    Label fps;
 
     PausePanel pausePanel;
     TexturePanel backlight;
@@ -196,6 +200,9 @@ public class GameScreen extends StaticScreen <Influence> {
             GameScreen.colorForBacklight = Drawer.getPlayerColor(match.getPm().current());
         }
 
+        if (game.getSettings().debug) {
+            updateFps();
+        }
     }
 
     private void turnOnBorder(TexturePanel border) {
@@ -278,6 +285,11 @@ public class GameScreen extends StaticScreen <Influence> {
         stage.addActor(match.getScoreController());
         stage.addActor(TooltipHandler.getInstance());
         stage.addActor(pausePanel);
+
+        if (game.getSettings().debug) {
+            addFps();
+        }
+
         if (overlap != null) {
             stage.addActor(overlap);
         }
@@ -373,6 +385,16 @@ public class GameScreen extends StaticScreen <Influence> {
         initBorders();
         pausePanel = new PausePanel(this);
         updateMatchDependentActors();
+    }
+
+    private void addFps() {
+        fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFont(FontFactory.DEBUG),
+                Color.RED.cpy(), WIDTH - 90f, HEIGHT-20f, false);
+        stage.addActor(fps);
+    }
+
+    private void updateFps() {
+        fps.setCode("fps: \t" + Gdx.graphics.getFramesPerSecond());
     }
 
     @Override
