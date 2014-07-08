@@ -1,9 +1,8 @@
-package com.teremok.influence.ui;
+package com.teremok.framework.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.teremok.framework.ui.ColoredPanel;
 import com.teremok.framework.util.Localizator;
 
 /**

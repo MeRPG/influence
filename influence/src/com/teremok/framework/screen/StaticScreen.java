@@ -13,7 +13,7 @@ import com.teremok.framework.ui.*;
 import com.teremok.framework.ui.UIElementParams;
 import com.teremok.framework.ui.UIElementsXMLLoader;
 import com.teremok.framework.util.FontFactory;
-import com.teremok.influence.view.Animation;
+import com.teremok.framework.util.Animation;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,6 +1,7 @@
 package com.teremok.influence.screen;
 
 import com.badlogic.gdx.graphics.Color;
+import com.teremok.framework.screen.Popup;
 import com.teremok.influence.model.Chronicle;
 import com.teremok.framework.ui.Label;
 import com.teremok.framework.util.FontFactory;
@@ -30,7 +31,7 @@ public class MatchStatsPanel extends Popup<GameScreen> {
         float baseLine = 550;
         float betweenLines = -40;
 
-        FontFactory fontFactory = new FontFactory(game);
+        FontFactory fontFactory = currentScreen.getFontFactory();
 
         Label influenceLabel = new Label("Influence earned: ",
                 fontFactory.getFont(FONT), Color.LIGHT_GRAY.cpy(),
@@ -91,7 +92,7 @@ public class MatchStatsPanel extends Popup<GameScreen> {
                 fontFactory.getFont(FONT), Color.LIGHT_GRAY.cpy(),
                 64, baseLine+betweenLines*6, false);
 
-        Label newInfluenceValue = new Label(game.getChronicle().influence+" (" + (influenceDiff < 0 ? "-" : "+")+ ") ",
+        Label newInfluenceValue = new Label(currentScreen.getGame().getChronicle().influence+" (" + (influenceDiff < 0 ? "-" : "+")+ ") ",
                 fontFactory.getFont(FONT), Color.LIGHT_GRAY.cpy(),
                 320, baseLine+betweenLines*6, false);
 

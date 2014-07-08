@@ -12,7 +12,7 @@ import com.teremok.influence.model.ScoreModel;
 import com.teremok.influence.model.player.PlayerManager;
 import com.teremok.framework.screen.AbstractScreen;
 import com.teremok.framework.ui.ColoredPanel;
-import com.teremok.influence.view.Animation;
+import com.teremok.framework.util.Animation;
 import com.teremok.influence.view.Drawer;
 import com.teremok.influence.view.ScoreDrawer;
 

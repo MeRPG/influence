@@ -9,7 +9,7 @@ import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.GameSettings;
 import com.teremok.influence.screen.GameScreen;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.framework.util.Vibrator;
+import com.teremok.influence.util.Vibrator;
 import com.teremok.influence.view.Drawer;
 
 /**

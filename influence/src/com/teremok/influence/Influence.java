@@ -20,8 +20,6 @@ import java.util.Locale;
 @SuppressWarnings("unused")
 public class Influence extends TeremokGame {
 
-    private String language;
-
     private Chronicle chronicle;
     private ChronicleController chronicleController;
 
@@ -120,13 +118,5 @@ public class Influence extends TeremokGame {
 
     public void setFXPlayer(FXPlayer fxPlayer) {
         this.fxPlayer = fxPlayer;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
     }
 }

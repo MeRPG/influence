@@ -8,7 +8,7 @@ import com.teremok.framework.screen.StaticScreen;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Match;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.influence.view.Animation;
+import com.teremok.framework.util.Animation;
 
 /**
  * Created by Alexx on 24.02.14

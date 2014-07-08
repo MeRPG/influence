@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.teremok.framework.TeremokGame;
-import com.teremok.influence.view.Animation;
+import com.teremok.framework.util.Animation;
 
 /**
  * Created by Алексей on 08.07.2014

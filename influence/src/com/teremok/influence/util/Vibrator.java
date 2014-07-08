@@ -1,4 +1,4 @@
-package com.teremok.framework.util;
+package com.teremok.influence.util;
 
 import com.badlogic.gdx.Gdx;
 import com.teremok.influence.Influence;
@@ -7,6 +7,7 @@ import com.teremok.influence.model.Settings;
 /**
  * Created by Alexx on 10.02.14
  */
+// TODO зависимость от настроек
 public class Vibrator {
 
     private static final int NORMAL_DURATION = 200;

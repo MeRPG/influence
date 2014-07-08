@@ -6,11 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.teremok.influence.ui.Button;
-import com.teremok.influence.ui.ButtonTexture;
+import com.teremok.framework.screen.Popup;
+import com.teremok.framework.ui.Button;
+import com.teremok.framework.ui.ButtonTexture;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.framework.util.Localizator;
-import com.teremok.influence.view.Animation;
+import com.teremok.framework.util.Animation;
 
 /**
  * Created by Alexx on 08.01.14
@@ -71,7 +72,7 @@ public class PausePanel extends Popup<GameScreen> {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (! event.isHandled()) {
-                    game.getFXPlayer().playClick();
+                    currentScreen.getGame().getFXPlayer().playClick();
                     Button target = (Button)event.getTarget();
                     if (target.getCode().equals(RESUME_CODE)) {
                         resume();

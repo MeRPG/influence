@@ -5,10 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.framework.screen.StaticScreen;
+import com.teremok.framework.ui.ButtonTexture;
+import com.teremok.framework.ui.Checkbox;
+import com.teremok.framework.ui.RadioGroup;
+import com.teremok.framework.ui.RadioTexture;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.FieldSize;
 import com.teremok.influence.model.Settings;
-import com.teremok.influence.ui.*;
 
 import static com.teremok.influence.screen.InfluenceScreenController.*;
 

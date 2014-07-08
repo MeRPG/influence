@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.teremok.influence.view.Animation;
+import com.teremok.framework.util.Animation;
 
 /**
  * Created by Alexx on 27.12.13

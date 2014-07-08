@@ -1,4 +1,4 @@
-package com.teremok.influence.ui;
+package com.teremok.framework.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

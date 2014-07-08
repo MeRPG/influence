@@ -1,4 +1,6 @@
-package com.teremok.influence.ui;
+package com.teremok.framework.ui;
+
+import com.teremok.framework.ui.UIElement;
 
 import java.util.List;
 

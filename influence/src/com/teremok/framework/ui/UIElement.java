@@ -1,4 +1,4 @@
-package com.teremok.influence.ui;
+package com.teremok.framework.ui;
 
 /**
  * Created by Alexx on 10.02.14

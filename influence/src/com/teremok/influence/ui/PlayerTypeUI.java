@@ -2,6 +2,7 @@ package com.teremok.influence.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.teremok.framework.ui.ButtonTexture;
 import com.teremok.framework.ui.UIElementParams;
 import com.teremok.influence.model.player.PlayerType;
 

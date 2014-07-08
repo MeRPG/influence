@@ -1,4 +1,4 @@
-package com.teremok.influence.view;
+package com.teremok.framework.util;
 
 /**
  * Created by Alexx on 09.01.14

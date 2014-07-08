@@ -2,7 +2,7 @@ package com.teremok.framework.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.teremok.influence.Influence;
+import com.teremok.framework.TeremokGame;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -16,12 +16,12 @@ public class Localizator {
     public static final String LANGUAGE_RUSSIAN = "ru";
     public static final String LANGUAGE_ENGLISH = "en";
 
-    private static Influence game;
+    private static TeremokGame game;
     private static String language;
 
     private static Map<String, I18NBundle> dictionary;
 
-    public static void init(Influence game) {
+    public static void init(TeremokGame game) {
         Localizator.game = game;
         dictionary = new HashMap<>(2);
         fillEnglishStrings();

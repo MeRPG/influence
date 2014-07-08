@@ -1,6 +1,5 @@
-package com.teremok.influence.screen;
+package com.teremok.framework.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -11,26 +10,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-import com.teremok.framework.screen.AbstractScreen;
-import com.teremok.framework.screen.StaticScreen;
-import com.teremok.influence.Influence;
 
 /**
  * Created by Алексей on 01.07.2014
  */
 public abstract class Popup <T extends StaticScreen> extends Group {
 
-    Influence game;
-    T currentScreen;
+    protected static final String BACKGROUND = "background";
 
-    TextureAtlas atlas;
-    TextureRegion background;
+    protected T currentScreen;
 
+    protected TextureAtlas atlas;
+    protected TextureRegion background;
 
     public Popup(T screen, String atlasName) {
         this.currentScreen = screen;
-        this.game = ((Influence) Gdx.app.getApplicationListener());
-        this.atlas = game.getResourceManager().getAtlas(atlasName);
+        this.atlas = screen.getGame().getResourceManager().getAtlas(atlasName);
 
         getColor().a = 0f;
         setTouchable(Touchable.disabled);
@@ -40,11 +35,8 @@ public abstract class Popup <T extends StaticScreen> extends Group {
         addDefaultListener();
     }
 
-
     protected void addBackground() {
-        atlas = game.getResourceManager().getAtlas("pausePanel");
-
-        background = atlas.findRegion("background");
+        background = atlas.findRegion(BACKGROUND);
         Image backImage = new Image( new TextureRegionDrawable(background), Scaling.fit, Align.center );
         this.addActor(backImage);
     }

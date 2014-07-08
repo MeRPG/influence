@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.teremok.framework.screen.StaticScreen;
-import com.teremok.framework.ui.TexturePanel;
+import com.teremok.framework.ui.*;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.GameDifficulty;
 import com.teremok.influence.model.GameSettings;

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.teremok.framework.screen.Popup;
 import com.teremok.framework.ui.Label;
 import com.teremok.framework.util.FontFactory;
 import com.teremok.influence.view.Drawer;

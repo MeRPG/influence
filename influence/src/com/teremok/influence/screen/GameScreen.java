@@ -17,7 +17,7 @@ import com.teremok.framework.ui.TexturePanel;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.framework.util.Localizator;
-import com.teremok.influence.view.Animation;
+import com.teremok.framework.util.Animation;
 import com.teremok.influence.view.Drawer;
 
 import java.util.HashMap;

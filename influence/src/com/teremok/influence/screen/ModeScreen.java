@@ -8,9 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.framework.screen.StaticScreen;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.GameSettings;
-import com.teremok.influence.ui.ButtonTexture;
-import com.teremok.influence.ui.Checkbox;
-import com.teremok.influence.ui.RadioTexture;
+import com.teremok.framework.ui.ButtonTexture;
+import com.teremok.framework.ui.Checkbox;
+import com.teremok.framework.ui.RadioTexture;
 
 import static com.teremok.influence.screen.InfluenceScreenController.*;
 

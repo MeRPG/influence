@@ -1,7 +1,6 @@
-package com.teremok.influence.ui;
+package com.teremok.framework.ui;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.teremok.framework.ui.UIElementParams;
 
 /**
  * Created by Alexx on 15.02.14

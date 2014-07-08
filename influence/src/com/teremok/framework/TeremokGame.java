@@ -10,6 +10,7 @@ import com.teremok.framework.util.ResourceManager;
  */
 public abstract class TeremokGame extends Game {
 
+    protected String language;
     protected ResourceManager resourceManager;
     protected ScreenController screenController;
 
@@ -39,5 +40,13 @@ public abstract class TeremokGame extends Game {
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

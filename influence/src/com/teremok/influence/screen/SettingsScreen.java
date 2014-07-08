@@ -5,12 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.teremok.framework.screen.StaticScreen;
+import com.teremok.framework.ui.*;
 import com.teremok.influence.Influence;
 import com.teremok.influence.model.Settings;
-import com.teremok.influence.ui.*;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.framework.util.Localizator;
-import com.teremok.framework.util.Vibrator;
+import com.teremok.influence.util.Vibrator;
 
 import static com.teremok.influence.screen.InfluenceScreenController.*;
 

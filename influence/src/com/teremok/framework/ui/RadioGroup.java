@@ -1,4 +1,4 @@
-package com.teremok.influence.ui;
+package com.teremok.framework.ui;
 
 import java.util.HashSet;
 import java.util.LinkedList;

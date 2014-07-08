@@ -1,13 +1,13 @@
 package com.teremok.influence.util;
 
-import com.badlogic.gdx.audio.Sound;
+import com.teremok.framework.util.SoundPlayer;
 import com.teremok.influence.Influence;
 
 /**
  * Created by Alexx on 14.01.14
  */
 // TODO: вынести во фреймворк
-public class FXPlayer {
+public class FXPlayer extends SoundPlayer {
 
     static final String CLICK = "click";
     static final String WIN = "win";
@@ -15,10 +15,8 @@ public class FXPlayer {
     static final String WIN_MATCH = "winMatch";
     static final String LOSE_MATCH = "loseMatch";
 
-    Influence game;
-
     public FXPlayer(Influence game) {
-        this.game = game;
+        super(game);
     }
 
     public void playClick() {
@@ -39,12 +37,5 @@ public class FXPlayer {
 
     public void playLoseMatch() {
         play(LOSE_MATCH);
-    }
-
-    private void play(String soundName) {
-        if (game.getSettings().sound) {
-            Sound sound = game.getResourceManager().getSound(soundName);
-            sound.play();
-        }
     }
 }
