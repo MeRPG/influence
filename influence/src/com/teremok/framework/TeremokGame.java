@@ -3,6 +3,7 @@ package com.teremok.framework;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.teremok.framework.screen.ScreenController;
+import com.teremok.framework.util.FontFactory;
 import com.teremok.framework.util.ResourceManager;
 
 /**
@@ -13,6 +14,7 @@ public abstract class TeremokGame extends Game {
     protected String language;
     protected ResourceManager resourceManager;
     protected ScreenController screenController;
+    protected FontFactory fontFactory;
 
     public void exit() {
         Gdx.app.exit();
@@ -48,5 +50,13 @@ public abstract class TeremokGame extends Game {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public FontFactory getFontFactory() {
+        return fontFactory;
+    }
+
+    public void setFontFactory(FontFactory fontFactory) {
+        this.fontFactory = fontFactory;
     }
 }

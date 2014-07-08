@@ -10,12 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teremok.framework.screen.AbstractScreen;
 import com.teremok.framework.screen.StaticScreen;
 import com.teremok.framework.ui.Label;
-import com.teremok.framework.util.FontFactory;
 import com.teremok.influence.Influence;
 import com.teremok.influence.controller.*;
 import com.teremok.influence.model.*;
 import com.teremok.influence.model.player.HumanPlayer;
 import com.teremok.framework.ui.TexturePanel;
+import com.teremok.influence.ui.FontNames;
 import com.teremok.influence.ui.TooltipHandler;
 import com.teremok.influence.util.FlurryHelper;
 import com.teremok.framework.util.Localizator;
@@ -386,7 +386,7 @@ public class GameScreen extends StaticScreen <Influence> {
     }
 
     private void addFps() {
-        fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFont(FontFactory.DEBUG),
+        fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFont(FontNames.DEBUG),
                 Color.RED.cpy(), WIDTH - 90f, HEIGHT-20f, false);
         stage.addActor(fps);
     }

@@ -27,7 +27,7 @@ public class TooltipHandler extends Group {
 
     public void addTooltip(String message, Color color, float x, float y, float offset) {
         int nextId = getInstance().getChildren().size+1;
-        Tooltip tooltip = new Tooltip(message, fontFactory.getFont(FontFactory.SUBSTATUS), color, x, y);
+        Tooltip tooltip = new Tooltip(message, fontFactory.getFont(FontNames.SUBSTATUS), color, x, y);
         tooltip.setId(nextId);
         tooltip.addActions(offset);
         this.addActor(tooltip);

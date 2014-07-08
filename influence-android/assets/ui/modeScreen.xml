@@ -13,8 +13,8 @@
              x="170" y="202"/>
     <element name="noActive2" region="noActive" localized="true"
              x="170" y="305"/>
-    <label font="titleFont" color="ffffff" x="240" y="539" localized="true" align="CENTER" >gameModes</label>
-    <label font="labelFont" color="ffffff" x="240" y="479" localized="true" align="CENTER" >darkness</label>
-    <label font="labelFont" color="676767" x="240" y="375" localized="true" align="CENTER" >onlineRating</label>
-    <label font="labelFont" color="676767" x="240" y="271" localized="true" align="CENTER" >capitals</label>
+    <label font="title" color="ffffff" x="240" y="539" localized="true" align="CENTER" >gameModes</label>
+    <label font="label" color="ffffff" x="240" y="479" localized="true" align="CENTER" >darkness</label>
+    <label font="label" color="676767" x="240" y="375" localized="true" align="CENTER" >onlineRating</label>
+    <label font="label" color="676767" x="240" y="271" localized="true" align="CENTER" >capitals</label>
 </screen>

@@ -1,0 +1,10 @@
+<?xml version="1.0"  standalone="no"?>
+<fonts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="fontsSchema.xsd">
+    <font name="status" bitmap="statusFont" scalexy="0.87" />
+    <font name="substatus" bitmap="substatusFont"/>
+    <font name="cells" bitmap="cellsFont"/>
+    <font name="debug" scalexy="0.9" bitmap="substatusFont"/>
+    <font name="popup" scalexy="0.9" bitmap="statusFont"/>
+    <font name="title" bitmap="statusFont"/>
+    <font name="label" bitmap="substatusFont"/>
+</fonts>

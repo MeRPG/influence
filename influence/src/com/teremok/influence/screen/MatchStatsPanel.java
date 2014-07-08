@@ -5,13 +5,14 @@ import com.teremok.framework.screen.Popup;
 import com.teremok.influence.model.Chronicle;
 import com.teremok.framework.ui.Label;
 import com.teremok.framework.util.FontFactory;
+import com.teremok.influence.ui.FontNames;
 
 /**
  * Created by Алексей on 29.06.2014
  */
 public class MatchStatsPanel extends Popup<GameScreen> {
     
-    static final String FONT = FontFactory.POPUP;
+    static final String FONT = FontNames.POPUP;
 
     Chronicle.MatchChronicle matchChronicle;
     int influenceDiff;

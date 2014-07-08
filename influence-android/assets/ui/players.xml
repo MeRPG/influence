@@ -39,6 +39,6 @@
              x="92" y="222"/>
     <element name="startgameText" region="startgameText" localized="true"
              x="89" y="605"/>
-    <label font="labelFont" color="ffffff" x="240" y="403" localized="true" align="CENTER" >enemies</label>
-    <label font="labelFont" color="ffffff" x="240" y="550" localized="true" align="CENTER" >difficulty</label>
+    <label font="label" color="ffffff" x="240" y="403" localized="true" align="CENTER" >enemies</label>
+    <label font="label" color="ffffff" x="240" y="550" localized="true" align="CENTER" >difficulty</label>
 </screen>

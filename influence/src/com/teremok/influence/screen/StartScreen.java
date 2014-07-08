@@ -12,9 +12,9 @@ import com.teremok.framework.ui.Button;
 import com.teremok.framework.ui.ButtonTexture;
 import com.teremok.framework.ui.ColoredPanel;
 import com.teremok.framework.ui.Label;
+import com.teremok.influence.ui.FontNames;
 import com.teremok.influence.util.AboutScreenChecker;
 import com.teremok.influence.util.FlurryHelper;
-import com.teremok.framework.util.FontFactory;
 import com.teremok.framework.util.Localizator;
 
 import static com.teremok.influence.screen.InfluenceScreenController.*;
@@ -62,7 +62,7 @@ public class StartScreen extends StaticScreen <Influence> {
             stage.addActor(credits);
         }
 
-        Label label = new Label("Developer preview v1.3", fontFactory.getFont(FontFactory.DEBUG),
+        Label label = new Label("Developer preview v1.3", fontFactory.getFont(FontNames.DEBUG),
                 Color.RED.cpy(), 0, HEIGHT-20f, false);
 
         stage.addActor(newGame);

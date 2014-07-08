@@ -9,8 +9,8 @@
              x="48" y="120"/>
     <element name="fans" region="fans" localized="true"
              x="48" y="120"/>
-    <label font="labelFont" color="ffffff" x="240" y="314" localized="true" align="CENTER" >fansOfTheMonth</label>
-    <label font="labelFont" color="ffffff" x="240" y="545" localized="true" align="CENTER" >team</label>
-    <label font="labelFont" color="bababa" x="240" y="147" localized="true" align="CENTER" >reviewFirst</label>
-    <label font="labelFont" color="bababa" x="240" y="118" localized="true" align="CENTER" >reviewSecond</label>
+    <label font="label" color="ffffff" x="240" y="314" localized="true" align="CENTER" >fansOfTheMonth</label>
+    <label font="label" color="ffffff" x="240" y="545" localized="true" align="CENTER" >team</label>
+    <label font="label" color="bababa" x="240" y="147" localized="true" align="CENTER" >reviewFirst</label>
+    <label font="label" color="bababa" x="240" y="118" localized="true" align="CENTER" >reviewSecond</label>
 </screen>
