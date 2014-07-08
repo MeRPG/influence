@@ -6,7 +6,6 @@ import com.teremok.influence.Influence;
 /**
  * Created by Alexx on 14.01.14
  */
-// TODO: вынести во фреймворк
 public class FXPlayer extends SoundPlayer {
 
     static final String CLICK = "click";

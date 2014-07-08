@@ -103,8 +103,6 @@ public class GameScreen extends StaticScreen <Influence> {
             }
         }
 
-        // TODO вынести сюда переключение игрока на следующего
-
         if (!match.getPhase().equals(phase)) {
             if (match.getPhase() == Match.Phase.ATTACK) {
                 if (match.getPm().getNumberOfHumansInGame() > 1 && match.getPm().getNextPlayer() instanceof HumanPlayer) {
