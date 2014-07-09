@@ -21,6 +21,7 @@ public class InfluenceResourceManager extends ResourceManagerImpl <Influence>{
     private static final String UI_EXT = ".xml";
 
     public InfluenceResourceManager(Influence game) {
+        super(game);
         this.game = game;
         assetManager = new AssetManager(new ResourcesResolver());
         assetManager.getLogger().setLevel(Gdx.app.getLogLevel());

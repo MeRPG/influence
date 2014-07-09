@@ -62,7 +62,7 @@ public class StartScreen extends StaticScreen <Influence> {
             stage.addActor(credits);
         }
 
-        Label label = new Label("Developer preview v1.3", fontFactory.getFont(FontNames.DEBUG),
+        Label label = new Label("Developer preview v1.3", fontFactory.getFontInfo(FontNames.DEBUG),
                 Color.RED.cpy(), 0, HEIGHT-20f, false);
 
         stage.addActor(newGame);
