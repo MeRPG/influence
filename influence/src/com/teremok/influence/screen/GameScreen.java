@@ -386,7 +386,7 @@ public class GameScreen extends StaticScreen <Influence> {
     }
 
     private void addFps() {
-        fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFont(FontNames.DEBUG),
+        fps = new Label("fps: \t" + Gdx.graphics.getFramesPerSecond(), fontFactory.getFontInfo(FontNames.DEBUG),
                 Color.RED.cpy(), WIDTH - 90f, HEIGHT-20f, false);
         stage.addActor(fps);
     }

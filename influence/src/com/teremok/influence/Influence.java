@@ -3,6 +3,7 @@ package com.teremok.influence;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.teremok.framework.TeremokGame;
+import com.teremok.framework.screen.AbstractScreen;
 import com.teremok.framework.util.ResourceManager;
 import com.teremok.influence.controller.ChronicleController;
 import com.teremok.influence.controller.MatchSaver;
@@ -37,6 +38,10 @@ public class Influence extends TeremokGame {
     @Override
 	public void create() {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
+        AbstractScreen.WIDTH = 480f;
+        AbstractScreen.HEIGHT = 720f;
+
         matchSaver = new MatchSaver();
 
         chronicleController = new ChronicleController();
