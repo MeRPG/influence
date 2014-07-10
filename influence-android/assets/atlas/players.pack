@@ -1,0 +1,292 @@
+
+players.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+beefy_en
+  rotate: false
+  xy: 1, 947
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+beefy_ru
+  rotate: false
+  xy: 1, 899
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+dummy_en
+  rotate: false
+  xy: 304, 947
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+dummy_ru
+  rotate: false
+  xy: 1, 851
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+enemiesAdd_en
+  rotate: false
+  xy: 304, 899
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+enemiesAdd_ru
+  rotate: false
+  xy: 607, 947
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+enemiesGreen
+  rotate: false
+  xy: 1, 803
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+enemiesPurpure
+  rotate: false
+  xy: 304, 851
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+enemiesRed
+  rotate: false
+  xy: 607, 899
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+enemiesYellow
+  rotate: false
+  xy: 1, 755
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+freak_en
+  rotate: false
+  xy: 304, 803
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+freak_ru
+  rotate: false
+  xy: 607, 851
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+human_en
+  rotate: false
+  xy: 1, 707
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+human_ru
+  rotate: false
+  xy: 304, 755
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+hunter_en
+  rotate: false
+  xy: 607, 803
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+hunter_ru
+  rotate: false
+  xy: 1, 659
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+lazy_en
+  rotate: false
+  xy: 304, 707
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+lazy_ru
+  rotate: false
+  xy: 607, 755
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+smarty_en
+  rotate: false
+  xy: 1, 611
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+smarty_ru
+  rotate: false
+  xy: 304, 659
+  size: 301, 46
+  orig: 301, 46
+  offset: 0, 0
+  index: -1
+startgameText_en
+  rotate: false
+  xy: 607, 711
+  size: 305, 42
+  orig: 305, 42
+  offset: 0, 0
+  index: -1
+startgameText_ru
+  rotate: false
+  xy: 607, 667
+  size: 305, 42
+  orig: 305, 42
+  offset: 0, 0
+  index: -1
+custom_Active_en
+  rotate: false
+  xy: 1, 550
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+custom_Active_ru
+  rotate: false
+  xy: 1, 489
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+custom_noActive_en
+  rotate: false
+  xy: 1, 428
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+custom_noActive_ru
+  rotate: false
+  xy: 1, 367
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+easy_Active_en
+  rotate: false
+  xy: 1, 306
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+easy_Active_ru
+  rotate: false
+  xy: 1, 245
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+easy_noActive_en
+  rotate: false
+  xy: 1, 184
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+easy_noActive_ru
+  rotate: false
+  xy: 1, 123
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+hard_Active_en
+  rotate: false
+  xy: 1, 62
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+hard_Active_ru
+  rotate: false
+  xy: 1, 1
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+hard_noActive_en
+  rotate: false
+  xy: 304, 598
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+hard_noActive_ru
+  rotate: false
+  xy: 607, 606
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+normal_Active_en
+  rotate: false
+  xy: 219, 537
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+normal_Active_ru
+  rotate: false
+  xy: 219, 476
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+normal_noActive_en
+  rotate: false
+  xy: 219, 415
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+normal_noActive_ru
+  rotate: false
+  xy: 219, 354
+  size: 216, 59
+  orig: 216, 59
+  offset: 0, 0
+  index: -1
+buttonStart_en
+  rotate: false
+  xy: 219, 290
+  size: 197, 62
+  orig: 197, 62
+  offset: 0, 0
+  index: -1
+buttonStart_ru
+  rotate: false
+  xy: 219, 226
+  size: 197, 62
+  orig: 197, 62
+  offset: 0, 0
+  index: -1
+buttonDelete
+  rotate: false
+  xy: 910, 951
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
